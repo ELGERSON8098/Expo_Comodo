@@ -29,9 +29,10 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
+                    !$administrador->setCantidad($_POST['telefonoAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setAlias($_POST['aliasAdministrador']) or
+                    !$administrador->setCantidad($_POST['duiAdministrador']) or
                     !$administrador->setClave($_POST['claveAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
@@ -64,10 +65,12 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$administrador->setId($_POST['idAdministrador']) or
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador'])
+                    !$administrador->setCantidad($_POST['telefonoAdministrador']) or
+                    !$administrador->setCorreo($_POST['correoAdministrador']) or
+                    !$administrador->setAlias($_POST['aliasAdministrador']) or
+                    !$administrador->setCantidad($_POST['duiAdministrador']) or
+                    !$administrador->setClave($_POST['claveAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->updateRow()) {
@@ -116,9 +119,11 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
+                    !$administrador->setCantidad($_POST['telefonoAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
-                    !$administrador->setAlias($_POST['aliasAdministrador'])
+                    !$administrador->setAlias($_POST['aliasAdministrador']) or
+                    !$administrador->setCantidad($_POST['duiAdministrador']) or
+                    !$administrador->setClave($_POST['claveAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->editProfile()) {
@@ -162,9 +167,10 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
+                    !$administrador->setCantidad($_POST['telefonoAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setAlias($_POST['aliasAdministrador']) or
+                    !$administrador->setCantidad($_POST['duiAdministrador']) or
                     !$administrador->setClave($_POST['claveAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();

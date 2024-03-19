@@ -11,7 +11,7 @@ MAIN.style.paddingTop = '75px';
 MAIN.style.paddingBottom = '100px';
 MAIN.classList.add('container');
 // Se establece el título de la página web.
-document.querySelector('title').textContent = 'CoffeeShop - Dashboard';
+document.querySelector('title').textContent = 'Expo_Comodo - Dashboard';
 // Constante para establecer el elemento del título principal.
 const MAIN_TITLE = document.getElementById('mainTitle');
 MAIN_TITLE.classList.add('text-center', 'py-3');
