@@ -29,6 +29,7 @@ const loadTemplate = async () => {
         if (DATA.status) {
             // Se agrega el encabezado de la página web antes del contenido principal.
             MAIN.insertAdjacentHTML('beforebegin', `
+            <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
             <div class="container">
                 <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
@@ -50,6 +51,7 @@ const loadTemplate = async () => {
                 </div>
             </div>
         </nav>
+        </header>
             `);
             // Se agrega el pie de la página web después del contenido principal.
             MAIN.insertAdjacentHTML('afterend', `
@@ -75,25 +77,43 @@ const loadTemplate = async () => {
             // Se agrega el encabezado de la página web antes del contenido principal.
             MAIN.insertAdjacentHTML('beforebegin', `
                 <header>
-                    <nav class="navbar fixed-top bg-body-tertiary">
-                        <div class="container">
-                            <a class="navbar-brand" href="index.html">
-                                <img src="../../resources/img/logo.png" alt="inventory" width="50">
-                            </a>
-                        </div>
-                    </nav>
+                <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
+                <div class="container">
+                    <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
+                        href="../admin/dashboard.html">
+                        <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
+                    </a>
+         
+                    <div class="order-lg-2 nav-btns">
+                    </div>
+         
+                    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+         
+                    <div class="collapse navbar-collapse order-lg-1" id="navMenu">
+                        <ul class="navbar-nav mx-auto text-center">
+         
+                        </ul>
+                    </div>
+                </div>
+            </nav>
                 </header>
             `);
             // Se agrega el pie de la página web después del contenido principal.
             MAIN.insertAdjacentHTML('afterend', `
-                <footer>
-                    <nav class="navbar fixed-bottom bg-body-tertiary">
-                        <div class="container">
-                            <p><a class="nav-link" href="https://github.com/dacasoft/coffeeshop" target="_blank"><i class="bi bi-github"></i> CoffeeShop</a></p>
-                            <p><i class="bi bi-envelope-fill"></i> dacasoft@outlook.com</p>
-                        </div>
-                    </nav>
-                </footer>
+            <footer class="bg-dark py-5">
+            <div class="container">
+                <div class="row text-white g-4">
+     
+     
+     
+     
+     
+                </div>
+            </div>
+            </div>
+        </footer>
             `);
         } else {
             location.href = 'index.html';
