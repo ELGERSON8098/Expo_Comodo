@@ -67,6 +67,120 @@
     </section>
     <!-- Fin de Celulares -->
 
+    <main>
+        <!-- Título del contenido principal -->
+        <h3 id="mainTitle"></h3>
+        <div class="row">
+            <!-- Formulario de búsqueda -->
+            <form class="col-sm-12 col-md-6" id="searchForm">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="search" class="form-control" name="search" placeholder="Buscar" required>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <button type="reset" class="btn btn-secondary" onclick="fillTable()">
+                            <i class="bi bi-x-square-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-sm-12 col-md-6 text-end">
+                <!-- Botón para abrir una caja de diálogo al momento de crear un nuevo registro -->
+                <button type="button" class="btn btn-primary" onclick="openCreate()">
+                    <i class="bi bi-plus-square-fill"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabla para mostrar los registros existentes -->
+        <table class="table table-hover">
+            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+            <thead>
+                <tr>
+                    <td colspan="4" id="rowsFound"></td>
+                </tr>
+                <tr>
+                    <th>id Producto</th>
+                    <th>Nombre de producto</th>
+                    <th>Descripción</th>
+                    <th>Codigo interno</th>
+                    <th>Referencia de proveedor</th>
+                    <th>Precio</th>
+                    <th>Imagen</th>
+
+
+                </tr>
+            </thead>
+            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Componente Modal para guardar un registro -->
+        <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Formulario para guardar un registro -->
+                    <form id="saveForm">
+                        <div class="modal-body row g-3">
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <input type="hidden" id="idProducto" name="idProducto">
+                            <div class="col-sm-12 col-md-6">
+                                <label for="idProducto" class="form-label">id Producto</label>
+                                <input id="idProducto" type="text" name="idProducto" class="form-control"
+                                    required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Nproducto" class="form-label">Nombre de producto</label>
+                                <input id="Nproducto" type="text" name="Nproducto"
+                                    class="form-control">
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="desP" class="form-label">Descripción</label>
+                                <input id="desP" type="file" name="desP" class="form-control">
+
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Ci" class="form-label">Codigo interno</label>
+                                <input id="Ci" type="file" name="Ci" class="form-control">
+                                  
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Rproveed" class="form-label">Referencia de proveedor</label>
+                                <input id="Rproveed" type="file" name="Rproveed" class="form-control">
+                                    
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="precioP" class="form-label">Precio</label>
+                                <input id="precioP" type="number" name="precioP" class="form-control">
+                                   
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="imgProducto" class="form-label">Imagen</label>
+                                <input id="imgProducto" type="number" name="imgProducto" class="form-control">
+                                   
+                            </div>
+                           
+
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br>
     <!-- footer -->
     <footer class="bg-dark py-5">
         <div class="container">
