@@ -22,7 +22,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
-            href="../admin/dashboard.html">
+                href="../admin/dashboard.html">
                 <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
             </a>
 
@@ -50,8 +50,7 @@
             </div>
         </div>
     </nav>
-    <!-- Fin del navbar -->
-
+    
     <!-- Separación entre navbar y sección de celulares -->
     <div class="my-5"></div>
 
@@ -59,14 +58,14 @@
     <section id="special" class="py-5">
         <div class="container">
             <div class="title text-center py-5">
-                <h2 class="position-relative d-inline-block">Productos</h2>
+                <h2 class="position-relative d-inline-block">Reserva</h2>
             </div>
 
             
         </div>
     </section>
     <!-- Fin de Celulares -->
-
+    <!-- Fin del navbar -->
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
@@ -103,13 +102,10 @@
                     <td colspan="4" id="rowsFound"></td>
                 </tr>
                 <tr>
-                    <th>id Producto</th>
-                    <th>Nombre de producto</th>
-                    <th>Descripción</th>
-                    <th>Codigo interno</th>
-                    <th>Referencia de proveedor</th>
-                    <th>Precio</th>
-                    <th>Imagen</th>
+                    <th>id reservas</th>
+                    <th>Fecha registro</th>
+                    <th>Estado</th>
+                   
 
 
                 </tr>
@@ -131,45 +127,23 @@
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                            <input type="hidden" id="idProducto" name="idProducto">
+                            <input type="hidden" id="idSubC" name="idSubC">
                             <div class="col-sm-12 col-md-6">
-                                <label for="idProducto" class="form-label">id Producto</label>
-                                <input id="idProducto" type="text" name="idProducto" class="form-control"
+                                <label for="idreservas" class="form-label">id reservas</label>
+                                <input id="idreservas" type="text" name="idreservas" class="form-control"
                                     required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="Nproducto" class="form-label">Nombre de producto</label>
-                                <input id="Nproducto" type="text" name="Nproducto"
+                                <label for="Freserva" class="form-label">Fecha reserva</label>
+                                <input id="Freserva" type="text" name="Freserva"
                                     class="form-control">
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="desP" class="form-label">Descripción</label>
-                                <input id="desP" type="file" name="desP" class="form-control">
-
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Ci" class="form-label">Codigo interno</label>
-                                <input id="Ci" type="file" name="Ci" class="form-control">
-                                  
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Rproveed" class="form-label">Referencia de proveedor</label>
-                                <input id="Rproveed" type="file" name="Rproveed" class="form-control">
-                                    
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="precioP" class="form-label">Precio</label>
-                                <input id="precioP" type="number" name="precioP" class="form-control">
-                                   
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="imgProducto" class="form-label">Imagen</label>
-                                <input id="imgProducto" type="number" name="imgProducto" class="form-control">
-                                   
+                                <label for="estadoR" class="form-label">Estado</label>
+                                <input id="estadoR" type="text" name="estadoR"
+                                    class="form-control">
                             </div>
                            
-
-
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -180,15 +154,12 @@
         </div>
     </main>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <br><br><br><br><br><br>
     <!-- footer -->
     <footer class="bg-dark py-5">
         <div class="container">
             <div class="row text-white g-4">
-                
-
-                
-
                 
                 </div>
             </div>

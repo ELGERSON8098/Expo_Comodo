@@ -22,7 +22,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
-            href="../admin/dashboard.html">
+                href="../admin/dashboard.html">
                 <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
             </a>
 
@@ -45,7 +45,7 @@
 
             <div class="collapse navbar-collapse order-lg-1" id="navMenu">
                 <ul class="navbar-nav mx-auto text-center">
-                    
+
                 </ul>
             </div>
         </div>
@@ -59,14 +59,12 @@
     <section id="special" class="py-5">
         <div class="container">
             <div class="title text-center py-5">
-                <h2 class="position-relative d-inline-block">Productos</h2>
+                <h2 class="position-relative d-inline-block">Usuarios</h2>
             </div>
 
-            
+
         </div>
     </section>
-    <!-- Fin de Celulares -->
-
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
@@ -103,13 +101,14 @@
                     <td colspan="4" id="rowsFound"></td>
                 </tr>
                 <tr>
-                    <th>id Producto</th>
-                    <th>Nombre de producto</th>
-                    <th>Descripción</th>
-                    <th>Codigo interno</th>
-                    <th>Referencia de proveedor</th>
-                    <th>Precio</th>
-                    <th>Imagen</th>
+                    
+                    <th>Nombre Completo</th>
+                    <th>Nombre de Usuario</th>
+                    <th>Correo electronico</th>
+                    <th>Clave</th>
+                    <th>Teléfono</th>
+                    <th>Dui</th>
+                    
 
 
                 </tr>
@@ -131,44 +130,38 @@
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                            <input type="hidden" id="idProducto" name="idProducto">
+                           
                             <div class="col-sm-12 col-md-6">
-                                <label for="idProducto" class="form-label">id Producto</label>
-                                <input id="idProducto" type="text" name="idProducto" class="form-control"
-                                    required>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Nproducto" class="form-label">Nombre de producto</label>
-                                <input id="Nproducto" type="text" name="Nproducto"
+                                <label for="Ncompleto" class="form-label">Nombre Completo</label>
+                                <input id="Ncompleto" type="text" name="Ncompleto"
                                     class="form-control">
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="desP" class="form-label">Descripción</label>
-                                <input id="desP" type="file" name="desP" class="form-control">
+                                <label for="NUsuario" class="form-label">Nombre de Usuario</label>
+                                <input id="NUsuario" type="file" name="NUsuario" class="form-control">
 
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="Ci" class="form-label">Codigo interno</label>
-                                <input id="Ci" type="file" name="Ci" class="form-control">
+                                <label for="CorreoU" class="form-label">Correo electronico</label>
+                                <input id="CorreoU" type="file" name="CorreoU" class="form-control">
                                   
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="Rproveed" class="form-label">Referencia de proveedor</label>
-                                <input id="Rproveed" type="file" name="Rproveed" class="form-control">
+                                <label for="claveU" class="form-label">Clave</label>
+                                <input id="claveU" type="file" name="claveU" class="form-control">
                                     
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="precioP" class="form-label">Precio</label>
-                                <input id="precioP" type="number" name="precioP" class="form-control">
+                                <label for="telUser" class="form-label">Teléfono</label>
+                                <input id="telUser" type="number" name="telUser" class="form-control">
                                    
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="imgProducto" class="form-label">Imagen</label>
-                                <input id="imgProducto" type="number" name="imgProducto" class="form-control">
+                                <label for="DuiUser" class="form-label">Dui</label>
+                                <input id="DuiUser" type="number" name="DuiUser" class="form-control">
                                    
                             </div>
-                           
-
+                        
 
                         </div>
                         <div class="modal-footer">
@@ -179,19 +172,19 @@
             </div>
         </div>
     </main>
-
+    <!-- Fin de Celulares -->
     <br><br><br><br><br><br><br><br><br><br><br><br>
     <!-- footer -->
     <footer class="bg-dark py-5">
         <div class="container">
             <div class="row text-white g-4">
-                
 
-                
 
-                
-                </div>
+
+
+
             </div>
+        </div>
         </div>
     </footer>
     <!-- Fin del footer -->
@@ -201,7 +194,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-        <script src="../../Recursos/js/Publica/Dashboard.js"></script>
+    <script src="../../Recursos/js/Publica/Dashboard.js"></script>
 
 </body>
 
