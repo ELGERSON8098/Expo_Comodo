@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!-- Declaración del idioma para el documento -->
+<html lang="es">
+
+<head>
+    <!-- Título del documento -->
+    <title></title>
+    <!-- Metadatos de la página web -->
+    <meta charset="utf-8">
+    <meta name="author" content="Daniel Carranza">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- IMPORTACIÓN DE RECURSOS EXTERNOS -->
+    <!-- Llamada al icono de la página web -->
+    <link type="image/png" rel="icon" href="../../resources/img/icon.png">
+    <!-- Llamada a las hojas de estilos del framework e iconos -->
+    <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <!-- Contenido principal del documento -->
+    <main>
+        <!-- Componente Carousel con reproducción automática e indicadores -->
+        <div id="carouselCaptions" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselCaptions" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="../../resources/img/carousel/img1.jpg" class="d-block w-100" alt="Slide 1">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>¿Sabías que...?</h5>
+                        <p>El café reduce el riesgo de padecer Alzheimer.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../../resources/img/carousel/img2.jpg" class="d-block w-100" alt="Slide 2">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>¿Preocupado por tu peso?</h5>
+                        <p>El café contribuye a reducir esos kilos de más.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../../resources/img/carousel/img3.jpg" class="d-block w-100" alt="Slide 3">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>¿Sabías que...?</h5>
+                        <p>El café ayuda a disminuir el riesgo de cáncer.</p>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="../../resources/img/carousel/img4.jpg" class="d-block w-100" alt="Slide 4">
+                    <div class="carousel-caption d-none d-md-block">
+                        <h5>¿Quieres lucir radiante?</h5>
+                        <p>El café favorece a tener una piel más perfecta.</p>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselCaptions" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselCaptions" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!-- Título del contenido principal -->
+        <h4 id="mainTitle"></h4>
+        <!-- Contenedor para mostrar las categorías disponibles -->
+        <div class="row" id="categorias"></div>
+    </main>
+    <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
+    <!-- Llamada al framework y librería de mensajes -->
+    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador general de la aplicación -->
+    <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+    <!-- Llamada al controlador del sitio público -->
+    <script type="text/javascript" src="../../controllers/utils/public.js"></script>
+    <!-- Llamada al controlador de la página web -->
+    <script type="text/javascript" src="../../controllers/public/index.js"></script>
+</body>
+
+</html>

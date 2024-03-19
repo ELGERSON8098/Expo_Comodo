@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!-- Declaración del idioma para el documento -->
+<html lang="es">
+
+<head>
+    <!-- Título del documento -->
+    <title></title>
+    <!-- Metadatos de la página web -->
+    <meta charset="utf-8">
+    <meta name="author" content="Daniel Carranza">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- IMPORTACIÓN DE RECURSOS EXTERNOS -->
+    <!-- Llamada al icono de la página web -->
+    <link type="image/png" rel="icon" href="../../resources/img/icon.png">
+    <!-- Llamada a las hojas de estilos del framework e iconos -->
+    <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+</head>
+
+<body>
+    <!-- Contenido principal del documento -->
+    <main>
+        <!-- Título del contenido principal -->
+        <h4 id="mainTitle"></h4>
+        <!-- Componente Horizontal Card para mostrar el detalle de un producto -->
+        <div class="card mb-3" id="detalle">
+            <div class="row">
+                <div class="col-md-4">
+                    <!-- Se muestra la imagen del producto -->
+                    <img id="imagenProducto" class="img-fluid rounded-start">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title" id="nombreProducto"></h5>
+                        <p class="card-text" id="descripcionProducto"></p>
+                        <p class="card-text">Precio unitario (US$) <b id="precioProducto"></b></p>
+                        <p class="card-text">Existencias <b id="existenciasProducto"></b></p>
+                        <!-- Formulario para agregar el producto al carrito de compras -->
+                        <form class="row" id="shoppingForm">
+                            <!-- Campo oculto para asignar el id del producto -->
+                            <input type="hidden" id="idProducto" name="idProducto">
+                            <div class="col-6">
+                                <input type="number" id="cantidadProducto" name="cantidadProducto" min="1" class="form-control" placeholder="Ingrese cantidad"
+                                    required>
+                            </div>
+                            <div class="col-6 align-self-end">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-cart-plus-fill"></i> Comprar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
+    <!-- Llamada al framework y librería de mensajes -->
+    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+    <!-- Llamada al controlador general de la aplicación -->
+    <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+    <!-- Llamada al controlador del sitio público -->
+    <script type="text/javascript" src="../../controllers/utils/public.js"></script>
+    <!-- Llamada al controlador de la página web -->
+    <script type="text/javascript" src="../../controllers/public/detail.js"></script>
+</body>
+
+</html>
