@@ -15,6 +15,7 @@ class AdministradorHandler
     protected $correo = null;
     protected $alias = null;
     protected $clave = null;
+    protected $nivel = null;
 
     /*
      *  Métodos para gestionar la cuenta del administrador.
@@ -93,9 +94,9 @@ class AdministradorHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, telefono_adm, dui_admin)
-                VALUES(?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->alias, $this->clave);
+        $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                VALUES(?, ?, ?, ?, ?)';
+        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->nivel);
         return Database::executeRow($sql, $params);
     }
 

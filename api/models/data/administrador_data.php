@@ -95,7 +95,7 @@ class AdministradorData extends AdministradorHandler
     public function setDUI($value)
     {
         if (!Validator::validateDUI($value)) {
-            $this->data_error = 'El DUI debe tener el formato ########-#';
+            $this->data_error = 'El DUI debe tener el formato #########';
             return false;
         } elseif($this->checkDuplicate($value)) {
             $this->data_error = 'El DUI ingresado ya existe';
@@ -112,7 +112,7 @@ class AdministradorData extends AdministradorHandler
             $this->telefono = $value;
             return true;
         } else {
-            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)###-####';
+            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)#######';
             return false;
         }
     }

@@ -29,10 +29,8 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setCantidad($_POST['telefonoAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setCantidad($_POST['duiAdministrador']) or
                     !$administrador->setClave($_POST['claveAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
@@ -66,10 +64,8 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setCantidad($_POST['telefonoAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setCantidad($_POST['duiAdministrador']) or
                     !$administrador->setClave($_POST['claveAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
@@ -119,10 +115,8 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setCantidad($_POST['telefonoAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setCantidad($_POST['duiAdministrador']) or
                     !$administrador->setClave($_POST['claveAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
@@ -165,12 +159,11 @@ if (isset($_GET['action'])) {
                 break;
             case 'signUp':
                 $_POST = Validator::validateForm($_POST);
+                $_POST['nombreAdministrador'];
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setCantidad($_POST['telefonoAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setCantidad($_POST['duiAdministrador']) or
                     !$administrador->setClave($_POST['claveAdministrador'])
                 ) {
                     $result['error'] = $administrador->getDataError();
