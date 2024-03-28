@@ -94,17 +94,38 @@ class AdministradorHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
-                VALUES(?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->nivel);
-        return Database::executeRow($sql, $params);
+        // Verificar si la tabla está vacía
+        $sql = 'SELECT COUNT(*) AS count FROM tbAdmins';
+        $result = Database::getRow($sql);
+    
+        // Si la tabla está vacía, asignar el nivel de usuario "Administrador" por defecto
+        if ($result['count'] == 0) {
+            // Obtener el id del nivel de usuario correspondiente a "Administrador"
+            $sql = 'SELECT id_nivel_usuario FROM tbniveles_usuario WHERE nombre_nivel = "Administrador"';
+            $nivelAdministrador = Database::getRow($sql);
+    
+            // Imprimir el resultado de la consulta para depurar
+            var_dump($nivelAdministrador);
+            
+            // Insertar el administrador con el nivel correspondiente
+            $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                    VALUES(?, ?, ?, ?, ?)';
+            $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $nivelAdministrador['id_nivel_usuario']);
+            return Database::executeRow($sql, $params);
+        } else {
+            // Si la tabla no está vacía, insertar el administrador sin modificar el nivel de usuario
+            $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                    VALUES(?, ?, ?, ?, ?)';
+            $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->nivel);
+            return Database::executeRow($sql, $params);
+        }
     }
+    
 
     public function readAll()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, correo_administrador, alias_administrador
-                FROM administrador
-                ORDER BY apellido_administrador';
+        $sql = 'SELECT id_administrador, nombre_administrador, user_administrador, correo_administrador
+                FROM tbAdmins';
         return Database::getRows($sql);
     }
 
