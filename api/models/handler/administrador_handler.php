@@ -100,18 +100,21 @@ class AdministradorHandler
     
         // Si la tabla está vacía, asignar el nivel de usuario "Administrador" por defecto
         if ($result['count'] == 0) {
-            // Obtener el id del nivel de usuario correspondiente a "Administrador"
+            // Obtener el ID del nivel de usuario correspondiente a "Administrador"
             $sql = 'SELECT id_nivel_usuario FROM tbniveles_usuario WHERE nombre_nivel = "Administrador"';
             $nivelAdministrador = Database::getRow($sql);
     
-            // Imprimir el resultado de la consulta para depurar
-            var_dump($nivelAdministrador);
-            
-            // Insertar el administrador con el nivel correspondiente
-            $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
-                    VALUES(?, ?, ?, ?, ?)';
-            $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $nivelAdministrador['id_nivel_usuario']);
-            return Database::executeRow($sql, $params);
+            // Verificar si se obtuvo el ID del nivel de usuario
+            if ($nivelAdministrador && isset($nivelAdministrador['id_nivel_usuario'])) {
+                // Insertar el administrador con el nivel correspondiente
+                $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                        VALUES(?, ?, ?, ?, ?)';
+                $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $nivelAdministrador['id_nivel_usuario']);
+                return Database::executeRow($sql, $params);
+            } else {
+                // Manejar el caso en el que no se encontró el ID del nivel de usuario
+                return false; // O mostrar un mensaje de error, lanzar una excepción, etc.
+            }
         } else {
             // Si la tabla no está vacía, insertar el administrador sin modificar el nivel de usuario
             $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
@@ -120,6 +123,9 @@ class AdministradorHandler
             return Database::executeRow($sql, $params);
         }
     }
+    
+    
+    
     
 
     public function readAll()
