@@ -22,14 +22,14 @@ class AdministradorHandler
      */
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_administrador, alias_administrador, clave_administrador
-                FROM administrador
-                WHERE  alias_administrador = ?';
+        $sql = 'SELECT id_administrador, user_administrador, clave_administrador
+                FROM tbAdmins
+                WHERE  user_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave_administrador'])) {
             $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['aliasAdministrador'] = $data['alias_administrador'];
+            $_SESSION['aliasAdministrador'] = $data['user_administrador'];
             return true;
         } else {
             return false;
@@ -39,7 +39,7 @@ class AdministradorHandler
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_administrador
-                FROM administrador
+                FROM tbAdmins
                 WHERE id_administrador = ?';
         $params = array($_SESSION['idAdministrador']);
         $data = Database::getRow($sql, $params);
