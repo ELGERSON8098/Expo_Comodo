@@ -92,6 +92,44 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    public function setDUI($value)
+    {
+        if (!Validator::validateDUI($value)) {
+            $this->data_error = 'El DUI debe tener el formato #########';
+            return false;
+        } elseif($this->checkDuplicate($value)) {
+            $this->data_error = 'El DUI ingresado ya existe';
+            return false;
+        } else {
+            $this->dui = $value;
+            return true;
+        }
+    }
+
+    public function setTelefono($value)
+    {
+        if (Validator::validatePhone($value)) {
+            $this->telefono = $value;
+            return true;
+        } else {
+            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)#######';
+            return false;
+        }
+    }
+
+    public function setCantidad($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->cantidad = $value;
+            return true;
+        } else {
+            $this->data_error = 'La cantidad del producto debe ser mayor o igual a 1';
+            return false;
+        }
+    }
+
+
+
     // Método para obtener el error de los datos.
     public function getDataError()
     {

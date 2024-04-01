@@ -15,20 +15,21 @@ class AdministradorHandler
     protected $correo = null;
     protected $alias = null;
     protected $clave = null;
+    protected $nivel = null;
 
     /*
      *  Métodos para gestionar la cuenta del administrador.
      */
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_administrador, alias_administrador, clave_administrador
-                FROM administrador
-                WHERE  alias_administrador = ?';
+        $sql = 'SELECT id_administrador, user_administrador, clave_administrador
+                FROM tbAdmins
+                WHERE  user_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave_administrador'])) {
             $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['aliasAdministrador'] = $data['alias_administrador'];
+            $_SESSION['aliasAdministrador'] = $data['user_administrador'];
             return true;
         } else {
             return false;
@@ -38,7 +39,7 @@ class AdministradorHandler
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_administrador
-                FROM administrador
+                FROM tbAdmins
                 WHERE id_administrador = ?';
         $params = array($_SESSION['idAdministrador']);
         $data = Database::getRow($sql, $params);
@@ -93,17 +94,44 @@ class AdministradorHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO administrador(nombre_administrador, apellido_administrador, correo_administrador, alias_administrador, clave_administrador)
-                VALUES(?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->alias, $this->clave);
-        return Database::executeRow($sql, $params);
+        // Verificar si la tabla está vacía
+        $sql = 'SELECT COUNT(*) AS count FROM tbAdmins';
+        $result = Database::getRow($sql);
+    
+        // Si la tabla está vacía, asignar el nivel de usuario "Administrador" por defecto
+        if ($result['count'] == 0) {
+            // Obtener el ID del nivel de usuario correspondiente a "Administrador"
+            $sql = 'SELECT id_nivel_usuario FROM tbniveles_usuario WHERE nombre_nivel = "Administrador"';
+            $nivelAdministrador = Database::getRow($sql);
+    
+            // Verificar si se obtuvo el ID del nivel de usuario
+            if ($nivelAdministrador && isset($nivelAdministrador['id_nivel_usuario'])) {
+                // Insertar el administrador con el nivel correspondiente
+                $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                        VALUES(?, ?, ?, ?, ?)';
+                $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $nivelAdministrador['id_nivel_usuario']);
+                return Database::executeRow($sql, $params);
+            } else {
+                // Manejar el caso en el que no se encontró el ID del nivel de usuario
+                return false; // O mostrar un mensaje de error, lanzar una excepción, etc.
+            }
+        } else {
+            // Si la tabla no está vacía, insertar el administrador sin modificar el nivel de usuario
+            $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                    VALUES(?, ?, ?, ?, ?)';
+            $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->nivel);
+            return Database::executeRow($sql, $params);
+        }
     }
+    
+    
+    
+    
 
     public function readAll()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, correo_administrador, alias_administrador
-                FROM administrador
-                ORDER BY apellido_administrador';
+        $sql = 'SELECT id_administrador, nombre_administrador, user_administrador, correo_administrador
+                FROM tbAdmins';
         return Database::getRows($sql);
     }
 
