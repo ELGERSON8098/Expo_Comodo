@@ -15,8 +15,6 @@ class ProductoHandler
     protected $codigoI = null;
     protected $refPro = null;
     protected $imagen = null;
-    protected $subcat = null;
-    protected $admind = null;
 
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../images/productos/';
@@ -27,29 +25,26 @@ class ProductoHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador 
-                FROM tbproductos
-                INNER JOIN tbsubcategorias USING(id_subcategoria)
-                WHERE nombre_producto LIKE ? OR descripcion LIKE ?
-                ORDER BY nombre_producto';
+        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen
+                FROM tbproductos';
+               
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tbproductos(nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador)
-                VALUES(?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombreP, $this->descripcionP, $this->codigoI, $this->refPro, $this->imagen, $this->subcat, $this->admind, $_SESSION['idAdministrador']);
+        $sql = 'INSERT INTO tbproductos(id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen)
+                VALUES(?, ?, ?, ?, ?, ?)';
+        $params = array($this->id, $this->nombreP, $this->descripcionP, $this->codigoI, $this->refPro, $this->imagen);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador 
-                FROM tbproductos
-                INNER JOIN tbsubcategorias USING(id_subcategoria)
-                ORDER BY nombre_producto';
+        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen
+                FROM tbproductos';
+                
         return Database::getRows($sql);
     }
 
@@ -74,9 +69,9 @@ class ProductoHandler
     public function updateRow()
     {
         $sql = 'UPDATE tbproductos
-                SET imagen = ?, nombre_producto = ?, descripcion = ?, codigo_interno = ?, Referencia_provedor = ?, imagen = ?, id_administrador = ?
+                SET imagen = ?, nombre_producto = ?, descripcion = ?, codigo_interno = ?, Referencia_provedor = ?, imagen = ?
                 WHERE id_producto = ?';
-        $params = array($this->imagen, $this->nombreP, $this->descripcionP, $this->codigoI, $this->refPro, $this->subcat, $this->admind);
+        $params = array($this->imagen, $this->nombreP, $this->descripcionP, $this->codigoI, $this->refPro);
         return Database::executeRow($sql, $params);
     }
 
@@ -90,47 +85,24 @@ class ProductoHandler
 
     public function readProductosCategoria()
     {
-        $sql = 'SELECT  id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador
-                FROM tbproductos
-                INNER JOIN tbsubcategorias USING(id_subcategoria)
-                WHERE id_subcategoria = ? AND id_producto = true
-                ORDER BY nombre_producto';
-        $params = array($this->subcat);
+        $sql = 'SELECT  id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen
+                FROM tbproductos',
+
         return Database::getRows($sql, $params);
     }
 
     /*
     *   Métodos para generar gráficos.
     */
-    public function cantidadProductosCategoria()
-    {
-        $sql = 'SELECT nombre_subcategoria, COUNT(id_producto) cantidad
-                FROM tbproductos
-                INNER JOIN tbsubcategorias USING(id_subcategoria)
-                GROUP BY nombre_subcategoria ORDER BY cantidad DESC LIMIT 5';
-        return Database::getRows($sql);
-    }
-
-    public function porcentajeProductosCategoria()
-    {
-        $sql = 'SELECT nombre_subcategoria, ROUND((COUNT(id_producto) * 100.0 / (SELECT COUNT(id_producto) FROM tbproductos)), 2) porcentaje
-                FROM tbproductos
-                INNER JOIN tbsubcategorias USING(id_subcategoria)
-                GROUP BY nombre_categoria ORDER BY porcentaje DESC';
-        return Database::getRows($sql);
-    }
-
+   
     /*
     *   Métodos para generar reportes.
     */
     public function productosCategoria()
     {
         $sql = 'SELECT nombre_producto,  descripcion, codigo_interno
-                FROM tbproductos
-                INNER JOIN tbsubcategorias USING(id_subcategoria)
-                WHERE id_subcategoria = ?
-                ORDER BY nombre_producto';
-        $params = array($this->categoria);
+                FROM tbproductos';
+                
         return Database::getRows($sql, $params);
     }
 }
