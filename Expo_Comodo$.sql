@@ -15,6 +15,13 @@ CREATE TABLE tbUsuarios (
     PRIMARY KEY (`id_usuario`)
 );
 
+INSERT INTO tbUsuarios (nombre, usuario, correo, clave, telefono, dui_cliente) 
+VALUES 
+('Juan Perez', 'juanperez', 'juanperez@example.com', 'clave123', '555-1234', 123456789),
+('María López', 'marialopez', 'marialopez@example.com', 'clave456', '555-5678', 987654321),
+('Carlos Ramirez', 'carlosramirez', 'carlosramirez@example.com', 'clave789', '555-9101', 112233445);
+
+
 CREATE TABLE tbdirecciones(
 id_direccion INT UNSIGNED AUTO_INCREMENT,
 departamento VARCHAR (50),
@@ -53,6 +60,8 @@ INSERT INTO tbniveles_usuario (id_nivel_usuario, nombre_nivel) VALUES
 (1, 'Administrador'),
 (2, 'Inventaristas'),
 (3, 'Vendedoras');
+
+SELECT * FROM tbniveles_usuario;
 
 CREATE TABLE tbcategorias (
     id_categoria INT UNSIGNED AUTO_INCREMENT,
