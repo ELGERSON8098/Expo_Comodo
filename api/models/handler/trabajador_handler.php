@@ -119,7 +119,7 @@ class AdministradorHandler
         return Database::getRow($sql, $params);
     }
 
-    public function updateRow()
+    public function updateRow() 
     {
         $sql = 'UPDATE administrador
                 SET nombre_administrador = ?, apellido_administrador = ?, correo_administrador = ?
@@ -136,3 +136,4 @@ class AdministradorHandler
         return Database::executeRow($sql, $params);
     }
 }
+/* Hola */
