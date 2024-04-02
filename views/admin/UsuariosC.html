@@ -11,60 +11,21 @@
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- bootstrap css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- custom css -->
-    <link rel="stylesheet" href="../../resources/css/administrador.css">
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Iconos de Boostrap-->
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+
+     <!--css -->
+     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
-                href="../admin/dashboard.html">
-                <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
-            </a>
-
-            <div class="order-lg-2 nav-btns">
-                <button type="button" class="btn position-relative">
-                    <i class="fa fa-search"></i>
-                </button>
-                <button type="button" onclick="redirect('../publica/Carrito.html')" class="btn position-relative">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary"></span>
-                </button>
-                <button type="button" onclick="redirect('../publica/Miperfil.html')" class="btn position-relative">
-                    <i class="fa fa-user"></i>
-                </button>
-            </div>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse order-lg-1" id="navMenu">
-                <ul class="navbar-nav mx-auto text-center">
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- Fin del navbar -->
 
     <!-- Separación entre navbar y sección de celulares -->
     <div class="my-5"></div>
+    <br><br><br>
 
-    <!-- Celulares -->
-    <section id="special" class="py-5">
-        <div class="container">
-            <div class="title text-center py-5">
-                <h2 class="position-relative d-inline-block">Usuarios</h2>
-            </div>
-
-
-        </div>
-    </section>
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
@@ -98,19 +59,15 @@
             <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
             <thead>
                 <tr>
-                    <td colspan="4" id="rowsFound"></td>
+                    <td colspan="5" id="rowsFound"></td>
                 </tr>
                 <tr>
-                    
-                    <th>Nombre completo</th>
-                    <th>Nombre de usuario</th>
-                    <th>Correo electrónico</th>
-                    <th>Clave</th>
-                    <th>Teléfono</th>
-                    <th>DUI</th>
-                    
-
-
+                    <th>Nombre</th>
+                    <th>Usuario</th>
+                    <th>CORREO</th>
+                    <th>teléfono</th>
+                    <th>Dui</th>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
             <!-- Cuerpo de la tabla para mostrar un registro por fila -->
@@ -130,39 +87,32 @@
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                           
+                            <input type="hidden" id="idAdministrador" name="idusuarioC">
                             <div class="col-sm-12 col-md-6">
-                                <label for="Ncompleto" class="form-label">Nombre completo</label>
-                                <input id="Ncompleto" type="text" name="Ncompleto"
-                                    class="form-control">
+                                <label for="nombreUsuarioC" class="form-label">Nombre</label>
+                                <input id="nombreUsuarioC" type="text" name="nombreUsuarioC"
+                                    class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="NUsuario" class="form-label">Nombre de usuario</label>
-                                <input id="NUsuario" type="file" name="NUsuario" class="form-control">
-
+                                <label for="aliasUsuarioC" class="form-label">Alias</label>
+                                <input id="aliasUsuarioC" type="text" name="aliasUsuarioC"
+                                    class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="CorreoU" class="form-label">Correo electrónico</label>
-                                <input id="CorreoU" type="file" name="CorreoU" class="form-control">
-                                  
+                                <label for="correoUsuarioC" class="form-label">Correo</label>
+                                <input id="correoUsuarioC" type="email" name="correoUsuarioC"
+                                    class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="claveU" class="form-label">Clave</label>
-                                <input id="claveU" type="file" name="claveU" class="form-control">
-                                    
+                                <label for="TelUsuarioC" class="form-label">Telefono</label>
+                                <input id="TelUsuarioC" type="number" name="TelUsuarioC"
+                                    class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="telUser" class="form-label">Teléfono</label>
-                                <input id="telUser" type="number" name="telUser" class="form-control">
-                                   
+                                <label for="duiUsuarioC" class="form-label">Dui</label>
+                                <input id="duiUsuarioC" type="number" name="duiUsuarioC"
+                                    class="form-control" required>
                             </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="DuiUser" class="form-label">DUI</label>
-                                <input id="DuiUser" type="number" name="DuiUser" class="form-control">
-                                   
-                            </div>
-                        
-
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -191,10 +141,13 @@
 
 
     <!-- bootstrap js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-    <script src="../../Recursos/js/Publica/Dashboard.js"></script>
+    <!-- Llamada al framework y librería de mensajes -->
+    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/admin/usuariosC.js"></script>
 
 </body>
 
