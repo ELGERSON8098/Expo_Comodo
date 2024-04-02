@@ -10,13 +10,12 @@ class ProductoHandler
     *   Declaración de atributos para el manejo de datos.
     */
     protected $id = null;
-    protected $nombre = null;
-    protected $descripcion = null;
-    protected $precio = null;
-    protected $existencias = null;
+    protected $nombreP = null;
+    protected $descripcionP = null;
+    protected $codigoI = null;
+    protected $refPro = null;
     protected $imagen = null;
-    protected $categoria = null;
-    protected $estado = null;
+    protected $precio = null;
 
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../images/productos/';
