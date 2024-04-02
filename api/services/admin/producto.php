@@ -32,7 +32,7 @@ if (isset($_GET['action'])) {
                     !$producto->setDescripcion($_POST['desP']) or
                     !$producto->setCodigo($_POST['Ci']) or
                     !$producto->setProveedor($_POST['Rproveed']) or
-                    !$producto->setimg(isset($_FILES['imgProducto']) ? 1 : 0)
+                    !$producto->setimg($_FILES['imgProducto'], $producto->getFilename())
                 ) {
                     $result['error'] = $producto->getDataError();
                 } elseif ($producto->createRow()) {
