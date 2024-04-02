@@ -82,7 +82,7 @@ class ProductoHandler
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM producto
+        $sql = 'DELETE FROM tbproductos
                 WHERE id_producto = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
@@ -90,12 +90,12 @@ class ProductoHandler
 
     public function readProductosCategoria()
     {
-        $sql = 'SELECT id_producto, imagen_producto, nombre_producto, descripcion_producto, precio_producto, existencias_producto
-                FROM producto
-                INNER JOIN categoria USING(id_categoria)
-                WHERE id_categoria = ? AND estado_producto = true
+        $sql = 'SELECT  id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador
+                FROM tbproductos
+                INNER JOIN tbsubcategorias USING(id_subcategoria)
+                WHERE id_subcategoria = ? AND id_producto = true
                 ORDER BY nombre_producto';
-        $params = array($this->categoria);
+        $params = array($this->subcat);
         return Database::getRows($sql, $params);
     }
 
@@ -104,18 +104,18 @@ class ProductoHandler
     */
     public function cantidadProductosCategoria()
     {
-        $sql = 'SELECT nombre_categoria, COUNT(id_producto) cantidad
-                FROM producto
-                INNER JOIN categoria USING(id_categoria)
-                GROUP BY nombre_categoria ORDER BY cantidad DESC LIMIT 5';
+        $sql = 'SELECT nombre_subcategoria, COUNT(id_producto) cantidad
+                FROM tbproductos
+                INNER JOIN tbsubcategorias USING(id_subcategoria)
+                GROUP BY nombre_subcategoria ORDER BY cantidad DESC LIMIT 5';
         return Database::getRows($sql);
     }
 
     public function porcentajeProductosCategoria()
     {
-        $sql = 'SELECT nombre_categoria, ROUND((COUNT(id_producto) * 100.0 / (SELECT COUNT(id_producto) FROM producto)), 2) porcentaje
-                FROM producto
-                INNER JOIN categoria USING(id_categoria)
+        $sql = 'SELECT nombre_subcategoria, ROUND((COUNT(id_producto) * 100.0 / (SELECT COUNT(id_producto) FROM tbproductos)), 2) porcentaje
+                FROM tbproductos
+                INNER JOIN tbsubcategorias USING(id_subcategoria)
                 GROUP BY nombre_categoria ORDER BY porcentaje DESC';
         return Database::getRows($sql);
     }
@@ -125,10 +125,10 @@ class ProductoHandler
     */
     public function productosCategoria()
     {
-        $sql = 'SELECT nombre_producto, precio_producto, estado_producto
-                FROM producto
-                INNER JOIN categoria USING(id_categoria)
-                WHERE id_categoria = ?
+        $sql = 'SELECT nombre_producto,  descripcion, codigo_interno
+                FROM tbproductos
+                INNER JOIN tbsubcategorias USING(id_subcategoria)
+                WHERE id_subcategoria = ?
                 ORDER BY nombre_producto';
         $params = array($this->categoria);
         return Database::getRows($sql, $params);
