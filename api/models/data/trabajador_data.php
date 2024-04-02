@@ -2,7 +2,7 @@
 // Se incluye la clase para validar los datos de entrada.
 require_once('../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once('../../models/handler/administrador_handler.php');
+require_once('../../models/handler/trabajador_handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
  */
@@ -39,7 +39,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
-    public function setApellido($value, $min = 2, $max = 50)
+    /*public function setApellido($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El apellido debe ser un valor alfabético';
@@ -52,6 +52,7 @@ class AdministradorData extends AdministradorHandler
             return false;
         }
     }
+    */
 
     public function setCorreo($value, $min = 8, $max = 100)
     {
@@ -67,7 +68,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
-    public function setAlias($value, $min = 6, $max = 25)
+    public function setUsuario($value, $min = 6, $max = 25)
     {
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El alias debe ser un valor alfanumérico';
