@@ -10,13 +10,13 @@ class ProductoHandler
     *   Declaración de atributos para el manejo de datos.
     */
     protected $id = null;
-    protected $nombre = null;
-    protected $descripcion = null;
-    protected $precio = null;
-    protected $existencias = null;
+    protected $nombreP = null;
+    protected $descripcionP = null;
+    protected $codigoI = null;
+    protected $refPro = null;
     protected $imagen = null;
-    protected $categoria = null;
-    protected $estado = null;
+    protected $subcat = null;
+    protected $admind = null;
 
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../images/productos/';
@@ -27,10 +27,10 @@ class ProductoHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_producto, imagen_producto, nombre_producto, descripcion_producto, precio_producto, nombre_categoria, estado_producto
-                FROM producto
-                INNER JOIN categoria USING(id_categoria)
-                WHERE nombre_producto LIKE ? OR descripcion_producto LIKE ?
+        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador 
+                FROM tbproductos
+                INNER JOIN tbsubcategorias USING(id_subcategoria)
+                WHERE nombre_producto LIKE ? OR descripcion LIKE ?
                 ORDER BY nombre_producto';
         $params = array($value, $value);
         return Database::getRows($sql, $params);
@@ -38,25 +38,25 @@ class ProductoHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO producto(nombre_producto, descripcion_producto, precio_producto, existencias_producto, imagen_producto, estado_producto, id_categoria, id_administrador)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->descripcion, $this->precio, $this->existencias, $this->imagen, $this->estado, $this->categoria, $_SESSION['idAdministrador']);
+        $sql = 'INSERT INTO tbproductos(nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador)
+                VALUES(?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->nombreP, $this->descripcionP, $this->codigoI, $this->refPro, $this->imagen, $this->subcat, $this->admind, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
     {
-        $sql = 'SELECT id_producto, imagen_producto, nombre_producto, descripcion_producto, precio_producto, nombre_categoria, estado_producto
-                FROM producto
-                INNER JOIN categoria USING(id_categoria)
+        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador 
+                FROM tbproductos
+                INNER JOIN tbsubcategorias USING(id_subcategoria)
                 ORDER BY nombre_producto';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripcion_producto, precio_producto, existencias_producto, imagen_producto, id_categoria, estado_producto
-                FROM producto
+        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen, id_subcategoria, id_administrador 
+                FROM tbproductos
                 WHERE id_producto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
@@ -64,8 +64,8 @@ class ProductoHandler
 
     public function readFilename()
     {
-        $sql = 'SELECT imagen_producto
-                FROM producto
+        $sql = 'SELECT imagen
+                FROM tbproductos
                 WHERE id_producto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
@@ -73,10 +73,10 @@ class ProductoHandler
 
     public function updateRow()
     {
-        $sql = 'UPDATE producto
-                SET imagen_producto = ?, nombre_producto = ?, descripcion_producto = ?, precio_producto = ?, estado_producto = ?, id_categoria = ?
+        $sql = 'UPDATE tbproductos
+                SET imagen = ?, nombre_producto = ?, descripcion = ?, codigo_interno = ?, Referencia_provedor = ?, imagen = ?, id_administrador = ?
                 WHERE id_producto = ?';
-        $params = array($this->imagen, $this->nombre, $this->descripcion, $this->precio, $this->estado, $this->categoria, $this->id);
+        $params = array($this->imagen, $this->nombreP, $this->descripcionP, $this->codigoI, $this->refPro, $this->subcat, $this->admind);
         return Database::executeRow($sql, $params);
     }
 

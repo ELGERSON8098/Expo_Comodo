@@ -28,12 +28,19 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
+<<<<<<< HEAD
                     !$tbAdmins->setNombre($_POST['nombreAdministrador']) or
                     !$tbAdmins->setAlias($_POST['usuarioAdministrador']) or
                     !$tbAdmins->setCorreo($_POST['correoAdministrador']) or
                     !$tbAdmins->setTel($_POST['telefonoAdministrador']) or
                     !$tbAdmins->setDui($_POST['duiAdministrador']) or
                     !$tbAdmins->setClave($_POST['claveAdministrador'])
+=======
+                    !$administrador->setNombre($_POST['nombreAdministrador']) or
+                    !$administrador->setCorreo($_POST['correoAdministrador']) or
+                    !$administrador->setAlias($_POST['aliasAdministrador']) or
+                    !$administrador->setClave($_POST['claveAdministrador'])
+>>>>>>> 7fcf7d10f4e934524b68165dfb47c213de2ea11b
                 ) {
                     $result['error'] = $tbAdmins->getDataError();
                 } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
@@ -65,12 +72,19 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
+<<<<<<< HEAD
                     !$tbAdmins->setNombre($_POST['nombreAdministrador']) or
                     !$tbAdmins->setUser($_POST['usuarioAdministrador']) or
                     !$tbAdmins->setCorreo($_POST['correoAdministrador']) or
                     !$tbAdmins->setTel($_POST['telefonoAdministrador']) or
                     !$tbAdmins->setDui($_POST['duiAdministrador']) or
                     !$tbAdmins->setClave($_POST['claveAdministrador'])
+=======
+                    !$administrador->setNombre($_POST['nombreAdministrador']) or
+                    !$administrador->setCorreo($_POST['correoAdministrador']) or
+                    !$administrador->setAlias($_POST['aliasAdministrador']) or
+                    !$administrador->setClave($_POST['claveAdministrador'])
+>>>>>>> 7fcf7d10f4e934524b68165dfb47c213de2ea11b
                 ) {
                     $result['error'] = $tbAdmins->getDataError();
                 } elseif ($tbAdmins->updateRow()) {
@@ -118,12 +132,19 @@ if (isset($_GET['action'])) {
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 if (
+<<<<<<< HEAD
                     !$tbAdmins->setNombre($_POST['nombreAdministrador']) or
                     !$tbAdmins->setUser($_POST['usuarioAdministrador']) or
                     !$tbAdmins->setCorreo($_POST['correoAdministrador']) or
                     !$tbAdmins->setTel($_POST['telefonoAdministrador']) or
                     !$tbAdmins->setDui($_POST['duiAdministrador']) or
                     !$tbAdmins->setClave($_POST['claveAdministrador'])
+=======
+                    !$administrador->setNombre($_POST['nombreAdministrador']) or
+                    !$administrador->setCorreo($_POST['correoAdministrador']) or
+                    !$administrador->setAlias($_POST['aliasAdministrador']) or
+                    !$administrador->setClave($_POST['claveAdministrador'])
+>>>>>>> 7fcf7d10f4e934524b68165dfb47c213de2ea11b
                 ) {
                     $result['error'] = $tbAdmins->getDataError();
                 } elseif ($tbAdmins->editProfile()) {
@@ -165,6 +186,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'signUp':
                 $_POST = Validator::validateForm($_POST);
+<<<<<<< HEAD
                 echo $_POST['usuarioAdministrador'];
                 if (
                     !$tbAdmins->setNombre($_POST['nombreAdministrador']) or
@@ -173,6 +195,14 @@ if (isset($_GET['action'])) {
                     !$tbAdmins->setTel($_POST['telefonoAdministrador']) or
                     !$tbAdmins->setDui($_POST['duiAdministrador']) or
                     !$tbAdmins->setClave($_POST['claveAdministrador'])
+=======
+                $_POST['nombreAdministrador'];
+                if (
+                    !$administrador->setNombre($_POST['nombreAdministrador']) or
+                    !$administrador->setCorreo($_POST['correoAdministrador']) or
+                    !$administrador->setAlias($_POST['aliasAdministrador']) or
+                    !$administrador->setClave($_POST['claveAdministrador'])
+>>>>>>> 7fcf7d10f4e934524b68165dfb47c213de2ea11b
                 ) {
                     $result['error'] = $tbAdmins->getDataError();
                 } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {

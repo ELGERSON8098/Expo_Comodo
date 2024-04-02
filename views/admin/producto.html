@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+<!-- Prueba-->
 
 <head>
     <meta charset="UTF-8">
@@ -15,6 +16,9 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- custom css -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
+    
+    <!-- Iconos de Boostrap-->
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
 </head>
 
 <body>
@@ -22,7 +26,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
         <div class="container">
             <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
-            href="../admin/dashboard.html">
+                href="../admin/dashboard.html">
                 <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
             </a>
 
@@ -45,7 +49,7 @@
 
             <div class="collapse navbar-collapse order-lg-1" id="navMenu">
                 <ul class="navbar-nav mx-auto text-center">
-                    
+
                 </ul>
             </div>
         </div>
@@ -62,14 +66,14 @@
                 <h2 class="position-relative d-inline-block">Productos</h2>
             </div>
 
-            
+
         </div>
     </section>
     <!-- Fin de Celulares -->
 
     <main>
         <!-- Título del contenido principal -->
-        <h3 id="mainTitle"></h3>
+        
         <div class="row">
             <!-- Formulario de búsqueda -->
             <form class="col-sm-12 col-md-6" id="searchForm">
@@ -106,7 +110,7 @@
                     <th>id Producto</th>
                     <th>Nombre de producto</th>
                     <th>Descripción</th>
-                    <th>Codigo interno</th>
+                    <th>Código interno</th>
                     <th>Referencia de proveedor</th>
                     <th>Precio</th>
                     <th>Imagen</th>
@@ -134,40 +138,33 @@
                             <input type="hidden" id="idProducto" name="idProducto">
                             <div class="col-sm-12 col-md-6">
                                 <label for="idProducto" class="form-label">id Producto</label>
-                                <input id="idProducto" type="text" name="idProducto" class="form-control"
-                                    required>
+                                <input id="idProducto" type="text" name="idProducto" class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="Nproducto" class="form-label">Nombre de producto</label>
-                                <input id="Nproducto" type="text" name="Nproducto"
-                                    class="form-control">
+                                <input id="Nproducto" type="text" name="Nproducto" class="form-control">
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="desP" class="form-label">Descripción</label>
-                                <input id="desP" type="file" name="desP" class="form-control">
+                                <input id="desP" type="text" name="desP" class="form-control">
 
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="Ci" class="form-label">Codigo interno</label>
-                                <input id="Ci" type="file" name="Ci" class="form-control">
-                                  
+                                <label for="Ci" class="form-label">Código interno</label>
+                                <input id="Ci" type="text" name="Ci" class="form-control">
+
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="Rproveed" class="form-label">Referencia de proveedor</label>
-                                <input id="Rproveed" type="file" name="Rproveed" class="form-control">
-                                    
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="precioP" class="form-label">Precio</label>
-                                <input id="precioP" type="number" name="precioP" class="form-control">
-                                   
+                                <input id="Rproveed" type="text" name="Rproveed" class="form-control">
+
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="imgProducto" class="form-label">Imagen</label>
-                                <input id="imgProducto" type="number" name="imgProducto" class="form-control">
-                                   
+                                <input id="imgProducto" type="file" name="imgProducto" class="form-control">
+
                             </div>
-                           
+
 
 
                         </div>
@@ -185,23 +182,34 @@
     <footer class="bg-dark py-5">
         <div class="container">
             <div class="row text-white g-4">
-                
 
-                
 
-                
-                </div>
+
+
+
             </div>
+        </div>
         </div>
     </footer>
     <!-- Fin del footer -->
 
 
-    <!-- bootstrap js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-        <script src="../../Recursos/js/Publica/Dashboard.js"></script>
+     <!-- bootstrap js -->
+     <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+
+     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+ 
+     <script src="../../Recursos/js/Publica/Dashboard.js"></script>
+
+    <!-- Llamada al controlador general de la aplicación -->
+    <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+
+    <!-- Llamada al controlador del sitio privado -->
+    <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
+
+    <!-- Llamada al controlador de la página web -->
+    <script type="text/javascript" src="../../controllers/admin/administrador.js"></script>
+
 
 </body>
 
