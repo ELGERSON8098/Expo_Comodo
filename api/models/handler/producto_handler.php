@@ -12,12 +12,9 @@ class ProductoHandler
     protected $id = null;
     protected $nombre = null;
     protected $descripcion = null;
-    protected $precio = null;
-    protected $existencias = null;
+    protected $codigo = null;
+    protected $referencia = null;
     protected $imagen = null;
-    protected $categoria = null;
-    protected $estado = null;
-
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../images/productos/';
 
