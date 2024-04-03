@@ -1,26 +1,16 @@
 <?php
-// Se incluye la clase para validar los datos de entrada.
 require_once('../../helpers/validator.php');
-// Se incluye la clase padre.
 require_once('../../models/handler/producto_handler.php');
-/*
- *	Clase para manejar el encapsulamiento de los datos de la tabla PRODUCTO.
- */
+
 class ProductoData extends ProductoHandler
 {
-    /*
-     *  Atributos adicionales.
-     */
     private $data_error = null;
     private $filename = null;
 
-    /*
-     *   Métodos para validar y establecer los datos.
-     */
-    public function setid($value)
+    public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id = $value;
+            $this->id_producto = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del producto es incorrecto';
@@ -28,13 +18,13 @@ class ProductoData extends ProductoHandler
         }
     }
 
-    public function setNombre($value, $min = 2, $max = 50)
+    public function setNombre($value, $min = 2, $max = 100)
     {
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El nombre debe ser un valor alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->nombre = $value;
+            $this->nombre_producto = $value;
             return true;
         } else {
             $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
@@ -42,7 +32,7 @@ class ProductoData extends ProductoHandler
         }
     }
 
-    public function setDescripcion($value, $min = 2, $max = 250)
+    public function setDescripcion($value, $min = 2, $max = 200)
     {
         if (!Validator::validateString($value)) {
             $this->data_error = 'La descripción contiene caracteres prohibidos';
@@ -56,24 +46,24 @@ class ProductoData extends ProductoHandler
         }
     }
 
-    public function setCodigo($value)
+    public function setCodigoInterno($value)
     {
-        if (Validator::validateMoney($value)) {
-            $this->codigo = $value;
+        if (Validator::validateAlphanumeric($value)) {
+            $this->codigo_interno = $value;
             return true;
         } else {
-            $this->data_error = 'El precio debe ser un valor numérico';
+            $this->data_error = 'El código interno debe ser alfanumérico';
             return false;
         }
     }
 
-    public function setProveedor($value)
+    public function setReferenciaProveedor($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->referencia = $value;
+        if (Validator::validateAlphanumeric($value)) {
+            $this->Referencia_provedor = $value;
             return true;
         } else {
-            $this->data_error = 'El valor de las existencias debe ser numérico entero';
+            $this->data_error = 'La referencia del proveedor debe ser alfanumérica';
             return false;
         }
     }
@@ -95,42 +85,6 @@ class ProductoData extends ProductoHandler
         }
     }
 
-    public function setCodigo($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->codigo = $value;
-            return true;
-        } else {
-            $this->data_error = 'El identificador del codigo es incorrecto';
-            return false;
-        }
-    }
-
-    public function setProveedor($value)
-    {
-        if (Validator::validateBoolean($value)) {
-            $this->referencia = $value;
-            return true;
-        } else {
-            $this->data_error = 'proveedor incorrecto';
-            return false;
-        }
-    }
-
-    public function setimg()
-    {
-        if ($data = $this->readFilename()) {
-            $this->imagen = $data['imagen_producto'];
-            return true;
-        } else {
-            $this->data_error = 'Producto inexistente';
-            return false;
-        }
-    }
-
-    /*
-     *  Métodos para obtener los atributos adicionales.
-     */
     public function getDataError()
     {
         return $this->data_error;
@@ -141,3 +95,4 @@ class ProductoData extends ProductoHandler
         return $this->filename;
     }
 }
+?>

@@ -11,92 +11,27 @@ if (isset($_GET['action'])) {
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
-    if (isset($_SESSION['idProducto'])) {
+    if (isset($_SESSION['id_administrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'searchRows':
-                if (!Validator::validateSearch($_POST['search'])) {
-                    $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $producto->searchRows()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
-                } else {
-                    $result['error'] = 'No hay coincidencias';
-                }
+                // Código para buscar registros
                 break;
             case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$producto->setid($_POST['idProducto']) or
-                    !$producto->setNombre($_POST['Nproducto']) or
-                    !$producto->setDescripcion($_POST['desP']) or
-                    !$producto->setCodigo($_POST['Ci']) or
-                    !$producto->setProveedor($_POST['Rproveed']) or
-                    !$producto->setimg($_FILES['imgProducto'], $producto->getFilename())
-                ) {
-                    $result['error'] = $producto->getDataError();
-                } elseif ($producto->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Producto creado correctamente';
-                    // Se asigna el estado del archivo después de insertar.
-                    $result['fileStatus'] = Validator::saveFile($_FILES['imagenProducto'], $producto::RUTA_IMAGEN);
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear el producto';
-                }
+                // Código para crear un nuevo registro
                 break;
             case 'readAll':
-                if ($result['dataset'] = $producto->readAll()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
-                } else {
-                    $result['error'] = 'No existen productos registrados';
-                }
+                // Código para leer todos los registros
                 break;
             case 'readOne':
-                if (!$producto->setid($_POST['idProducto'])) {
-                    $result['error'] = $producto->getDataError();
-                } elseif ($result['dataset'] = $producto->readOne()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'Producto inexistente';
-                }
+                // Código para leer un solo registro
                 break;
             case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$producto->setid($_POST['idProducto']) or
-                    !$producto->setNombre($_POST['Nproducto']) or
-                    !$producto->setDescripcion($_POST['desP']) or
-                    !$producto->setCodigo($_POST['Ci']) or
-                    !$producto->setProveedor($_POST['Rproveed']) or
-                    !$producto->setimg($_FILES['imgProducto'], $producto->getFilename())
-                ) {
-                    $result['error'] = $producto->getDataError();
-                } elseif ($producto->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Producto modificado correctamente';
-                    // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['imgProducto'], $producto::RUTA_IMAGEN, $producto->getFilename());
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el producto';
-                }
+                // Código para actualizar un registro
                 break;
             case 'deleteRow':
-                if (
-                    !$producto->setid($_POST['idProducto']) or
-                    !$producto->setimg()
-                ) {
-                    $result['error'] = $producto->getDataError();
-                } elseif ($producto->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Producto eliminado correctamente';
-                    // Se asigna el estado del archivo después de eliminar.
-                    $result['fileStatus'] = Validator::deleteFile($producto::RUTA_IMAGEN, $producto->getFilename());
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el producto';
-                }
+                // Código para eliminar un registro
                 break;
-            
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
@@ -110,3 +45,4 @@ if (isset($_GET['action'])) {
 } else {
     print(json_encode('Recurso no disponible'));
 }
+?>
