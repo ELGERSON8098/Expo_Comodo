@@ -22,25 +22,14 @@ class AdministradorHandler
      */
     public function checkUser($username, $password)
     {
-<<<<<<< HEAD
-        $sql = 'SELECT id_administrador, user_administrador,  clave_administrador
-=======
         $sql = 'SELECT id_administrador, user_administrador, clave_administrador
->>>>>>> 7fcf7d10f4e934524b68165dfb47c213de2ea11b
                 FROM tbAdmins
                 WHERE  user_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave_administrador'])) {
-<<<<<<< HEAD
-            $_SESSION['idAdmin'] = $data['id_administrador'];
-            $_SESSION['NAdmin'] = $data['user_administrador'];
-
-            
-=======
             $_SESSION['idAdministrador'] = $data['id_administrador'];
             $_SESSION['aliasAdministrador'] = $data['user_administrador'];
->>>>>>> 7fcf7d10f4e934524b68165dfb47c213de2ea11b
             return true;
         } else {
             return false;
@@ -105,13 +94,6 @@ class AdministradorHandler
 
     public function createRow()
     {
-<<<<<<< HEAD
-        $sql = 'INSERT INTO tbAdmins(nombre_administrador,
-         correo_administrador, usuario_administrador, clave_administrador)
-                VALUES(?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->correo, $this->alias, $this->clave);
-        return Database::executeRow($sql, $params);
-=======
         // Verificar si la tabla está vacía
         $sql = 'SELECT COUNT(*) AS count FROM tbAdmins';
         $result = Database::getRow($sql);
@@ -140,7 +122,6 @@ class AdministradorHandler
             $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->nivel);
             return Database::executeRow($sql, $params);
         }
->>>>>>> 7fcf7d10f4e934524b68165dfb47c213de2ea11b
     }
     
     
