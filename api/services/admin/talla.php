@@ -1,13 +1,13 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/marca_data.php');
+require_once('../../models/data/talla_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $marca = new marcaData;
+    $talla = new tallaData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
@@ -17,7 +17,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $marca->searchRows()) {
+                } elseif ($result['dataset'] = $color->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -27,59 +27,59 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$marca->setid($_POST['idMarca']) or
-                    !$marca->setNombre($_POST['nombreMarca']) 
+                    !$talla->setid($_POST['idTalla']) or
+                    !$talla->setNombre($_POST['nombreTalla']) 
                 ) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($marca->createRow()) {
+                    $result['error'] = $talla->getDataError();
+                } elseif ($talla->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Color creado correctamente';
+                    $result['message'] = 'Talla creada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el Color';
+                    $result['error'] = 'Ocurrió un problema al crear la talla';
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $marca->readAll()) {
+                if ($result['dataset'] = $talla->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen Colores registrados';
+                    $result['error'] = 'No existen tallas registradas';
                 }
                 break;
             case 'readOne':
-                if (!$marca->setId($_POST['idMarca'])) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($result['dataset'] = $marca->readOne()) {
+                if (!$talla->setId($_POST['idColor'])) {
+                    $result['error'] = $talla->getDataError();
+                } elseif ($result['dataset'] = $talla->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Producto inexistente';
+                    $result['error'] = 'Talla inexistente';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$marca->setid($_POST['idMarca']) or
-                    !$marca->setNombre($_POST['nombreMarca']) 
+                    !$talla->setid($_POST['idTalla']) or
+                    !$talla->setNombre($_POST['nombreTalla']) 
                 ) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($marca->updateRow()) {
+                    $result['error'] = $talla->getDataError();
+                } elseif ($talla->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Color modificado correctamente';
+                    $result['message'] = 'Talla modificada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el color';
+                    $result['error'] = 'Ocurrió un problema al modificar la talla';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$marca->setid($_POST['idMarca']) or
-                    !$marca->setNombre($_POST['nombreMarca']) 
+                    !$talla->setid($_POST['idTalla']) or
+                    !$talla->setNombre($_POST['nombreTalla']) 
                 ) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($marca->deleteRow()) {
+                    $result['error'] = $talla->getDataError();
+                } elseif ($talla->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Color eliminado correctamente';
+                    $result['message'] = 'Talla eliminado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el color';
+                    $result['error'] = 'Ocurrió un problema al eliminar la talla';
                 }
                 break;
             
