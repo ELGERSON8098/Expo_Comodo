@@ -148,7 +148,7 @@ const openUpdate = async (id) => {
         PRECIO_PRODUCTO.value = ROW.precio_producto;
         EXISTENCIAS_PRODUCTO.value = ROW.existencias_producto;
         ESTADO_PRODUCTO.checked = ROW.estado_producto;
-        fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto', ROW.id_categoria);
+        ID_SUBCATEGORIA.value= ROW.id_subcategoria;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -192,3 +192,4 @@ const openReport = () => {
     // Se abre el reporte en una nueva pestaña.
     window.open(PATH.href);
 }
+
