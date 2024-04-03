@@ -53,7 +53,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$producto->setId($_POST['idProducto'])) {
+                if (!$producto->setid($_POST['idProducto'])) {
                     $result['error'] = $producto->getDataError();
                 } elseif ($result['dataset'] = $producto->readOne()) {
                     $result['status'] = 1;
@@ -64,7 +64,7 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$producto->setId($_POST['idProducto']) or
+                    !$producto->setid($_POST['idProducto']) or
                     !$producto->setNombre($_POST['Nproducto']) or
                     !$producto->setDescripcion($_POST['desP']) or
                     !$producto->setCodigo($_POST['Ci']) or
@@ -83,8 +83,8 @@ if (isset($_GET['action'])) {
                 break;
             case 'deleteRow':
                 if (
-                    !$producto->setId($_POST['idProducto']) or
-                    !$producto->setFilename()
+                    !$producto->setid($_POST['idProducto']) or
+                    !$producto->setimg()
                 ) {
                     $result['error'] = $producto->getDataError();
                 } elseif ($producto->deleteRow()) {
