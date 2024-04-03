@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="es">
-<!-- Prueba-->
 
 <head>
     <meta charset="UTF-8">
@@ -12,68 +11,22 @@
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- bootstrap css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- custom css -->
-    <link rel="stylesheet" href="../../resources/css/administrador.css">
-    
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+
     <!-- Iconos de Boostrap-->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+
+     <!--css -->
+     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
-                href="../admin/dashboard.html">
-                <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
-            </a>
-
-            <div class="order-lg-2 nav-btns">
-                <button type="button" class="btn position-relative">
-                    <i class="fa fa-search"></i>
-                </button>
-                <button type="button" onclick="redirect('../publica/Carrito.html')" class="btn position-relative">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary"></span>
-                </button>
-                <button type="button" onclick="redirect('../publica/Miperfil.html')" class="btn position-relative">
-                    <i class="fa fa-user"></i>
-                </button>
-            </div>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse order-lg-1" id="navMenu">
-                <ul class="navbar-nav mx-auto text-center">
-
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- Fin del navbar -->
-
     <!-- Separación entre navbar y sección de celulares -->
     <div class="my-5"></div>
-
-    <!-- Celulares -->
-    <section id="special" class="py-5">
-        <div class="container">
-            <div class="title text-center py-5">
-                <h2 class="position-relative d-inline-block">Productos</h2>
-            </div>
-
-
-        </div>
-    </section>
-    <!-- Fin de Celulares -->
-
+    <br>
     <main>
         <!-- Título del contenido principal -->
-        
+        <h3 id="mainTitle"></h3>
         <div class="row">
             <!-- Formulario de búsqueda -->
             <form class="col-sm-12 col-md-6" id="searchForm">
@@ -104,16 +57,15 @@
             <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
             <thead>
                 <tr>
-                    <td colspan="4" id="rowsFound"></td>
+                    <td colspan="5" id="rowsFound"></td>
                 </tr>
                 <tr>
-                    <th>Nombre de producto</th>
-                    <th>Descripción</th>
-                    <th>Código interno</th>
-                    <th>Referencia de proveedor</th>
                     <th>Imagen</th>
-
-
+                    <th>Nombre Producto</th>
+                    <th>Descripcion</th>
+                    <th>Codigo Interno</th>
+                    <th>Referecia de Proveedor</th>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
             <!-- Cuerpo de la tabla para mostrar un registro por fila -->
@@ -134,34 +86,31 @@
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                             <input type="hidden" id="idProducto" name="idProducto">
-                            
                             <div class="col-sm-12 col-md-6">
-                                <label for="Nproducto" class="form-label">Nombre de producto</label>
-                                <input id="Nproducto" type="text" name="Nproducto" class="form-control">
+                                <label for="ImgP" class="form-label">Imagen</label>
+                                <input id="ImgP" type="file" name="ImgP"
+                                    class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="desP" class="form-label">Descripción</label>
-                                <input id="desP" type="text" name="desP" class="form-control">
-
+                                <label for="NombreP" class="form-label">Nombre</label>
+                                <input id="NombreP" type="text" name="NombreP"
+                                    class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="Ci" class="form-label">Código interno</label>
-                                <input id="Ci" type="text" name="Ci" class="form-control">
-
+                                <label for="correoUsuarioC" class="form-label">Correo</label>
+                                <input id="correoUsuarioC" type="email" name="correoUsuarioC"
+                                    class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="Rproveed" class="form-label">Referencia de proveedor</label>
-                                <input id="Rproveed" type="text" name="Rproveed" class="form-control">
-
+                                <label for="TelUsuarioC" class="form-label">Telefono</label>
+                                <input id="TelUsuarioC" type="number" name="TelUsuarioC"
+                                    class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="imgProducto" class="form-label">Imagen</label>
-                                <input id="imgProducto" type="file" name="imgProducto" class="form-control">
-
+                                <label for="duiUsuarioC" class="form-label">Dui</label>
+                                <input id="duiUsuarioC" type="number" name="duiUsuarioC"
+                                    class="form-control" required>
                             </div>
-
-
-
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -171,38 +120,14 @@
             </div>
         </div>
     </main>
+    <!-- bootstrap js -->
+    <!-- Llamada al framework y librería de mensajes -->
+    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
 
-    <br><br><br><br><br><br><br><br><br><br><br><br>
-    <!-- footer -->
-    <footer class="bg-dark py-5">
-        <div class="container">
-            <div class="row text-white g-4">
-
-
-
-
-
-            </div>
-        </div>
-        </div>
-    </footer>
-    <!-- Fin del footer -->
-
-<!-- bootstrap js -->
-<script src="../../resources/js/bootstrap.bundle.min.js"></script>
-
-<script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-
-
-
-<!-- Llamada al controlador general de la aplicación -->
-<script type="text/javascript" src="../../controllers/utils/components.js"></script>
-
-<!-- Llamada al controlador del sitio privado -->
-<script type="text/javascript" src="../../controllers/utils/admin.js"></script>
-
-<!-- Llamada al controlador de la página web -->
-<script type="text/javascript" src="../../controllers/admin/trabajador.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/admin/producto.js"></script>
 
 </body>
 
