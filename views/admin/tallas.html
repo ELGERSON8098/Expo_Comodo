@@ -3,9 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fontech</title>
-    <!-- fontawesome cdn Iconos aparte-->
+    <!-- fontawesome cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -15,19 +16,14 @@
     <!-- Iconos de Boostrap-->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
 
-    <!--css -->
-    <link rel="stylesheet" href="../../resources/css/administrador.css">
+     <!--css -->
+     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
-    <!-- navbar -->
-
-    <!-- Fin del navbar -->
-
     <!-- Separación entre navbar y sección de celulares -->
     <div class="my-5"></div>
-
-    <!-- Celulares -->
+    <br>
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
@@ -61,18 +57,37 @@
             <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
             <thead>
                 <tr>
-                    <td colspan="4" id="rowsFound"></td>
+                    <td colspan="5" id="rowsFound"></td>
                 </tr>
                 <tr>
-                    <th>Nombre del administrador</th>
-                    <th>Nombre del usuario</th>
-                    <th>Correo electrónico</th> 
-                    <th>Nivel de usuario</th> 
-                    <th>Acciones</th>
-                    
-                    
-
-
+                    <th>Talla</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
             <!-- Cuerpo de la tabla para mostrar un registro por fila -->
@@ -92,35 +107,12 @@
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                            <input type="hidden" id="idAdmin" name="idAdmin">
+                            <input type="hidden" id="idTalla" name="idTalla">
                             <div class="col-sm-12 col-md-6">
-                                <label for="NAdmin" class="form-label">Nombre</label>
-                                <input id="NAdmin" type="text" name="NAdmin" class="form-control" required>
+                                <label for="nombreTalla" class="form-label">Talla de zapatos</label>
+                                <input id="nombreTalla" type="text" name="nombreTalla"
+                                    class="form-control" required>
                             </div>
-
-                            <div class="col-sm-12 col-md-6">
-                                <label for="NUsuario" class="form-label">Usuario</label>
-                                <input id="NUsuario" type="text" name="NUsuario" class="form-control">
-
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="CorreoAd" class="form-label">Correo electrónico</label>
-                                <input id="CorreoAd" type="email" name="CorreoAd" class="form-control">
-
-                            </div>
-
-                            <div class="col-sm-12 col-md-6">
-                                <label for="claveAd" class="form-label">Clave</label>
-                                <input id="claveAd" type="password" name="claveAd" class="form-control">
-
-                            </div>
-
-                            <div class="col-sm-12 col-md-6">
-                                <label for="NivAd" class="form-label">Nivel de usuario</label>
-                                <input id="NivAd" type="number" name="NivAd" class="form-control">
-
-                            </div>
-
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -130,28 +122,15 @@
             </div>
         </div>
     </main>
-    <!-- Fin de Celulares -->
-    <br><br><br><br><br><br><br><br><br><br><br><br>
-
-    <!-- footer -->
-    <!-- Fin del footer -->
-
-
     <!-- bootstrap js -->
-    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
-
+    <!-- Llamada al framework y librería de mensajes -->
+    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
 
-   
-
-    <!-- Llamada al controlador general de la aplicación -->
-    <script type="text/javascript" src="../../controllers/utils/components.js"></script>
-
-    <!-- Llamada al controlador del sitio privado -->
-    <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
-
-    <!-- Llamada al controlador de la página web -->
-    <script type="text/javascript" src="../../controllers/admin/trabajador.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/admin/talla.js"></script>
 
 </body>
+
 </html>

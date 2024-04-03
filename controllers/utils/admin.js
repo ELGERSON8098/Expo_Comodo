@@ -53,10 +53,11 @@ const loadTemplate = async () => {
                         <li class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../admin/colores.html">Colores Zapatos</a></li>
                         <li><a class="dropdown-item" href="../admin/marcas.html">Marcas</a></li>
+                        <li><a class="dropdown-item" href="../admin/tallas.html">Tallas</a></li>
                         </ul>
                     </li>
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/HistorialDeCompras.html">Descuentos</a>
+                        <a class="nav-link text-uppercase text-dark" href="../admin/descuento.html">Descuentos</a>
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="../admin/usuariosC.html">Clientes</a>
@@ -65,7 +66,7 @@ const loadTemplate = async () => {
                         <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Reservas</a>
                     </li>
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Administradores</a>
+                        <a class="nav-link text-uppercase text-dark" href="../admin/administrador.html">Administradores</a>
                     </li>
                 </ul>
             </div>

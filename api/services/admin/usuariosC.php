@@ -121,7 +121,7 @@ if (isset($_GET['action'])) {
                     }
                     break;
                 case 'readProfile':
-                    if ($result['dataset'] = $administrador->readProfile()) {
+                    if ($result['dataset'] = $usuariosC->readProfile()) {
                         $result['status'] = 1;
                     } else {
                         $result['error'] = 'Ocurrió un problema al leer el perfil';
