@@ -62,7 +62,7 @@ if (isset($_GET['action'])) {
                     !$color->setNombre($_POST['nombreColor']) 
                 ) {
                     $result['error'] = $color->getDataError();
-                } elseif ($producto->updateRow()) {
+                } elseif ($color->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Color modificado correctamente';
                 } else {
