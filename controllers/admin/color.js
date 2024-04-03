@@ -1,5 +1,5 @@
 // Constantes para completar las rutas de la API.
-const USUARIO_API = 'services/admin/usuariosC.php';
+const COLOR_API = 'services/admin/color.php';
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer el contenido de la tabla.
@@ -10,19 +10,15 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    ID_USUARIO = document.getElementById('idusuarioC'),
-    NOMBRE_USUARIO = document.getElementById('nombreUsuarioC'),
-    ALIAS_USUARIO = document.getElementById('aliasUsuarioC'),
-    CORREO_USUARIO = document.getElementById('correoUsuarioC'),
-    Tel_USUARIO = document.getElementById('TelUsuarioC'),
-    DUI_USUARIO = document.getElementById('duiUsuarioC');
+    ID_COLOR = document.getElementById('idColor'),
+    NOMBRE_COLOR = document.getElementById('nombreColor');
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
     // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Gestionar Trabajadores';
+    MAIN_TITLE.textContent = 'Gestionar colores';
     // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
 });
@@ -42,11 +38,11 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se verifica la acción a realizar.
-    (ID_USUARIO.value) ? action = 'updateRow' : action = 'createRow';
+    (ID_COLOR.value) ? action = 'updateRow' : action = 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
     // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(USUARIO_API, action, FORM);
+    const DATA = await fetchData(COLOR_API, action, FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se cierra la caja de diálogo.
@@ -72,7 +68,7 @@ const fillTable = async (form = null) => {
     // Se verifica la acción a realizar.
     (form) ? action = 'searchRows' : action = 'readAll';
     // Petición para obtener los registros disponibles.
-    const DATA = await fetchData(USUARIO_API, action, form);
+    const DATA = await fetchData(COLOR_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se recorre el conjunto de registros fila por fila.
@@ -80,16 +76,38 @@ const fillTable = async (form = null) => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
                 <tr>
-                    <td>${row.nombre}</td>
-                    <td>${row.usuario}</td>
-                    <td>${row.correo}</td>
-                    <td>${row.telefono}</td>
-                    <td>${row.dui_cliente}</td>
+                    <td>${row.Color}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_usuario})">
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_color})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_usuario})">
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_color})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -111,14 +129,10 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Crear un nuevo trabajador';
+    MODAL_TITLE.textContent = 'Agregar un nuevo color';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    NOMBRE_USUARIO.disabled = false;
-    ALIAS_USUARIO.disabled = false;
-    CORREO_USUARIO.disabled = false;
-    Tel_USUARIO.disabled = false;
-    DUI_USUARIO.disabled = false;
+    NOMBRE_COLOR.disabled = false;
 }
 
 /*
@@ -129,9 +143,9 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_usuario', id);
+    FORM.append('id_color', id);
     // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(ADMINISTRADOR_API, 'readOne', FORM);
+    const DATA = await fetchData(COLOR_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
@@ -139,19 +153,11 @@ const openUpdate = async (id) => {
         MODAL_TITLE.textContent = 'Actualizar administrador';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        NOMBRE_USUARIO.disabled = false;
-        ALIAS_USUARIO.disabled = false;
-        CORREO_USUARIO.disabled = false;
-        Tel_USUARIO.disabled = false;
-        DUI_USUARIO.disabled = false;
+        NOMBRE_COLOR.disabled = false;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
-        ID_USUARIO.value = ROW.id_usuario;
-        NOMBRE_USUARIO.value = ROW.nombre;
-        ALIAS_USUARIO.value = ROW.usuario;
-        CORREO_USUARIO.value = ROW.correo;
-        Tel_USUARIO.value = ROW.telefono;
-        DUI_USUARIO.value = ROW.dui_cliente;
+        ID_COLOR.value = ROW.id_color;
+        NOMBRE_COLOR.disabled = false;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -164,14 +170,14 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el administrador de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar el color de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('idAdministrador', id);
+        FORM.append('idColor', id);
         // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(USUARIO_API, 'deleteRow', FORM);
+        const DATA = await fetchData(COLOR_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se muestra un mensaje de éxito.

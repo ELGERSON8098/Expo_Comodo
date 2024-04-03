@@ -34,7 +34,7 @@ const loadTemplate = async () => {
             <div class="container">
                 <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
                     href="../admin/dashboard.html">
-                    <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
+                    <img src="../../resources/img/LogoComods.png" class="logo img-fluid" alt="site icon">
                 </a>
             </div>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
@@ -49,10 +49,10 @@ const loadTemplate = async () => {
                         <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Categorias</a>
                     </li>
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Marcas</a>
+                        <a class="nav-link text-uppercase text-dark" href="../admin/marcas.html">Marcas</a>
                     </li>
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Clientes</a>
+                        <a class="nav-link text-uppercase text-dark" href="../admin/usuariosC.html">Clientes</a>
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Reservas</a>
@@ -61,7 +61,10 @@ const loadTemplate = async () => {
                         <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Administradores</a>
                     </li>
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Descuentos</a>
+                        <a class="nav-link text-uppercase text-dark" href="../admin/HistorialDeCompras.html">Descuentos</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="../admin/colores.html">Colores Zapatos</a>
                     </li>
                 </ul>
             </div>
@@ -73,11 +76,6 @@ const loadTemplate = async () => {
             <footer class="bg-dark py-5">
             <div class="container">
                 <div class="row text-white g-4">
-     
-     
-     
-     
-     
                 </div>
             </div>
             </div>
@@ -89,29 +87,11 @@ const loadTemplate = async () => {
     } else {
         // Se comprueba si la página web es la principal, de lo contrario se direcciona a iniciar sesión.
         if (location.pathname.endsWith('index.html')) {
-            // Se agrega el encabezado de la página web antes del contenido principal.
-            MAIN.insertAdjacentHTML('beforebegin', `
-                <header>
-                <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
-                <div class="container">
-                    <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
-                        href="../admin/dashboard.html">
-                        <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
-                    </a>
-                </div>
-            </nav>
-                </header>
-            `);
             // Se agrega el pie de la página web después del contenido principal.
             MAIN.insertAdjacentHTML('afterend', `
             <footer class="bg-dark py-5">
             <div class="container">
                 <div class="row text-white g-4">
-     
-     
-     
-     
-     
                 </div>
             </div>
             </div>
