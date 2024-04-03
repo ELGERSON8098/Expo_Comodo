@@ -59,7 +59,7 @@ class ProductoData extends ProductoHandler
     public function setCodigo($value)
     {
         if (Validator::validateMoney($value)) {
-            $this->precio = $value;
+            $this->codigo = $value;
             return true;
         } else {
             $this->data_error = 'El precio debe ser un valor numérico';
@@ -70,7 +70,7 @@ class ProductoData extends ProductoHandler
     public function setProveedor($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->existencias = $value;
+            $this->referencia = $value;
             return true;
         } else {
             $this->data_error = 'El valor de las existencias debe ser numérico entero';
@@ -98,7 +98,7 @@ class ProductoData extends ProductoHandler
     public function setCodigo($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->categoria = $value;
+            $this->codigo = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del codigo es incorrecto';
@@ -109,7 +109,7 @@ class ProductoData extends ProductoHandler
     public function setProveedor($value)
     {
         if (Validator::validateBoolean($value)) {
-            $this->estado = $value;
+            $this->referencia = $value;
             return true;
         } else {
             $this->data_error = 'proveedor incorrecto';
@@ -120,7 +120,7 @@ class ProductoData extends ProductoHandler
     public function setimg()
     {
         if ($data = $this->readFilename()) {
-            $this->filename = $data['imagen_producto'];
+            $this->imagen = $data['imagen_producto'];
             return true;
         } else {
             $this->data_error = 'Producto inexistente';
