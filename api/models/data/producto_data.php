@@ -1,98 +1,104 @@
 <?php
+// Se incluye la clase para validar los datos de entrada.
 require_once('../../helpers/validator.php');
-require_once('../../models/handler/producto_handler.php');
-
-class ProductoData extends ProductoHandler
+// Se incluye la clase padre.
+require_once('../../models/handler/productos_handler.php');
+/*
+ *  Clase para manejar el encapsulamiento de los datos de la tabla PRODUCTO.
+ */
+class ProductosData extends ProductosHandler
 {
+    // Atributo genérico para manejo de errores.
     private $data_error = null;
-    private $filename = null;
 
-    public function setId($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->id_producto = $value;
-            return true;
-        } else {
-            $this->data_error = 'El identificador del producto es incorrecto';
-            return false;
-        }
-    }
-
-    public function setNombre($value, $min = 2, $max = 100)
+    /*
+     *  Métodos para validar y asignar valores de los atributos.
+     */
+    public function setNombreProducto($value, $min = 2, $max = 100)
     {
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfanumérico';
+            $this->data_error = 'El nombre del producto debe ser alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre_producto = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El nombre del producto debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
 
     public function setDescripcion($value, $min = 2, $max = 200)
     {
-        if (!Validator::validateString($value)) {
-            $this->data_error = 'La descripción contiene caracteres prohibidos';
+        if (!Validator::validateText($value)) {
+            $this->data_error = 'La descripción del producto no es válida';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->descripcion = $value;
             return true;
         } else {
-            $this->data_error = 'La descripción debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'La descripción del producto debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
 
-    public function setCodigoInterno($value)
+    public function setCodigoInterno($value, $min = 1, $max = 50)
     {
-        if (Validator::validateAlphanumeric($value)) {
+        if (!Validator::validateAlphanumeric($value)) {
+            $this->data_error = 'El código interno debe ser alfanumérico';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
             $this->codigo_interno = $value;
             return true;
         } else {
-            $this->data_error = 'El código interno debe ser alfanumérico';
+            $this->data_error = 'El código interno debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
 
-    public function setReferenciaProveedor($value)
+    public function setReferenciaProveedor($value, $min = 1, $max = 50)
     {
-        if (Validator::validateAlphanumeric($value)) {
-            $this->Referencia_provedor = $value;
-            return true;
-        } else {
+        if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'La referencia del proveedor debe ser alfanumérica';
             return false;
-        }
-    }
-
-    public function setImagen($file, $filename = null)
-    {
-        if (Validator::validateImageFile($file, 1000)) {
-            $this->imagen = Validator::getFileName();
-            return true;
-        } elseif (Validator::getFileError()) {
-            $this->data_error = Validator::getFileError();
-            return false;
-        } elseif ($filename) {
-            $this->imagen = $filename;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->referencia_proveedor = $value;
             return true;
         } else {
-            $this->imagen = 'default.png';
-            return true;
+            $this->data_error = 'La referencia del proveedor debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
         }
     }
 
+    public function setImagen($value, $min = 1, $max = 25)
+    {
+        if (!Validator::validateAlphanumeric($value)) {
+            $this->data_error = 'El nombre de la imagen debe ser alfanumérico';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->imagen = $value;
+            return true;
+        } else {
+            $this->data_error = 'El nombre de la imagen debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
+    }
+    
+    public function setId($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del administrador es incorrecto';
+            return false;
+        }
+    }
+
+
+    // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
     }
-
-    public function getFilename()
-    {
-        return $this->filename;
-    }
 }
-?>
