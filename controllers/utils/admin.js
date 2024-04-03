@@ -29,8 +29,8 @@ const loadTemplate = async () => {
         if (DATA.status) {
             // Se agrega el encabezado de la página web antes del contenido principal.
             MAIN.insertAdjacentHTML('beforebegin', `
-            <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
+        <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
             <div class="container">
                 <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
                     href="../admin/dashboard.html">
@@ -38,18 +38,25 @@ const loadTemplate = async () => {
                 </a>
             </div>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-            <span class="navbar-toggler-icon"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse order-lg-1" id="navMenu">
                 <ul class="navbar-nav mx-auto text-center">
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../publica/Ofertas.html">Productos</a>
+                    <li class="nav-item px-2 py-2 dropdown">
+                        <a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Productos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="productosDropdown">
+                        <li><a class="dropdown-item" href="../admin/marcas.html">Productos</a></li>
+                        <li><a class="dropdown-item" href="../publica/Ofertas.html">Ofertas</a></li>
+                        <li><a class="dropdown-item" href="../publica/HistorialDeCompras.html">Categorias</a></li>
+                        <li class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="../admin/colores.html">Colores Zapatos</a></li>
+                        <li><a class="dropdown-item" href="../admin/marcas.html">Marcas</a></li>
+                        </ul>
                     </li>
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Categorias</a>
-                    </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/marcas.html">Marcas</a>
+                        <a class="nav-link text-uppercase text-dark" href="../admin/HistorialDeCompras.html">Descuentos</a>
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="../admin/usuariosC.html">Clientes</a>
@@ -60,16 +67,10 @@ const loadTemplate = async () => {
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Administradores</a>
                     </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/HistorialDeCompras.html">Descuentos</a>
-                    </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/colores.html">Colores Zapatos</a>
-                    </li>
                 </ul>
             </div>
         </nav>
-        </header>
+    </header>
             `);
             // Se agrega el pie de la página web después del contenido principal.
             MAIN.insertAdjacentHTML('afterend', `
