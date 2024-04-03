@@ -10,7 +10,7 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    ID_DIRECCIOM = document.getElementById('idDireccion'),
+    ID_DIRECCION = document.getElementById('idDireccion'),
     DEPARTAMENTO = document.getElementById('departamento'),
     DESCRIPCION_DIRECCION = document.getElementById('descripcionDireccion'),
     ID_USUARIO = document.getElementById('idUsuario'),
@@ -43,7 +43,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se verifica la acción a realizar.
-    (ID_DIRECCIOM.value) ? action = 'updateRow' : action = 'createRow';
+    (ID_DIRECCION.value) ? action = 'updateRow' : action = 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
     // Petición para guardar los datos del formulario.
@@ -81,15 +81,14 @@ const fillTable = async (form = null) => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
                 <tr>
-                    <td>${row.apellido_administrador}</td>
-                    <td>${row.nombre_administrador}</td>
-                    <td>${row.correo_administrador}</td>
-                    <td>${row.alias_administrador}</td>
+                    <td>${row.departamento}</td>
+                    <td>${row.descripcion_direccion}</td>
+                   
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_administrador})">
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_direccion})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_administrador})">
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_direccion})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -111,11 +110,11 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Crear administrador';
+    MODAL_TITLE.textContent = 'Direccion';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    ALIAS_ADMINISTRADOR.disabled = false;
-    CLAVE_ADMINISTRADOR.disabled = false;
+    DEPARTAMENTO.disabled = false;
+    DESCRIPCION_DIRECCION.disabled = false;
     CONFIRMAR_CLAVE.disabled = false;
 }
 
@@ -127,26 +126,26 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('idAdministrador', id);
+    FORM.append('idDireccion', id);
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(ADMINISTRADOR_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar administrador';
+        MODAL_TITLE.textContent = 'Actualizar Direccion';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        ALIAS_ADMINISTRADOR.disabled = true;
-        CLAVE_ADMINISTRADOR.disabled = true;
+        DEPARTAMENTO.disabled = true;
+        DESCRIPCION_DIRECCION.disabled = true;
         CONFIRMAR_CLAVE.disabled = true;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
-        ID_ADMINISTRADOR.value = ROW.id_administrador;
-        NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
-        APELLIDO_ADMINISTRADOR.value = ROW.apellido_administrador;
-        CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
-        ALIAS_ADMINISTRADOR.value = ROW.alias_administrador;
+        ID_DIRECCION.value = ROW.id_direccion;
+        DEPARTAMENTO.value = ROW.departamento;
+        DESCRIPCION_DIRECCION.value = ROW.descripcion_direccion;
+        ID_USUARIO.value = ROW.id_usuario;
+        ID_DISTRITO.value = ROW.id_distrito;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -159,12 +158,12 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el administrador de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar la direccion de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('idAdministrador', id);
+        FORM.append('idDireccion', id);
         // Petición para eliminar el registro seleccionado.
         const DATA = await fetchData(ADMINISTRADOR_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
