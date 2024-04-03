@@ -39,20 +39,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
-    /*public function setApellido($value, $min = 2, $max = 50)
-    {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El apellido debe ser un valor alfabético';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->apellido = $value;
-            return true;
-        } else {
-            $this->data_error = 'El apellido debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        }
-    }
-    */
+ 
 
     public function setCorreo($value, $min = 8, $max = 100)
     {
@@ -92,6 +79,7 @@ class AdministradorData extends AdministradorHandler
             return false;
         }
     }
+
 
     // Método para obtener el error de los datos.
     public function getDataError()

@@ -2,11 +2,11 @@
 // Se incluye la clase para validar los datos de entrada.
 require_once('../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once('../../models/handler/administrador_handler.php');
+require_once('../../models/handler/usuariosC_handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
  */
-class AdministradorData extends AdministradorHandler
+class UsuariosData extends UsuariosHandler
 {
     // Atributo genérico para manejo de errores.
     private $data_error = null;
@@ -136,3 +136,4 @@ class AdministradorData extends AdministradorHandler
         return $this->data_error;
     }
 }
+
