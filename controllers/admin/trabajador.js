@@ -12,9 +12,8 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_ADMINISTRADOR = document.getElementById('idAdministrador'),
     NOMBRE_ADMINISTRADOR = document.getElementById('nombreAdministrador'),
-    APELLIDO_ADMINISTRADOR = document.getElementById('apellidoAdministrador'),
     CORREO_ADMINISTRADOR = document.getElementById('correoAdministrador'),
-    ALIAS_ADMINISTRADOR = document.getElementById('aliasAdministrador'),
+    USUARIO_ADMINISTRADOR = document.getElementById('UsuarioAdministrador'),
     CLAVE_ADMINISTRADOR = document.getElementById('claveAdministrador'),
     CONFIRMAR_CLAVE = document.getElementById('confirmarClave');
 
@@ -80,11 +79,11 @@ const fillTable = async (form = null) => {
         DATA.dataset.forEach(row => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
-                <tr>
-                    <td>${row.apellido_administrador}</td>
+                <tr>            
                     <td>${row.nombre_administrador}</td>
+                    <td>${row.user_administrador}</td>   
                     <td>${row.correo_administrador}</td>
-                    <td>${row.alias_administrador}</td>
+                    <td>${row.clave_administrador}</td>                
                     <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_administrador})">
                             <i class="bi bi-pencil-fill"></i>
@@ -114,7 +113,7 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Crear administrador';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    ALIAS_ADMINISTRADOR.disabled = false;
+    USUARIO_ADMINISTRADOR.disabled = false;
     CLAVE_ADMINISTRADOR.disabled = false;
     CONFIRMAR_CLAVE.disabled = false;
 }
@@ -144,9 +143,10 @@ const openUpdate = async (id) => {
         const ROW = DATA.dataset;
         ID_ADMINISTRADOR.value = ROW.id_administrador;
         NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
-        APELLIDO_ADMINISTRADOR.value = ROW.apellido_administrador;
         CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
-        ALIAS_ADMINISTRADOR.value = ROW.alias_administrador;
+        USUARIO_ADMINISTRADOR.value = ROW.user_administrador;
+        CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
+
     } else {
         sweetAlert(2, DATA.error, false);
     }
