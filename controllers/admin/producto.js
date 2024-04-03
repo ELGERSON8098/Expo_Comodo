@@ -1,6 +1,5 @@
 // Constantes para completar las rutas de la API.
 const PRODUCTO_API = 'services/admin/producto.php';
-const CATEGORIA_API = 'services/admin/categoria.php';
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer el contenido de la tabla.
@@ -14,8 +13,8 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ID_PRODUCTO = document.getElementById('idProducto'),
     NOMBRE_PRODUCTO = document.getElementById('nombreProducto'),
     DESCRIPCION_PRODUCTO = document.getElementById('descripcionProducto'),
-    PRECIO_PRODUCTO = document.getElementById('precioProducto'),
-    EXISTENCIAS_PRODUCTO = document.getElementById('existenciasProducto'),
+    CODIGO = document.getElementById('precioProducto'),
+    REFERENCIA = document.getElementById('existenciasProducto'),
     ESTADO_PRODUCTO = document.getElementById('estadoProducto');
 
 // Método del evento para cuando el documento ha cargado.
@@ -82,28 +81,76 @@ const fillTable = async (form = null) => {
             (row.estado_producto) ? icon = 'bi bi-eye-fill' : icon = 'bi bi-eye-slash-fill';
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
-                <tr>
-                    <td><img src="${SERVER_URL}images/productos/${row.imagen}" height="50"></td>
-                    <td>${row.nombre_producto}</td>
-                    <td>${row.descripcion}</td>
-                    <td>${row.codigo_interno}</td>
-                    <td>${row.Referencia_provedor}</td>
-                    <td><i class="${icon}"></i></td>
-                    <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_producto})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_producto})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                    </td>
-                </tr>
+            <tr>
+            <td><img src="${SERVER_URL}images/productos/${row.imagen}" height="50"></td>
+            <td>${row.nombre_producto}</td>
+            <td>${row.descripcion}</td>
+            <td>${row.codigo_interno}</td>
+            <td>${row.Referencia_provedor}</td>
+            <td><i class="${icon}"></i></td>
+            <td>
+                <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_producto})">
+                    <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_producto})">
+                    <i class="bi bi-trash-fill"></i>
+                </button>
+            </td>
+        </tr>
             `;
         });
         // Se muestra un mensaje de acuerdo con el resultado.
         ROWS_FOUND.textContent = DATA.message;
     } else {
         sweetAlert(4, DATA.error, true);
+    }
+}
+
+/*
+*   Función para preparar el formulario al momento de insertar un registro.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const openCreate = () => {
+    // Se muestra la caja de diálogo con su título.
+    SAVE_MODAL.show();
+    MODAL_TITLE.textContent = 'Crear producto';
+    // Se prepara el formulario.
+    SAVE_FORM.reset();
+    EXISTENCIAS_PRODUCTO.disabled = false;
+    fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto');
+}
+
+/*
+*   Función asíncrona para preparar el formulario al momento de actualizar un registro.
+*   Parámetros: id (identificador del registro seleccionado).
+*   Retorno: ninguno.
+*/
+const openUpdate = async (id) => {
+    // Se define un objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idProducto', id);
+    // Petición para obtener los datos del registro solicitado.
+    const DATA = await fetchData(PRODUCTO_API, 'readOne', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se muestra la caja de diálogo con su título.
+        SAVE_MODAL.show();
+        MODAL_TITLE.textContent = 'Actualizar producto';
+        // Se prepara el formulario.
+        SAVE_FORM.reset();
+        EXISTENCIAS_PRODUCTO.disabled = true;
+        // Se inicializan los campos con los datos.
+        const ROW = DATA.dataset;
+        ID_PRODUCTO.value = ROW.id_producto;
+        NOMBRE_PRODUCTO.value = ROW.nombre_producto;
+        DESCRIPCION_PRODUCTO.value = ROW.descripcion_producto;
+        PRECIO_PRODUCTO.value = ROW.precio_producto;
+        EXISTENCIAS_PRODUCTO.value = ROW.existencias_producto;
+        ESTADO_PRODUCTO.checked = ROW.estado_producto;
+        fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto', ROW.id_categoria);
+    } else {
+        sweetAlert(2, DATA.error, false);
     }
 }
 
@@ -134,3 +181,14 @@ const openDelete = async (id) => {
     }
 }
 
+/*
+*   Función para abrir un reporte automático de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const openReport = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/admin/productos.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
+}
