@@ -31,7 +31,8 @@ if (isset($_GET['action'])) {
                     !$tbAdmins->setNombre($_POST['NAdmin']) or
                     !$tbAdmins->setUsuario($_POST['NUsuario']) or
                     !$tbAdmins->setCorreo($_POST['CorreoAd']) or
-                    !$tbAdmins->setClave($_POST['claveAd'])
+                    !$tbAdmins->setClave($_POST['claveAd'])or
+                    !$tbAdmins->setId($_POST['NivAd'])
                 ) {
                     $result['error'] = $tbAdmins->getDataError();
                 } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
@@ -66,7 +67,8 @@ if (isset($_GET['action'])) {
                     !$tbAdmins->setNombre($_POST['NAdmin']) or
                     !$tbAdmins->setUser($_POST['NUsuario']) or
                     !$tbAdmins->setCorreo($_POST['CorreoAd']) or
-                    !$tbAdmins->setClave($_POST['claveAd'])
+                    !$tbAdmins->setClave($_POST['claveAd'])or
+                    !$tbAdmins->setId($_POST['NivAd'])
                 ) {
                     $result['error'] = $tbAdmins->getDataError();
                 } elseif ($tbAdmins->updateRow()) {
@@ -117,7 +119,8 @@ if (isset($_GET['action'])) {
                     !$tbAdmins->setNombre($_POST['NAdmin']) or
                     !$tbAdmins->setUsuario($_POST['NUsuario']) or
                     !$tbAdmins->setCorreo($_POST['CorreoAd']) or
-                    !$tbAdmins->setClave($_POST['claveAd'])
+                    !$tbAdmins->setClave($_POST['claveAd'])or
+                    !$tbAdmins->setId($_POST['NivAd'])
                 ) {
                     $result['error'] = $tbAdmins->getDataError();
                 } elseif ($tbAdmins->editProfile()) {
@@ -164,7 +167,8 @@ if (isset($_GET['action'])) {
                     !$tbAdmins->setNombre($_POST['NAdmin']) or
                     !$tbAdmins->setUsuario($_POST['NUsuario']) or
                     !$tbAdmins->setCorreo($_POST['CorreoAd']) or
-                    !$tbAdmins->setClave($_POST['claveAd'])
+                    !$tbAdmins->setClave($_POST['claveAd'])or
+                    !$tbAdmins->setId($_POST['NivAd'])
                 ) {
                     $result['error'] = $tbAdmins->getDataError();
                 } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {

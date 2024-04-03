@@ -1,5 +1,5 @@
 // Constante para completar la ruta de la API.
-const ADMINISTRADOR_API = 'services/admin/administrador.php';
+const ADMINISTRADOR_API = 'services/admin/trabajador.php';
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer los elementos de la tabla.
@@ -14,6 +14,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     NOMBRE_ADMINISTRADOR = document.getElementById('nombreAdministrador'),
     CORREO_ADMINISTRADOR = document.getElementById('correoAdministrador'),
     USUARIO_ADMINISTRADOR = document.getElementById('UsuarioAdministrador'),
+    NIVEL_ADMINISTRADOR = document.getElementById('NivAd'),
     CLAVE_ADMINISTRADOR = document.getElementById('claveAdministrador'),
     CONFIRMAR_CLAVE = document.getElementById('confirmarClave');
 
@@ -83,7 +84,7 @@ const fillTable = async (form = null) => {
                     <td>${row.nombre_administrador}</td>
                     <td>${row.user_administrador}</td>   
                     <td>${row.correo_administrador}</td>
-                    <td>${row.clave_administrador}</td>                
+                    <td>${row.nombre_nivel}</td>                
                     <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_administrador})">
                             <i class="bi bi-pencil-fill"></i>
@@ -145,6 +146,7 @@ const openUpdate = async (id) => {
         NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
         CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
         USUARIO_ADMINISTRADOR.value = ROW.user_administrador;
+        NIVEL_ADMINISTRADOR.value = ROW.id_nivel_usuario;
         CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
 
     } else {
