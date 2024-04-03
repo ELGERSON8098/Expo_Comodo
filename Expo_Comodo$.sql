@@ -61,6 +61,10 @@ INSERT INTO tbniveles_usuario (id_nivel_usuario, nombre_nivel) VALUES
 (2, 'Inventaristas'),
 (3, 'Vendedoras');
 
+	INSERT INTO tbAdmins (nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario) VALUES
+	('Administrador1', 'admin1', 'admin1@example.com', 'clave1', 2),
+	('Administrador2', 'admin2', 'admin2@example.com', 'clave2', 3);
+
 SELECT * FROM tbniveles_usuario;
 
 CREATE TABLE tbcategorias (
