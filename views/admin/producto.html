@@ -16,8 +16,8 @@
     <!-- Iconos de Boostrap-->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
 
-     <!--css -->
-     <link rel="stylesheet" href="../../resources/css/administrador.css">
+    <!--css -->
+    <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
@@ -61,10 +61,9 @@
                 </tr>
                 <tr>
                     <th>Imagen</th>
-                    <th>Nombre Producto</th>
-                    <th>Descripcion</th>
-                    <th>Codigo Interno</th>
-                    <th>Referecia de Proveedor</th>
+                    <th>Nombre del producto</th>
+                    <th>Código interno</th>
+                    <th>Código del proveedor</th>
                     <th>ACCIONES</th>
                 </tr>
             </thead>
@@ -85,31 +84,68 @@
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                            <input type="hidden" id="idProducto" name="idProducto">
+                            <input type="hidden" id="idusuarioC" name="idusuarioC">
                             <div class="col-sm-12 col-md-6">
-                                <label for="ImgP" class="form-label">Imagen</label>
-                                <input id="ImgP" type="file" name="ImgP"
-                                    class="form-control" required>
+                                <label for="ImagenP" class="form-label">Imagen Producto</label>
+                                <input id="ImagenP" type="file" name="ImagenP" class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="NombreP" class="form-label">Nombre</label>
-                                <input id="NombreP" type="text" name="NombreP"
-                                    class="form-control" required>
+                                <label for="nombreP" class="form-label">Nombre producto</label>
+                                <input id="nombreP" type="text" name="nombreP" class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="correoUsuarioC" class="form-label">Correo</label>
-                                <input id="correoUsuarioC" type="email" name="correoUsuarioC"
-                                    class="form-control" required>
+                                <label for="CodigoI" class="form-label">Código interno</label>
+                                <input id="CodigoI" type="number" name="CodigoI" class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="TelUsuarioC" class="form-label">Telefono</label>
-                                <input id="TelUsuarioC" type="number" name="TelUsuarioC"
-                                    class="form-control" required>
+                                <label for="CodigoP" class="form-label">Código Proveedor</label>
+                                <input id="CodigoP" type="number" name="CodigoP" class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="duiUsuarioC" class="form-label">Dui</label>
-                                <input id="duiUsuarioC" type="number" name="duiUsuarioC"
-                                    class="form-control" required>
+                                <label for="MaterialP" class="form-label">Material</label>
+                                <input id="MaterialP" type="text" name="MaterialP" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="DescP" class="form-label">Descripción</label>
+                                <input id="DescP" type="text" name="DescP" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Tallap" class="form-label">Talla</label>
+                                <select id="Tallap" name="Tallap" class="form-control" required>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="ColorP" class="form-label">Color</label>
+                                <select id="ColorP" name="ColorP" class="form-control" required>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="MarcaP" class="form-label">Marca</label>
+                                <select id="MarcaP" name="MarcaP" class="form-control" required>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="CategoriaP" class="form-label">Categoria</label>
+                                <select id="CategoriaP" name="CategoriaP" class="form-control" required>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="SubCateP" class="form-label">Sub Categoria</label>
+                                <select id="SubCateP" name="SubCateP" class="form-control" required>
+                                </select>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="PrecioP" class="form-label">Precio</label>
+                                <input id="PrecioP" type="number" name="PrecioP" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="ExistenciaP" class="form-label">Existencia</label>
+                                <input id="ExistenciaP" type="number" name="ExistenciaP" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="DescuentoP" class="form-label">Descuento</label>
+                                <select id="DescuentoP" name="DescuentoP" class="form-control">
+                                </select>
                             </div>
                         </div>
                         <div class="modal-footer">

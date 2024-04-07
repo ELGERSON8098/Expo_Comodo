@@ -61,7 +61,7 @@ INSERT INTO tbniveles_usuario (id_nivel_usuario, nombre_nivel) VALUES
 (2, 'Inventaristas'),
 (3, 'Vendedoras');
 
-	INSERT INTO tbAdmins (nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario) VALUES
+INSERT INTO tbAdmins (nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario) VALUES
 	('Administrador1', 'admin1', 'admin1@example.com', 'clave1', 2),
 	('Administrador2', 'admin2', 'admin2@example.com', 'clave2', 3);
 
@@ -88,35 +88,26 @@ CREATE TABLE tbtallas (
     PRIMARY KEY (`id_talla`)
 );
 
+INSERT INTO tbtallas (nombre_talla) VALUES
+('32'),
+('38'),
+('40'),
+('42');
+
+
 CREATE TABLE tbproductos (
     id_producto INT UNSIGNED AUTO_INCREMENT,
     nombre_producto VARCHAR(100),
-    descripcion VARCHAR(200),
     codigo_interno VARCHAR(50),
     Referencia_provedor VARCHAR(50),
-    imagen VARCHAR(25),
-    id_subcategoria INT UNSIGNED,
-    id_administrador INT UNSIGNED,
     PRIMARY KEY (`id_producto`)
-);
-
-CREATE TABLE tbmarca(
-id_marca INT UNSIGNED,
-marca VARCHAR (50),
-PRIMARY KEY (`id_marca`)
-);
-
-CREATE TABLE tbcolor(
-id_color INT UNSIGNED AUTO_INCREMENT,
-Color VARCHAR(20),
-PRIMARY KEY (`id_color`)
 );
 
 CREATE TABLE tbdetalles_producto (
     id_detalle_producto INT UNSIGNED AUTO_INCREMENT,
     id_producto INT UNSIGNED,
-    color VARCHAR(50),
     material VARCHAR(50),
+    descripcion VARCHAR(200),
     id_talla INT UNSIGNED,
     precio DECIMAL(10,2),
     imagen_detale_producto VARCHAR(20),
@@ -124,8 +115,41 @@ CREATE TABLE tbdetalles_producto (
     id_color INT UNSIGNED,
     id_marca INT UNSIGNED,
     id_descuento INT UNSIGNED,
+    id_categoria INT UNSIGNED,
+    id_subcategoria INT UNSIGNED,
     PRIMARY KEY (`id_detalle_producto`)
 );
+
+
+CREATE TABLE tbmarca(
+id_marca INT UNSIGNED AUTO_INCREMENT,
+marca VARCHAR (50),
+PRIMARY KEY (`id_marca`)
+);
+
+SELECT * FROM tbmarca;
+
+INSERT INTO tbmarca (marca) VALUES
+('Nike'),
+('Adidas'),
+('Puma'),
+('Reebok'),
+('Under Armour');
+
+CREATE TABLE tbcolor(
+id_color INT UNSIGNED AUTO_INCREMENT,
+Color VARCHAR(20),
+PRIMARY KEY (`id_color`)
+);
+
+INSERT INTO tbcolor (Color) VALUES
+('Rojo'),
+('Azul'),
+('Verde'),
+('Amarillo'),
+('Negro');
+
+SELECT * FROM tbcolor; 
 
 CREATE TABLE tbdescuentos (
     id_descuento INT UNSIGNED AUTO_INCREMENT,
@@ -134,6 +158,14 @@ CREATE TABLE tbdescuentos (
     valor DECIMAL(10, 2),
     PRIMARY KEY (`id_descuento`)
 );
+
+INSERT INTO tbdescuentos (nombre_descuento, descripcion, valor) VALUES
+('Descuento de temporada', 'Descuento aplicable a productos de temporada.', 10.00),
+('Oferta especial', 'Descuento aplicable a productos seleccionados.', 15.50),
+('Cupón de descuento', 'Descuento aplicable con un cupón especial.', 20.00);
+
+SELECT * FROM tbdescuentos;
+
 
 CREATE TABLE tbreserva (
     id_reserva INT UNSIGNED AUTO_INCREMENT,

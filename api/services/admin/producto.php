@@ -28,10 +28,13 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$producto->setNombre($_POST['nombreAdministrador']) or
-                    !$producto->setNombreProducto($_POST['correoAdministrador']) or
-                    !$producto->setAlias($_POST['aliasAdministrador']) or
-                    !$producto->setClave($_POST['claveAdministrador'])
+                    !$producto->setNombre($_POST['nombreUsuarioC']) or
+                    !$producto->setNombre($_POST['nombreUsuarioC']) or
+                    !$producto->setDescripcion($_POST['aliasUsuarioC']) or
+                    !$producto->setPrecio($_POST['correoUsuarioC']) or
+                    !$producto->setExistencias($_POST['claveUsuarioC']) or
+                    !$producto->setCategoria($_POST['TelUsuarioC']) or
+                    !$producto->setCategoria($_POST['duiUsuarioC'])
                 ) {
                     $result['error'] = $producto->getDataError();
                 } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
