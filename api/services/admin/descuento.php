@@ -1,13 +1,13 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/talla_data.php');
+require_once('../../models/data/descuento_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
     session_start();
     // Se instancia la clase correspondiente.
-    $talla = new tallaData;
+    $descuento = new descuentoData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
@@ -27,59 +27,65 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$talla->setid($_POST['idTalla']) or
-                    !$talla->setNombre($_POST['nombreTalla']) 
+                    !$descuento->setid($_POST['idDescuento']) or
+                    !$descuento->setNombre($_POST['nombreDescuento']) or
+                    !$descuento->setNombre($_POST['nombreDesc']) or
+                    !$descuento->setPrecio($_POST['ValorM'])
                 ) {
-                    $result['error'] = $talla->getDataError();
-                } elseif ($talla->createRow()) {
+                    $result['error'] = $descuento->getDataError();
+                } elseif ($descuento->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Talla creada correctamente';
+                    $result['message'] = 'Descuento creado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear la talla';
+                    $result['error'] = 'Ocurrió un problema al crear el Descuento';
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $talla->readAll()) {
+                if ($result['dataset'] = $descuento->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen tallas registradas';
+                    $result['error'] = 'No existen Descuentos registrados';
                 }
                 break;
             case 'readOne':
-                if (!$talla->setId($_POST['idTalla'])) {
-                    $result['error'] = $talla->getDataError();
-                } elseif ($result['dataset'] = $talla->readOne()) {
+                if (!$descuento->setId($_POST['idDescuento'])) {
+                    $result['error'] = $descuento->getDataError();
+                } elseif ($result['dataset'] = $descuento->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Talla inexistente';
+                    $result['error'] = 'Descuento inexistente';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$talla->setid($_POST['idTalla']) or
-                    !$talla->setNombre($_POST['nombreTalla']) 
+                    !$descuento->setid($_POST['idDescuento']) or
+                    !$descuento->setNombre($_POST['nombreDescuento']) or
+                    !$descuento->setNombre($_POST['nombreDesc']) or
+                    !$descuento->setPrecio($_POST['ValorM'])
                 ) {
-                    $result['error'] = $talla->getDataError();
-                } elseif ($talla->updateRow()) {
+                    $result['error'] = $descuento->getDataError();
+                } elseif ($descuento->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Talla modificada correctamente';
+                    $result['message'] = 'Descuento modificado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la talla';
+                    $result['error'] = 'Ocurrió un problema al modificar el descuento';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$talla->setid($_POST['idTalla']) or
-                    !$talla->setNombre($_POST['nombreTalla']) 
+                    !$descuento->setid($_POST['idDescuento']) or
+                    !$descuento->setNombre($_POST['nombreDescuento']) or
+                    !$descuento->setNombre($_POST['nombreDesc']) or
+                    !$descuento->setPrecio($_POST['ValorM'])
                 ) {
-                    $result['error'] = $talla->getDataError();
-                } elseif ($talla->deleteRow()) {
+                    $result['error'] = $descuento->getDataError();
+                } elseif ($descuento->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Talla eliminado correctamente';
+                    $result['message'] = 'Descuento eliminado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la talla';
+                    $result['error'] = 'Ocurrió un problema al eliminar el Descuento';
                 }
                 break;
             
