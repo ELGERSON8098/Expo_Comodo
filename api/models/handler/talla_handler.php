@@ -126,14 +126,14 @@ class tallaHandler
     public function readAll()
     {
         $sql = 'SELECT id_talla, nombre_talla
-                FROM tbtallas';
+                FROM tb_tallas';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
         $sql = 'SELECT id_talla, nombre_talla
-                FROM tbtallas
+                FROM tb_tallas
                 WHERE id_talla = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);

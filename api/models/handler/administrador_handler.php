@@ -131,7 +131,7 @@ class AdministradorHandler
     public function readAll()
     {
         $sql = 'SELECT id_administrador, nombre_administrador, user_administrador, correo_administrador
-                FROM tbAdmins';
+                FROM tb_admins';
         return Database::getRows($sql);
     }
 

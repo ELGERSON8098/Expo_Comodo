@@ -126,14 +126,14 @@ class colorHandler
     public function readAll()
     {
         $sql = 'SELECT id_color, Color
-                FROM tbcolor';
+                FROM tb_colores';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
         $sql = 'SELECT id_color, Color
-                FROM tbcolor
+                FROM tb_colores
                 WHERE id_color = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
