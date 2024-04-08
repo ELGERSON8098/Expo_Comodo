@@ -46,7 +46,6 @@ const loadTemplate = async () => {
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="productosDropdown">
                         <li><a class="dropdown-item" href="../admin/producto.html">Productos</a></li>
-                        <li><a class="dropdown-item" href="../publica/Ofertas.html">Ofertas</a></li>
                         <li><a class="dropdown-item" href="../publica/HistorialDeCompras.html">Categorias</a></li>
                         <li class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="../admin/colores.html">Colores Zapatos</a></li>
@@ -62,6 +61,9 @@ const loadTemplate = async () => {
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="../publica/HistorialDeCompras.html">Reservas</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="../admin/direccion.html"/>Direccion</a>
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="../admin/administrador.html">Administradores</a>
