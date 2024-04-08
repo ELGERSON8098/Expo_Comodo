@@ -134,7 +134,7 @@ class productoHandler
     
     
     
-    public function readAllWithDetails()
+    public function readAll()
     {
         $sql = "SELECT p.id_producto, p.nombre_producto, p.codigo_interno, p.Referencia_provedor,
                 dp.id_detalle_producto, dp.material, dp.descripcion, dp.precio, dp.imagen_detale_producto, dp.existencias,
@@ -145,14 +145,16 @@ class productoHandler
         return Database::getRows($sql);
     }
     
-    public function readOneWithDetails()
+    public function readOne()
     {
-        $sql = "SELECT p.id_producto, p.nombre_producto, p.codigo_interno, p.Referencia_provedor,
-                dp.id_detalle_producto, dp.material, dp.descripcion, dp.precio, dp.imagen_detale_producto, dp.existencias,
-                dp.id_talla, dp.id_color, dp.id_marca, dp.id_descuento, dp.id_categoria, dp.id_subcategoria
-                FROM tbproductos p
-                INNER JOIN tbdetalles_producto dp ON p.id_producto = dp.id_producto
-                WHERE p.id_producto = ?";
+        $sql = "SELECT * FROM tbproductos 
+        INNER JOIN tbdetalles_producto USING (id_producto)
+        INNER JOIN tbmarca USING (id_marca)
+        INNER JOIN tbcolor USING (id_color)
+        INNER JOIN tbdescuentos USING (id_descuento)
+        INNER JOIN tbcategorias USING (id_categoria)
+        INNER JOIN tbsubcategorias USING (id_subcategoria)
+        WHERE id_producto = ?;";
     
         $params = array($id_producto);
         return Database::getRow($sql, $params);
