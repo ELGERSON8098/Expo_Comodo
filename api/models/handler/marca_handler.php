@@ -126,14 +126,14 @@ class marcaHandler
     public function readAll()
     {
         $sql = 'SELECT id_marca, marca
-                FROM tbmarca';
+                FROM tb_marcas';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
         $sql = 'SELECT id_marca, marca
-                FROM tbmarca
+                FROM tb_marcas
                 WHERE id_marca = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);

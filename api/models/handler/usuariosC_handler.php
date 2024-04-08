@@ -131,14 +131,14 @@ class UsuariosHandler
     public function readAll()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo, telefono, dui_cliente
-                FROM tbUsuarios';
+                FROM tb_usuarios';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo, correo, dui_cliente
-                FROM tbUsuarios
+                FROM tb_usuarios
                 WHERE id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);

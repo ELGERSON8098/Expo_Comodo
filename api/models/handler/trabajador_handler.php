@@ -103,7 +103,7 @@ class AdministradorHandler
     public function readAll()
 {
     $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.user_administrador, n.nombre_nivel
-            FROM tbAdmins a
+            FROM tb_admins a
             INNER JOIN tbniveles_usuario n ON a.id_nivel_usuario = n.id_nivel_usuario
             WHERE a.id_administrador >= 2
             ORDER BY a.nombre_administrador';
@@ -113,7 +113,7 @@ class AdministradorHandler
 public function readOne()
 {
     $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.user_administrador, n.nombre_nivel
-            FROM tbAdmins a
+            FROM tb_admins a
             INNER JOIN tbniveles_usuario n ON a.id_nivel_usuario = n.id_nivel_usuario
             WHERE a.id_administrador >= 2 AND a.id_administrador = ?';
     $params = array($this->id);

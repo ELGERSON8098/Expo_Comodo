@@ -126,14 +126,14 @@ class descuentoHandler
     public function readAll()
     {
         $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
-                FROM tbdescuentos';
+                FROM tb_descuentos';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
         $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
-                FROM tbdescuentos
+                FROM tb_descuentos
                 WHERE id_descuento = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
