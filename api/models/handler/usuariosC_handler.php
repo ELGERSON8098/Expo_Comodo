@@ -95,19 +95,19 @@ class UsuariosHandler
     public function createRow()
     {
         // Verificar si la tabla está vacía
-        $sql = 'SELECT COUNT(*) AS count FROM tbAdmins';
+        $sql = 'SELECT COUNT(*) AS count FROM tb_admins';
         $result = Database::getRow($sql);
     
         // Si la tabla está vacía, asignar el nivel de usuario "Administrador" por defecto
         if ($result['count'] == 0) {
             // Obtener el ID del nivel de usuario correspondiente a "Administrador"
-            $sql = 'SELECT id_nivel_usuario FROM tbniveles_usuario WHERE nombre_nivel = "Administrador"';
+            $sql = 'SELECT id_nivel_usuario FROM tbniveles_usuario WHERE nombre_nivel = "administrador"';
             $nivelAdministrador = Database::getRow($sql);
     
             // Verificar si se obtuvo el ID del nivel de usuario
             if ($nivelAdministrador && isset($nivelAdministrador['id_nivel_usuario'])) {
                 // Insertar el administrador con el nivel correspondiente
-                $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                $sql = 'INSERT INTO tb_admins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
                         VALUES(?, ?, ?, ?, ?)';
                 $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $nivelAdministrador['id_nivel_usuario']);
                 return Database::executeRow($sql, $params);
@@ -117,7 +117,7 @@ class UsuariosHandler
             }
         } else {
             // Si la tabla no está vacía, insertar el administrador sin modificar el nivel de usuario
-            $sql = 'INSERT INTO tbAdmins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+            $sql = 'INSERT INTO tb_admins(nombre_administrador, user_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
                     VALUES(?, ?, ?, ?, ?)';
             $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->nivel);
             return Database::executeRow($sql, $params);

@@ -21,7 +21,7 @@ class AdministradorHandler
     public function checkUser($username, $password)
     {
         $sql = 'SELECT id_administrador, user_administrador,  clave_administrador
-                FROM tbAdmins
+                FROM tb_admins
                 WHERE  user_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
@@ -39,7 +39,7 @@ class AdministradorHandler
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_administrador
-                FROM tbAdmins
+                FROM tb_admins
                 WHERE id_administrador = ?';
         $params = array($_SESSION['id_administrador']);
         $data = Database::getRow($sql, $params);
@@ -53,7 +53,7 @@ class AdministradorHandler
 
     public function changePassword()
     {
-        $sql = 'UPDATE tbAdmins
+        $sql = 'UPDATE tb_admins
                 SET clave_administrador = ?
                 WHERE id_administrador = ?';
         $params = array($this->clave, $_SESSION['id_administrador']);
@@ -63,7 +63,7 @@ class AdministradorHandler
     public function readProfile()
     {
         $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, user_administrador
-                FROM tbAdmins
+                FROM tb_admins
                 WHERE id_administrador = ?';
         $params = array($_SESSION['id_administrador']);
         return Database::getRow($sql, $params);
@@ -71,7 +71,7 @@ class AdministradorHandler
 
     public function editProfile()
     {
-        $sql = 'UPDATE tbAdmins
+        $sql = 'UPDATE tb_admins
                 SET nombre_administrador = ?, correo_administrador = ?, user_administrador = ?
                 WHERE id_administrador = ?';
         $params = array($this->nombre, $this->correo, $this->usuario, $_SESSION['id_administrador']);
@@ -85,7 +85,7 @@ class AdministradorHandler
     {
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, user_administrador
-                FROM tbAdmins
+                FROM tb_admins
                 WHERE nombre_administrador LIKE ?
                 ORDER BY nombre_administrador';
         $params = array($value, $value);
@@ -94,7 +94,7 @@ class AdministradorHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tbAdmins(nombre_administrador, correo_administrador, user_administrador, clave_administrador)
+        $sql = 'INSERT INTO tb_admins(nombre_administrador, correo_administrador, user_administrador, clave_administrador)
                 VALUES(?, ?, ?, ?)';
         $params = array($this->nombre, $this->correo, $this->alias, $this->clave);
         return Database::executeRow($sql, $params);
@@ -124,7 +124,7 @@ public function readOne()
 
     public function updateRow() 
     {
-        $sql = 'UPDATE tbAdmins
+        $sql = 'UPDATE tb_admins
                 SET nombre_administrador = ?,  correo_administrador = ?
                 WHERE id_administrador = ?';
         $params = array($this->nombre, $this->apellido, $this->correo, $this->id);
@@ -133,7 +133,7 @@ public function readOne()
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM tbAdmins
+        $sql = 'DELETE FROM tb_admins
                 WHERE id_administrador = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
