@@ -40,20 +40,26 @@ class ProductoHandler
 
     public function readAll()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen
-                FROM tbproductos';
-                
+        $sql = 'SELECT p.id_producto, p.nombre_producto, p.descripcion, p.codigo_interno, p.Referencia_provedor, p.imagen,
+                       s.id_subcategoria, s.nombre_subcategoria
+                FROM tbproductos p
+                INNER JOIN tbsubcategorias s ON p.id_subcategoria = s.id_subcategoria';
+                    
         return Database::getRows($sql);
     }
+    
 
     public function readOne()
     {
-        $sql = 'SELECT id_producto, nombre_producto, descripcion, codigo_interno, Referencia_provedor, imagen
-                FROM tbproductos
-                WHERE id_producto = ?';
+        $sql = 'SELECT p.id_producto, p.nombre_producto, p.descripcion, p.codigo_interno, p.Referencia_provedor, p.imagen,
+                       s.id_subcategoria, s.nombre_subcategoria
+                FROM tbproductos p
+                INNER JOIN tbsubcategorias s ON p.id_subcategoria = s.id_subcategoria
+                WHERE p.id_producto = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
+    
 
     public function readFilename()
     {
