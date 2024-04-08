@@ -20,14 +20,14 @@ class AdministradorHandler
      */
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_administrador, user_administrador,  clave_administrador
+        $sql = 'SELECT id_administrador, usuario_administrador,  clave_administrador
                 FROM tb_admins
-                WHERE  user_administrador = ?';
+                WHERE  usuario_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave_administrador'])) {
             $_SESSION['idAdmin'] = $data['id_administrador'];
-            $_SESSION['NUsuario'] = $data['user_administrador'];
+            $_SESSION['NUsuario'] = $data['usuario_administrador'];
 
             
             return true;
@@ -94,32 +94,32 @@ class AdministradorHandler
 
     public function createRow()
     {
-        $sql = 'INSERT INTO tb_admins(nombre_administrador, correo_administrador, user_administrador, clave_administrador)
+        $sql = 'INSERT INTO tb_admins(nombre_administrador, correo_administrador, usuario_administrador, clave_administrador)
                 VALUES(?, ?, ?, ?)';
         $params = array($this->nombre, $this->correo, $this->alias, $this->clave);
         return Database::executeRow($sql, $params);
     }
 
     public function readAll()
-{
-    $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.user_administrador, n.nombre_nivel
-            FROM tb_admins a
-            INNER JOIN tbniveles_usuario n ON a.id_nivel_usuario = n.id_nivel_usuario
-            WHERE a.id_administrador >= 2
-            ORDER BY a.nombre_administrador';
-    return Database::getRows($sql);
-}
-
-public function readOne()
-{
-    $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.user_administrador, n.nombre_nivel
-            FROM tb_admins a
-            INNER JOIN tbniveles_usuario n ON a.id_nivel_usuario = n.id_nivel_usuario
-            WHERE a.id_administrador >= 2 AND a.id_administrador = ?';
-    $params = array($this->id);
-    return Database::getRow($sql, $params);
-}
-
+    {
+        $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
+                FROM tb_admins a
+                INNER JOIN tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
+                WHERE a.id_administrador >= 2
+                ORDER BY a.nombre_administrador';
+        return Database::getRows($sql);
+    }
+    
+    public function readOne()
+    {
+        $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
+                FROM tb_admins a
+                INNER JOIN tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
+                WHERE a.id_administrador >= 2 AND a.id_administrador = ?';
+        $params = array($id_administrador);
+        return Database::getRow($sql, $params);
+    }
+    
     
 
     public function updateRow() 

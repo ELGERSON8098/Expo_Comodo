@@ -136,44 +136,14 @@ class productoHandler
     
     public function readAll()
     {
-<<<<<<< HEAD
-        $sql = 'SELECT p.id_producto, p.nombre_producto, p.descripcion, p.codigo_interno, p.Referencia_provedor, p.imagen,
-                       s.id_subcategoria, s.nombre_subcategoria
-                FROM tbproductos p
-                INNER JOIN tbsubcategorias s ON p.id_subcategoria = s.id_subcategoria';
+
+        $sql = 'SELECT id_producto, nombre_producto, codigo_interno, referencia_proveedor, imagen
+                FROM tb_productos
+                WHERE id_producto = ?;';
                     
         return Database::getRows($sql);
     }
-    
 
-    public function readOne()
-    {
-        $sql = 'SELECT p.id_producto, p.nombre_producto, p.descripcion, p.codigo_interno, p.Referencia_provedor, p.imagen,
-                       s.id_subcategoria, s.nombre_subcategoria
-                FROM tbproductos p
-                INNER JOIN tbsubcategorias s ON p.id_subcategoria = s.id_subcategoria
-                WHERE p.id_producto = ?';
-        $params = array($this->id);
-        return Database::getRow($sql, $params);
-    }
-    
-
-    public function readFilename()
-    {
-        $sql = 'SELECT imagen
-                FROM tbproductos
-                WHERE id_producto = ?';
-        $params = array($this->id);
-=======
-        $sql = "SELECT p.id_producto, p.nombre_producto, p.codigo_interno, p.Referencia_provedor,
-                dp.id_detalle_producto, dp.material, dp.descripcion, dp.precio, dp.imagen_detale_producto, dp.existencias,
-                dp.id_talla, dp.id_color, dp.id_marca, dp.id_descuento, dp.id_categoria, dp.id_subcategoria
-                FROM tbproductos p
-                INNER JOIN tbdetalles_producto dp ON p.id_producto = dp.id_producto";
-    
-        return Database::getRows($sql);
-    }
-    
     public function readOne()
     {
         $sql = "SELECT * FROM tbproductos 
@@ -186,8 +156,21 @@ class productoHandler
         WHERE id_producto = ?;";
     
         $params = array($id_producto);
->>>>>>> a9a46c5b9b42b2dc6eb3ccc4e7676e93782fd87f
-        return Database::getRow($sql, $params);
+
+        return Database::getRow($sql, $params);    
+    public function readFilename()
+    {
+        $sql = 'SELECT imagen
+                FROM tbproductos
+                WHERE id_producto = ?';
+        $params = array($this->id);
+        $sql = "SELECT p.id_producto, p.nombre_producto, p.codigo_interno, p.Referencia_provedor,
+                dp.id_detalle_producto, dp.material, dp.descripcion, dp.precio, dp.imagen_detale_producto, dp.existencias,
+                dp.id_talla, dp.id_color, dp.id_marca, dp.id_descuento, dp.id_categoria, dp.id_subcategoria
+                FROM tbproductos p
+                INNER JOIN tbdetalles_producto dp ON p.id_producto = dp.id_producto";
+    
+        return Database::getRows($sql);
     }
     
 

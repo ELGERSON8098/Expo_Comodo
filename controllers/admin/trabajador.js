@@ -82,7 +82,7 @@ const fillTable = async (form = null) => {
             TABLE_BODY.innerHTML += `
                 <tr>            
                     <td>${row.nombre_administrador}</td>
-                    <td>${row.user_administrador}</td>   
+                    <td>${row.usuario_administrador}</td>   
                     <td>${row.correo_administrador}</td>
                     <td>${row.nombre_nivel}</td>                
                     <td>

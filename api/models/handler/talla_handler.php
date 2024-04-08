@@ -17,14 +17,14 @@ class tallaHandler
      */
     public function checkUser($username, $password)
     {
-        $sql = 'SELECT id_administrador, user_administrador, clave_administrador
-                FROM tbAdmins
-                WHERE  user_administrador = ?';
+        $sql = 'SELECT id_administrador, usuario_administrador, clave_administrador
+                FROM tb_admins
+                WHERE  usuario_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
         if (password_verify($password, $data['clave_administrador'])) {
             $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['aliasAdministrador'] = $data['user_administrador'];
+            $_SESSION['aliasAdministrador'] = $data['usuario_administrador'];
             return true;
         } else {
             return false;
@@ -34,7 +34,7 @@ class tallaHandler
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_administrador
-                FROM tbAdmins
+                FROM tb_admins
                 WHERE id_administrador = ?';
         $params = array($_SESSION['idAdministrador']);
         $data = Database::getRow($sql, $params);
