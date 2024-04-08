@@ -1,5 +1,5 @@
 // Constante para completar la ruta de la API.
-const ADMINISTRADOR_API = 'services/admin/direccion.php';
+const DIRECCION_API = 'services/admin/direccion.php';
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer los elementos de la tabla.
@@ -14,16 +14,14 @@ const SAVE_FORM = document.getElementById('saveForm'),
     DEPARTAMENTO = document.getElementById('departamento'),
     DESCRIPCION_DIRECCION = document.getElementById('descripcionDireccion'),
     ID_USUARIO = document.getElementById('idUsuario'),
-    ID_DISTRITO = document.getElementById('idDistrito'),
-    CLAVE_ADMINISTRADOR = document.getElementById('claveAdministrador'),
-    CONFIRMAR_CLAVE = document.getElementById('confirmarClave');
+    ID_DISTRITO = document.getElementById('idDistrito')   
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
     // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Gestionar administradores';
+    MAIN_TITLE.textContent = 'Direcciones';
     // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
 });
@@ -47,7 +45,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
     // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(ADMINISTRADOR_API, action, FORM);
+    const DATA = await fetchData(DIRECCION_API, action, FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se cierra la caja de diálogo.
@@ -73,7 +71,7 @@ const fillTable = async (form = null) => {
     // Se verifica la acción a realizar.
     (form) ? action = 'searchRows' : action = 'readAll';
     // Petición para obtener los registros disponibles.
-    const DATA = await fetchData(ADMINISTRADOR_API, action, form);
+    const DATA = await fetchData(DIRECCION_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se recorre el conjunto de registros fila por fila.
@@ -82,7 +80,7 @@ const fillTable = async (form = null) => {
             TABLE_BODY.innerHTML += `
                 <tr>
                     <td>${row.departamento}</td>
-                    <td>${row.descripcion_direccion}</td>
+                    <td>${row.id_distrito}</td>
                    
                     <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_direccion})">
@@ -115,7 +113,7 @@ const openCreate = () => {
     SAVE_FORM.reset();
     DEPARTAMENTO.disabled = false;
     DESCRIPCION_DIRECCION.disabled = false;
-    CONFIRMAR_CLAVE.disabled = false;
+    ID_DISTRITO.disabled = false;
 }
 
 /*
@@ -138,13 +136,10 @@ const openUpdate = async (id) => {
         SAVE_FORM.reset();
         DEPARTAMENTO.disabled = true;
         DESCRIPCION_DIRECCION.disabled = true;
-        CONFIRMAR_CLAVE.disabled = true;
+        ID_DISTRITO.disabled = true;
         // Se inicializan los campos con los datos.
-        const ROW = DATA.dataset;
-        ID_DIRECCION.value = ROW.id_direccion;
+        const ROW = DATA.dataset;     
         DEPARTAMENTO.value = ROW.departamento;
-        DESCRIPCION_DIRECCION.value = ROW.descripcion_direccion;
-        ID_USUARIO.value = ROW.id_usuario;
         ID_DISTRITO.value = ROW.id_distrito;
     } else {
         sweetAlert(2, DATA.error, false);

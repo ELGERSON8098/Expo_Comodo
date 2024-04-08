@@ -4,27 +4,15 @@ require_once('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
-class productoHandler
+class descuentoHandler
 {
     /*
      *  Declaración de atributos para el manejo de datos.
      */
+    protected $id = null;
+    protected $nombre = null;
 
-    protected $id_producto = null;
-    protected $nombre_producto = null;
-    protected $descripcion = null;
-    protected $codigo_interno = null;
-    protected $referencia_proveedor = null;
-    protected $imagen = null;
-    protected $id_subcategoria = null;
-    protected $id_administrador = null;
-    protected $id_detalle_producto = null;
-    protected $material = null;
-    protected $id_talla = null;
-    protected $precio = null:
-    
-    
-     /*
+    /*
      *  Métodos para gestionar la cuenta del administrador.
      */
     public function checkUser($username, $password)
@@ -134,62 +122,22 @@ class productoHandler
     
     
     
+//Llamar los datos de la base de datos 
     public function readAll()
     {
-<<<<<<< HEAD
-        $sql = 'SELECT p.id_producto, p.nombre_producto, p.descripcion, p.codigo_interno, p.Referencia_provedor, p.imagen,
-                       s.id_subcategoria, s.nombre_subcategoria
-                FROM tbproductos p
-                INNER JOIN tbsubcategorias s ON p.id_subcategoria = s.id_subcategoria';
-                    
+        $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
+                FROM tbdescuentos';
         return Database::getRows($sql);
     }
-    
 
     public function readOne()
     {
-        $sql = 'SELECT p.id_producto, p.nombre_producto, p.descripcion, p.codigo_interno, p.Referencia_provedor, p.imagen,
-                       s.id_subcategoria, s.nombre_subcategoria
-                FROM tbproductos p
-                INNER JOIN tbsubcategorias s ON p.id_subcategoria = s.id_subcategoria
-                WHERE p.id_producto = ?';
+        $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
+                FROM tbdescuentos
+                WHERE id_descuento = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
-    
-
-    public function readFilename()
-    {
-        $sql = 'SELECT imagen
-                FROM tbproductos
-                WHERE id_producto = ?';
-        $params = array($this->id);
-=======
-        $sql = "SELECT p.id_producto, p.nombre_producto, p.codigo_interno, p.Referencia_provedor,
-                dp.id_detalle_producto, dp.material, dp.descripcion, dp.precio, dp.imagen_detale_producto, dp.existencias,
-                dp.id_talla, dp.id_color, dp.id_marca, dp.id_descuento, dp.id_categoria, dp.id_subcategoria
-                FROM tbproductos p
-                INNER JOIN tbdetalles_producto dp ON p.id_producto = dp.id_producto";
-    
-        return Database::getRows($sql);
-    }
-    
-    public function readOne()
-    {
-        $sql = "SELECT * FROM tbproductos 
-        INNER JOIN tbdetalles_producto USING (id_producto)
-        INNER JOIN tbmarca USING (id_marca)
-        INNER JOIN tbcolor USING (id_color)
-        INNER JOIN tbdescuentos USING (id_descuento)
-        INNER JOIN tbcategorias USING (id_categoria)
-        INNER JOIN tbsubcategorias USING (id_subcategoria)
-        WHERE id_producto = ?;";
-    
-        $params = array($id_producto);
->>>>>>> a9a46c5b9b42b2dc6eb3ccc4e7676e93782fd87f
-        return Database::getRow($sql, $params);
-    }
-    
 
     public function updateRow()
     {
