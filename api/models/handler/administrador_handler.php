@@ -62,8 +62,8 @@ class AdministradorHandler
 
     public function readProfile()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, correo_administrador, alias_administrador
-                FROM administrador
+        $sql = 'SELECT id_administrador, nombre_administrador, usuario_administrador, correo_administrador, id_nivel_usuario
+                FROM tb_admins
                 WHERE id_administrador = ?';
         $params = array($_SESSION['idAdministrador']);
         return Database::getRow($sql, $params);
@@ -71,10 +71,10 @@ class AdministradorHandler
 
     public function editProfile()
     {
-        $sql = 'UPDATE administrador
-                SET nombre_administrador = ?, apellido_administrador = ?, correo_administrador = ?, alias_administrador = ?
+        $sql = 'UPDATE tb_admins
+                SET nombre_administrador = ?, usuario_administrador= ?, correo_administrador = ?
                 WHERE id_administrador = ?';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->alias, $_SESSION['idAdministrador']);
+        $params = array($this->nombre, $this->alias, $this->correo,  $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
 
