@@ -10,6 +10,10 @@ GRANT INSERT, UPDATE, DELETE, SELECT ON expo_comodos.* TO expo_comodos_desarroll
 -- Query para otorgar permisos para ejecutar y crear funciones, procedimientos, triggers y vistas al usuario en la base de datos "expo_comodos"
 GRANT EXECUTE, ALTER, CREATE VIEW, TRIGGER ON expo_comodos.* TO expo_comodos_desarrollador;
 
+-- Verificar la creacion del usuario
+SELECT User FROM mysql.user WHERE User='expo_comodos_desarrollador';
 
+-- Verificar los permisos
+SHOW GRANTS FOR expo_comodos_desarrollador;
 
 
