@@ -19,19 +19,12 @@ CREATE TABLE tb_usuarios (
   CONSTRAINT uc_dui_cliente UNIQUE (dui_cliente)
 );
 
-
-CREATE TABLE tb_distritos (
-  id_distrito INT UNSIGNED AUTO_INCREMENT,
-  distrito VARCHAR(50),
-  PRIMARY KEY (id_distrito)
-);
-
 CREATE TABLE tb_direcciones (
   id_direccion INT UNSIGNED AUTO_INCREMENT,
-  departamento VARCHAR(50),
-  id_distrito INT UNSIGNED,
+  direccion VARCHAR(1000),
+  id_usuario INT UNSIGNED,
   PRIMARY KEY (id_direccion),
-  CONSTRAINT fk_distrito FOREIGN KEY (id_distrito) REFERENCES tb_distritos(id_distrito)
+  CONSTRAINT fk_direccion FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario)
 );
 
 CREATE TABLE tb_niveles_usuarios (
@@ -130,10 +123,8 @@ CREATE TABLE tb_reservas (
   id_usuario INT UNSIGNED,
   fecha_reserva DATETIME DEFAULT CURRENT_DATE(), 
   id_direccion INT UNSIGNED,
-  descripcion_direccion INT UNSIGNED,
   PRIMARY KEY (id_reserva),
-  CONSTRAINT fk_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario),
-  CONSTRAINT fk_direccion FOREIGN KEY (id_direccion) REFERENCES tb_direcciones(id_direccion)
+  CONSTRAINT fk_direcciones FOREIGN KEY (id_direccion) REFERENCES tb_direcciones(id_direccion)
 );
 
 CREATE TABLE tb_detalles_reservas (
