@@ -72,7 +72,7 @@ VALUES
 (9, 'Mocasines elegantes', 'mocasin_elegante.png'),
 (10, 'Botas de lluvia', 'botas_lluvia.png');
 
-SELECT*FROM tb_generos;
+SELECT*FROM tb_generos_zapatos;
 
 INSERT INTO tb_admins (id_administrador, nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
 VALUES 
