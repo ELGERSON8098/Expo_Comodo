@@ -1,3 +1,5 @@
+USE expo_comodos;
+
 INSERT INTO tb_usuarios (id_usuario, nombre, usuario, correo, clave, telefono, dui_cliente)
 VALUES 
 (1, 'Lionel Messi', 'messi10', 'lionel@gmail.com', 'messi123', '7555-1001', '123456789'),
