@@ -1,5 +1,3 @@
-USE expo_comodos;
-
 INSERT INTO tb_usuarios (id_usuario, nombre, usuario, correo, clave, telefono, dui_cliente)
 VALUES 
 (1, 'Lionel Messi', 'messi10', 'lionel@gmail.com', 'messi123', '7555-1001', '123456789'),
@@ -16,20 +14,49 @@ VALUES
 SELECT*FROM tb_usuarios;
 
 
-INSERT INTO tb_direcciones (id_direccion, direccion, id_usuario)
+INSERT INTO tb_departamentos (id_departamento, departamento)
 VALUES 
-(1, 'San Salvador', 1),
-(2, 'Santa Ana', 2),
-(3, 'San Miguel', 3),
-(4, 'La Libertad', 4),
-(5, 'Usulután', 5),
-(6, 'Sonsonate', 6),
-(7, 'Chalatenango', 7),
-(8, 'La Paz', 8),
-(9, 'Cuscatlán', 9),
-(10, 'Ahuachapán', 10);
+(1, 'San Salvador'),
+(2, 'Santa Ana'),
+(3, 'San Miguel'),
+(4, 'La Libertad'),
+(5, 'Usulután'),
+(6, 'Sonsonate'),
+(7, 'Chalatenango'),
+(8, 'La Paz'),
+(9, 'Cuscatlán'),
+(10, 'Ahuachapán');
 
-SELECT*FROM tb_direcciones;
+SELECT*FROM tb_departamentos;
+
+INSERT INTO tb_municipios (id_municipio, municipio, id_departamento)
+VALUES
+(1, 'San Salvador', 1),
+(2, 'Apopa', 1),
+(3, 'Ilopango', 1),
+(4, 'Mejicanos', 1),
+(5, 'San Martin', 1),
+(6, 'Soyapango', 1),
+(7, 'Ahuachapán', 2),
+(8, 'Apaneca', 2),
+(9, 'Atiquizaya', 2),
+(10, 'Concepción de Ataco', 2);
+
+SELECT*FROM tb_municipios;
+
+INSERT INTO tb_distritos (id_distrito, distrito, id_municipio)
+VALUES
+(1, 'Centro Histórico', 1),
+(2, 'Colonia Escalón', 1),
+(3, 'Zona Rosa', 1),
+(4, 'Soyapango', 1),
+(5, 'Apopa', 1),
+(6, 'Ilopango', 1),
+(7, 'Santa Tecla', 2),
+(8, 'San Marcos', 1),
+(9, 'Mejicanos', 1),
+(10, 'Antiguo Cuscatlán', 3);
+
 
 INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
@@ -177,7 +204,7 @@ VALUES
 
 SELECT*FROM tb_detalles_productos;
 
-INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, id_direccion) VALUES
+INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, id_distrito) VALUES
 (1, 1, '2024-04-06 10:00:00', 1),
 (2, 2, '2024-04-07 11:00:00', 2),
 (3, 3, '2024-04-08 12:00:00', 3),
