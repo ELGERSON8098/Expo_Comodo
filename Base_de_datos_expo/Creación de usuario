@@ -1,0 +1,15 @@
+-- Iniciar sesión como usuario root
+mysql -u root
+
+-- Query para crear usuario en la base de datos "expo_comodos"
+CREATE USER expo_comodos_desarrollador IDENTIFIED BY 'comodos123';
+
+-- Query para otorgar permisos DML al usuario en la base de datos "expo_comodos"
+GRANT INSERT, UPDATE, DELETE, SELECT ON expo_comodos.* TO expo_comodos_desarrollador;
+
+-- Query para otorgar permisos para ejecutar y crear funciones, procedimientos, triggers y vistas al usuario en la base de datos "expo_comodos"
+GRANT EXECUTE, ALTER, CREATE VIEW, TRIGGER ON expo_comodos.* TO expo_comodos_desarrollador;
+
+
+
+
