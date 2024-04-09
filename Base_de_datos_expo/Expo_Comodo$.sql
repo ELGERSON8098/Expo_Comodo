@@ -19,12 +19,26 @@ CREATE TABLE tb_usuarios (
   CONSTRAINT uc_dui_cliente UNIQUE (dui_cliente)
 );
 
-CREATE TABLE tb_direcciones (
-  id_direccion INT UNSIGNED AUTO_INCREMENT,
-  direccion VARCHAR(1000),
-  id_usuario INT UNSIGNED,
-  PRIMARY KEY (id_direccion),
-  CONSTRAINT fk_direccion FOREIGN KEY (id_usuario) REFERENCES tb_usuarios(id_usuario)
+CREATE TABLE tb_departamentos (
+  id_departamento INT UNSIGNED AUTO_INCREMENT,
+  departamento VARCHAR(1000),
+  PRIMARY KEY (id_departamento)
+);
+
+CREATE TABLE tb_municipios (
+  id_municipio INT UNSIGNED AUTO_INCREMENT,
+  municipio VARCHAR(1000),
+  id_departamento INT UNSIGNED,
+  PRIMARY KEY (id_municipio),
+  CONSTRAINT fk_municipios FOREIGN KEY (id_departamento) REFERENCES tb_departamentos (id_departamento)
+);
+
+CREATE TABLE tb_distritos (
+  id_distrito INT UNSIGNED AUTO_INCREMENT,
+  distrito VARCHAR(1000),
+  id_municipio INT UNSIGNED,
+  PRIMARY KEY (id_distrito),
+  CONSTRAINT fk_distritos FOREIGN KEY (id_municipio) REFERENCES tb_municipios (id_municipio)
 );
 
 CREATE TABLE tb_niveles_usuarios (
@@ -100,7 +114,7 @@ CREATE TABLE tb_detalles_productos (
   id_producto INT UNSIGNED,
   material VARCHAR(50),
   id_talla INT UNSIGNED,
-  precio DECIMAL(10,2) CHECK (precio >= 0),
+  precio DECIMAL(10,2) ,
   existencias INT CHECK (existencias >= 0),
   id_color INT UNSIGNED,
   id_marca INT UNSIGNED,
@@ -115,28 +129,31 @@ CREATE TABLE tb_detalles_productos (
   CONSTRAINT fk_marca FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
   CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
   CONSTRAINT fk_genero FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos (id_genero),
-  CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria)
+  CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria),
+  CONSTRAINT ck_precio  CHECK (precio >= 0),
+  CONSTRAINT ck_existencias  CHECK (existencias >= 0)
 );
 
 CREATE TABLE tb_reservas (
   id_reserva INT UNSIGNED AUTO_INCREMENT,
   id_usuario INT UNSIGNED,
   fecha_reserva DATETIME DEFAULT CURRENT_DATE(), 
-  id_direccion INT UNSIGNED,
+  id_distrito INT UNSIGNED,
   PRIMARY KEY (id_reserva),
-  CONSTRAINT fk_direcciones FOREIGN KEY (id_direccion) REFERENCES tb_direcciones(id_direccion)
+  CONSTRAINT fk_direcciones FOREIGN KEY (id_distrito) REFERENCES tb_distritos (id_distrito)
 );
 
 CREATE TABLE tb_detalles_reservas (
   id_detalle_reserva INT UNSIGNED AUTO_INCREMENT,
   id_reserva INT UNSIGNED,
   id_producto INT UNSIGNED,
-  cantidad INT CHECK (cantidad >= 0),
+  cantidad INT UNSIGNED,
   precio_unitario DECIMAL(10,2),
   id_detalle_producto INT UNSIGNED,
   PRIMARY KEY (id_detalle_reserva),
   CONSTRAINT fk_reserva FOREIGN KEY (id_reserva) REFERENCES tb_reservas(id_reserva),
-  CONSTRAINT fk_detalle_producto FOREIGN KEY (id_detalle_producto) REFERENCES tb_detalles_productos(id_detalle_producto)
+  CONSTRAINT fk_detalle_producto FOREIGN KEY (id_detalle_producto) REFERENCES tb_detalles_productos(id_detalle_producto),
+  CONSTRAINT ck_cantidad  CHECK (cantidad >= 0)
 );
 
 
