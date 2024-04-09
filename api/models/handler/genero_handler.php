@@ -4,7 +4,7 @@ require_once('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla CATEGORIA.
  */
-class CategoriaHandler
+class generoHandler
 {
     /*
      *  Declaración de atributos para el manejo de datos.
@@ -40,17 +40,17 @@ class CategoriaHandler
 
     public function readAll()
     {
-        $sql = 'SELECT id_categoria, nombre_categoria, imagen
-                FROM tb_categorias
-                ORDER BY nombre_categoria';
+        $sql = 'SELECT id_genero, nombre_genero, imagen_genero
+                FROM tb_generos
+                ORDER BY nombre_genero';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_categoria, nombre_categoria, imagen
-                FROM tb_categorias
-                WHERE id_categoria = ?';
+        $sql = 'SELECT id_genero, nombre_genero, imagen_genero
+                FROM tb_generos
+                WHERE id_genero = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }

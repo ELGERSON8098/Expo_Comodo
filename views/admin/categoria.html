@@ -5,67 +5,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fontech</title>
+    <title></title>
     <!-- fontawesome cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- bootstrap css -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- custom css -->
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Iconos de Boostrap-->
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+
+    <!--css -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
-    <!-- navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
-                href="../admin/dashboard.html">
-                <img src="../../resources/img/carousel/image 67.png" class="logo img-fluid" alt="site icon">
-            </a>
-
-            <div class="order-lg-2 nav-btns">
-                <button type="button" class="btn position-relative">
-                    <i class="fa fa-search"></i>
-                </button>
-                <button type="button" onclick="redirect('../publica/Carrito.html')" class="btn position-relative">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge bg-primary"></span>
-                </button>
-                <button type="button" onclick="redirect('../publica/Miperfil.html')" class="btn position-relative">
-                    <i class="fa fa-user"></i>
-                </button>
-            </div>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse order-lg-1" id="navMenu">
-                <ul class="navbar-nav mx-auto text-center">
-                    
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
     <!-- Separación entre navbar y sección de celulares -->
     <div class="my-5"></div>
-
-    <!-- Celulares -->
-    <section id="special" class="py-5">
-        <div class="container">
-            <div class="title text-center py-5">
-                <h2 class="position-relative d-inline-block">Categorías</h2>
-            </div>
-
-            
-        </div>
-    </section>
-    <!-- Fin de Celulares -->
-    <!-- Fin del navbar -->
+    <br>
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
@@ -99,15 +57,37 @@
             <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
             <thead>
                 <tr>
-                    <td colspan="4" id="rowsFound"></td>
+                    <td colspan="5" id="rowsFound"></td>
                 </tr>
                 <tr>
-                    <th>id</th>
-                    <th>Nombre de categoria</th>
                     <th>Imagen</th>
-                   
-
-
+                    <th>Categoria</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th>ACCIONES</th>
                 </tr>
             </thead>
             <!-- Cuerpo de la tabla para mostrar un registro por fila -->
@@ -129,21 +109,13 @@
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                             <input type="hidden" id="idCategoria" name="idCategoria">
                             <div class="col-sm-12 col-md-6">
-                                <label for="idCategoria" class="form-label">id</label>
-                                <input id="idCategoria" type="text" name="idCategoria" class="form-control"
-                                    required>
+                                <label for="nombreIMG" class="form-label">Imagen Categoria</label>
+                                <input id="nombreIMG" type="file" name="nombreIMG" class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="NCategoria" class="form-label">Nombre de categoria</label>
-                                <input id="NCategoria" type="text" name="NCategoria"
-                                    class="form-control">
+                                <label for="nombreColor" class="form-label">Nombre del color</label>
+                                <input id="nombreColor" type="text" name="nombreColor" class="form-control" required>
                             </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="imgCat" class="form-label">Imagen</label>
-                                <input id="imgCat" type="file" name="imgCat" class="form-control">
-
-                            </div>
-                           
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Guardar</button>
@@ -153,26 +125,14 @@
             </div>
         </div>
     </main>
-
-
-    <br><br><br><br><br><br>
-    <!-- footer -->
-    <footer class="bg-dark py-5">
-        <div class="container">
-            <div class="row text-white g-4">
-                
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- Fin del footer -->
-
-
     <!-- bootstrap js -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-        crossorigin="anonymous"></script>
-        <script src="../../Recursos/js/Publica/Dashboard.js"></script>
+    <!-- Llamada al framework y librería de mensajes -->
+    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/admin/categoria.js"></script>
 
 </body>
 
