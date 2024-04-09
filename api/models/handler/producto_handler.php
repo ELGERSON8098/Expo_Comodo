@@ -21,7 +21,7 @@ class productoHandler
     protected $id_detalle_producto = null;
     protected $material = null;
     protected $id_talla = null;
-    protected $precio = null:
+    protected $precio = null;
     
     
      /*
@@ -136,13 +136,12 @@ class productoHandler
     
     public function readAll()
     {
-
         $sql = 'SELECT id_producto, nombre_producto, codigo_interno, referencia_proveedor, imagen
-                FROM tb_productos
-                WHERE id_producto = ?;';
+                FROM tb_productos';
                     
         return Database::getRows($sql);
     }
+    
 
     public function readOne()
     {
@@ -158,6 +157,8 @@ class productoHandler
         $params = array($id_producto);
 
         return Database::getRow($sql, $params);    
+    }
+
     public function readFilename()
     {
         $sql = 'SELECT imagen

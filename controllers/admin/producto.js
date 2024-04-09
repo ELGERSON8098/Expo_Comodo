@@ -11,11 +11,9 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_PRODUCTO = document.getElementById('idProducto'),
+    IMG_PRODUCTO = document.getElementById('ImagenP'),
     NOMBRE_PRODUCTO = document.getElementById('nombreProducto'),
-    DESCRIPCION_PRODUCTO = document.getElementById('descripcionProducto'),
-    CODIGO = document.getElementById('precioProducto'),
-    REFERENCIA = document.getElementById('existenciasProducto'),
-    ESTADO_PRODUCTO = document.getElementById('estadoProducto');
+    CodigoI_Producto = document.getElementById('CodigoI')
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -75,28 +73,23 @@ const fillTable = async (form = null) => {
     const DATA = await fetchData(PRODUCTO_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
-            // Se establece un icono para el estado del producto.
-            (row.estado_producto) ? icon = 'bi bi-eye-fill' : icon = 'bi bi-eye-slash-fill';
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
-            <tr>
-            <td><img src="${SERVER_URL}images/productos/${row.imagen}" height="50"></td>
-            <td>${row.nombre_producto}</td>
-            <td>${row.descripcion}</td>
-            <td>${row.codigo_interno}</td>
-            <td>${row.Referencia_provedor}</td>
-            <td><i class="${icon}"></i></td>
-            <td>
-                <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_producto})">
-                    <i class="bi bi-pencil-fill"></i>
-                </button>
-                <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_producto})">
-                    <i class="bi bi-trash-fill"></i>
-                </button>
-            </td>
-        </tr>
+                <tr>
+                <td><img src="${SERVER_URL}images/productos/${row.imagen}" height="50"></td>
+                    <td>${row.nombre_producto}</td>
+                    <td>${row.codigo_interno}</td>
+                    <td>${row.referencia_proveedor}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_usuario})">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_usuario})">
+                            <i class="bi bi-trash-fill"></i>
+                        </button>
+                    </td>
+                </tr>
             `;
         });
         // Se muestra un mensaje de acuerdo con el resultado.

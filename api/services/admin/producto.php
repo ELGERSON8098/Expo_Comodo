@@ -18,7 +18,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $administrador->searchRows()) {
+                } elseif ($result['dataset'] = $producto->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -28,12 +28,12 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$producto->setNombre($_POST['nombreUsuarioC']) or
-                    !$producto->setNombre($_POST['nombreUsuarioC']) or
-                    !$producto->setDescripcion($_POST['aliasUsuarioC']) or
-                    !$producto->setPrecio($_POST['correoUsuarioC']) or
-                    !$producto->setExistencias($_POST['claveUsuarioC']) or
-                    !$producto->setCategoria($_POST['TelUsuarioC']) or
+                    !$producto->setNombre($_POST['ImagenP']) or
+                    !$producto->setNombre($_POST['nombreP']) or
+                    !$producto->setDescripcion($_POST['CodigoI']) or
+                    !$producto->setPrecio($_POST['CodigoP']) or
+                    !$producto->setExistencias($_POST['MaterialP']) or
+                    !$producto->setCategoria($_POST['DescP']) or
                     !$producto->setCategoria($_POST['duiUsuarioC'])
                 ) {
                     $result['error'] = $producto->getDataError();
@@ -51,7 +51,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen administradores registrados';
+                    $result['error'] = 'No existen productos registrados';
                 }
                 break;
             case 'readOne':
