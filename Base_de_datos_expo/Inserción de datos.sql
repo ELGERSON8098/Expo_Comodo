@@ -1,5 +1,3 @@
-USE expo_comodos;
-
 INSERT INTO tb_usuarios (id_usuario, nombre, usuario, correo, clave, telefono, dui_cliente)
 VALUES 
 (1, 'Lionel Messi', 'messi10', 'lionel@gmail.com', 'messi123', '7555-1001', '123456789'),
@@ -15,21 +13,8 @@ VALUES
 
 SELECT*FROM tb_usuarios;
 
-INSERT INTO tb_distritos (id_distrito, distrito) VALUES 
-(1, 'San Salvador'),
-(2, 'Santa Ana'),
-(3, 'San Miguel'),
-(4, 'La Libertad'),
-(5, 'Usulután'),
-(6, 'Sonsonate'),
-(7, 'Chalatenango'),
-(8, 'La Paz'),
-(9, 'Cuscatlán'),
-(10, 'Ahuachapán');
 
-SELECT*FROM tb_distritos;
-
-INSERT INTO tb_direcciones (id_direccion, departamento, id_distrito)
+INSERT INTO tb_direcciones (id_direccion, direccion, id_usuario)
 VALUES 
 (1, 'San Salvador', 1),
 (2, 'Santa Ana', 2),
@@ -76,16 +61,16 @@ SELECT*FROM tb_generos_zapatos;
 
 INSERT INTO tb_admins (id_administrador, nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
 VALUES 
-(1, 'Pep Guardiola', 'guardiola', 'pep@example.com', 'guardiola123', 1),
-(2, 'Kevin De Bruyne', 'debruyne17', 'kevin@example.com', 'debruyne456', 2),
-(3, 'Raheem Sterling', 'sterling7', 'raheem@example.com', 'sterling789', 2),
-(4, 'Ruben Dias', 'dias3', 'ruben@example.com', 'dias123', 2),
-(5, 'Ederson', 'ederson1', 'ederson@example.com', 'ederson456', 2),
-(6, 'Phil Foden', 'foden47', 'phil@example.com', 'foden789', 2),
-(7, 'Joao Cancelo', 'cancelo27', 'joao@example.com', 'cancelo123', 2),
-(8, 'Ilkay Gundogan', 'gundogan8', 'ilkay@example.com', 'gundogan456', 2),
-(9, 'Bernardo Silva', 'silva20', 'bernardo@example.com', 'silva789', 2),
-(10, 'Kyle Walker', 'walker2', 'kyle@example.com', 'walker123', 2);
+(1, 'Pep Guardiola', 'guardiola', 'pep@gmail.com', 'guardiola123', 1),
+(2, 'Kevin De Bruyne', 'debruyne17', 'kevin@gmail.com', 'debruyne456', 2),
+(3, 'Raheem Sterling', 'sterling7', 'raheem@gmail.com', 'sterling789', 2),
+(4, 'Ruben Dias', 'dias3', 'ruben@gmail.com', 'dias123', 2),
+(5, 'Ederson', 'ederson1', 'ederson@gmail.com', 'ederson456', 2),
+(6, 'Phil Foden', 'foden47', 'phil@gmail.com', 'foden789', 2),
+(7, 'Joao Cancelo', 'cancelo27', 'joao@gmail.com', 'cancelo123', 2),
+(8, 'Ilkay Gundogan', 'gundogan8', 'ilkay@gmail.com', 'gundogan456', 2),
+(9, 'Bernardo Silva', 'silva20', 'bernardo@gmail.com', 'silva789', 2),
+(10, 'Kyle Walker', 'walker2', 'kyle@gmail.com', 'walker123', 2);
 
 SELECT*FROM tb_admins;
 
@@ -190,17 +175,17 @@ VALUES
 
 SELECT*FROM tb_detalles_productos;
 
-INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, id_direccion, descripcion_direccion) VALUES
-(1, 1, '2024-04-06 10:00:00', 1,'En frente de Metro'),
-(2, 2, '2024-04-07 11:00:00', 2, 'En Galerias'),
-(3, 3, '2024-04-08 12:00:00', 3, 'A la par del Ricaldone'),
-(4, 4, '2024-04-09 13:00:00', 4, 'En frente del Museo'),
-(5, 5, '2024-04-10 14:00:00', 5, 'A la par de la alcaldia'),
-(6, 6, '2024-04-11 15:00:00', 6, 'Por el mercado Zacamil'),
-(7, 7, '2024-04-12 16:00:00', 7, 'En el parque Cuscatlán'),
-(8, 8, '2024-04-13 17:00:00', 8, 'Por el hospital'),
-(9, 9, '2024-04-14 18:00:00', 9, 'En frente de la Alcadia'),
-(10, 10, '2024-04-15 19:00:00', 10,'Por mejicanos');
+INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, id_direccion) VALUES
+(1, 1, '2024-04-06 10:00:00', 1),
+(2, 2, '2024-04-07 11:00:00', 2),
+(3, 3, '2024-04-08 12:00:00', 3),
+(4, 4, '2024-04-09 13:00:00', 4),
+(5, 5, '2024-04-10 14:00:00', 5),
+(6, 6, '2024-04-11 15:00:00', 6),
+(7, 7, '2024-04-12 16:00:00', 7),
+(8, 8, '2024-04-13 17:00:00', 8),
+(9, 9, '2024-04-14 18:00:00', 9),
+(10, 10, '2024-04-15 19:00:00', 10);
 
 SELECT*FROM tb_reservas;
 
