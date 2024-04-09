@@ -59,7 +59,7 @@ VALUES
 
 SELECT*FROM tb_niveles_usuarios;
 
-INSERT INTO tb_generos (id_genero, nombre_genero, imagen_genero)
+INSERT INTO tb_generos_zapatos (id_genero, nombre_genero, imagen_genero)
 VALUES 
 (1, 'Zapatillas deportivas', 'zapatillas.png'),
 (2, 'Botas de invierno', 'botas_invierno.png'),
