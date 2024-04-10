@@ -18,7 +18,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $administrador->searchRows()) {
+                } elseif ($result['dataset'] = $direccion->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -28,8 +28,9 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$direccion->setNombre($_POST['nombreAdministrador']) or
-                    !$direccion->setCorreo($_POST['correoAdministrador']) 
+                    !$direccion->setNombre($_POST['Direc']) or
+                    !$direccion->setCorreo($_POST['Departamento']) or
+                    !$direccion->setCorreo($_POST['Direccion']) 
                     
                 ) {
                     $result['error'] = $direccion->getDataError();
@@ -43,7 +44,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
-                if ($result['dataset'] = $administrador->readAll()) {
+                if ($result['dataset'] = $direccion->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
@@ -51,9 +52,9 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$administrador->setId($_POST['idAdministrador'])) {
+                if (!$direccion->setId($_POST['idAdministrador'])) {
                     $result['error'] = 'Administrador incorrecto';
-                } elseif ($result['dataset'] = $administrador->readOne()) {
+                } elseif ($result['dataset'] = $direccion->readOne()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Administrador inexistente';
@@ -62,10 +63,9 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador']) or
-                    !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setClave($_POST['claveAdministrador'])
+                    !$direccion->setNombre($_POST['Direc']) or
+                    !$direccion->setCorreo($_POST['Departamento']) or
+                    !$direccion->setCorreo($_POST['Direccion']) 
                 ) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->updateRow()) {
@@ -78,9 +78,9 @@ if (isset($_GET['action'])) {
             case 'deleteRow':
                 if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
                     $result['error'] = 'No se puede eliminar a sí mismo';
-                } elseif (!$administrador->setId($_POST['idAdministrador'])) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->deleteRow()) {
+                } elseif (!$direccion->setId($_POST['idAdministrador'])) {
+                    $result['error'] = $direccion->getDataError();
+                } elseif ($direccion->deleteRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Administrador eliminado correctamente';
                 } else {
@@ -104,7 +104,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readProfile':
-                if ($result['dataset'] = $administrador->readProfile()) {
+                if ($result['dataset'] = $direccion->readProfile()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Ocurrió un problema al leer el perfil';
@@ -113,13 +113,12 @@ if (isset($_GET['action'])) {
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador']) or
-                    !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setClave($_POST['claveAdministrador'])
+                    !$direccion->setNombre($_POST['Direc']) or
+                    !$direccion->setCorreo($_POST['Departamento']) or
+                    !$direccion->setCorreo($_POST['Direccion'])       
                 ) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->editProfile()) {
+                    $result['error'] = $direccion->getDataError();
+                } elseif ($direccion->editProfile()) {
                     $result['status'] = 1;
                     $result['message'] = 'Perfil modificado correctamente';
                     $_SESSION['aliasAdministrador'] = $_POST['aliasAdministrador'];
@@ -129,13 +128,13 @@ if (isset($_GET['action'])) {
                 break;
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
-                if (!$administrador->checkPassword($_POST['claveActual'])) {
+                if (!$direccion->checkPassword($_POST['claveActual'])) {
                     $result['error'] = 'Contraseña actual incorrecta';
                 } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
                     $result['error'] = 'Confirmación de contraseña diferente';
-                } elseif (!$administrador->setClave($_POST['claveNueva'])) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->changePassword()) {
+                } elseif (!$direccion->setClave($_POST['claveNueva'])) {
+                    $result['error'] = $direccion->getDataError();
+                } elseif ($direccion->changePassword()) {
                     $result['status'] = 1;
                     $result['message'] = 'Contraseña cambiada correctamente';
                 } else {
@@ -149,7 +148,7 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando el administrador no ha iniciado sesión.
         switch ($_GET['action']) {
             case 'readUsers':
-                if ($administrador->readAll()) {
+                if ($direccion->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Debe autenticarse para ingresar';
                 } else {
@@ -160,15 +159,14 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 $_POST['nombreAdministrador'];
                 if (
-                    !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador']) or
-                    !$administrador->setAlias($_POST['aliasAdministrador']) or
-                    !$administrador->setClave($_POST['claveAdministrador'])
+                    !$direccion->setNombre($_POST['Direc']) or
+                    !$direccion->setCorreo($_POST['Departamento']) or
+                    !$direccion->setCorreo($_POST['Direccion']) 
                 ) {
-                    $result['error'] = $administrador->getDataError();
+                    $result['error'] = $direccion->getDataError();
                 } elseif ($_POST['claveAdministrador'] != $_POST['confirmarClave']) {
                     $result['error'] = 'Contraseñas diferentes';
-                } elseif ($administrador->createRow()) {
+                } elseif ($direccion->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Administrador registrado correctamente';
                 } else {
