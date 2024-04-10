@@ -41,7 +41,7 @@ class generoHandler
     public function readAll()
     {
         $sql = 'SELECT id_genero, nombre_genero, imagen_genero
-                FROM tb_generos
+                FROM tb_generos_zapatos
                 ORDER BY nombre_genero';
         return Database::getRows($sql);
     }
@@ -49,7 +49,7 @@ class generoHandler
     public function readOne()
     {
         $sql = 'SELECT id_genero, nombre_genero, imagen_genero
-                FROM tb_generos
+                FROM tb_generos_zapatos
                 WHERE id_genero = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
