@@ -8,7 +8,7 @@ if (isset($_GET['action'])) {
     session_start();
  
     // Se instancia la clase correspondiente.
-    $reservaHandler = new ReservaHandler;
+    $reservaHandler = new reservaHandler;
  
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
@@ -17,17 +17,6 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (!$reservaHandler->setIdUsuario($_POST['id_usuario']) || !$reservaHandler->setFechaReserva($_POST['fecha_reserva']) || !$reservaHandler->setIdDireccion($_POST['id_direccion']) || !$reservaHandler->setDescripcionDireccion($_POST['descripcion_direccion'])) {
-                    $result['error'] = $reservaHandler->getDataError();
-                } elseif ($reservaHandler->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Reserva creada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear la reserva';
-                }
-                break;
             case 'readAll':
                 if ($result['dataset'] = $reservaHandler->readAll()) {
                     $result['status'] = 1;
@@ -43,17 +32,6 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'Reserva inexistente';
-                }
-                break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (!$reservaHandler->setIdReserva($_POST['id_reserva']) || !$reservaHandler->setIdUsuario($_POST['id_usuario']) || !$reservaHandler->setFechaReserva($_POST['fecha_reserva']) || !$reservaHandler->setIdDireccion($_POST['id_direccion']) || !$reservaHandler->setDescripcionDireccion($_POST['descripcion_direccion'])) {
-                    $result['error'] = $reservaHandler->getDataError();
-                } elseif ($reservaHandler->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Reserva modificada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la reserva';
                 }
                 break;
             case 'deleteRow':

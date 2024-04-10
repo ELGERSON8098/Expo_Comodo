@@ -6,74 +6,83 @@ require_once('../../models/handler/reserva_handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla CATEGORIA.
  */
-class ReservaData extends ReservaHandler
+class reservaData extends reservaHandler
 {
-    /*
-     *  Atributos adicionales.
-     */
     private $data_error = null;
-    private $filename = null;
 
-     /*
-     * Atributos de la tabla tb_reservas.
-     */
-
-    private $id_reserva;
-    private $id_usuario;
-    private $fecha_reserva;
-    private $id_direccion;
-    private $descripcion_direccion;
- 
     /*
-     * Métodos para establecer los datos de la reserva.
+     *  Métodos para validar y asignar valores de los atributos.
      */
-
-    public function setIdUsuario($value) {
+    public function setId($value)
+    {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id_usuario = $value;
+            $this->id = $value;
             return true;
         } else {
+            $this->data_error = 'El identificador del cliente es incorrecto';
             return false;
         }
     }
- 
-    public function setFechaReserva($value) {
-        $this->fecha_reserva = $value;
-        return true;
-    }
- 
-    public function setIdDireccion($value) {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->id_direccion = $value;
+
+    public function setNombre($value, $min = 2, $max = 50)
+    {
+        if (!Validator::validateAlphabetic($value)) {
+            $this->data_error = 'El nombre debe ser un valor alfabético';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->nombre = $value;
             return true;
         } else {
+            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
- 
-    public function setDescripcionDireccion($value) {
-        $this->descripcion_direccion = $value;
-        return true;
+
+    public function setApellido($value, $min = 2, $max = 50)
+    {
+        if (!Validator::validateAlphabetic($value)) {
+            $this->data_error = 'El apellido debe ser un valor alfabético';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->apellido = $value;
+            return true;
+        } else {
+            $this->data_error = 'El apellido debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
     }
- 
-    /*
-     * Métodos para obtener los atributos de la reserva.
-     */
-    public function getIdUsuario() {
-        return $this->id_usuario;
+
+
+    public function setAlias($value, $min = 6, $max = 25)
+    {
+        if (!Validator::validateAlphanumeric($value)) {
+            $this->data_error = 'El alias debe ser un valor alfanumérico';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->alias = $value;
+            return true;
+        } else {
+            $this->data_error = 'El alias debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
     }
- 
-    public function getFechaReserva() {
-        return $this->fecha_reserva;
+
+    public function setCantidad($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->cantidad = $value;
+            return true;
+        } else {
+            $this->data_error = 'La cantidad del producto debe ser mayor o igual a 1';
+            return false;
+        }
     }
- 
-    public function getIdDireccion() {
-        return $this->id_direccion;
-    }
- 
-    public function getDescripcionDireccion() {
-        return $this->descripcion_direccion;
+
+
+
+    // Método para obtener el error de los datos.
+    public function getDataError()
+    {
+        return $this->data_error;
     }
 }
-?>
-
