@@ -10,11 +10,10 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    ID_DIRECCION = document.getElementById('idDireccion'),
-    DEPARTAMENTO = document.getElementById('departamento'),
-    DESCRIPCION_DIRECCION = document.getElementById('descripcionDireccion'),
-    ID_USUARIO = document.getElementById('idUsuario'),
-    ID_DISTRITO = document.getElementById('idDistrito')   
+    ID_DISTRITO = document.getElementById('Direc'),
+    DEPARTAMENTO = document.getElementById('Departamento'),
+    MUNICIPIO = document.getElementById('Municipio'),
+    DISTRITO = document.getElementById('Distrito')   
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -41,7 +40,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se verifica la acción a realizar.
-    (ID_DIRECCION.value) ? action = 'updateRow' : action = 'createRow';
+    (ID_DISTRITO.value) ? action = 'updateRow' : action = 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
     // Petición para guardar los datos del formulario.
@@ -80,8 +79,9 @@ const fillTable = async (form = null) => {
             TABLE_BODY.innerHTML += `
                 <tr>
                     <td>${row.departamento}</td>
-                    <td>${row.id_distrito}</td>
-                    <td> </td>
+                    <td>${row.municipio}</td>
+                    <td>${row.distrito}</td>
+                    <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_direccion})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>

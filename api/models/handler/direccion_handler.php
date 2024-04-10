@@ -4,7 +4,7 @@ require_once('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
-class AdministradorHandler
+class direccion_handler
 {
     /*
      *  Declaración de atributos para el manejo de datos.
@@ -109,11 +109,10 @@ class AdministradorHandler
     
     public function readOne()
     {
-        $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
-                FROM tb_admins a
-                INNER JOIN tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
-                WHERE a.id_administrador >= 2 AND a.id_administrador = ?';
-        $params = array($id_administrador);
+        $sql = 'SELECT departamento, municipio, distrito from tb_distritos
+        INNER JOIN tb_municipios USING (id_municipio)
+        INNER JOIN tb_departamentos USING (id_departamento)';
+        $params = array($id_distrito);
         return Database::getRow($sql, $params);
     }
     
