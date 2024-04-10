@@ -19,7 +19,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($reserva['dataset'] = $reserva->searchRows()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    //$result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
                     $result['error'] = 'No hay coincidencias';
                 }
@@ -50,7 +50,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$reserva->setIdDetalle($_POST['idReserva'])) {
+                if (!$reserva->setId($_POST['idReserva'])) {
                     $result['error'] = $reserva->getDataError();
                 } elseif ($result['dataset'] = $reserva->readOne()) {
                     $result['status'] = 1;

@@ -97,13 +97,13 @@ class reservaHandler
         // Verificar si la tabla está vacía
         $sql = 'SELECT COUNT(*) AS count FROM tb_admins';
         $result = Database::getRow($sql);
-    
+
         // Si la tabla está vacía, asignar el nivel de usuario "Administrador" por defecto
         if ($result['count'] == 0) {
             // Obtener el ID del nivel de usuario correspondiente a "Administrador"
             $sql = 'SELECT id_nivel_usuario FROM tb_niveles_usuarios WHERE nombre_nivel = "administrador"';
             $nivelAdministrador = Database::getRow($sql);
-    
+
             // Verificar si se obtuvo el ID del nivel de usuario
             if ($nivelAdministrador && isset($nivelAdministrador['id_nivel_usuario'])) {
                 // Insertar el administrador con el nivel correspondiente
@@ -123,15 +123,16 @@ class reservaHandler
             return Database::executeRow($sql, $params);
         }
     }
-    
-    
-    
-    
+
+
+
+
 
     public function readAll()
     {
         $sql = 'SELECT 
         u.id_usuario,
+        r.id_reserva,
         u.nombre,
         r.fecha_reserva,
         d.distrito,
@@ -152,27 +153,10 @@ class reservaHandler
 
     public function readOne()
     {
-        $sql = 'SELECT 
-        r.id_usuario,
-        dr.id_detalle_reserva,
-        r.id_reserva,
-        u.nombre AS nombre_usuario,
-        u.telefono,
-        r.fecha_reserva,
-        d.distrito,
-        p.id_producto,
-        p.nombre_producto,
-        dp.material,
-        dp.id_talla,
-        t.nombre_talla,
-        dp.precio AS precio_original,
-        dr.cantidad,
-        dr.precio_unitario,
-        c.color,
-        m.marca,
-        g.nombre_genero,
-        cat.nombre_categoria,
-        k.nombre_descuento,
+        $sql = 'SELECT r.id_usuario,dr.id_detalle_reserva,r.id_reserva,u.nombre AS nombre_usuario,u.telefono,
+        r.fecha_reserva,d.distrito,p.id_producto,p.nombre_producto,dp.material,dp.id_talla,
+        t.nombre_talla,dp.precio AS precio_original,dr.cantidad,dr.precio_unitario,
+        c.color,m.marca,g.nombre_genero,cat.nombre_categoria,k.nombre_descuento,
         k.valor AS valor_descuento,
         ROUND(
             CASE 
@@ -204,11 +188,13 @@ class reservaHandler
     INNER JOIN 
         tb_categorias cat ON dp.id_categoria = cat.id_categoria
     LEFT JOIN 
-        tb_descuentos k ON dp.id_descuento = k.id_descuento';
-    
-        return Database::getRow($sql);
+        tb_descuentos k ON dp.id_descuento = k.id_descuento
+    WHERE dr.id_reserva=?;';
+
+        $params = array($this->id);
+        return Database::getRow($sql,$params);
     }
-    
+
 
     public function deleteRow()
     {

@@ -70,10 +70,10 @@ const fillTable = async (form = null) => {
                     <td>${row.municipio}</td>
                     <td>${row.distrito}</td>
                     <td>
-                        <button type="button" class="btn btn-warning" onclick="openUpdate(${row.id_usuario})">
+                        <button type="button" class="btn btn-warning" onclick="openUpdate(${row.id_reserva})">
                             <i class="bi bi-eye-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_usuario})">
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_reserva})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -94,7 +94,7 @@ const fillTable = async (form = null) => {
 *   Retorno: ninguno.
 */
 const openUpdate = async (id) => {
-    console.log("id_usuario"+id);
+    console.log("id_reserva"+id);
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
     FORM.append('idReserva', id);
