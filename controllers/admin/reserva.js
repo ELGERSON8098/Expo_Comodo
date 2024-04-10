@@ -94,7 +94,7 @@ const fillTable = async (form = null) => {
 *   Retorno: ninguno.
 */
 const openUpdate = async (id) => {
-    console.log("id_reserva"+id);
+    console.log("id_reserva" + id);
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
     FORM.append('idReserva', id);

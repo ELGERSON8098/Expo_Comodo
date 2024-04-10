@@ -13,7 +13,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ID_DISTRITO = document.getElementById('Direc'),
     DEPARTAMENTO = document.getElementById('Departamento'),
     MUNICIPIO = document.getElementById('Municipio'),
-    DISTRITO = document.getElementById('Distrito')   
+    DISTRITO = document.getElementById('Distrito')
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -137,7 +137,7 @@ const openUpdate = async (id) => {
         DESCRIPCION_DIRECCION.disabled = true;
         ID_DISTRITO.disabled = true;
         // Se inicializan los campos con los datos.
-        const ROW = DATA.dataset;     
+        const ROW = DATA.dataset;
         DEPARTAMENTO.value = ROW.departamento;
         ID_DISTRITO.value = ROW.id_distrito;
     } else {

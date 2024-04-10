@@ -141,7 +141,7 @@ const openUpdate = async (id) => {
         PRECIO_PRODUCTO.value = ROW.precio_producto;
         EXISTENCIAS_PRODUCTO.value = ROW.existencias_producto;
         ESTADO_PRODUCTO.checked = ROW.estado_producto;
-        ID_SUBCATEGORIA.value= ROW.id_subcategoria;
+        ID_SUBCATEGORIA.value = ROW.id_subcategoria;
     } else {
         sweetAlert(2, DATA.error, false);
     }

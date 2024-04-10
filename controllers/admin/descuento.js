@@ -12,8 +12,8 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_DESCUENTO = document.getElementById('id_descuento'),
     NOMBRE_DESCUENTO = document.getElementById('nombreDescuento');
-    NOMBRE_DESCRIPCION = document.getElementById('nombreDesc');
-    NOMBRE_VALOR = document.getElementById('ValorM');
+NOMBRE_DESCRIPCION = document.getElementById('nombreDesc');
+NOMBRE_VALOR = document.getElementById('ValorM');
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {

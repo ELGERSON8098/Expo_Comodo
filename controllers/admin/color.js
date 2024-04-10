@@ -12,7 +12,7 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_COLOR = document.getElementById('idColor'),
     NOMBRE_COLOR = document.getElementById('nombreColor');
-    // Se establece el título de la página web.
+// Se establece el título de la página web.
 document.querySelector('title').textContent = 'Comodo$ - Colores';
 
 // Método del evento para cuando el documento ha cargado.

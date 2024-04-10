@@ -12,8 +12,8 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_COLOR = document.getElementById('idColor'),
     NOMBRE_COLOR = document.getElementById('nombreColor');
-    IMAGEN_CATE = document.getElementById('nombreIMG');
-    // Se establece el título de la página web.
+IMAGEN_CATE = document.getElementById('nombreIMG');
+// Se establece el título de la página web.
 document.querySelector('title').textContent = 'Categoria';
 
 // Método del evento para cuando el documento ha cargado.
