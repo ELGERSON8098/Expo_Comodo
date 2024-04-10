@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fontech</title>
+    <!-- fontawesome cdn Iconos aparte-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- bootstrap css -->
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Iconos de Boostrap-->
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+
+    <!--css -->
+    <link rel="stylesheet" href="../../resources/css/administrador.css">
+</head>
+
+<body>
+    <!-- navbar -->
+
+    <!-- Fin del navbar -->
+
+    <!-- Separación entre navbar y sección de celulares -->
+    <div class="my-5"></div>
+
+    <!-- Celulares -->
+    <main>
+        <!-- Título del contenido principal -->
+        <h3 id="mainTitle"></h3>
+        <div class="row">
+            <!-- Formulario de búsqueda -->
+            <form class="col-sm-12 col-md-6" id="searchForm">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="search" class="form-control" name="search" placeholder="Buscar" required>
+                    </div>
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <button type="reset" class="btn btn-secondary" onclick="fillTable()">
+                            <i class="bi bi-x-square-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <div class="col-sm-12 col-md-6 text-end">
+                <!-- Botón para abrir una caja de diálogo al momento de crear un nuevo registro -->
+                <button type="button" class="btn btn-primary" onclick="openCreate()">
+                    <i class="bi bi-plus-square-fill"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabla para mostrar los registros existentes -->
+        <table class="table table-hover">
+            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+            <thead>
+                <tr>
+                    <td colspan="4" id="rowsFound"></td>
+                </tr>
+                <tr>
+                    <th>Departamento</th>
+                    <th>Municipio</th>
+                    <th>Distrito</th>
+
+                </tr>
+            </thead>
+            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Componente Modal para guardar un registro -->
+        <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Formulario para guardar un registro -->
+                    <form id="saveForm">
+                        <div class="modal-body row g-3">
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <input type="hidden" id="Direc" name="Direc">
+
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Departamento" class="form-label">Departamento</label>
+                                <select id="Departamento" name="Departamento" class="form-control"></select>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Municipio" class="form-label">Municipio</label>
+                                <select id="Municipio" type="text" name="Municipio" class="form-control"></select>
+                            </div>
+
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Distrito" class="form-label">Distrito</label>
+                                <select id="Distrito" type="text" name="Distrito" class="form-control"></select>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Fin de Celulares -->
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+
+    <!-- footer -->
+    <!-- Fin del footer -->
+
+
+    <!-- bootstrap js -->
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+
+    <!-- Llamada al controlador general de la aplicación -->
+    <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+
+    <!-- Llamada al controlador del sitio privado -->
+    <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
+
+    <!-- Llamada al controlador de la página web -->
+    <script type="text/javascript" src="../../controllers/admin/direccion.js"></script>
+
+</body>
+
+</html>
