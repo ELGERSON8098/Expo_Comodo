@@ -1,5 +1,5 @@
 // Constantes para completar las rutas de la API.
-const USUARIO_API = 'services/admin/reserva.php';
+const RESERVA_API = 'services/admin/reserva.php';
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer el contenido de la tabla.
@@ -10,12 +10,19 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    ID_USUARIO = document.getElementById('idusuarioC'),
-    NOMBRE_USUARIO = document.getElementById('nombreUsuarioC'),
-    ALIAS_USUARIO = document.getElementById('aliasUsuarioC'),
-    CORREO_USUARIO = document.getElementById('correoUsuarioC'),
-    Tel_USUARIO = document.getElementById('TelUsuarioC'),
-    DUI_USUARIO = document.getElementById('duiUsuarioC');
+    ID_USUARIO = document.getElementById('idReserva'),
+    NOMBRE_USUARIO = document.getElementById('NomClien'),
+    TELEFONO_RESERVA = document.getElementById('TEL'),
+    FECHA_RESERVA = document.getElementById('FechReserva'),
+    PROD_RESERVA = document.getElementById('Produc'),
+    MATERIAL_RESERVA = document.getElementById('Materi'),
+    COLOR_RESERVA = document.getElementById('COL'),
+    TALLA_RESERVA = document.getElementById('Tallas'),
+    MARCA_RESERVA = document.getElementById('MARCA'),
+    CANTIDAD_RESERVA = document.getElementById('Cant'),
+    PRECIO_RESERVA = document.getElementById('Precio'),
+    DESCUENTO_RESERVA = document.getElementById('Descu'),
+    DESCUENTO_RESERVAS = document.getElementById('Descuentos');
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,29 +44,6 @@ SEARCH_FORM.addEventListener('submit', (event) => {
     fillTable(FORM);
 });
 
-// Método del evento para cuando se envía el formulario de guardar.
-SAVE_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
-    event.preventDefault();
-    // Se verifica la acción a realizar.
-    (ID_USUARIO.value) ? action = 'updateRow' : action = 'createRow';
-    // Constante tipo objeto con los datos del formulario.
-    const FORM = new FormData(SAVE_FORM);
-    // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(USUARIO_API, action, FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se cierra la caja de diálogo.
-        SAVE_MODAL.hide();
-        // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
-        // Se carga nuevamente la tabla para visualizar los cambios.
-        fillTable();
-    } else {
-        sweetAlert(2, DATA.error, false);
-    }
-});
-
 /*
 *   Función asíncrona para llenar la tabla con los registros disponibles.
 *   Parámetros: form (objeto opcional con los datos de búsqueda).
@@ -72,7 +56,7 @@ const fillTable = async (form = null) => {
     // Se verifica la acción a realizar.
     (form) ? action = 'searchRows' : action = 'readAll';
     // Petición para obtener los registros disponibles.
-    const DATA = await fetchData(USUARIO_API, action, form);
+    const DATA = await fetchData(RESERVA_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se recorre el conjunto de registros fila por fila.
@@ -103,23 +87,6 @@ const fillTable = async (form = null) => {
     }
 }
 
-/*
-*   Función para preparar el formulario al momento de insertar un registro.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-const openCreate = () => {
-    // Se muestra la caja de diálogo con su título.
-    SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Crear un nuevo trabajador';
-    // Se prepara el formulario.
-    SAVE_FORM.reset();
-    NOMBRE_USUARIO.disabled = false;
-    ALIAS_USUARIO.disabled = false;
-    CORREO_USUARIO.disabled = false;
-    Tel_USUARIO.disabled = false;
-    DUI_USUARIO.disabled = false;
-}
 
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -127,31 +94,34 @@ const openCreate = () => {
 *   Retorno: ninguno.
 */
 const openUpdate = async (id) => {
+    console.log("id_usuario"+id);
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_usuario', id);
+    FORM.append('idReserva', id);
     // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(ADMINISTRADOR_API, 'readOne', FORM);
+    const DATA = await fetchData(RESERVA_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar administrador';
-        // Se prepara el formulario.
-        SAVE_FORM.reset();
-        NOMBRE_USUARIO.disabled = false;
-        ALIAS_USUARIO.disabled = false;
-        CORREO_USUARIO.disabled = false;
-        Tel_USUARIO.disabled = false;
-        DUI_USUARIO.disabled = false;
+        MODAL_TITLE.textContent = 'Datos de la reserva';
         // Se inicializan los campos con los datos.
+        SAVE_FORM.reset();
+        ID_USUARIO.disabled = false;
         const ROW = DATA.dataset;
-        ID_USUARIO.value = ROW.id_usuario;
-        NOMBRE_USUARIO.value = ROW.nombre;
-        ALIAS_USUARIO.value = ROW.usuario;
-        CORREO_USUARIO.value = ROW.correo;
-        Tel_USUARIO.value = ROW.telefono;
-        DUI_USUARIO.value = ROW.dui_cliente;
+        NOMBRE_USUARIO.value = ROW.nombre_usuario;
+        TELEFONO_RESERVA.value = ROW.telefono;
+        FECHA_RESERVA.value = ROW.fecha_reserva;
+        PROD_RESERVA.value = ROW.nombre_producto;
+        MATERIAL_RESERVA.value = ROW.material;
+        COLOR_RESERVA.value = ROW.color;
+        TALLA_RESERVA.value = ROW.nombre_talla;
+        MARCA_RESERVA.value = ROW.marca;
+        CANTIDAD_RESERVA.value = ROW.cantidad;
+        PRECIO_RESERVA.value = ROW.precio_unitario;
+        DESCUENTO_RESERVA.value = ROW.valor_descuento;
+        DESCUENTO_RESERVAS.value = ROW.precio_con_descuento;
+
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -169,9 +139,9 @@ const openDelete = async (id) => {
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('idAdministrador', id);
+        FORM.append('idReserva', id);
         // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(USUARIO_API, 'deleteRow', FORM);
+        const DATA = await fetchData(RESERVA_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se muestra un mensaje de éxito.

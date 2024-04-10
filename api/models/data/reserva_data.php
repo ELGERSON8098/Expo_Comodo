@@ -19,7 +19,18 @@ class reservaData extends reservaHandler
             $this->id = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador del cliente es incorrecto';
+            $this->data_error = 'El identificador de la reserva es incorrecto';
+            return false;
+        }
+    }
+
+    public function setIdDetalle($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador de la reserva es incorrecto';
             return false;
         }
     }

@@ -82,40 +82,52 @@
                             <input type="hidden" id="idReserva" name="idReserva">
                             <div class="col-sm-12 col-md-6">
                                 <label for="NomClien" class="form-label">Nombre del Cliente</label>
-                                <input id="NomClien" type="text" name="NomClien" class="form-control" required>
+                                <input id="NomClien" type="text" name="NomClien" class="form-control" required readonly>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="TEL" class="form-label">Telefono del cliente</label>
+                                <input id="TEL" type="text" name="TEL" class="form-control" required readonly>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="FechReserva" class="form-label">Fecha de Reserva</label>
-                                <input id="FechReserva" type="text" name="FechReserva" class="form-control" required>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Dep" class="form-label">Departamento</label>
-                                <input id="Dep" type="text" name="Dep" class="form-control" required>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Mun" class="form-label">Municipio</label>
-                                <input id="Mun" type="text" name="Mun" class="form-control" required>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Distri" class="form-label">Distrito</label>
-                                <input id="Distri" type="text" name="Distri" class="form-control" required>
+                                <input id="FechReserva" type="datetime" name="FechReserva" class="form-control" required readonly>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="Produc" class="form-label">Productos</label>
-                                <input id="Produc" type="text" name="Produc" class="form-control" required>
+                                <input id="Produc" type="text" name="Produc" class="form-control" required readonly>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="Detal" class="form-label">Detalle de los productos</label>
-                                <input id="Detal" type="text" name="Detal" class="form-control" required>
+                                <label for="Materi" class="form-label">Material</label>
+                                <input id="Materi" type="text" name="Materi" class="form-control" required readonly>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="COL" class="form-label">Color</label>
+                                <input id="COL" type="text" name="COL" class="form-control" required readonly>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Tallas" class="form-label">Talla</label>
+                                <input id="Tallas" type="text" name="Tallas" class="form-control" required readonly>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="MARCA" class="form-label">Marca</label>
+                                <input id="MARCA" type="text" name="MARCA" class="form-control" required readonly>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="Cant" class="form-label">Cantidad</label>
-                                <input id="Cant" type="number" name="Cant" class="form-control" required>
+                                <input id="Cant" type="number" name="Cant" class="form-control" required readonly>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="Precio" class="form-label">Precio total de productos</label>
-                                <input id="Precio" type="text" name="Precio" class="form-control" required>
+                                <label for="Precio" class="form-label">Precio total de productos precio normal</label>
+                                <input id="Precio" type="number" name="Precio" class="form-control" required readonly>
                             </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Descu" class="form-label">Descuento</label>
+                                <input id="Descu" type="number" name="Descu" class="form-control" required readonly>
+                            </div>     
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Descuentos" class="form-label">Precio de productos aplicado el descuento</label>
+                                <input id="Descuentos" type="number" name="Descuentos" class="form-control" required readonly>
+                            </div>                        
                         </div>
                     </form>
                 </div>
