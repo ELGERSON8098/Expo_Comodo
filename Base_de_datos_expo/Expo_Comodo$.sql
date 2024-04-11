@@ -107,8 +107,7 @@ CREATE TABLE tb_descuentos (
   descripcion VARCHAR(200) NOT NULL,
   valor DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (id_descuento),
-  CONSTRAINT ck_valor CHECK (valor >= 0),
-  CONSTRAINT fecha_en_pasado CHECK (fecha_reserva <= CURRENT_TIMESTAMP)
+  CONSTRAINT ck_valor CHECK (valor >= 0)
 );
 
 CREATE TABLE tb_detalles_productos (
