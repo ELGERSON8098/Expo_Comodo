@@ -5,13 +5,13 @@ CREATE DATABASE expo_comodos;
 USE expo_comodos;
 
 CREATE TABLE tb_usuarios (
-  id_usuario INT UNSIGNED AUTO_INCREMENT,
-  nombre VARCHAR(100),
-  usuario VARCHAR(100),
-  correo VARCHAR(100),
-  clave VARCHAR(100), 
-  telefono VARCHAR(20), 
-  dui_cliente VARCHAR(20), 
+  id_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre VARCHAR(100) NOT NULL,
+  usuario VARCHAR(100) NOT NULL,
+  correo VARCHAR(100) NOT NULL,
+  clave VARCHAR(100) NOT NULL, 
+  telefono VARCHAR(20) NOT NULL, 
+  dui_cliente VARCHAR(20) NOT NULL, 
   PRIMARY KEY (id_usuario),
   CONSTRAINT uc_usuario UNIQUE (usuario),
   CONSTRAINT uc_correo UNIQUE (correo),
@@ -20,47 +20,47 @@ CREATE TABLE tb_usuarios (
 );
 
 CREATE TABLE tb_departamentos (
-  id_departamento INT UNSIGNED AUTO_INCREMENT,
-  departamento VARCHAR(1000),
+  id_departamento INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  departamento VARCHAR(1000) NOT NULL,
   PRIMARY KEY (id_departamento)
 );
 
 CREATE TABLE tb_municipios (
-  id_municipio INT UNSIGNED AUTO_INCREMENT,
-  municipio VARCHAR(1000),
-  id_departamento INT UNSIGNED,
+  id_municipio INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  municipio VARCHAR(1000) NOT NULL,
+  id_departamento INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_municipio),
   CONSTRAINT fk_municipios FOREIGN KEY (id_departamento) REFERENCES tb_departamentos (id_departamento)
 );
 
 CREATE TABLE tb_distritos (
-  id_distrito INT UNSIGNED AUTO_INCREMENT,
-  distrito VARCHAR(1000),
-  id_municipio INT UNSIGNED,
+  id_distrito INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  distrito VARCHAR(1000) NOT NULL,
+  id_municipio INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_distrito),
   CONSTRAINT fk_distritos FOREIGN KEY (id_municipio) REFERENCES tb_municipios (id_municipio)
 );
 
 CREATE TABLE tb_niveles_usuarios (
-  id_nivel_usuario INT UNSIGNED AUTO_INCREMENT,
-  nombre_nivel ENUM ('administrador', 'inventaristas', 'vendedoras'),
+  id_nivel_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_nivel ENUM ('administrador', 'inventaristas', 'vendedoras') NOT NULL,
   PRIMARY KEY (id_nivel_usuario)
 );
 
 CREATE TABLE tb_generos_zapatos (
-  id_genero INT UNSIGNED AUTO_INCREMENT,
-  nombre_genero VARCHAR(100),
-  imagen_genero VARCHAR(20),
+  id_genero INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_genero VARCHAR(100) NOT NULL,
+  imagen_genero VARCHAR(20) NULL,
   PRIMARY KEY (id_genero)
 );
 
 CREATE TABLE tb_admins (
-  id_administrador INT UNSIGNED AUTO_INCREMENT,
-  nombre_administrador VARCHAR(50),
-  usuario_administrador VARCHAR(50),
-  correo_administrador VARCHAR(50),
-  clave_administrador VARCHAR(100),
-  id_nivel_usuario INT UNSIGNED,
+  id_administrador INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_administrador VARCHAR(50) NOT NULL,
+  usuario_administrador VARCHAR(50) NOT NULL,
+  correo_administrador VARCHAR(50) NOT NULL,
+  clave_administrador VARCHAR(100) NOT NULL,
+  id_nivel_usuario INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_administrador),
   CONSTRAINT fk_nivel_usuario FOREIGN KEY (id_nivel_usuario) REFERENCES tb_niveles_usuarios(id_nivel_usuario),
   CONSTRAINT uc_usuario_administrador UNIQUE (usuario_administrador),
@@ -68,92 +68,95 @@ CREATE TABLE tb_admins (
 );
 
 CREATE TABLE tb_categorias (
-  id_categoria INT UNSIGNED AUTO_INCREMENT,
-  nombre_categoria VARCHAR(100),
-  imagen VARCHAR(20),
+  id_categoria INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_categoria VARCHAR(100) NOT NULL,
+  imagen VARCHAR(20) NULL,
   PRIMARY KEY (id_categoria)
 );
 
 CREATE TABLE tb_tallas (
-  id_talla INT UNSIGNED AUTO_INCREMENT,
-  nombre_talla VARCHAR(20),
+  id_talla INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_talla VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_talla)
 );
 
 CREATE TABLE tb_marcas (
-  id_marca INT UNSIGNED AUTO_INCREMENT,
-  marca VARCHAR(50),
+  id_marca INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  marca VARCHAR(50) NOT NULL,
   PRIMARY KEY (id_marca)
 );
 
 CREATE TABLE tb_colores (
-  id_color INT UNSIGNED AUTO_INCREMENT,
-  color VARCHAR(20),
+  id_color INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  color VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_color)
 );
 
 CREATE TABLE tb_productos (
-  id_producto INT UNSIGNED AUTO_INCREMENT,
-  nombre_producto VARCHAR(100),
-  codigo_interno VARCHAR(50),
-  referencia_proveedor VARCHAR(50),
-  imagen VARCHAR(20),
+  id_producto INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_producto VARCHAR(100) NOT NULL,
+  codigo_interno VARCHAR(50) NOT NULL,
+  referencia_proveedor VARCHAR(50) NOT NULL,
+  imagen VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_producto)
 );
 
 CREATE TABLE tb_descuentos (
-  id_descuento INT UNSIGNED AUTO_INCREMENT,
-  nombre_descuento VARCHAR(100),
-  descripcion VARCHAR(200),
-  valor DECIMAL(10,2) CHECK (valor >= 0),
-  PRIMARY KEY (id_descuento)
+  id_descuento INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_descuento VARCHAR(100) NOT NULL,
+  descripcion VARCHAR(200) NOT NULL,
+  valor DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (id_descuento),
+  CONSTRAINT ck_valor CHECK (valor >= 0)
 );
 
 CREATE TABLE tb_detalles_productos (
-  id_detalle_producto INT UNSIGNED AUTO_INCREMENT,
-  id_producto INT UNSIGNED,
-  material VARCHAR(50),
-  id_talla INT UNSIGNED,
-  precio DECIMAL(10,2) ,
-  existencias INT CHECK (existencias >= 0),
-  id_color INT UNSIGNED,
-  id_marca INT UNSIGNED,
-  id_descuento INT UNSIGNED,
-  descripcion VARCHAR(200),
-  id_genero INT UNSIGNED,
-  id_categoria INT UNSIGNED,
+  id_detalle_producto INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  id_producto INT UNSIGNED NOT NULL,
+  material VARCHAR(50) NOT NULL,
+  id_talla INT UNSIGNED NOT NULL,
+  precio DECIMAL(10,2) NOT NULL,
+  existencias INT UNSIGNED NOT NULL,
+  id_color INT UNSIGNED NOT NULL,
+  id_marca INT UNSIGNED NOT NULL,
+  id_descuento INT UNSIGNED NOT NULL,
+  descripcion VARCHAR(200) NOT NULL,
+  id_genero INT UNSIGNED NOT NULL,
+  id_categoria INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_detalle_producto),
   CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES tb_productos(id_producto),
   CONSTRAINT fk_talla FOREIGN KEY (id_talla) REFERENCES tb_tallas(id_talla),
   CONSTRAINT fk_color FOREIGN KEY (id_color) REFERENCES tb_colores(id_color),
   CONSTRAINT fk_marca FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
   CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
-  CONSTRAINT fk_genero FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos (id_genero),
+  CONSTRAINT fk_genero FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
   CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria),
   CONSTRAINT ck_precio  CHECK (precio >= 0),
   CONSTRAINT ck_existencias  CHECK (existencias >= 0)
 );
 
 CREATE TABLE tb_reservas (
-  id_reserva INT UNSIGNED AUTO_INCREMENT,
-  id_usuario INT UNSIGNED,
-  fecha_reserva DATETIME DEFAULT CURRENT_DATE(), 
-  id_distrito INT UNSIGNED,
+  id_reserva INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  id_usuario INT UNSIGNED NOT NULL,
+  fecha_reserva DATETIME DEFAULT CURRENT_DATE() NOT NULL, 
+  estado_reserva ENUM ('Aceptado', 'Pendiente') NOT NULL,
+  id_distrito INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_reserva),
   CONSTRAINT fk_direcciones FOREIGN KEY (id_distrito) REFERENCES tb_distritos (id_distrito)
 );
 
 CREATE TABLE tb_detalles_reservas (
-  id_detalle_reserva INT UNSIGNED AUTO_INCREMENT,
-  id_reserva INT UNSIGNED,
-  id_producto INT UNSIGNED,
-  cantidad INT UNSIGNED,
-  precio_unitario DECIMAL(10,2),
-  id_detalle_producto INT UNSIGNED,
+  id_detalle_reserva INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  id_reserva INT UNSIGNED NOT NULL,
+  id_producto INT UNSIGNED NOT NULL,
+  cantidad INT UNSIGNED NOT NULL,
+  precio_unitario DECIMAL(10,2) NOT NULL,
+  id_detalle_producto INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_detalle_reserva),
   CONSTRAINT fk_reserva FOREIGN KEY (id_reserva) REFERENCES tb_reservas(id_reserva),
   CONSTRAINT fk_detalle_producto FOREIGN KEY (id_detalle_producto) REFERENCES tb_detalles_productos(id_detalle_producto),
-  CONSTRAINT ck_cantidad  CHECK (cantidad >= 0)
+  CONSTRAINT ck_cantidad  CHECK (cantidad >= 0),
+  CONSTRAINT ck_precio_unitario CHECK (precio_unitario >= 0)
 );
 
 
