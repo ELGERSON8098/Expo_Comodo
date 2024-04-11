@@ -29,20 +29,6 @@
     
 }
 
-/* footer */
-footer .brand{
-    font-family: var(--lg-font);
-    letter-spacing: 2px;
-}
-footer a{
-    -webkit-transition: color 0.3s ease;
-    -o-transition: color 0.3s ease;
-    transition: color 0.3s ease;
-}
-footer a:hover{
-    color: var(--color)!important;
-}
-
 /* media queries */
 @media(min-width: 992px){
     .nav-item{

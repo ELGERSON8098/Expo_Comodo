@@ -94,34 +94,11 @@ class AdministradorHandler
 
     public function createRow()
     {
-        // Verificar si la tabla está vacía
-        $sql = 'SELECT COUNT(*) AS count FROM tb_admins';
-        $result = Database::getRow($sql);
-    
-        // Si la tabla está vacía, asignar el nivel de usuario "Administrador" por defecto
-        if ($result['count'] == 0) {
-            // Obtener el ID del nivel de usuario correspondiente a "Administrador"
-            $sql = 'SELECT id_nivel_usuario FROM tb_niveles_usuarios WHERE nombre_nivel = "administrador"';
-            $nivelAdministrador = Database::getRow($sql);
-    
-            // Verificar si se obtuvo el ID del nivel de usuario
-            if ($nivelAdministrador && isset($nivelAdministrador['id_nivel_usuario'])) {
-                // Insertar el administrador con el nivel correspondiente
-                $sql = 'INSERT INTO tb_admins(nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
-                        VALUES(?, ?, ?, ?, ?)';
-                $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $nivelAdministrador['id_nivel_usuario']);
-                return Database::executeRow($sql, $params);
-            } else {
-                // Manejar el caso en el que no se encontró el ID del nivel de usuario
-                return false; // O mostrar un mensaje de error, lanzar una excepción, etc.
-            }
-        } else {
-            // Si la tabla no está vacía, insertar el administrador sin modificar el nivel de usuario
-            $sql = 'INSERT INTO tb_admins(nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
-                    VALUES(?, ?, ?, ?, ?)';
-            $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->nivel);
-            return Database::executeRow($sql, $params);
-        }
+        // Insertar el administrador con el nivel de usuario correspondiente
+        $sql = 'INSERT INTO tb_admins(nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                VALUES (?, ?, ?, ?, ?)';
+        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, 1); // ID de nivel de usuario = 1
+        return Database::executeRow($sql, $params);
     }
     
     
@@ -131,15 +108,15 @@ class AdministradorHandler
     public function readAll()
     {
         $sql = 'SELECT id_administrador, nombre_administrador, usuario_administrador, correo_administrador
-                FROM tb_admins';
+        FROM tb_admins;';
         return Database::getRows($sql);
     }
 
     public function readOne()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, apellido_administrador, correo_administrador, alias_administrador
-                FROM tb_admins
-                WHERE id_administrador = ?';
+        $sql = 'SELECT id_administrador, nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario
+        FROM tb_admins
+        WHERE id_administrador = ?;';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }

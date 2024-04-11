@@ -65,20 +65,29 @@ const fillTable = async (form = null) => {
             TABLE_BODY.innerHTML += `
                 <tr>
                     <td>${row.nombre}</td>
+                    <td>${row.dui_cliente}</td>
                     <td>${row.fecha_reserva}</td>
                     <td>${row.departamento}</td>
                     <td>${row.municipio}</td>
                     <td>${row.distrito}</td>
-                    <td>
-                        <button type="button" class="btn btn-warning" onclick="openUpdate(${row.id_reserva})">
+                    <td>${row.estado_reserva}</td>
+                
+                <td>
+                    <div class="btn-group" role="group" aria-label="Acciones">
+                        <button type="button" class="btn  btn-success rounded me-1" onclick="openUpdate(${row.id_reserva})">
+                            <i class="bi bi-bag-check"></i>
+                        </button>
+                        <button type="button" class="btn btn-warning rounded me-1" onclick="openUpdate(${row.id_reserva})">
                             <i class="bi bi-eye-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_reserva})">
+                        <button type="button" class="btn btn-danger rounded" onclick="openDelete(${row.id_reserva})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
-                    </td>
-                </tr>
-            `;
+                    </div>
+                </td>
+                
+
+                </tr>`;
         });
         // Se muestra un mensaje de acuerdo con el resultado.
         ROWS_FOUND.textContent = DATA.message;

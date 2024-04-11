@@ -116,7 +116,7 @@ class AdministradorHandler
                 FROM tb_admins a
                 INNER JOIN tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
                 WHERE a.id_administrador >= 2 AND a.id_administrador = ?';
-        $params = array($id_administrador);
+        $params = array();
         return Database::getRow($sql, $params);
     }
     

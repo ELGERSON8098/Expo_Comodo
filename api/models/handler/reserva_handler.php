@@ -132,9 +132,11 @@ class reservaHandler
     {
         $sql = 'SELECT 
         u.id_usuario,
-        r.id_reserva,
         u.nombre,
+        u.dui_cliente, -- Agrega el campo dui_cliente
+        r.id_reserva,
         r.fecha_reserva,
+        r.estado_reserva,
         d.distrito,
         m.municipio,
         dept.departamento
@@ -147,7 +149,7 @@ class reservaHandler
     INNER JOIN 
         tb_municipios m ON d.id_municipio = m.id_municipio
     INNER JOIN 
-        tb_departamentos dept ON m.id_departamento = dept.id_departamento';
+        tb_departamentos dept ON m.id_departamento = dept.id_departamento;';
         return Database::getRows($sql);
     }
 

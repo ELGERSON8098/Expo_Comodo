@@ -65,7 +65,7 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$tbAdmins->setNombre($_POST['NAdmin']) or
-                    !$tbAdmins->setUser($_POST['NUsuario']) or
+                    !$tbAdmins->setUsuario($_POST['NUsuario']) or
                     !$tbAdmins->setCorreo($_POST['CorreoAd']) or
                     !$tbAdmins->setClave($_POST['claveAd'])or
                     !$tbAdmins->setId($_POST['NivAd'])

@@ -83,15 +83,7 @@ const loadTemplate = async () => {
     </header>
             `);
             // Se agrega el pie de la página web después del contenido principal.
-            MAIN.insertAdjacentHTML('afterend', `
-            <footer class="bg-dark py-5">
-            <div class="container">
-                <div class="row text-white g-4">
-                </div>
-            </div>
-            </div>
-        </footer>
-            `);
+            MAIN.insertAdjacentHTML('afterend', `>`);
         } else {
             sweetAlert(3, DATA.error, false, 'index.html');
         }
@@ -100,14 +92,7 @@ const loadTemplate = async () => {
         if (location.pathname.endsWith('index.html')) {
             // Se agrega el pie de la página web después del contenido principal.
             MAIN.insertAdjacentHTML('afterend', `
-            <footer class="bg-dark py-5">
-            <div class="container">
-                <div class="row text-white g-4">
-                </div>
-            </div>
-            </div>
-        </footer>
-            `);
+           `);
         } else {
             location.href = 'index.html';
         }
