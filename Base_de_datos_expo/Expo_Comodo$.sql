@@ -142,7 +142,8 @@ CREATE TABLE tb_reservas (
   estado_reserva ENUM ('Aceptado', 'Pendiente') NOT NULL,
   id_distrito INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_reserva),
-  CONSTRAINT fk_direcciones FOREIGN KEY (id_distrito) REFERENCES tb_distritos (id_distrito)
+  CONSTRAINT fk_direcciones FOREIGN KEY (id_distrito) REFERENCES tb_distritos (id_distrito),
+  CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id_usuario)
 );
 
 CREATE TABLE tb_detalles_reservas (
