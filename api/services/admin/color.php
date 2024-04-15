@@ -24,20 +24,18 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$color->setid($_POST['idColor']) or
-                    !$color->setNombre($_POST['nombreColor']) 
-                ) {
-                    $result['error'] = $color->getDataError();
-                } elseif ($color->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Color creado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear el Color';
-                }
-                break;
+                case 'createRow':
+                    $_POST = Validator::validateForm($_POST);
+                    if (!$color->setNombre($_POST['nombreColor'])) {
+                        $result['error'] = $color->getDataError();
+                    } elseif ($color->createRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Color creado correctamente';
+                    } else {
+                        $result['error'] = $color->getDataError() ?: 'Ocurrió un problema al crear el Color';
+                    }
+                    break;
+                
             case 'readAll':
                 if ($result['dataset'] = $color->readAll()) {
                     $result['status'] = 1;
@@ -58,7 +56,7 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$color->setid($_POST['idColor']) or
+                    !$color->setId($_POST['idColor'])or
                     !$color->setNombre($_POST['nombreColor']) 
                 ) {
                     $result['error'] = $color->getDataError();
@@ -71,8 +69,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'deleteRow':
                 if (
-                    !$color->setid($_POST['idColor']) or
-                    !$color->setNombre($_POST['nombreColor']) 
+                    !$color->setid($_POST['idColor'])
                 ) {
                     $result['error'] = $color->getDataError();
                 } elseif ($color->deleteRow()) {

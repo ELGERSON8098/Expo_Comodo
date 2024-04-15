@@ -13,7 +13,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ID_COLOR = document.getElementById('idColor'),
     NOMBRE_COLOR = document.getElementById('nombreColor');
 // Se establece el título de la página web.
-document.querySelector('title').textContent = 'Comodo$ - Colores';
+document.querySelector('title').textContent = 'Colores';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -78,7 +78,7 @@ const fillTable = async (form = null) => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
                 <tr>
-                    <td>${row.Color}</td>
+                    <td>${row.color}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -106,12 +106,12 @@ const fillTable = async (form = null) => {
                     <td></td>
                     <td></td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_color})">
+                <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_color})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_color})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
+                <button type="button" class="btn btn-danger rounded me-2" onclick="openDelete(${row.id_color})">
+                    <i class="bi bi-trash-fill"></i>
+                </button>                
                     </td>
                 </tr>
             `;
@@ -134,6 +134,7 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Agregar un nuevo color';
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    ID_COLOR.disabled = false
     NOMBRE_COLOR.disabled = false;
 }
 
@@ -145,21 +146,20 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_color', id);
+    FORM.append('idColor', id);
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(COLOR_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar administrador';
+        MODAL_TITLE.textContent = 'Actualizar color';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        NOMBRE_COLOR.disabled = false;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
         ID_COLOR.value = ROW.id_color;
-        NOMBRE_COLOR.disabled = false;
+        NOMBRE_COLOR.value = ROW.color;
     } else {
         sweetAlert(2, DATA.error, false);
     }
