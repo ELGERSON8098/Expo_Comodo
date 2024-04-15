@@ -12,6 +12,8 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_TALLA = document.getElementById('idTalla'),
     NOMBRE_TALLA = document.getElementById('nombreTalla');
+    // Se establece el título de la página web.
+document.querySelector('title').textContent = 'Tallas';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -33,6 +35,7 @@ SEARCH_FORM.addEventListener('submit', (event) => {
     fillTable(FORM);
 });
 
+// Método del evento para cuando se envía el formulario de guardar.
 // Método del evento para cuando se envía el formulario de guardar.
 SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
@@ -129,11 +132,13 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Agregar nueva talla';
+    MODAL_TITLE.textContent = 'Agregar una nueva talla';
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    ID_TALLA.disabled = false;
     NOMBRE_TALLA.disabled = false;
 }
+
 
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -143,7 +148,7 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_talla', id);
+    FORM.append('idTalla', id);
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(TALLA_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -153,11 +158,10 @@ const openUpdate = async (id) => {
         MODAL_TITLE.textContent = 'Actualizar talla';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        NOMBRE_TALLA.disabled = false;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
         ID_TALLA.value = ROW.id_talla;
-        NOMBRE_TALLA.disabled = false;
+        NOMBRE_TALLA.value = ROW.nombre_talla;
     } else {
         sweetAlert(2, DATA.error, false);
     }

@@ -25,19 +25,34 @@ class tallaData extends tallaHandler
         }
     }
 
-    public function setNombre($value, $min = 2, $max = 50)
+    public function setNombre($value, $min = 2, $max = 10)
     {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
+        // Verificar si la talla ya existe en la base de datos
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_tallas WHERE nombre_talla = ?';
+        $checkParams = array($value);
+        $checkResult = Database::getRow($checkSql, $checkParams);
+    
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'La talla ya existe';
             return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
+        }
+    
+        // Validar que el valor sea numérico
+        if (!is_numeric($value)) {
+            $this->data_error = 'La talla debe ser numérico';
+            return false;
+        }
+    
+        // Validar la longitud del nombre de la talla
+        if (Validator::validateLength($value, $min, $max)) {
             $this->nombre = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'La talla debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
+    
 
 
     // Método para obtener el error de los datos.

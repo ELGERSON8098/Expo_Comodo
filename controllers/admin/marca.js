@@ -13,6 +13,9 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ID_Marca = document.getElementById('idMarca'),
     NOMBRE_Marca = document.getElementById('nombreMarca');
 
+      // Se establece el título de la página web.
+document.querySelector('title').textContent = 'Marcas';
+
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
@@ -129,9 +132,10 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Agregar un nuevo color';
+    MODAL_TITLE.textContent = 'Agregar una nueva talla';
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    ID_Marca.disabled = false;
     NOMBRE_Marca.disabled = false;
 }
 
@@ -143,21 +147,20 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_color', id);
+    FORM.append('idMarca', id);
     // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(COLOR_API, 'readOne', FORM);
+    const DATA = await fetchData(Marca_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar administrador';
+        MODAL_TITLE.textContent = 'Actualizar marca';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        NOMBRE_Marca.disabled = false;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
-        ID_Marca.value = ROW.id_color;
-        NOMBRE_Marca.disabled = false;
+        ID_Marca.value = ROW.id_marca;
+        NOMBRE_Marca.value = ROW.marca;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -170,12 +173,12 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el color de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar la marca de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('idColor', id);
+        FORM.append('idMarca', id);
         // Petición para eliminar el registro seleccionado.
         const DATA = await fetchData(Marca_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.

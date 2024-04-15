@@ -24,19 +24,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$marca->setid($_POST['idMarca']) or
-                    !$marca->setNombre($_POST['nombreMarca']) 
-                ) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($marca->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Color creado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear el Color';
-                }
+                case 'createRow':
+                    $_POST = Validator::validateForm($_POST);
+                    if (!$marca->setNombre($_POST['nombreMarca'])) {
+                        $result['error'] = $marca->getDataError();
+                    } elseif ($marca->createRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Marca agregada correctamente';
+                    } else {
+                        $result['error'] = $marca->getDataError() ?: 'Ocurrió un problema al agregar la marca';
+                    }
                 break;
             case 'readAll':
                 if ($result['dataset'] = $marca->readAll()) {
@@ -52,7 +49,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $marca->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Producto inexistente';
+                    $result['error'] = 'Marca inexistente';
                 }
                 break;
             case 'updateRow':
@@ -64,22 +61,21 @@ if (isset($_GET['action'])) {
                     $result['error'] = $marca->getDataError();
                 } elseif ($marca->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Color modificado correctamente';
+                    $result['message'] = 'Marca modificado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el color';
+                    $result['error'] = 'Ocurrió un problema al modificar la marca';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$marca->setid($_POST['idMarca']) or
-                    !$marca->setNombre($_POST['nombreMarca']) 
+                    !$marca->setid($_POST['idMarca']) 
                 ) {
                     $result['error'] = $marca->getDataError();
                 } elseif ($marca->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Color eliminado correctamente';
+                    $result['message'] = 'Marca eliminada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el color';
+                    $result['error'] = 'Ocurrió un problema al eliminar la marca';
                 }
                 break;
             

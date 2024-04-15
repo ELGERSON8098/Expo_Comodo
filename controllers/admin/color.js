@@ -134,7 +134,7 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Agregar un nuevo color';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    ID_COLOR.disabled = false
+    ID_COLOR.disabled = false;
     NOMBRE_COLOR.disabled = false;
 }
 

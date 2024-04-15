@@ -17,27 +17,26 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $color->searchRows()) {
+                } elseif ($result['dataset'] = $talla->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$talla->setid($_POST['idTalla']) or
-                    !$talla->setNombre($_POST['nombreTalla']) 
-                ) {
-                    $result['error'] = $talla->getDataError();
-                } elseif ($talla->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Talla creada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear la talla';
-                }
-                break;
+
+                case 'createRow':
+                    $_POST = Validator::validateForm($_POST);
+                    if (!$talla->setNombre($_POST['nombreTalla'])) {
+                        $result['error'] = $talla->getDataError();
+                    } elseif ($talla->createRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Talla creada correctamente';
+                    } else {
+                        $result['error'] = $talla->getDataError() ?: 'Ocurrió un problema al crear la talla';
+                    }
+                    break;
+
             case 'readAll':
                 if ($result['dataset'] = $talla->readAll()) {
                     $result['status'] = 1;
@@ -71,8 +70,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'deleteRow':
                 if (
-                    !$talla->setid($_POST['idTalla']) or
-                    !$talla->setNombre($_POST['nombreTalla']) 
+                    !$talla->setid($_POST['idTalla'])
                 ) {
                     $result['error'] = $talla->getDataError();
                 } elseif ($talla->deleteRow()) {
