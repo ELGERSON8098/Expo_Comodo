@@ -1,5 +1,5 @@
 // Constantes para completar las rutas de la API.
-const COLOR_API = 'services/admin/categoria.php';
+const CATEGORIA_API = 'services/admin/categoria.php';
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
 // Constantes para establecer el contenido de la tabla.
@@ -10,9 +10,9 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    ID_COLOR = document.getElementById('idColor'),
-    NOMBRE_COLOR = document.getElementById('nombreColor');
-IMAGEN_CATE = document.getElementById('nombreIMG');
+    ID_CATEGORIA = document.getElementById('idCategoria'),
+    NOMBRE_CATEGORIA = document.getElementById('nombreCategoria');
+    IMAGEN_CATE = document.getElementById('nombreIMG');
 // Se establece el título de la página web.
 document.querySelector('title').textContent = 'Categoria';
 
@@ -41,17 +41,18 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se verifica la acción a realizar.
-    (ID_COLOR.value) ? action = 'updateRow' : action = 'createRow';
+    (ID_CATEGORIA.value) ? action = 'updateRow' : action = 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
     // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(COLOR_API, action, FORM);
+    const DATA = await fetchData(CATEGORIA_API, action, FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se cierra la caja de diálogo.
         SAVE_MODAL.hide();
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
+        ID_CATEGORIA.value=null;
         // Se carga nuevamente la tabla para visualizar los cambios.
         fillTable();
     } else {
@@ -71,7 +72,7 @@ const fillTable = async (form = null) => {
     // Se verifica la acción a realizar.
     (form) ? action = 'searchRows' : action = 'readAll';
     // Petición para obtener los registros disponibles.
-    const DATA = await fetchData(COLOR_API, action, form);
+    const DATA = await fetchData(CATEGORIA_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se recorre el conjunto de registros fila por fila.
@@ -132,10 +133,11 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Agregar una nueva categoria';
+    MODAL_TITLE.textContent = 'Crear categoría';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    NOMBRE_COLOR.disabled = false;
+    ID_CATEGORIA.disabled = false;
+    NOMBRE_CATEGORIA.disabled = false;
     IMAGEN_CATE.disabled = false;
 }
 
@@ -147,9 +149,9 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_categoria', id);
+    FORM.append('idCategoria', id);
     // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(COLOR_API, 'readOne', FORM);
+    const DATA = await fetchData(CATEGORIA_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
@@ -157,13 +159,10 @@ const openUpdate = async (id) => {
         MODAL_TITLE.textContent = 'Actualizar categoria';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        NOMBRE_COLOR.disabled = false;
-        IMAGEN_CATE.disabled = false;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
-        ID_COLOR.value = ROW.id_color;
-        NOMBRE_COLOR.disabled = false;
-        IMAGEN_CATE.disabled = false;
+        ID_CATEGORIA.value = ROW.id_categoria;
+        NOMBRE_CATEGORIA.value = ROW.nombre_categoria;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -183,7 +182,7 @@ const openDelete = async (id) => {
         const FORM = new FormData();
         FORM.append('idCategoria', id);
         // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(COLOR_API, 'deleteRow', FORM);
+        const DATA = await fetchData(CATEGORIA_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se muestra un mensaje de éxito.

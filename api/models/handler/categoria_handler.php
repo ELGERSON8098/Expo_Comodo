@@ -11,10 +11,14 @@ class CategoriaHandler
      */
     protected $id = null;
     protected $nombre = null;
+
+    protected $descripcion = null;
+
+
     protected $imagen = null;
 
     // Constante para establecer la ruta de las imágenes.
-    const RUTA_IMAGEN = '../../images/categorias/';
+    const RUTA_IMAGEN = '../../images/productos/';
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -22,20 +26,22 @@ class CategoriaHandler
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_categoria, nombre_categoria, imagen_categoria, descripcion_categoria
-                FROM categoria
-                WHERE nombre_categoria LIKE ? OR descripcion_categoria LIKE ?
+        $sql = 'SELECT id_categoria, nombre_categoria, imagen
+                FROM tb_categorias
+                WHERE nombre_categoria LIKE ?
                 ORDER BY nombre_categoria';
-        $params = array($value, $value);
+        $params = array($value);
         return Database::getRows($sql, $params);
     }
-
+    
+  
+    
     public function createRow()
     {
-        $sql = 'INSERT INTO categoria(nombre_categoria, imagen_categoria, descripcion_categoria)
-                VALUES(?, ?, ?)';
-        $params = array($this->nombre, $this->imagen, $this->descripcion);
-        return Database::executeRow($sql, $params);
+    $sql = 'INSERT INTO tb_categorias(nombre_categoria, imagen)
+            VALUES(?, ?)';
+    $params = array($this->nombre, $this->imagen);
+    return Database::executeRow($sql, $params);
     }
 
     public function readAll()
@@ -57,25 +63,27 @@ class CategoriaHandler
 
     public function readFilename()
     {
-        $sql = 'SELECT imagen_categoria
-                FROM categoria
+        $sql = 'SELECT imagen
+                FROM tb_categorias
                 WHERE id_categoria = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
+    
 
     public function updateRow()
     {
-        $sql = 'UPDATE categoria
-                SET imagen_categoria = ?, nombre_categoria = ?, descripcion_categoria = ?
+        $sql = 'UPDATE tb_categorias
+                SET imagen = ?, nombre_categoria = ?
                 WHERE id_categoria = ?';
-        $params = array($this->imagen, $this->nombre, $this->descripcion, $this->id);
+        $params = array($this->imagen, $this->nombre, $this->id);
         return Database::executeRow($sql, $params);
     }
+    
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM categoria
+        $sql = 'DELETE FROM tb_categorias
                 WHERE id_categoria = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
