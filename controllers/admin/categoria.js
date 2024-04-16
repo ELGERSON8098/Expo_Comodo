@@ -136,6 +136,9 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Crear categoría';
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    ID_CATEGORIA.disabled = false;
+    NOMBRE_CATEGORIA.disabled = false;
+    IMAGEN_CATE.disabled = false;
 }
 
 /*

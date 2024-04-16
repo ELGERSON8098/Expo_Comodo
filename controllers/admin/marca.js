@@ -135,8 +135,6 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Agregar una nueva talla';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    ID_Marca.disabled = false;
-    NOMBRE_Marca.disabled = false;
 }
 
 /*
