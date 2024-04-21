@@ -80,10 +80,9 @@ const loadTemplate = async () => {
                 </ul>
             </div>
         </nav>
-    </header>
-            `);
+    </header>`);
             // Se agrega el pie de la página web después del contenido principal.
-            MAIN.insertAdjacentHTML('afterend', `>`);
+            MAIN.insertAdjacentHTML('afterend', ``);
         } else {
             sweetAlert(3, DATA.error, false, 'index.html');
         }

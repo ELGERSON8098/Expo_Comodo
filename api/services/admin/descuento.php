@@ -27,10 +27,9 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$descuento->setid($_POST['idDescuento']) or
                     !$descuento->setNombre($_POST['nombreDescuento']) or
-                    !$descuento->setNombre($_POST['nombreDesc']) or
-                    !$descuento->setPrecio($_POST['ValorM'])
+                    !$descuento->setDesc($_POST['nombreDesc']) or
+                    !$descuento->setvalor($_POST['ValorM'])
                 ) {
                     $result['error'] = $descuento->getDataError();
                 } elseif ($descuento->createRow()) {
@@ -62,8 +61,8 @@ if (isset($_GET['action'])) {
                 if (
                     !$descuento->setid($_POST['idDescuento']) or
                     !$descuento->setNombre($_POST['nombreDescuento']) or
-                    !$descuento->setNombre($_POST['nombreDesc']) or
-                    !$descuento->setPrecio($_POST['ValorM'])
+                    !$descuento->setDesc($_POST['nombreDesc']) or
+                    !$descuento->setvalor($_POST['ValorM'])
                 ) {
                     $result['error'] = $descuento->getDataError();
                 } elseif ($descuento->updateRow()) {
@@ -75,10 +74,7 @@ if (isset($_GET['action'])) {
                 break;
             case 'deleteRow':
                 if (
-                    !$descuento->setid($_POST['idDescuento']) or
-                    !$descuento->setNombre($_POST['nombreDescuento']) or
-                    !$descuento->setNombre($_POST['nombreDesc']) or
-                    !$descuento->setPrecio($_POST['ValorM'])
+                    !$descuento->setid($_POST['idDescuento'])
                 ) {
                     $result['error'] = $descuento->getDataError();
                 } elseif ($descuento->deleteRow()) {

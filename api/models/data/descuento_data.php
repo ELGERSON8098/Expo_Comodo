@@ -10,6 +10,7 @@ class descuentoData extends descuentoHandler
 {
     // Atributo genérico para manejo de errores.
     private $data_error = null;
+    private $codigo_interno = null;
 
     /*
      *  Métodos para validar y asignar valores de los atributos.
@@ -28,7 +29,7 @@ class descuentoData extends descuentoHandler
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
+            $this->data_error = 'El nombre del descuento debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre = $value;
@@ -39,19 +40,41 @@ class descuentoData extends descuentoHandler
         }
     }
 
-    public function setPrecio($value, $min = 1, $max = 50)
+
+    public function setvalor($value, $min = 1, $max = 200)
     {
-        if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El precio debe ser numerico';
+        // Validar que el valor contenga solo números
+        if (!is_numeric($value)) {
+            $this->data_error = 'El valor debe contener solo números';
+            return false;
+        }
+    
+        // Validar la longitud del valor
+        if (!Validator::validateLength($value, $min, $max)) {
+            $this->data_error = 'El valor debe tener una longitud entre '  . $min . ' y ' . $max;
+            return false;
+        }
+    
+        // Asignar el valor validado al atributo de la clase
+        $this->valor = $value;
+        return true;
+    }
+    
+
+    public function setDesc($value, $min = 2, $max = 50)
+    {
+        if (!preg_match('/^[a-zA-Z0-9\s\-áéíóúÁÉÍÓÚñÑ.,;:()¿?¡!&%$€£@#]*$/', $value)) {
+            $this->data_error = 'La descripción debe contener solo letras, números y algunos caracteres especiales';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->codigo_interno = $value;
+            $this->descripcion = $value;
             return true;
         } else {
-            $this->data_error = 'El precio debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'La descripción debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
+    
 
 
     // Método para obtener el error de los datos.

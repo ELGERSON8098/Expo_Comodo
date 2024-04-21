@@ -10,7 +10,7 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    ID_DESCUENTO = document.getElementById('id_descuento'),
+    ID_DESCUENTO = document.getElementById('idDescuento'),
     NOMBRE_DESCUENTO = document.getElementById('nombreDescuento');
 NOMBRE_DESCRIPCION = document.getElementById('nombreDesc');
 NOMBRE_VALOR = document.getElementById('ValorM');
@@ -81,7 +81,7 @@ const fillTable = async (form = null) => {
                     <td>${row.nombre_descuento}</td>
                     <td>${row.descripcion}</td>
                     <td>${row.valor}</td>
-                    <td>
+                    <td
                         <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_descuento})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
@@ -110,6 +110,7 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Agregar nuevo descuento';
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    ID_DESCUENTO.disabled = false;
     NOMBRE_DESCUENTO.disabled = false;
     NOMBRE_DESCRIPCION.disabled = false;
     NOMBRE_VALOR.disabled = false;
@@ -123,7 +124,7 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_descuento', id);
+    FORM.append('idDescuento', id);
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(DESCUENTO_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -133,13 +134,12 @@ const openUpdate = async (id) => {
         MODAL_TITLE.textContent = 'Actualizar descuento';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        NOMBRE_DESCUENTO.disabled = false;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
         ID_DESCUENTO.value = ROW.id_descuento;
-        NOMBRE_DESCUENTO.disabled = false;
-        NOMBRE_DESCRIPCION.disabled = false;
-        NOMBRE_VALOR.disabled = false;
+        NOMBRE_DESCUENTO.value = ROW.nombre_descuento;
+        NOMBRE_DESCRIPCION.value = ROW.descripcion;
+        NOMBRE_VALOR.value = ROW.valor;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -152,7 +152,7 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el descuento de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar la categoria de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.

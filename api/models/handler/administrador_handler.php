@@ -30,11 +30,12 @@ class AdministradorHandler
         if (password_verify($password, $data['clave_administrador'])) {
             $_SESSION['idAdministrador'] = $data['id_administrador'];
             $_SESSION['aliasAdministrador'] = $data['usuario_administrador'];
-            return true;
+            return $data['id_administrador']; // Devuelve el id_administrador
         } else {
             return false;
         }
     }
+    
 
     public function checkPassword($password)
     {

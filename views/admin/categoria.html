@@ -42,12 +42,12 @@
                     </div>
                 </div>
             </form>
-            <div class="col-sm-12 col-md-6 text-end">
-                <!-- Botón para abrir una caja de diálogo al momento de crear un nuevo registro -->
-                <button type="button" class="btn btn-primary" onclick="openCreate()">
+            <div class="d-flex justify-content-between">
+                <div></div> <!-- Este div es opcional, sirve para ocupar el espacio restante -->
+                <button type="button" class="btn btn-primary ml-auto" onclick="openCreate()">
                     <i class="bi bi-plus-square-fill"></i>
                 </button>
-            </div>
+            </div>                    
         </div>
 
         <!-- Tabla para mostrar los registros existentes -->
@@ -55,7 +55,7 @@
             <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
             <thead>
                 <tr>
-                    <td colspan="5" id="rowsFound"></td>
+                    <td colspan="28" id="rowsFound"></td>
                 </tr>
                 <tr>
                     <th>Imagen</th>
