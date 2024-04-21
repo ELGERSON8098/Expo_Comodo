@@ -7,7 +7,14 @@ const TABLE_BODY = document.getElementById('tableBody'),
     ROWS_FOUND = document.getElementById('rowsFound');
 // Constantes para establecer los elementos del componente Modal.
 const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
-    MODAL_TITLE = document.getElementById('modalTitle');
+MODAL_TITLE = document.getElementById('modalTitle');
+// Constantes para establecer los elementos del componente Modal.
+const SAVE_MODALS = new bootstrap.Modal('#saveModalS'),
+MODAL_TITLES = document.getElementById('modalTitleS');
+// Constantes para establecer los elementos del formulario de guardar.
+const SAVE_FORMS = document.getElementById('saveForms'),
+ID_ESTADO = document.getElementById('idReservas');
+COMBOC_RESERVA = document.getElementById('EstadoP');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_USUARIO = document.getElementById('idReserva'),
@@ -74,7 +81,7 @@ const fillTable = async (form = null) => {
                 
                 <td>
                     <div class="btn-group" role="group" aria-label="Acciones">
-                        <button type="button" class="btn  btn-success rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_reserva})">
+                        <button type="button" class="btn  btn-success rounded me-2 mb-2 mb-sm-0" onclick="openUpdateS(${row.id_reserva})">
                             <i class="bi bi-bag-check"></i>
                         </button>
                         <button type="button" class="btn btn-warning rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_reserva})">
@@ -136,6 +143,28 @@ const openUpdate = async (id) => {
     }
 }
 
+const openUpdateS = async (id) => {
+    console.log("id_reserva" + id);
+    // Se define una constante tipo objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idReservas', id);
+    // Petición para obtener los datos del registro solicitado.
+    const DATA = await fetchData(RESERVA_API, 'readOneS', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se muestra la caja de diálogo con su título.
+        SAVE_MODALS.show();
+        MODAL_TITLES.textContent = 'Estado del pedido';
+        // Se inicializan los campos con los datos.
+        SAVE_FORM.reset();
+        ID_ESTADO.disabled = false;
+        const ROW = DATA.dataset;
+        fillSelect(RESERVA_API, 'readAlls', 'EstadoP', ROW.estado_reserva);
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+}
+
 /*
 *   Función asíncrona para eliminar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -143,7 +172,7 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el administrador de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar la reserva de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.

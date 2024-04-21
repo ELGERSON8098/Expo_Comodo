@@ -139,6 +139,32 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="saveModalS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitleS" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalTitleS"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Formulario para guardar un registro -->
+                    <form id="saveForms">
+                        <div class="modal-body row g-3">
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <input type="hidden" id="idReservas" name="idReservas">
+                            <div class="col-sm-12 col-md-6">
+                                <label for="EstadoP" class="form-label">Estado del Pedido</label>
+                                <select id="EstadoP" type="text" name="EstadoP" class="form-control" required></select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </main>
     <!-- bootstrap js -->
     <!-- Llamada al framework y librería de mensajes -->

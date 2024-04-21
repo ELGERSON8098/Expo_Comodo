@@ -49,6 +49,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen categorías registradas';
                 }
                 break;
+                case 'readAlls':
+                    if ($result['dataset'] = $reserva->readAlls()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    } else {
+                        $result['error'] = 'No existen categorías registradas';
+                    }
+                    break;
             case 'readOne':
                 if (!$reserva->setId($_POST['idReserva'])) {
                     $result['error'] = $reserva->getDataError();
@@ -58,6 +66,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Reserva inexistente';
                 }
                 break;
+                case 'readOneS':
+                    if (!$reserva->setId($_POST['idReservas'])) {
+                        $result['error'] = $reserva->getDataError();
+                    } elseif ($result['dataset'] = $reserva->readOneS()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Reserva inexistentes';
+                    }
+                    break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (

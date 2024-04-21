@@ -39,20 +39,6 @@ class UsuariosData extends UsuariosHandler
         }
     }
 
-    public function setApellido($value, $min = 2, $max = 50)
-    {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El apellido debe ser un valor alfabético';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->apellido = $value;
-            return true;
-        } else {
-            $this->data_error = 'El apellido debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        }
-    }
-
     public function setCorreo($value, $min = 8, $max = 100)
     {
         if (!Validator::validateEmail($value)) {
@@ -97,37 +83,33 @@ class UsuariosData extends UsuariosHandler
         if (!Validator::validateDUI($value)) {
             $this->data_error = 'El DUI debe tener el formato #########';
             return false;
-        } elseif($this->checkDuplicate($value)) {
+        } 
+        
+        if ($this->checkDuplicate($value)) {
             $this->data_error = 'El DUI ingresado ya existe';
             return false;
-        } else {
-            $this->dui = $value;
-            return true;
-        }
+        } 
+        
+        $this->dui = $value;
+        return true;
     }
+    
 
     public function setTelefono($value)
     {
-        if (Validator::validatePhone($value)) {
+        // Eliminar todos los caracteres no numéricos del número de teléfono
+        $value = preg_replace('/\D/', '', $value);
+        
+        // Validar que el número de teléfono tenga al menos 7 dígitos
+        if (strlen($value) >= 7) {
             $this->telefono = $value;
             return true;
         } else {
-            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)#######';
+            $this->data_error = 'El teléfono debe tener al menos 7 dígitos';
             return false;
         }
     }
-
-    public function setCantidad($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->cantidad = $value;
-            return true;
-        } else {
-            $this->data_error = 'La cantidad del producto debe ser mayor o igual a 1';
-            return false;
-        }
-    }
-
+    
 
 
     // Método para obtener el error de los datos.

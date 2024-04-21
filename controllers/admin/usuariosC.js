@@ -15,6 +15,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ALIAS_USUARIO = document.getElementById('aliasUsuarioC'),
     CORREO_USUARIO = document.getElementById('correoUsuarioC'),
     Tel_USUARIO = document.getElementById('TelUsuarioC'),
+    CONTRA_USUARIO = document.getElementById('ContraC'),
     DUI_USUARIO = document.getElementById('duiUsuarioC');
 
 // Método del evento para cuando el documento ha cargado.
@@ -103,23 +104,6 @@ const fillTable = async (form = null) => {
     }
 }
 
-/*
-*   Función para preparar el formulario al momento de insertar un registro.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
-const openCreate = () => {
-    // Se muestra la caja de diálogo con su título.
-    SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Crear un nuevo trabajador';
-    // Se prepara el formulario.
-    SAVE_FORM.reset();
-    NOMBRE_USUARIO.disabled = false;
-    ALIAS_USUARIO.disabled = false;
-    CORREO_USUARIO.disabled = false;
-    Tel_USUARIO.disabled = false;
-    DUI_USUARIO.disabled = false;
-}
 
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
@@ -129,21 +113,16 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_usuario', id);
+    FORM.append('idusuarioC', id);
     // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(ADMINISTRADOR_API, 'readOne', FORM);
+    const DATA = await fetchData(USUARIO_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar administrador';
+        MODAL_TITLE.textContent = 'Actualizar cliente';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        NOMBRE_USUARIO.disabled = false;
-        ALIAS_USUARIO.disabled = false;
-        CORREO_USUARIO.disabled = false;
-        Tel_USUARIO.disabled = false;
-        DUI_USUARIO.disabled = false;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
         ID_USUARIO.value = ROW.id_usuario;
@@ -151,6 +130,7 @@ const openUpdate = async (id) => {
         ALIAS_USUARIO.value = ROW.usuario;
         CORREO_USUARIO.value = ROW.correo;
         Tel_USUARIO.value = ROW.telefono;
+        CONTRA_USUARIO.value = ROW.clave;
         DUI_USUARIO.value = ROW.dui_cliente;
     } else {
         sweetAlert(2, DATA.error, false);
@@ -164,12 +144,12 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el administrador de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar el cliente de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('idAdministrador', id);
+        FORM.append('idusuarioC', id);
         // Petición para eliminar el registro seleccionado.
         const DATA = await fetchData(USUARIO_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.

@@ -24,30 +24,12 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$usuariosC->setNombre($_POST['nombreUsuarioC']) or
-                    !$usuariosC->setDescripcion($_POST['aliasUsuarioC']) or
-                    !$usuariosC->setPrecio($_POST['correoUsuarioC']) or
-                    !$usuariosC->setExistencias($_POST['claveUsuarioC']) or
-                    !$usuariosC->setCategoria($_POST['TelUsuarioC']) or
-                    !$usuariosC->setCategoria($_POST['duiUsuarioC'])
-                ) {
-                    $result['error'] = $usuariosC->getDataError();
-                } elseif ($usuariosC->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Producto creado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear el producto';
-                }
-                break;
             case 'readAll':
                 if ($result['dataset'] = $usuariosC->readAll()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen productos registrados';
+                    $result['error'] = 'No existen Clientes registrados';
                 }
                 break;
             case 'readOne':
@@ -56,111 +38,39 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $usuariosC->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Producto inexistente';
+                    $result['error'] = 'Cliente inexistente';
                 }
                 break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$usuariosC->setNombre($_POST['nombreUsuarioC']) or
-                    !$usuariosC->setDescripcion($_POST['aliasUsuarioC']) or
-                    !$usuariosC->setPrecio($_POST['correoUsuarioC']) or
-                    !$usuariosC->setExistencias($_POST['claveUsuarioC']) or
-                    !$usuariosC->setCategoria($_POST['TelUsuarioC']) or
-                    !$usuariosC->setCategoria($_POST['duiUsuarioC'])
+                    !$usuariosC->setAlias($_POST['aliasUsuarioC']) or
+                    !$usuariosC->setCorreo($_POST['correoUsuarioC']) or
+                    !$usuariosC->setClave($_POST['claveUsuarioC']) or
+                    !$usuariosC->setTelefono($_POST['TelUsuarioC']) or
+                    !$usuariosC->setDUI($_POST['duiUsuarioC'])
                 ) {
                     $result['error'] = $usuariosC->getDataError();
                 } elseif ($usuariosC->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Producto modificado correctamente';
+                    $result['message'] = 'Cliente modificado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el producto';
+                    $result['error'] = 'Ocurrió un problema al modificar al cliente';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$usuariosC->setId($_POST['idusuarioC']) or
-                    !$usuariosC->setFilename()
+                    !$usuariosC->setId($_POST['idusuarioC'])
                 ) {
                     $result['error'] = $usuariosC->getDataError();
                 } elseif ($usuariosC->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Producto eliminado correctamente';
+                    $result['message'] = 'Cliente eliminado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el producto';
+                    $result['error'] = 'Ocurrió un problema al eliminar el cliente';
                 }
                 break;
-            case 'cantidadProductosCategoria':
-                if ($result['dataset'] = $usuariosC->cantidadProductosCategoria()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'No hay datos disponibles';
-                }
-                break;
-            case 'porcentajeProductosCategoria':
-                if ($result['dataset'] = $usuariosC->porcentajeProductosCategoria()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'No hay datos disponibles';
-                }
-                break;
-                case 'getUser':
-                    if (isset($_SESSION['aliasAdministrador'])) {
-                        $result['status'] = 1;
-                        $result['username'] = $_SESSION['aliasAdministrador'];
-                    } else {
-                        $result['error'] = 'Alias de administrador indefinido';
-                    }
-                    break;
-                case 'logOut':
-                    if (session_destroy()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Sesión eliminada correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al cerrar la sesión';
-                    }
-                    break;
-                case 'readProfile':
-                    if ($result['dataset'] = $usuariosC->readProfile()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al leer el perfil';
-                    }
-                    break;
-                case 'editProfile':
-                    $_POST = Validator::validateForm($_POST);
-                    if (
-                        !$administrador->setNombre($_POST['nombreAdministrador']) or
-                        !$administrador->setCorreo($_POST['correoAdministrador']) or
-                        !$administrador->setAlias($_POST['aliasAdministrador']) or
-                        !$administrador->setClave($_POST['claveAdministrador'])
-                    ) {
-                        $result['error'] = $administrador->getDataError();
-                    } elseif ($administrador->editProfile()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Perfil modificado correctamente';
-                        $_SESSION['aliasAdministrador'] = $_POST['aliasAdministrador'];
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al modificar el perfil';
-                    }
-                    break;
-                case 'changePassword':
-                    $_POST = Validator::validateForm($_POST);
-                    if (!$administrador->checkPassword($_POST['claveActual'])) {
-                        $result['error'] = 'Contraseña actual incorrecta';
-                    } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
-                        $result['error'] = 'Confirmación de contraseña diferente';
-                    } elseif (!$administrador->setClave($_POST['claveNueva'])) {
-                        $result['error'] = $administrador->getDataError();
-                    } elseif ($administrador->changePassword()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Contraseña cambiada correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
-                    }
-                    break;
-            default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
