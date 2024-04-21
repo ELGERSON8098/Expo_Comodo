@@ -13,7 +13,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ID_Marca = document.getElementById('idMarca'),
     NOMBRE_Marca = document.getElementById('nombreMarca');
 
-      // Se establece el título de la página web.
+// Se establece el título de la página web.
 document.querySelector('title').textContent = 'Marcas';
 
 // Método del evento para cuando el documento ha cargado.

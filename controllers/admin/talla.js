@@ -12,7 +12,7 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_TALLA = document.getElementById('idTalla'),
     NOMBRE_TALLA = document.getElementById('nombreTalla');
-    // Se establece el título de la página web.
+// Se establece el título de la página web.
 document.querySelector('title').textContent = 'Tallas';
 
 // Método del evento para cuando el documento ha cargado.

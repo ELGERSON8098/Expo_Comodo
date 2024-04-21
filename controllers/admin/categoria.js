@@ -12,7 +12,7 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_CATEGORIA = document.getElementById('idCategoria'),
     NOMBRE_CATEGORIA = document.getElementById('nombreCategoria');
-    IMAGEN_CATE = document.getElementById('nombreIMG');
+IMAGEN_CATE = document.getElementById('nombreIMG');
 // Se establece el título de la página web.
 document.querySelector('title').textContent = 'Categoria';
 
@@ -52,7 +52,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         SAVE_MODAL.hide();
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
-        ID_CATEGORIA.value=null;
+        ID_CATEGORIA.value = null;
         // Se carga nuevamente la tabla para visualizar los cambios.
         fillTable();
     } else {
