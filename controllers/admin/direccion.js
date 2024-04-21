@@ -82,7 +82,7 @@ const fillTable = async (form = null) => {
                     <td>${row.municipio}</td>
                     <td>${row.distrito}</td>
                     <td>
-                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_direccion})">
+                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" onclick="openUpdate()">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
                         <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-0" onclick="openDelete(${row.id_direccion})">
@@ -120,27 +120,12 @@ const openCreate = () => {
 *   Retorno: ninguno.
 */
 const openUpdate = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idDireccion', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(DIRECCION_API, 'readOne', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se muestra la caja de diálogo con su título.
-        SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar Direccion';
-        // Se prepara el formulario.
-        SAVE_FORM.reset();
-        // Se inicializan los campos con los datos.
-        const ROW = DATA.dataset;
-        ID_DISTRITO.value = ROW.id_distrito;
-        DEPARTAMENTO.value = ROW.departamento;
-        MUNICIPIO.value = ROW.municipio;
-        DISTRITO.value = ROW.distrito;
-    } else {
-        sweetAlert(2, DATA.error, false);
-    }
+    SAVE_MODAL.show();
+    MODAL_TITLE.textContent = 'Actualizar direccion';
+    // Se prepara el formulario.
+    SAVE_FORM.reset();
+    DEPARTAMENTO.disabled = false;
+    ID_DISTRITO.disabled = false;
 }
 
 /*

@@ -120,31 +120,13 @@ const openCreate = () => {
 *   Retorno: ninguno.
 */
 const openUpdate = async (id) => {
-    // Se define un objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idProducto', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(PRODUCTO_API, 'readOne', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se muestra la caja de diálogo con su título.
-        SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar producto';
-        // Se prepara el formulario.
-        SAVE_FORM.reset();
-        EXISTENCIAS_PRODUCTO.disabled = true;
-        // Se inicializan los campos con los datos.
-        const ROW = DATA.dataset;
-        ID_PRODUCTO.value = ROW.id_producto;
-        NOMBRE_PRODUCTO.value = ROW.nombre_producto;
-        DESCRIPCION_PRODUCTO.value = ROW.descripcion_producto;
-        PRECIO_PRODUCTO.value = ROW.precio_producto;
-        EXISTENCIAS_PRODUCTO.value = ROW.existencias_producto;
-        ESTADO_PRODUCTO.checked = ROW.estado_producto;
-        ID_SUBCATEGORIA.value = ROW.id_subcategoria;
-    } else {
-        sweetAlert(2, DATA.error, false);
-    }
+    // Se muestra la caja de diálogo con su título.
+    SAVE_MODAL.show();
+    MODAL_TITLE.textContent = 'Actualizar Producto';
+    // Se prepara el formulario.
+    SAVE_FORM.reset();
+    EXISTENCIAS_PRODUCTO.disabled = false;
+    fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto');
 }
 
 /*

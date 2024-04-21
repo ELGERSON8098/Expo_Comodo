@@ -125,33 +125,13 @@ const openCreate = () => {
 *   Retorno: ninguno.
 */
 const openUpdate = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idAdministrador', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(ADMINISTRADOR_API, 'readOne', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se muestra la caja de diálogo con su título.
-        SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar administrador';
-        // Se prepara el formulario.
-        SAVE_FORM.reset();
-        ALIAS_ADMINISTRADOR.disabled = true;
-        CLAVE_ADMINISTRADOR.disabled = true;
-        CONFIRMAR_CLAVE.disabled = true;
-        // Se inicializan los campos con los datos.
-        const ROW = DATA.dataset;
-        ID_ADMINISTRADOR.value = ROW.id_administrador;
-        NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
-        CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
-        USUARIO_ADMINISTRADOR.value = ROW.user_administrador;
-        NIVEL_ADMINISTRADOR.value = ROW.id_nivel_usuario;
-        CLAVE_ADMINISTRADOR.value = ROW.clave_administrador;
-
-    } else {
-        sweetAlert(2, DATA.error, false);
-    }
+    SAVE_MODAL.show();
+    MODAL_TITLE.textContent = 'Actualizar administrador';
+    // Se prepara el formulario.
+    SAVE_FORM.reset();
+    USUARIO_ADMINISTRADOR.disabled = false;
+    CLAVE_ADMINISTRADOR.disabled = false;
+    CONFIRMAR_CLAVE.disabled = false;
 }
 
 /*
