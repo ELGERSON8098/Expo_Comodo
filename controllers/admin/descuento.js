@@ -81,16 +81,15 @@ const fillTable = async (form = null) => {
                     <td>${row.nombre_descuento}</td>
                     <td>${row.descripcion}</td>
                     <td>${row.valor}</td>
-                    <td
-                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_descuento})">
+                    <td>
+                <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_descuento})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-0" onclick="openDelete(${row.id_descuento})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
+                <button type="button" class="btn btn-danger rounded me-2" onclick="openDelete(${row.id_descuento})">
+                    <i class="bi bi-trash-fill"></i>
+                </button>                
                     </td>
-                </tr>
-            `;
+                </tr>`;
         });
         // Se muestra un mensaje de acuerdo con el resultado.
         ROWS_FOUND.textContent = DATA.message;
