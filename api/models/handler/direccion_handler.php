@@ -13,70 +13,6 @@ class direccion_handler
     protected $departamento = null;
     protected $municipio = null;
     protected $distrito = null;
-
-    /*
-     *  Métodos para gestionar la cuenta del administrador.
-     */
-    public function checkUser($username, $password)
-    {
-        $sql = 'SELECT id_administrador, usuario_administrador,  clave_administrador
-                FROM tb_admins
-                WHERE  usuario_administrador = ?';
-        $params = array($username);
-        $data = Database::getRow($sql, $params);
-        if (password_verify($password, $data['clave_administrador'])) {
-            $_SESSION['idAdmin'] = $data['id_administrador'];
-            $_SESSION['NUsuario'] = $data['usuario_administrador'];
-
-            
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function checkPassword($password)
-    {
-        $sql = 'SELECT clave_administrador
-                FROM tb_admins
-                WHERE id_administrador = ?';
-        $params = array($_SESSION['id_administrador']);
-        $data = Database::getRow($sql, $params);
-        // Se verifica si la contraseña coincide con el hash almacenado en la base de datos.
-        if (password_verify($password, $data['clave_administrador'])) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    public function changePassword()
-    {
-        $sql = 'UPDATE tb_admins
-                SET clave_administrador = ?
-                WHERE id_administrador = ?';
-        $params = array($this->clave, $_SESSION['id_administrador']);
-        return Database::executeRow($sql, $params);
-    }
-
-    public function readProfile()
-    {
-        $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, user_administrador
-                FROM tb_admins
-                WHERE id_administrador = ?';
-        $params = array($_SESSION['id_administrador']);
-        return Database::getRow($sql, $params);
-    }
-
-    public function editProfile()
-    {
-        $sql = 'UPDATE tb_admins
-                SET nombre_administrador = ?, correo_administrador = ?, user_administrador = ?
-                WHERE id_administrador = ?';
-        $params = array($this->nombre, $this->correo, $this->usuario, $_SESSION['id_administrador']);
-        return Database::executeRow($sql, $params);
-    }
-
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
@@ -112,7 +48,7 @@ class direccion_handler
         $sql = 'SELECT departamento, municipio, distrito from tb_distritos
         INNER JOIN tb_municipios USING (id_municipio)
         INNER JOIN tb_departamentos USING (id_departamento)';
-        $params = array($id_distrito);
+        $params = array($this->id);
         return Database::getRow($sql, $params);
     }
     
@@ -120,12 +56,14 @@ class direccion_handler
 
     public function updateRow() 
     {
-        $sql = 'UPDATE tb_admins
-                SET nombre_administrador = ?,  correo_administrador = ?
-                WHERE id_administrador = ?';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->id);
+        $sql = 'UPDATE tb_distritos AS d
+                INNER JOIN tb_municipios AS m ON d.id_municipio = m.id_municipio
+                SET d.distrito = ?
+                WHERE d.id_distrito = ?';
+        $params = array($this->distrito, $this->id);
         return Database::executeRow($sql, $params);
     }
+    
 
     public function deleteRow()
     {

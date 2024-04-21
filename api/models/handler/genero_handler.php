@@ -57,26 +57,26 @@ class generoHandler
 
     public function readFilename()
     {
-        $sql = 'SELECT imagen_categoria
-                FROM categoria
-                WHERE id_categoria = ?';
+        $sql = 'SELECT imagen_genero
+                FROM tb_generos_zapatos
+                WHERE id_genero = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
 
     public function updateRow()
     {
-        $sql = 'UPDATE categoria
-                SET imagen_categoria = ?, nombre_categoria = ?, descripcion_categoria = ?
-                WHERE id_categoria = ?';
-        $params = array($this->imagen, $this->nombre, $this->descripcion, $this->id);
+        $sql = 'UPDATE tb_generos_zapatos
+                SET imagen_genero = ?, nombre_genero = ?
+                WHERE id_genero = ?';
+        $params = array($this->imagen, $this->nombre, $this->id);
         return Database::executeRow($sql, $params);
     }
 
     public function deleteRow()
     {
-        $sql = 'DELETE FROM categoria
-                WHERE id_categoria = ?';
+        $sql = 'DELETE FROM tb_generos_zapatos
+                WHERE id_genero = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }

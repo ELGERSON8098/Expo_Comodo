@@ -111,7 +111,6 @@ const openCreate = () => {
     // Se prepara el formulario.
     SAVE_FORM.reset();
     DEPARTAMENTO.disabled = false;
-    DESCRIPCION_DIRECCION.disabled = false;
     ID_DISTRITO.disabled = false;
 }
 
@@ -125,7 +124,7 @@ const openUpdate = async (id) => {
     const FORM = new FormData();
     FORM.append('idDireccion', id);
     // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(ADMINISTRADOR_API, 'readOne', FORM);
+    const DATA = await fetchData(DIRECCION_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
@@ -133,13 +132,12 @@ const openUpdate = async (id) => {
         MODAL_TITLE.textContent = 'Actualizar Direccion';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        DEPARTAMENTO.disabled = true;
-        DESCRIPCION_DIRECCION.disabled = true;
-        ID_DISTRITO.disabled = true;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
-        DEPARTAMENTO.value = ROW.departamento;
         ID_DISTRITO.value = ROW.id_distrito;
+        DEPARTAMENTO.value = ROW.departamento;
+        MUNICIPIO.value = ROW.municipio;
+        DISTRITO.value = ROW.distrito;
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -159,7 +157,7 @@ const openDelete = async (id) => {
         const FORM = new FormData();
         FORM.append('idDireccion', id);
         // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(ADMINISTRADOR_API, 'deleteRow', FORM);
+        const DATA = await fetchData(DIRECCION_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se muestra un mensaje de éxito.

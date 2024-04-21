@@ -11,7 +11,7 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_Gen = document.getElementById('idGenero'),
-    NOMBRE_Gen = document.getElementById('nombreColor');
+    NOMBRE_Gen = document.getElementById('nombreGEN'),
 IMAGEN_Gen = document.getElementById('nombreIMG');
 // Se establece el título de la página web.
 document.querySelector('title').textContent = 'Genero de zapatos';
@@ -147,7 +147,7 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
-    FORM.append('id_genero', id);
+    FORM.append('idGenero', id);
     // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(GENERO_API, 'readOne', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -157,13 +157,11 @@ const openUpdate = async (id) => {
         MODAL_TITLE.textContent = 'Actualizar genero de zapato';
         // Se prepara el formulario.
         SAVE_FORM.reset();
-        NOMBRE_Gen.disabled = false;
-        IMAGEN_Gen.disabled = false;
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
         ID_Gen.value = ROW.id_color;
-        NOMBRE_Gen.disabled = false;
-        IMAGEN_Gen.disabled = false;
+        NOMBRE_Gen.value = ROW.nombre_genero;
+        IMAGEN_Gen.value = ROW.imagen_genero;
     } else {
         sweetAlert(2, DATA.error, false);
     }

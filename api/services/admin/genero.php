@@ -27,16 +27,15 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$genero->setNombre($_POST['nombreCategoria']) or
-                    !$genero->setDescripcion($_POST['descripcionCategoria']) or
-                    !$genero->setImagen($_FILES['imagenCategoria'])
+                    !$genero->setNombre($_POST['nombreGEN']) or
+                    !$genero->setImagen($_FILES['nombreIMG'])
                 ) {
                     $result['error'] = $genero->getDataError();
                 } elseif ($genero->createRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Genero de zapato creado correctamente';
                     // Se asigna el estado del archivo después de insertar.
-                    $result['fileStatus'] = Validator::saveFile($_FILES['imagenCategoria'], $genero::RUTA_IMAGEN);
+                    $result['fileStatus'] = Validator::saveFile($_FILES['nombreIMG'], $genero::RUTA_IMAGEN);
                 } else {
                     $result['error'] = 'Ocurrió un problema al crear el genero de zapato';
                 }
@@ -50,7 +49,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readOne':
-                if (!$genero->setId($_POST['idCategoria'])) {
+                if (!$genero->setId($_POST['idGenero'])) {
                     $result['error'] = $genero->getDataError();
                 } elseif ($result['dataset'] = $genero->readOne()) {
                     $result['status'] = 1;
@@ -61,35 +60,34 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$genero->setId($_POST['idCategoria']) or
+                    !$genero->setId($_POST['idGenero']) or
                     !$genero->setFilename() or
-                    !$genero->setNombre($_POST['nombreCategoria']) or
-                    !$genero->setDescripcion($_POST['descripcionCategoria']) or
-                    !$genero->setImagen($_FILES['imagenCategoria'], $categoria->getFilename())
+                    !$genero->setNombre($_POST['nombreGEN']) or
+                    !$genero->setImagen($_FILES['nombreIMG'], $categoria->getFilename())
                 ) {
                     $result['error'] = $genero->getDataError();
                 } elseif ($genero->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Genero del zapato modificado correctamente';
                     // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['imagenCategoria'], $genero::RUTA_IMAGEN, $categoria->getFilename());
+                    $result['fileStatus'] = Validator::changeFile($_FILES['nombreIMG'], $genero::RUTA_IMAGEN, $categoria->getFilename());
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la categoría';
+                    $result['error'] = 'Ocurrió un problema al modificar el genero del zapato';
                 }
                 break;
             case 'deleteRow':
                 if (
-                    !$genero->setId($_POST['idCategoria']) or
+                    !$genero->setId($_POST['idGenero']) or
                     !$genero->setFilename()
                 ) {
                     $result['error'] = $genero->getDataError();
                 } elseif ($genero->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Categoría eliminada correctamente';
+                    $result['message'] = 'Genero del zapato eliminado correctamente';
                     // Se asigna el estado del archivo después de eliminar.
                     $result['fileStatus'] = Validator::deleteFile($genero::RUTA_IMAGEN, $genero->getFilename());
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la categoría';
+                    $result['error'] = 'Ocurrió un problema al eliminar el genero del zapato';
                 }
                 break;
             default:
