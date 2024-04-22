@@ -2,22 +2,22 @@
 <html lang="es">
 
 <head>
+    <!-- Codificación del documento -->
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <!-- fontawesome cdn -->
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Llamada al icono de la página web -->
+    <!-- Icono de la página -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Iconos de Boostrap-->
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-
-    <!--css -->
+    <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
@@ -47,6 +47,7 @@
             </form>
             <br>
             <br>
+            <!-- Botón para agregar una nueva talla -->
             <div class="col-12 col-sm-auto ms-auto">
                 <button type="button" class="btn btn-primary rounded me-2 mb-2 mb-sm-0" onclick="openCreate()">
                     <i class="bi bi-plus-square-fill"></i>
@@ -54,15 +55,18 @@
             </div>
         </div>
 
-        <!-- Tabla para mostrar los registros existentes -->
+        <!-- Tabla para mostrar las tallas existentes -->
         <table class="table table-hover">
-            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+            <!-- Encabezado de la tabla -->
             <thead>
                 <tr>
+                    <!-- Cantidad de registros encontrados -->
                     <td colspan="28" id="rowsFound"></td>
                 </tr>
+                <!-- Títulos de las columnas -->
                 <tr>
                     <th>Talla</th>
+                    <!-- Columnas vacías para alinear los botones de acción -->
                     <th></th>
                     <th></th>
                     <th></th>
@@ -92,11 +96,11 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
         </table>
 
-        <!-- Componente Modal para guardar un registro -->
+        <!-- Componente Modal para guardar una talla -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -105,17 +109,19 @@
                         <h1 class="modal-title fs-5" id="modalTitle"></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- Formulario para guardar un registro -->
+                    <!-- Formulario para guardar una talla -->
                     <form id="saveForm">
                         <div class="modal-body row g-3">
-                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <!-- Campo oculto para el ID de la talla -->
                             <input type="hidden" id="idTalla" name="idTalla">
+                            <!-- Campo para ingresar el nombre de la talla -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreTalla" class="form-label">Talla de zapatos</label>
                                 <input id="nombreTalla" type="number" name="nombreTalla" class="form-control" required>
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <!-- Botón para guardar la talla -->
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
@@ -123,15 +129,14 @@
             </div>
         </div>
     </main>
-    <!-- bootstrap js -->
-    <!-- Llamada al framework y librería de mensajes -->
+    <!-- Bootstrap JavaScript -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert JavaScript -->
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-
+    <!-- Controladores JavaScript -->
     <script src="../../controllers/utils/admin.js"></script>
     <script src="../../controllers/utils/components.js"></script>
     <script src="../../controllers/admin/talla.js"></script>
-
 </body>
 
 </html>

@@ -2,42 +2,49 @@
 <html lang="es">
 
 <head>
+    <!-- Codificación del documento -->
     <meta charset="UTF-8">
+    <!-- Compatibilidad con Internet Explorer -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <!-- fontawesome cdn -->
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Llamada al icono de la página web -->
+    <!-- Icono de la página -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Iconos de Boostrap-->
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-
-    <!--css -->
+    <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
+    <!-- Margen superior -->
     <div class="my-5"></div>
     <br>
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
+        <!-- Contenedor de la fila -->
         <div class="row">
             <!-- Formulario de búsqueda -->
             <form class="col-sm-12 col-md-6" id="searchForm">
                 <div class="row">
                     <div class="col-6">
+                        <!-- Campo de búsqueda -->
                         <input type="search" class="form-control" name="search" placeholder="Buscar" required>
                     </div>
                     <div class="col-6">
+                        <!-- Botón de búsqueda -->
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-search"></i>
                         </button>
+                        <!-- Botón de restablecer -->
                         <button type="reset" class="btn btn-secondary" onclick="fillTable()">
                             <i class="bi bi-x-square-fill"></i>
                         </button>
@@ -46,6 +53,7 @@
             </form>
             <br>
             <br>
+            <!-- Botón para añadir nuevo registro -->
             <div class="col-12 col-sm-auto ms-auto">
                 <button type="button" class="btn btn-primary rounded me-2 mb-2 mb-sm-0" onclick="openCreate()">
                     <i class="bi bi-plus-square-fill"></i>
@@ -55,11 +63,13 @@
 
         <!-- Tabla para mostrar los registros existentes -->
         <table class="table table-hover">
-            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+            <!-- Encabezado de la tabla -->
             <thead>
+                <!-- Cantidad de registros encontrados -->
                 <tr>
                     <td colspan="5" id="rowsFound"></td>
                 </tr>
+                <!-- Títulos de las columnas -->
                 <tr>
                     <th>Nombre del Descuento</th>
                     <th>Descripción</th>
@@ -67,7 +77,7 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
         </table>
 
@@ -77,29 +87,35 @@
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <!-- Título del modal -->
                         <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                        <!-- Botón para cerrar el modal -->
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- Formulario para guardar un registro -->
+                    <!-- Formulario dentro del modal -->
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                             <input type="hidden" id="idDescuento" name="idDescuento">
+                            <!-- Nombre del descuento -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreDescuento" class="form-label">Nombre del descuento</label>
                                 <input id="nombreDescuento" type="text" name="nombreDescuento" class="form-control"
                                     required>
                             </div>
+                            <!-- Descripción del descuento -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreDesc" class="form-label">Descripción</label>
                                 <input id="nombreDesc" type="text" name="nombreDesc" class="form-control" required>
                             </div>
+                            <!-- Valor del descuento -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="ValorM" class="form-label">Valor</label>
-                                <input id="ValorM" type="number" name="ValorM" class="form-control" step="0.01" required>
-
+                                <input id="ValorM" type="number" name="ValorM" class="form-control" step="0.01"
+                                    required>
                             </div>
                         </div>
+                        <!-- Botón de guardar dentro del modal -->
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
@@ -108,13 +124,15 @@
             </div>
         </div>
     </main>
-    <!-- bootstrap js -->
+    <!-- Bootstrap JS -->
     <!-- Llamada al framework y librería de mensajes -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-
+    <!-- Controlador para el administrador -->
     <script src="../../controllers/utils/admin.js"></script>
+    <!-- Controlador para los componentes -->
     <script src="../../controllers/utils/components.js"></script>
+    <!-- Controlador específico para los descuentos -->
     <script src="../../controllers/admin/descuento.js"></script>
 
 </body>

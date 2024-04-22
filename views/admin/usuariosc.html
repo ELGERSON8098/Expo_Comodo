@@ -2,43 +2,46 @@
 <html lang="es">
 
 <head>
+    <!-- Codificación del documento -->
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Título de la página -->
     <title>Comodo$</title>
-    <!-- fontawesome cdn -->
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Llamada al icono de la página web -->
+    <!-- Icono de la página -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Iconos de Boostrap-->
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-
-    <!--css -->
+    <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
-    <!-- Separación entre navbar y sección de celulares -->
+    <!-- Separación entre navbar y sección de usuarios -->
     <div class="my-5"></div>
     <br>
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
         <div class="row">
-            <!-- Formulario de búsqueda -->
+            <!-- Formulario de búsqueda de usuarios -->
             <form class="col-sm-12 col-md-6" id="searchForm">
                 <div class="row">
                     <div class="col-6">
                         <input type="search" class="form-control" name="search" placeholder="Buscar" required>
                     </div>
                     <div class="col-6">
+                        <!-- Botón de búsqueda -->
                         <button type="submit" class="btn btn-success">
                             <i class="bi bi-search"></i>
                         </button>
+                        <!-- Botón de reinicio de búsqueda -->
                         <button type="reset" class="btn btn-secondary" onclick="fillTable()">
                             <i class="bi bi-x-square-fill"></i>
                         </button>
@@ -47,13 +50,15 @@
             </form>
         </div>
 
-        <!-- Tabla para mostrar los registros existentes -->
+        <!-- Tabla para mostrar los registros de usuarios -->
         <table class="table table-hover">
-            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+            <!-- Encabezado de la tabla -->
             <thead>
                 <tr>
+                    <!-- Cantidad de registros encontrados -->
                     <td colspan="5" id="rowsFound"></td>
                 </tr>
+                <!-- Títulos de las columnas -->
                 <tr>
                     <th>Nombre</th>
                     <th>Usuario</th>
@@ -63,53 +68,61 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
         </table>
 
-        <!-- Componente Modal para guardar un registro -->
+        <!-- Componente Modal para guardar un nuevo usuario -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <!-- Título del modal -->
                         <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                        <!-- Botón para cerrar el modal -->
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- Formulario para guardar un registro -->
+                    <!-- Formulario para guardar un nuevo usuario -->
                     <form id="saveForm">
                         <div class="modal-body row g-3">
-                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <!-- Campo oculto para asignar el ID del usuario al modificar -->
                             <input type="hidden" id="idusuarioC" name="idusuarioC">
+                            <!-- Campo para ingresar el nombre del usuario -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreUsuarioC" class="form-label">Nombre</label>
                                 <input id="nombreUsuarioC" type="text" name="nombreUsuarioC" class="form-control"
                                     required>
                             </div>
+                            <!-- Campo para ingresar el usuario -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="aliasUsuarioC" class="form-label">Usuario</label>
                                 <input id="aliasUsuarioC" type="text" name="aliasUsuarioC" class="form-control"
                                     required>
                             </div>
+                            <!-- Campo para ingresar el correo del usuario -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="correoUsuarioC" class="form-label">Correo</label>
                                 <input id="correoUsuarioC" type="email" name="correoUsuarioC" class="form-control"
                                     required>
                             </div>
+                            <!-- Campo para ingresar el teléfono del usuario -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="TelUsuarioC" class="form-label">Teléfono</label>
                                 <input id="TelUsuarioC" type="number" name="TelUsuarioC" class="form-control" required>
                             </div>
+                            <!-- Campo para ingresar el DUI del usuario -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="duiUsuarioC" class="form-label">DUI</label>
                                 <input id="duiUsuarioC" type="number" name="duiUsuarioC" class="form-control" required>
                             </div>
+                            <!-- Campo para ingresar la contraseña del usuario -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="ContraC" class="form-label">Contraseña</label>
-                                <input id="ContraC" type="text" name="ContraC" class="form-control"
-                                    required>
+                                <input id="ContraC" type="text" name="ContraC" class="form-control" required>
                             </div>
                         </div>
+                        <!-- Botón para guardar el nuevo usuario -->
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
@@ -118,11 +131,12 @@
             </div>
         </div>
     </main>
-    <!-- bootstrap js -->
-    <!-- Llamada al framework y librería de mensajes -->
+    <!-- Bootstrap JavaScript -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert JavaScript -->
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
 
+    <!-- Controladores JavaScript -->
     <script src="../../controllers/utils/admin.js"></script>
     <script src="../../controllers/utils/components.js"></script>
     <script src="../../controllers/admin/usuariosC.js"></script>

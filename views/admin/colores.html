@@ -2,26 +2,29 @@
 <html lang="es">
 
 <head>
+    <!-- Codificación del documento -->
     <meta charset="UTF-8">
+    <!-- Compatibilidad con Internet Explorer -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <!-- fontawesome cdn -->
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Llamada al icono de la página web -->
+    <!-- Icono de la página -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Iconos de Boostrap-->
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-
-    <!--css -->
+    <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
+    <!-- Espacio vertical -->
     <div class="my-5"></div>
     <br>
     <main>
@@ -36,36 +39,36 @@
                     </div>
                     <div class="col-6">
                         <button type="submit" class="btn btn-success">
-                            <i class="bi bi-search"></i>
+                            <i class="bi bi-search"></i> <!-- Icono de búsqueda -->
                         </button>
                         <button type="reset" class="btn btn-secondary" onclick="fillTable()">
-                            <i class="bi bi-x-square-fill"></i>
+                            <i class="bi bi-x-square-fill"></i> <!-- Icono para limpiar -->
                         </button>
                     </div>
                 </div>
             </form>
             <br>
             <br>
+            <!-- Botón para crear -->
             <div class="col-12 col-sm-auto ms-auto">
                 <button type="button" class="btn btn-primary rounded me-2 mb-2 mb-sm-0" onclick="openCreate()">
-                    <i class="bi bi-plus-square-fill"></i>
+                    <i class="bi bi-plus-square-fill"></i> <!-- Icono para añadir -->
                 </button>
             </div>
         </div>
-        
-        
-        
-        
-        
+
         <!-- Tabla para mostrar los registros existentes -->
         <table class="table table-hover">
-            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+            <!-- Encabezado de la tabla -->
             <thead>
                 <tr>
+                    <!-- Cantidad de registros encontrados -->
                     <td colspan="28" id="rowsFound"></td>
                 </tr>
+                <!-- Títulos de las columnas -->
                 <tr>
                     <th>Color</th>
+                    <!-- Añadir más títulos de columnas según sea necesario -->
                     <th></th>
                     <th></th>
                     <th></th>
@@ -95,7 +98,7 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
         </table>
 
@@ -111,7 +114,7 @@
                     <!-- Formulario para guardar un registro -->
                     <form id="saveForm">
                         <div class="modal-body row g-3">
-                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <!-- Campo oculto para el ID -->
                             <input type="hidden" id="idColor" name="idColor">
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreColor" class="form-label">Nombre del color</label>
@@ -126,13 +129,16 @@
             </div>
         </div>
     </main>
-    <!-- bootstrap js -->
+    <!-- Bootstrap JS -->
     <!-- Llamada al framework y librería de mensajes -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
 
+    <!-- Controlador del sitio privado -->
     <script src="../../controllers/utils/admin.js"></script>
+    <!-- Controlador general de la aplicación -->
     <script src="../../controllers/utils/components.js"></script>
+    <!-- Controlador específico de esta página -->
     <script src="../../controllers/admin/color.js"></script>
 
 </body>

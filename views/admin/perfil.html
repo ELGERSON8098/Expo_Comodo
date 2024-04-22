@@ -2,50 +2,53 @@
 <html lang="es">
 
 <head>
+    <!-- Codificación del documento -->
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- fontawesome cdn -->
+    <title></title>
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Llamada al icono de la página web -->
+    <!-- Icono de la página -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Iconos de Boostrap-->
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-
-    <!--css -->
+    <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
     <!-- Contenido principal del documento -->
     <main>
-
-        <br><br>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
         <!-- Formulario para cambiar datos personales -->
         <form class="row g-3" id="profileForm">
+            <!-- Campo para el nombre -->
             <div class="col-sm-12 col-md-6 col-lg-4 offset-lg-2">
                 <label for="nombreAdministrador" class="form-label">Nombre</label>
                 <input id="nombreAdministrador" type="text" name="nombreAdministrador" class="form-control" required>
             </div>
+            <!-- Campo para el alias de usuario -->
             <div class="col-sm-12 col-md-6 col-lg-4">
                 <label for="aliasAdministrador" class="form-label">Usuario</label>
                 <input id="aliasAdministrador" type="text" name="aliasAdministrador" class="form-control" required>
             </div>
+            <!-- Campo para el correo -->
             <div class="col-sm-12 col-md-6 col-lg-4 offset-lg-2">
                 <label for="correoAdministrador" class="form-label">Correo</label>
                 <input id="correoAdministrador" type="email" name="correoAdministrador" class="form-control" required>
             </div>
+            <!-- Botón para guardar los cambios -->
             <div class="text-center">
                 <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
             </div>
         </form>
-        <!-- Contenedor con enlace para abrir la caja de diálogo del formulario de cambiar constraseña -->
+        <!-- Enlace para abrir el formulario de cambio de contraseña -->
         <div class="text-center p-3">
             <button type="button" class="btn btn-secondary" onclick="openPassword()">
                 <i class="bi bi-shield-lock"></i> Cambiar contraseña
@@ -58,30 +61,37 @@
                 <!-- Contenido del componente Modal -->
                 <div class="modal-content">
                     <div class="modal-header">
+                        <!-- Título del modal -->
                         <h1 class="modal-title fs-5" id="modalTitle">Cambiar contraseña</h1>
+                        <!-- Botón para cerrar el modal -->
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <!-- Formulario para actualizar contraseña -->
                     <form id="passwordForm">
                         <div class="modal-body row g-3">
+                            <!-- Campo para la contraseña actual -->
                             <div class="col-sm-12 col-md-6 offset-md-3">
                                 <label for="claveActual" class="form-label">Contraseña actual</label>
                                 <input id="claveActual" type="password" name="claveActual" class="form-control"
                                     required>
                             </div>
+                            <!-- Etiqueta para la nueva contraseña -->
                             <div class="col-12 text-center">
                                 <span>CONTRASEÑA NUEVA</span>
                             </div>
+                            <!-- Campo para la nueva contraseña -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="claveNueva" class="form-label">Contraseña</label>
                                 <input id="claveNueva" type="password" name="claveNueva" class="form-control" required>
                             </div>
+                            <!-- Campo para confirmar la nueva contraseña -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="confirmarClave" class="form-label">Confirmar contraseña</label>
                                 <input id="confirmarClave" type="password" name="confirmarClave" class="form-control"
                                     required>
                             </div>
                         </div>
+                        <!-- Botones para cancelar y guardar la nueva contraseña -->
                         <div class="modal-footer">
                             <button type="reset" class="btn btn-secondary">Cancelar</button>
                             <button type="submit" class="btn btn-primary">Guardar</button>
