@@ -2,29 +2,29 @@
 <html lang="es">
 
 <head>
+    <!-- Codificación del documento -->
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <!-- fontawesome cdn -->
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Llamada al icono de la página web -->
+    <!-- Icono de la página -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Iconos de Boostrap-->
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-
-    <!--css -->
+    <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
     <!-- Separación entre navbar y sección de celulares -->
     <div class="my-5"></div>
-    <br>
+    <!-- Contenido principal -->
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
@@ -47,17 +47,19 @@
             </form>
         </div>
 
-        <!-- Tabla para mostrar los registros existentes -->
+        <!-- Tabla para mostrar los registros de reservas -->
         <table class="table table-hover">
-            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+            <!-- Encabezado de la tabla -->
             <thead>
                 <tr>
+                    <!-- Cantidad de registros encontrados -->
                     <td colspan="8" id="rowsFound"></td>
                 </tr>
+                <!-- Títulos de las columnas -->
                 <tr>
                     <th>Nombre del cliente</th>
                     <th>DUI</th>
-                    <th>Fecha Reserva</th>
+                    <th>Fecha de reserva</th>
                     <th>Departamento</th>
                     <th>Municipio</th>
                     <th>Distrito</th>
@@ -65,11 +67,11 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
         </table>
 
-        <!-- Componente Modal para guardar un registro -->
+        <!-- Componente Modal para guardar una reserva -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -78,13 +80,14 @@
                         <h1 class="modal-title fs-5" id="modalTitle"></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- Formulario para guardar un registro -->
+                    <!-- Formulario para guardar una reserva -->
                     <form id="saveForm">
                         <div class="modal-body row g-3">
-                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <!-- Campo oculto para el ID de la reserva -->
                             <input type="hidden" id="idReserva" name="idReserva">
+                            <!-- Campos de información de la reserva -->
                             <div class="col-sm-12 col-md-6">
-                                <label for="NomClien" class="form-label">Nombre del Cliente</label>
+                                <label for="NomClien" class="form-label">Nombre del cliente</label>
                                 <input id="NomClien" type="text" name="NomClien" class="form-control" required readonly>
                             </div>
                             <div class="col-sm-12 col-md-6">
@@ -92,7 +95,7 @@
                                 <input id="TEL" type="text" name="TEL" class="form-control" required readonly>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="FechReserva" class="form-label">Fecha de Reserva</label>
+                                <label for="FechReserva" class="form-label">Fecha de reserva</label>
                                 <input id="FechReserva" type="datetime" name="FechReserva" class="form-control" required
                                     readonly>
                             </div>
@@ -140,6 +143,7 @@
             </div>
         </div>
 
+        <!-- Componente Modal para actualizar el estado de la reserva -->
         <div class="modal fade" id="saveModalS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitleS" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -148,17 +152,19 @@
                         <h1 class="modal-title fs-5" id="modalTitleS"></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- Formulario para guardar un registro -->
+                    <!-- Formulario para actualizar el estado de la reserva -->
                     <form id="saveForms">
                         <div class="modal-body row g-3">
-                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <!-- Campo oculto para el ID de la reserva -->
                             <input type="hidden" id="idReservas" name="idReservas">
+                            <!-- Campo para seleccionar el estado del pedido -->
                             <div class="col-sm-12 col-md-6">
-                                <label for="EstadoP" class="form-label">Estado del Pedido</label>
+                                <label for="EstadoP" class="form-label">Estado del pedido</label>
                                 <select id="EstadoP" type="text" name="EstadoP" class="form-control" required></select>
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <!-- Botón para guardar el cambio -->
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
@@ -166,15 +172,14 @@
             </div>
         </div>
     </main>
-    <!-- bootstrap js -->
-    <!-- Llamada al framework y librería de mensajes -->
+    <!-- Bootstrap JavaScript -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert JavaScript -->
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-
+    <!-- Controladores JavaScript -->
     <script src="../../controllers/utils/admin.js"></script>
     <script src="../../controllers/utils/components.js"></script>
     <script src="../../controllers/admin/reserva.js"></script>
-
 </body>
 
 </html>

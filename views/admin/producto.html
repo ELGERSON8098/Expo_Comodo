@@ -2,34 +2,34 @@
 <html lang="es">
 
 <head>
+    <!-- Codificación del documento -->
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <!-- fontawesome cdn -->
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Llamada al icono de la página web -->
+    <!-- Icono de la página -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Iconos de Boostrap-->
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-
-    <!--css -->
+    <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
 <body>
     <!-- Separación entre navbar y sección de celulares -->
     <div class="my-5"></div>
-    <br>
+    <!-- Contenido principal -->
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
+        <!-- Formulario de búsqueda -->
         <div class="row">
-            <!-- Formulario de búsqueda -->
             <form class="col-sm-12 col-md-6" id="searchForm">
                 <div class="row">
                     <div class="col-6">
@@ -48,19 +48,22 @@
             <br>
             <br>
             <div class="col-12 col-sm-auto ms-auto">
+                <!-- Botón para agregar un nuevo producto -->
                 <button type="button" class="btn btn-primary rounded me-2 mb-2 mb-sm-0" onclick="openCreate()">
                     <i class="bi bi-plus-square-fill"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Tabla para mostrar los registros existentes -->
+        <!-- Tabla para mostrar los registros de productos -->
         <table class="table table-hover">
-            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+            <!-- Encabezado de la tabla -->
             <thead>
                 <tr>
+                    <!-- Cantidad de registros encontrados -->
                     <td colspan="5" id="rowsFound"></td>
                 </tr>
+                <!-- Títulos de las columnas -->
                 <tr>
                     <th>Imagen</th>
                     <th>Nombre del producto</th>
@@ -69,11 +72,11 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+            <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
         </table>
 
-        <!-- Componente Modal para guardar un registro -->
+        <!-- Modal para guardar un nuevo producto -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -82,17 +85,19 @@
                         <h1 class="modal-title fs-5" id="modalTitle"></h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- Formulario para guardar un registro -->
+                    <!-- Formulario para guardar un nuevo producto -->
                     <form id="saveForm">
                         <div class="modal-body row g-3">
-                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <!-- Campo oculto para el ID del producto -->
                             <input type="hidden" id="idusuarioC" name="idusuarioC">
+                            <!-- Campo para la imagen del producto -->
                             <div class="col-sm-12 col-md-6">
-                                <label for="ImagenP" class="form-label">Imagen Producto</label>
+                                <label for="ImagenP" class="form-label">Imagen del producto</label>
                                 <input id="ImagenP" type="file" name="ImagenP" class="form-control" required>
                             </div>
+                            <!-- Campos para los datos del producto -->
                             <div class="col-sm-12 col-md-6">
-                                <label for="nombreP" class="form-label">Nombre producto</label>
+                                <label for="nombreP" class="form-label">Nombre del producto</label>
                                 <input id="nombreP" type="text" name="nombreP" class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
@@ -151,6 +156,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
+                            <!-- Botón para guardar el producto -->
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
@@ -158,15 +164,15 @@
             </div>
         </div>
     </main>
-    <!-- bootstrap js -->
-    <!-- Llamada al framework y librería de mensajes -->
+    <!-- Bootstrap JavaScript -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert JavaScript -->
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
 
+    <!-- Controladores JavaScript -->
     <script src="../../controllers/utils/admin.js"></script>
     <script src="../../controllers/utils/components.js"></script>
     <script src="../../controllers/admin/producto.js"></script>
-
 </body>
 
 </html>

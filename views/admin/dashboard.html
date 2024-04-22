@@ -2,20 +2,23 @@
 <html lang="es">
 
 <head>
+    <!-- Codificación del documento -->
     <meta charset="UTF-8">
+    <!-- Compatibilidad con Internet Explorer -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
-    <!-- fontawesome cdn -->
+    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Llamada al icono de la página web -->
+    <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
     <!-- bootstrap css -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- Llamada al icono de la página web -->
-    <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-        <!-- custom css -->
+    <!-- custom css -->
     <link rel="stylesheet" href="../../resources/css/administrador.css">
 </head>
 
@@ -27,30 +30,32 @@
         <!-- Contenedor de gráficos -->
         <div class="row">
             <div class="col-sm-12 col-md-6 col-lg-4">
-                <!-- Se muestra un gráfico con la cantidad de productos por categoría -->
+                <!-- Gráfico 1: Cantidad de productos por categoría -->
                 <canvas id="chart1"></canvas>
             </div>
             <div class="col-sm-12 col-md-6 col-lg-4">
-                <!-- Se muestra un gráfico con el porcentaje de productos por categoría -->
+                <!-- Gráfico 2: Porcentaje de productos por categoría -->
                 <canvas id="chart2"></canvas>
             </div>
         </div>
-        <!-- Importación de la librería para generar los gráficos. Para más información https://www.chartjs.org/ -->
+        <!-- Importación de la librería Chart.js para generar los gráficos -->
         <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>
     </main>
 
     <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
-    <!-- bootstrap js -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <!-- Archivo JavaScript específico para el dashboard -->
     <script src="../../Recursos/js/Publica/Dashboard.js"></script>
+    <!-- Librería SweetAlert para mensajes -->
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-    <!-- Llamada al controlador general de la aplicación -->
+    <!-- Controlador general de la aplicación -->
     <script type="text/javascript" src="../../controllers/utils/components.js"></script>
-    <!-- Llamada al controlador del sitio privado -->
+    <!-- Controlador del sitio privado -->
     <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
-    <!-- Llamada al controlador de la página web -->
+    <!-- Controlador específico de esta página -->
     <script type="text/javascript" src="../../controllers/admin/dashboard.js"></script>
 
 </body>
