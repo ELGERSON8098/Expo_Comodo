@@ -86,10 +86,10 @@ const fillTable = async (form = null) => {
                     <td>${row.correo_administrador}</td>
                     <td>${row.nombre_nivel}</td>                
                     <td>
-                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_administrador})">
+                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_administrador})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-0" onclick="openDelete(${row.id_administrador})">
+                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_administrador})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>

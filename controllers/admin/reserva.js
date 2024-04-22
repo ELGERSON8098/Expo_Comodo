@@ -81,13 +81,13 @@ const fillTable = async (form = null) => {
                 
                 <td>
                     <div class="btn-group" role="group" aria-label="Acciones">
-                        <button type="button" class="btn  btn-success rounded me-2 mb-2 mb-sm-0" onclick="openUpdateS(${row.id_reserva})">
+                        <button type="button" class="btn  btn-success rounded me-2 mb-2 mb-sm-2" onclick="openUpdateS(${row.id_reserva})">
                             <i class="bi bi-bag-check"></i>
                         </button>
-                        <button type="button" class="btn btn-warning rounded me-2 mb-2 mb-sm-0" onclick="openUpdate(${row.id_reserva})">
+                        <button type="button" class="btn btn-warning rounded me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_reserva})">
                             <i class="bi bi-eye-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-0" onclick="openDelete(${row.id_reserva})">
+                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_reserva})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </div>
