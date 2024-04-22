@@ -97,6 +97,9 @@ CREATE TABLE tb_productos (
   nombre_producto VARCHAR(100) NOT NULL,
   codigo_interno VARCHAR(50) NOT NULL,
   referencia_proveedor VARCHAR(50) NOT NULL,
+  marca varchar(20),
+  genero varchar(20),
+  categoria varchar(20),
   imagen VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_producto)
 );
@@ -110,27 +113,28 @@ CREATE TABLE tb_descuentos (
   CONSTRAINT ck_valor CHECK (valor >= 0)
 );
 
+CREATE TABLE tb_materiales (
+  id_material INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id_color)
+);
+
 CREATE TABLE tb_detalles_productos (
   id_detalle_producto INT UNSIGNED AUTO_INCREMENT NOT NULL,
   id_producto INT UNSIGNED NOT NULL,
-  material VARCHAR(50) NOT NULL,
   id_talla INT UNSIGNED NOT NULL,
   precio DECIMAL(10,2) NOT NULL,
   existencias INT UNSIGNED NOT NULL,
   id_color INT UNSIGNED NOT NULL,
-  id_marca INT UNSIGNED NOT NULL,
   id_descuento INT UNSIGNED NOT NULL,
   descripcion VARCHAR(200) NOT NULL,
-  id_genero INT UNSIGNED NOT NULL,
-  id_categoria INT UNSIGNED NOT NULL,
+  id_material INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_detalle_producto),
   CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES tb_productos(id_producto),
   CONSTRAINT fk_talla FOREIGN KEY (id_talla) REFERENCES tb_tallas(id_talla),
   CONSTRAINT fk_color FOREIGN KEY (id_color) REFERENCES tb_colores(id_color),
-  CONSTRAINT fk_marca FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
   CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
-  CONSTRAINT fk_genero FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
-  CONSTRAINT fk_categoria FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria),
+  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material),
   CONSTRAINT ck_precio  CHECK (precio >= 0),
   CONSTRAINT ck_existencias  CHECK (existencias >= 0)
 );
