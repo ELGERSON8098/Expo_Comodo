@@ -116,7 +116,7 @@ CREATE TABLE tb_descuentos (
 CREATE TABLE tb_materiales (
   id_material INT UNSIGNED AUTO_INCREMENT NOT NULL,
   nombre VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id_color)
+  PRIMARY KEY (id_material)
 );
 
 CREATE TABLE tb_detalles_productos (
