@@ -90,6 +90,9 @@ const fillTable = async (form = null) => {
                         <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_reserva})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
+                        <button type="button" class="btn btn-secondary rounded me-2 mb-2 mb-sm-2" onclick="openDeletes()">
+                        <i class="bi bi-filetype-pdf"></i>
+                        </button>
                     </div>
                 </td>
                 
