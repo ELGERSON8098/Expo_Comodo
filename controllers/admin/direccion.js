@@ -107,7 +107,7 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Direccion';
+    MODAL_TITLE.textContent = 'Dirección';
     // Se prepara el formulario.
     SAVE_FORM.reset();
     DEPARTAMENTO.disabled = false;
@@ -121,7 +121,7 @@ const openCreate = () => {
 */
 const openUpdate = async (id) => {
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Actualizar direccion';
+    MODAL_TITLE.textContent = 'Actualizar dirección';
     // Se prepara el formulario.
     SAVE_FORM.reset();
     DEPARTAMENTO.disabled = false;
@@ -135,7 +135,7 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar la direccion de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar la dirección de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.

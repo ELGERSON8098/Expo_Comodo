@@ -14,14 +14,14 @@ const SAVE_FORM = document.getElementById('saveForm'),
     NOMBRE_Gen = document.getElementById('nombreGEN'),
 IMAGEN_Gen = document.getElementById('nombreIMG');
 // Se establece el título de la página web.
-document.querySelector('title').textContent = 'Genero de zapatos';
+document.querySelector('title').textContent = 'Género de zapatos';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
     // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Gestionar genero de zapatos';
+    MAIN_TITLE.textContent = 'Gestionar género de zapatos';
     // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
 });
@@ -132,7 +132,7 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Agregar una nuevo genero de zapatos';
+    MODAL_TITLE.textContent = 'Agregar un nuevo género de zapatos';
     // Se prepara el formulario.
     SAVE_FORM.reset();
     NOMBRE_Gen.disabled = false;
@@ -154,7 +154,7 @@ const openUpdate = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar genero de zapato';
+        MODAL_TITLE.textContent = 'Actualizar género de zapatos';
         // Se prepara el formulario.
         SAVE_FORM.reset();
         // Se inicializan los campos con los datos.
@@ -174,7 +174,7 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el genero de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar el género de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.

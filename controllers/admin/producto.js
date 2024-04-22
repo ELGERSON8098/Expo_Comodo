@@ -122,7 +122,7 @@ const openCreate = () => {
 const openUpdate = async (id) => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Actualizar Producto';
+    MODAL_TITLE.textContent = 'Actualizar producto';
     // Se prepara el formulario.
     SAVE_FORM.reset();
     EXISTENCIAS_PRODUCTO.disabled = false;
