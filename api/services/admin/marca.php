@@ -40,7 +40,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen Colores registrados';
+                    $result['error'] = 'No existen marcas registradas';
                 }
                 break;
             case 'readOne':
