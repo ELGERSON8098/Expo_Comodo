@@ -97,11 +97,14 @@ CREATE TABLE tb_productos (
   nombre_producto VARCHAR(100) NOT NULL,
   codigo_interno VARCHAR(50) NOT NULL,
   referencia_proveedor VARCHAR(50) NOT NULL,
-  marca varchar(20),
-  genero varchar(20),
-  categoria varchar(20),
+  id_marca INT UNSIGNED,
+  id_genero INT UNSIGNED,
+  id_categoria INT UNSIGNED,
   imagen VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id_producto)
+  PRIMARY KEY (id_producto),
+  CONSTRAINT fk_marcas_ FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
+  CONSTRAINT fk_generos_ FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
+  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria)
 );
 
 CREATE TABLE tb_descuentos (
