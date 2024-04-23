@@ -92,21 +92,6 @@ CREATE TABLE tb_colores (
   PRIMARY KEY (id_color)
 );
 
-CREATE TABLE tb_productos (
-  id_producto INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  nombre_producto VARCHAR(100) NOT NULL,
-  codigo_interno VARCHAR(50) NOT NULL,
-  referencia_proveedor VARCHAR(50) NOT NULL,
-  id_marca INT UNSIGNED,
-  id_genero INT UNSIGNED,
-  id_categoria INT UNSIGNED,
-  imagen VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id_producto),
-  CONSTRAINT fk_marcas_ FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
-  CONSTRAINT fk_generos_ FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
-  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria)
-);
-
 CREATE TABLE tb_descuentos (
   id_descuento INT UNSIGNED AUTO_INCREMENT NOT NULL,
   nombre_descuento VARCHAR(100) NOT NULL,
@@ -122,6 +107,25 @@ CREATE TABLE tb_materiales (
   PRIMARY KEY (id_material)
 );
 
+CREATE TABLE tb_productos (
+  id_producto INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_producto VARCHAR(100) NOT NULL,
+  codigo_interno VARCHAR(50) NOT NULL,
+  referencia_proveedor VARCHAR(50) NOT NULL,
+  id_marca INT UNSIGNED,
+  id_genero INT UNSIGNED,
+  id_categoria INT UNSIGNED,
+  id_material INT UNSIGNED NOT NULL,
+  id_descuento INT UNSIGNED NOT NULL,
+  imagen VARCHAR(20) NOT NULL,
+  PRIMARY KEY (id_producto),
+  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material),
+  CONSTRAINT fk_marcas FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
+  CONSTRAINT fk_generos FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
+  CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
+  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria)
+);
+
 CREATE TABLE tb_detalles_productos (
   id_detalle_producto INT UNSIGNED AUTO_INCREMENT NOT NULL,
   id_producto INT UNSIGNED NOT NULL,
@@ -129,15 +133,11 @@ CREATE TABLE tb_detalles_productos (
   precio DECIMAL(10,2) NOT NULL,
   existencias INT UNSIGNED NOT NULL,
   id_color INT UNSIGNED NOT NULL,
-  id_descuento INT UNSIGNED NOT NULL,
   descripcion VARCHAR(200) NOT NULL,
-  id_material INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_detalle_producto),
   CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES tb_productos(id_producto),
   CONSTRAINT fk_talla FOREIGN KEY (id_talla) REFERENCES tb_tallas(id_talla),
   CONSTRAINT fk_color FOREIGN KEY (id_color) REFERENCES tb_colores(id_color),
-  CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
-  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material),
   CONSTRAINT ck_precio  CHECK (precio >= 0),
   CONSTRAINT ck_existencias  CHECK (existencias >= 0)
 );
@@ -166,4 +166,3 @@ CREATE TABLE tb_detalles_reservas (
   CONSTRAINT ck_cantidad  CHECK (cantidad >= 0),
   CONSTRAINT ck_precio_unitario CHECK (precio_unitario >= 0)
 );
-
