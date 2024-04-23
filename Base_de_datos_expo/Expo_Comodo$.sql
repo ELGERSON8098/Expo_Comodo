@@ -124,7 +124,8 @@ CREATE TABLE tb_productos (
   CONSTRAINT fk_marcas FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
   CONSTRAINT fk_generos FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
   CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
-  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria)
+  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria),
+  CONSTRAINT ck_precio  CHECK (precio >= 0)
 );
 
 CREATE TABLE tb_detalles_productos (
@@ -138,7 +139,6 @@ CREATE TABLE tb_detalles_productos (
   CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES tb_productos(id_producto),
   CONSTRAINT fk_talla FOREIGN KEY (id_talla) REFERENCES tb_tallas(id_talla),
   CONSTRAINT fk_color FOREIGN KEY (id_color) REFERENCES tb_colores(id_color),
-  CONSTRAINT ck_precio  CHECK (precio >= 0),
   CONSTRAINT ck_existencias  CHECK (existencias >= 0)
 );
 
