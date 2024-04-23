@@ -27,22 +27,57 @@ VALUES
 (7, 'Chalatenango'),
 (8, 'La Paz'),
 (9, 'Cuscatlán'),
-(10, 'Ahuachapán');
+(10, 'Ahuachapán'),
+(11, 'Cabañas'),
+(12, 'Morazán'),
+(13, 'La Unión'),
+(14, 'San Vicente');
 
 SELECT*FROM tb_departamentos;
 
 INSERT INTO tb_municipios (id_municipio, municipio, id_departamento)
 VALUES
-(1, 'San Salvador', 1),
-(2, 'Apopa', 1),
-(3, 'Ilopango', 1),
-(4, 'Mejicanos', 1),
-(5, 'San Martin', 1),
-(6, 'Soyapango', 1),
-(7, 'Ahuachapán', 2),
-(8, 'Apaneca', 2),
-(9, 'Atiquizaya', 2),
-(10, 'Concepción de Ataco', 2);
+(1, 'San Salvador Norte', 1),
+(2, 'San Salvador Oeste', 1),
+(3, 'San Salvador Este', 1),
+(4, 'San Salvador Centro', 1),
+(5, 'San Salvador Sur', 1),
+(6, 'La Libertad Norte', 4),
+(7, 'La Libertad Centro', 4),
+(8, 'La Libertad Oeste', 4),
+(9, 'La Libertad Este', 4),
+(10, 'La Libertad Costa', 4),
+(11, 'La Libertad Sur', 4),
+(12, 'Chalatenango Norte', 7),
+(13, 'Chalatenango Centro', 7),
+(14, 'Chalatenango Sur', 7),
+(15, 'Cuscatlán Norte', 9),
+(16, 'Cuscatlán Sur', 9),
+(17, 'Cabañas Este', 11),
+(18, 'Cabañas Oeste', 11),
+(19, 'La Paz Oeste', 8),
+(20, 'La Paz Centro', 8),
+(21, 'La Paz Este', 8),
+(22, 'La Unión Norte', 13),
+(23, 'La Unión Sur', 13),
+(24, 'Usulután Norte', 5),
+(25, 'Usulután Este', 5),
+(26, 'Usulután Oeste', 5),
+(27, 'Sonsonate Norte', 6),
+(28, 'Sonsonate Centro', 6),
+(29, 'Sonsonate Este', 6),
+(30, 'Sonsonate Oeste', 6),
+(31, 'Santa Ana Norte', 2),
+(32, 'Santa Ana Centro', 2),
+(33, 'Santa Ana Este', 2),
+(34, 'Santa Ana Oeste', 2),
+(35, 'San Vicente Norte', 14),
+(36, 'San Vicente Sur', 14),
+(37, 'San Miguel Norte', 3),
+(38, 'San Miguel Centro', 3),
+(39, 'San Miguel Oeste', 3),
+(40, 'Morazán Norte', 12),
+(41, 'Morazán Sur', 12);
 
 SELECT*FROM tb_municipios;
 
@@ -64,14 +99,7 @@ INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
 (1, 'administrador'),
 (2, 'inventaristas'),
-(3, 'vendedoras'),
-(4, 'inventaristas'),
-(5, 'vendedoras'),
-(6, 'vendedoras'),
-(7, 'vendedoras'),
-(8, 'vendedoras'),
-(9, 'vendedoras'),
-(10, 'vendedoras');
+(3, 'vendedoras');
 
 SELECT*FROM tb_niveles_usuarios;
 
@@ -162,18 +190,18 @@ INSERT INTO tb_colores (id_color, color) VALUES
 
 SELECT*FROM tb_colores;
 
-INSERT INTO tb_productos (id_producto, nombre_producto, codigo_interno, referencia_proveedor, imagen)
+INSERT INTO tb_productos (id_producto, nombre_producto, codigo_interno, referencia_proveedor, id_marca, id_genero, id_categoria, imagen)
 VALUES 
-(1, 'Zapatillas Running Nike Air Max', 'NIKE001', 'NIKE123', 'running.png'),
-(2, 'Botas de Invierno Timberland', 'TIMBER001', 'TIMBER123', 'botas.png'),
-(3, 'Zapatos Casuales Converse Chuck Taylor', 'CONVERSE001', 'CONVERSE123', 'casuales.png'),
-(4, 'Sandalias de Verano Birkenstock', 'BIRKEN001', 'BIRKEN123', 'botines.png'),
-(5, 'Botines de Moda Dr. Martens', 'MARTENS001', 'MARTENS123', 'moda.png'),
-(6, 'Zapatos Formales Clarks', 'CLARKS001', 'CLARKS123', 'formales.png'),
-(7, 'Zapatillas para Correr Adidas Ultraboost', 'ADIDAS001', 'ADIDAS123', 'zapatillas.png'),
-(8, 'Chanclas de Playa Havaianas', 'HAVAIANAS001', 'HAVAIANAS123', 'chanclas.png'),
-(9, 'Mocasines Elegantes Gucci', 'GUCCI001', 'GUCCI123', 'mocasines.png'),
-(10, 'Botas de Lluvia Hunter', 'HUNTER001', 'HUNTER123', 'botasdelluvia.png');
+(1, 'Zapatillas Running Nike Air Max', 'NIKE001', 'NIKE123', 1, 1, 1, 'running.png'),
+(2, 'Botas de Invierno Timberland', 'TIMBER001', 'TIMBER123', 3, 2, 4, 'botas.png'),
+(3, 'Zapatos Casuales Converse Chuck Taylor', 'CONVERSE001', 'CONVERSE123', 4, 3, 6, 'casuales.png'),
+(4, 'Sandalias de Verano Birkenstock', 'BIRKEN001', 'BIRKEN123', 5, 4, 9, 'botines.png'),
+(5, 'Botines de Moda Dr. Martens', 'MARTENS001', 'MARTENS123', 6, 5, 10, 'moda.png'),
+(6, 'Zapatos Formales Clarks', 'CLARKS001', 'CLARKS123', 7, 6, 7, 'formales.png'),
+(7, 'Zapatillas para Correr Adidas Ultraboost', 'ADIDAS001', 'ADIDAS123', 2, 7, 1, 'zapatillas.png'),
+(8, 'Chanclas de Playa Havaianas', 'HAVAIANAS001', 'HAVAIANAS123', 10, 8, 8, 'chanclas.png'),
+(9, 'Mocasines Elegantes Gucci', 'GUCCI001', 'GUCCI123', 8, 9, 7, 'mocasines.png'),
+(10, 'Botas de Lluvia Hunter', 'HUNTER001', 'HUNTER123', 9, 10, 5, 'botasdelluvia.png');
 
 SELECT*FROM tb_productos;
 
@@ -191,18 +219,33 @@ INSERT INTO tb_descuentos (id_descuento, nombre_descuento, descripcion, valor) V
 
 SELECT*FROM tb_descuentos;
 
-INSERT INTO tb_detalles_productos (id_detalle_producto, id_producto, material, id_talla, precio, existencias, id_color, id_marca, id_descuento, descripcion, id_genero, id_categoria)
+INSERT INTO tb_materiales (id_material, nombre)
 VALUES
-(1, 1, 'Malla transpirable', 1, 129.99, 50, 1, 1, 1, 'Zapatillas Nike Air Max', 1, 1),
-(2, 1, 'Malla transpirable', 2, 129.99, 75, 2, 1, 2, 'Zapatillas Nike Air Max', 2, 1),
-(3, 2, 'Cuero', 3, 189.99, 30, 8, 3, 3, 'Botas Timberland', 3,  2),
-(4, 2, 'Cuero', 4, 189.99, 40, 1, 3, 4, 'Botas Timberland', 4,  2),
-(5, 3, 'Lona', 5, 59.99, 100, 3, 4, 5, 'Zapatillas Converse Chuck Taylor', 5, 3),
-(6, 3, 'Lona', 6, 59.99, 80, 2, 4, 6, 'Zapatillas Converse Chuck Taylor', 6, 3),
-(7, 4, 'Corcho', 7, 79.99, 60, 1, 5, 7, 'Sandalias Birkenstock', 7, 4),
-(8, 4, 'Corcho', 8, 79.99, 70, 2, 5, 8, 'Sandalias Birkenstock', 8, 4),
-(9, 5, 'Cuero', 9, 169.99, 45, 1, 6, 9, 'Botas Dr. Martens', 9, 5),
-(10, 5, 'Cuero', 10, 169.99, 55, 4, 6, 9, 'Botas Dr. Martens',10,  5);
+(1, 'Cuero'),
+(2, 'Tela'),
+(3, 'Sintético'),
+(4, 'Goma'),
+(5, 'Nylon'),
+(6, 'Lona'),
+(7, 'Lienzo'),
+(8, 'Seda'),
+(9, 'Lana'),
+(10, 'Algodón');
+
+SELECT*FROM tb_materiales;
+
+INSERT INTO tb_detalles_productos (id_detalle_producto, id_producto, id_talla, precio, existencias, id_color, id_descuento, descripcion, id_material)
+VALUES
+(1, 1, 1, 129.99, 50, 1, 1, 'Zapatillas Nike Air Max', 1),
+(2, 1, 2, 129.99, 75, 2, 2, 'Zapatillas Nike Air Max', 1),
+(3, 2, 3, 189.99, 30, 8, 3,  'Botas Timberland', 2),
+(4, 2, 4, 189.99, 40, 3,4,  'Botas Timberland', 2),
+(5, 3, 5, 59.99, 100, 3,5, 'Zapatillas Converse Chuck Taylor', 3),
+(6, 3, 6, 59.99, 80, 2, 6,'Zapatillas Converse Chuck Taylor', 3),
+(7, 4, 7, 79.99, 60, 1, 7, 'Sandalias Birkenstock', 4),
+(8, 4,  8, 79.99, 70, 2, 8, 'Sandalias Birkenstock', 4),
+(9, 5, 9, 169.99, 45, 1,9, 'Botas Dr. Martens', 5),
+(10, 5, 10, 169.99, 55, 4, 10,'Botas Dr. Martens', 5);
 
 SELECT*FROM tb_detalles_productos;
 
