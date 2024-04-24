@@ -20,13 +20,13 @@ class descuentoHandler
  
      public function searchRows()
      {
-         $value = '%' . Validator::getSearchValue() . '%';
-         $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
-                 FROM tb_descuentos
-                 WHERE nombre_descuento LIKE ? OR descripcion LIKE ?
-                 ORDER BY nombre_descuento';
-         $params = array($value, $value);
-         return Database::getRows($sql, $params);
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
+                FROM tb_descuentos
+                WHERE nombre_descuento LIKE ? 
+                ORDER BY nombre_descuento';
+        $params = array($value);
+        return Database::getRows($sql, $params);
      }
      
      public function createRow()
