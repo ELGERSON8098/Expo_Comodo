@@ -61,7 +61,7 @@ class generoHandler
                 FROM tb_generos_zapatos
                 WHERE id_genero = ?';
         $params = array($this->id);
-        return Database::getRow($sql, $params);
+        return Database::getRows($sql, $params);
     }
 
     public function updateRow()
