@@ -23,12 +23,13 @@ class generoHandler
     {
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_genero, nombre_genero, imagen_genero
-            FROM tb_generos_zapatos
-            WHERE nombre_genero LIKE ?
-            ORDER BY nombre_genero';
+        FROM tb_generos_zapatos
+        WHERE nombre_genero LIKE ?
+        ORDER BY nombre_genero';
         $params = array($value);
         return Database::getRows($sql, $params);
     }
+
 
     public function createRow()
     {
