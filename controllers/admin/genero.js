@@ -159,7 +159,7 @@ const openUpdate = async (id) => {
         SAVE_FORM.reset();
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
-        ID_Gen.value = ROW.id_color;
+        ID_Gen.value = ROW.id_genero;
         NOMBRE_Gen.value = ROW.nombre_genero;
         IMAGEN_Gen.value = ROW.imagen_genero;
     } else {
