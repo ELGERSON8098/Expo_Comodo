@@ -1,8 +1,8 @@
-// Constantes para completar las rutas de la API.
+// Constante para completar la ruta de la API.
 const GENERO_API = 'services/admin/genero.php';
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
-// Constantes para establecer el contenido de la tabla.
+// Constantes para establecer los elementos de la tabla.
 const TABLE_BODY = document.getElementById('tableBody'),
     ROWS_FOUND = document.getElementById('rowsFound');
 // Constantes para establecer los elementos del componente Modal.
@@ -10,18 +10,16 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle');
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
-    ID_Gen = document.getElementById('idGenero'),
-    NOMBRE_Gen = document.getElementById('nombreGEN'),
-IMAGEN_Gen = document.getElementById('nombreIMG');
-// Se establece el título de la página web.
-document.querySelector('title').textContent = 'Género de zapatos';
+    ID_GENERO = document.getElementById('idGenero'),
+    NOMBRE_GENERO = document.getElementById('nombre_genero'),
+    IMAGEN_GENERO = document.getElementById('imagen_genero');
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
     // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Gestionar género de zapatos';
+    MAIN_TITLE.textContent = 'Gestionar género';
     // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
 });
@@ -41,7 +39,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se verifica la acción a realizar.
-    (ID_Gen.value) ? action = 'updateRow' : action = 'createRow';
+    (ID_GENERO.value) ? action = 'updateRow' : action = 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
     // Petición para guardar los datos del formulario.
@@ -52,7 +50,6 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         SAVE_MODAL.hide();
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
-        ID_Gen.value = null;
         // Se carga nuevamente la tabla para visualizar los cambios.
         fillTable();
     } else {
@@ -83,10 +80,10 @@ const fillTable = async (form = null) => {
                     <td><img src="${SERVER_URL}images/generos/${row.imagen_genero}" height="50"></td>
                     <td>${row.nombre_genero}</td>
                     <td>
-                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_genero})">
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_genero})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_genero})">
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_genero})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -108,12 +105,9 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Agregar un nuevo género de zapatos';
+    MODAL_TITLE.textContent = 'Crear género';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    ID_Gen.disabled= false;
-    NOMBRE_Gen.disabled = false;
-    IMAGEN_Gen.disabled = false;
 }
 
 /*
@@ -122,27 +116,22 @@ const openCreate = () => {
 *   Retorno: ninguno.
 */
 const openUpdate = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
     FORM.append('idGenero', id);
-    // Petición para obtener los datos del registro solicitado.
     const DATA = await fetchData(GENERO_API, 'readOne', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar género de zapatos';
-        // Se prepara el formulario.
+        MODAL_TITLE.textContent = 'Actualizar género';
         SAVE_FORM.reset();
-        // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
-        ID_Gen.value = ROW.id_genero;
-        NOMBRE_Gen.value = ROW.nombre_genero;
-        IMAGEN_Gen.value = ROW.imagen_genero;
+        ID_GENERO.value = ROW.id_genero;
+        NOMBRE_GENERO.value = ROW.nombre_genero;
     } else {
         sweetAlert(2, DATA.error, false);
+        console.log(error);
     }
 }
+
 
 /*
 *   Función asíncrona para eliminar un registro.

@@ -1,12 +1,12 @@
 <?php
 // Se incluye la clase para validar los datos de entrada.
-require_once ('../../helpers/validator.php');
+require_once('../../helpers/validator.php');
 // Se incluye la clase padre.
-require_once ('../../models/handler/genero_handler.php');
+require_once('../../models/handler/genero_handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla CATEGORIA.
  */
-class generoData extends generoHandler
+class GeneroData extends GeneroHandler
 {
     /*
      *  Atributos adicionales.
@@ -20,7 +20,7 @@ class generoData extends generoHandler
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id = $value;
+            $this->id_genero = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del género es incorrecto';
@@ -31,13 +31,13 @@ class generoData extends generoHandler
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El nombre del género debe ser un valor alfanumérico';
+            $this->data_error = 'El nombre debe ser un valor alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre de género debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
@@ -70,8 +70,9 @@ class generoData extends generoHandler
             return false;
         }
     }
+
     /*
-     *  Métodos para obtener los atributos adicionales.
+     *  Métodos para obtener el valor de los atributos adicionales.
      */
     public function getDataError()
     {

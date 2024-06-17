@@ -4,12 +4,12 @@ require_once ('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla CATEGORIA.
  */
-class generoHandler
+class GeneroHandler
 {
     /*
      *  Declaración de atributos para el manejo de datos.
      */
-    protected $id = null;
+    protected $id_genero = null;
     protected $nombre = null;
     protected $imagen = null;
 
@@ -23,13 +23,12 @@ class generoHandler
     {
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_genero, nombre_genero, imagen_genero
-        FROM tb_generos_zapatos
-        WHERE nombre_genero LIKE ?
-        ORDER BY nombre_genero';
+            FROM tb_generos_zapatos
+            WHERE nombre_genero LIKE ?
+            ORDER BY nombre_genero';
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-
 
     public function createRow()
     {
@@ -52,25 +51,25 @@ class generoHandler
         $sql = 'SELECT id_genero, nombre_genero, imagen_genero
             FROM tb_generos_zapatos
             WHERE id_genero = ?';
-        $params = array($this->id);
+        $params = array($this->id_genero);
         return Database::getRow($sql, $params);
     }
 
     public function readFilename()
     {
         $sql = 'SELECT imagen_genero
-                FROM tb_generos_zapatos
-                WHERE id_genero = ?';
-        $params = array($this->id);
-        return Database::getRows($sql, $params);
+            FROM tb_generos_zapatos
+            WHERE id_genero = ?';
+        $params = array($this->id_genero);
+        return Database::getRow($sql, $params);
     }
 
     public function updateRow()
     {
         $sql = 'UPDATE tb_generos_zapatos
-            SET imagen_genero = ?, nombre_genero = ?
+            SET nombre_genero = ?
             WHERE id_genero = ?';
-        $params = array($this->imagen, $this->nombre, $this->id);
+        $params = array($this->nombre, $this->id_genero);
         return Database::executeRow($sql, $params);
     }
 
@@ -78,8 +77,7 @@ class generoHandler
     {
         $sql = 'DELETE FROM tb_generos_zapatos
             WHERE id_genero = ?';
-        $params = array($this->id);
+        $params = array($this->id_genero);
         return Database::executeRow($sql, $params);
     }
-
 }
