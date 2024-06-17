@@ -17,7 +17,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($result['dataset'] = $categoria->searchRows()) {
+                } elseif ($result['dataset'] = $genero->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -33,11 +33,11 @@ if (isset($_GET['action'])) {
                     $result['error'] = $genero->getDataError();
                 } elseif ($genero->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Genero de zapato creado correctamente';
+                    $result['message'] = 'Género de zapato creado correctamente';
                     // Se asigna el estado del archivo después de insertar.
                     $result['fileStatus'] = Validator::saveFile($_FILES['nombreIMG'], $genero::RUTA_IMAGEN);
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el genero de zapato';
+                    $result['error'] = 'Ocurrió un problema al crear el género de zapato';
                 }
                 break;
             case 'readAll':
@@ -45,7 +45,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen generos de zapatos registradas';
+                    $result['error'] = 'No existen géneros de zapatos registrados';
                 }
                 break;
             case 'readOne':
@@ -54,7 +54,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $genero->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Genero de zapato inexistente';
+                    $result['error'] = 'Género de zapato inexistente';
                 }
                 break;
             case 'updateRow':
@@ -63,16 +63,16 @@ if (isset($_GET['action'])) {
                     !$genero->setId($_POST['idGenero']) or
                     !$genero->setFilename() or
                     !$genero->setNombre($_POST['nombreGEN']) or
-                    !$genero->setImagen($_FILES['nombreIMG'], $categoria->getFilename())
+                    !$genero->setImagen($_FILES['nombreIMG'], $genero->getFilename())
                 ) {
                     $result['error'] = $genero->getDataError();
                 } elseif ($genero->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Genero del zapato modificado correctamente';
+                    $result['message'] = 'Género del zapato modificado correctamente';
                     // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['nombreIMG'], $genero::RUTA_IMAGEN, $categoria->getFilename());
+                    $result['fileStatus'] = Validator::changeFile($_FILES['nombreIMG'], $genero::RUTA_IMAGEN, $genero->getFilename());
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el genero del zapato';
+                    $result['error'] = 'Ocurrió un problema al modificar el género del zapato';
                 }
                 break;
             case 'deleteRow':
@@ -83,11 +83,11 @@ if (isset($_GET['action'])) {
                     $result['error'] = $genero->getDataError();
                 } elseif ($genero->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Genero del zapato eliminado correctamente';
+                    $result['message'] = 'Género del zapato eliminado correctamente';
                     // Se asigna el estado del archivo después de eliminar.
                     $result['fileStatus'] = Validator::deleteFile($genero::RUTA_IMAGEN, $genero->getFilename());
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el genero del zapato';
+                    $result['error'] = 'Ocurrió un problema al eliminar el género del zapato';
                 }
                 break;
             default:
