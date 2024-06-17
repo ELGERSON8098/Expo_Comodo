@@ -52,6 +52,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         SAVE_MODAL.hide();
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
+        ID_Gen.value = null;
         // Se carga nuevamente la tabla para visualizar los cambios.
         fillTable();
     } else {
@@ -81,31 +82,6 @@ const fillTable = async (form = null) => {
                 <tr>
                     <td><img src="${SERVER_URL}images/generos/${row.imagen_genero}" height="50"></td>
                     <td>${row.nombre_genero}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
                     <td>
                         <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_genero})">
                             <i class="bi bi-pencil-fill"></i>
@@ -135,6 +111,7 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Agregar un nuevo género de zapatos';
     // Se prepara el formulario.
     SAVE_FORM.reset();
+    ID_Gen.disabled= false;
     NOMBRE_Gen.disabled = false;
     IMAGEN_Gen.disabled = false;
 }
