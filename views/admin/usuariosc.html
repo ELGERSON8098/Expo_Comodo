@@ -3,29 +3,36 @@
 
 <head>
     <meta charset="UTF-8">
-            <!-- Compatibilidad con Internet Explorer -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <!-- fontawesome cdn -->
+    <title>Gestión de Usuarios</title>
+    <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- bootstrap css -->
+    <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Llamada al icono de la página web -->
+    <!-- Icono de la página web -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Iconos de Boostrap-->
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-
-    <!--css -->
-    <link rel="stylesheet" href="../../resources/css/administrador.css">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <!-- Estilo personalizado para el mapa -->
+    <style>
+        /* Ajuste de tamaño para el mapa en el modal */
+        #map {
+            height: 300px; /* Altura inicial del mapa */
+            width: 100%; /* Ancho completo del contenedor */
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Separación del navbar -->
-    <div class="my-5"></div>
+    <!-- Espacio para el navbar -->
+    <br>
     <main>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
@@ -68,14 +75,15 @@
             <tbody id="tableBody"></tbody>
         </table>
 
-        <!-- Componente Modal para guardar un registro -->
+        <!-- Modal para guardar un registro -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="modalTitle"></h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <!-- Formulario para guardar un registro -->
                     <form id="saveForm">
@@ -98,17 +106,22 @@
                                     required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="TelUsuarioC" class="form-label">Teléfono</label>
-                                <input id="TelUsuarioC" type="number" name="TelUsuarioC" class="form-control" required>
+                                <label for="Telefono" class="form-label">Teléfono</label>
+                                <input id="Telefono" type="tel" name="Telefono" class="form-control" required>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="duiUsuarioC" class="form-label">DUI</label>
-                                <input id="duiUsuarioC" type="number" name="duiUsuarioC" class="form-control" required>
+                                <input id="duiUsuarioC" type="number" name="duiUsuarioC" class="form-control"
+                                    required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="ContraC" class="form-label">Contraseña</label>
-                                <input id="ContraC" type="text" name="ContraC" class="form-control"
-                                    required>
+                                <label for="DirecC" class="form-label">Dirección</label>
+                                <textarea id="DirecC" name="DirecC" class="form-control" rows="4"
+                                    required></textarea>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <label for="map" class="form-label">Mapa</label>
+                                <div id="map"></div> <!-- Contenedor del mapa -->
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -119,15 +132,15 @@
             </div>
         </div>
     </main>
-    <!-- bootstrap js -->
-    <!-- Llamada al framework y librería de mensajes -->
+
+    <!-- Bootstrap JS, SweetAlert y Leaflet -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-
+    <!-- Tus scripts personalizados -->
     <script src="../../controllers/utils/admin.js"></script>
     <script src="../../controllers/utils/components.js"></script>
     <script src="../../controllers/admin/usuariosC.js"></script>
-
 </body>
 
 </html>
