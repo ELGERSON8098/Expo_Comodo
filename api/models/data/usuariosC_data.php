@@ -1,121 +1,69 @@
 <?php
-// Se incluye la clase para validar los datos de entrada.
-require_once('../../helpers/validator.php');
-// Se incluye la clase padre.
-require_once('../../models/handler/usuariosC_handler.php');
+// Se incluye la clase para trabajar con la base de datos.
+require_once('../../helpers/database.php');
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
+ *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
-class UsuariosData extends UsuariosHandler
+class UsuariosHandler
 {
-    // Atributo genérico para manejo de errores.
-    private $data_error = null;
+    /*
+     *  Declaración de atributos para el manejo de datos.
+     */
+    protected $id = null;
+    protected $nombre = null;
+    protected $alias = null;
+    protected $correo = null;
+    protected $clave = null;
+    protected $telefono = null;
+    protected $dui = null;
+    protected $direccion = null;
 
     /*
-     *  Métodos para validar y asignar valores de los atributos.
+     *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
-    public function setId($value)
+    public function searchRows()
     {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->id = $value;
-            return true;
-        } else {
-            $this->data_error = 'El identificador del administrador es incorrecto';
-            return false;
-        }
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT id_usuario, nombre, usuario, correo, telefono, dui_cliente
+                FROM tb_usuarios
+                WHERE nombre LIKE ? OR usuario LIKE ? OR correo LIKE ?
+                ORDER BY nombre';
+        $params = array($value, $value, $value);
+        return Database::getRows($sql, $params);
+    }
+    
+//Llamar los datos de la base de datos 
+    public function readAll()
+    {
+        $sql = 'SELECT id_usuario, nombre, usuario, correo, telefono, dui_cliente
+                FROM tb_usuarios';
+        return Database::getRows($sql);
     }
 
-    public function setNombre($value, $min = 2, $max = 50)
+    public function readOne()
     {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->nombre = $value;
-            return true;
-        } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        }
+        $sql = 'SELECT id_usuario, nombre, usuario, correo, dui_cliente, direccion_cliente, telefono
+                FROM tb_usuarios
+                WHERE id_usuario = ?';
+        $params = array($this->id);
+        return Database::getRow($sql, $params);
     }
 
-    public function setCorreo($value, $min = 8, $max = 100)
+    public function updateRow()
     {
-        if (!Validator::validateEmail($value)) {
-            $this->data_error = 'El correo no es válido';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->correo = $value;
-            return true;
-        } else {
-            $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        }
-    }
-
-    public function setAlias($value, $min = 6, $max = 25)
-    {
-        if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El alias debe ser un valor alfanumérico';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->alias = $value;
-            return true;
-        } else {
-            $this->data_error = 'El alias debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        }
-    }
-
-    public function setClave($value)
-    {
-        if (Validator::validatePassword($value)) {
-            $this->clave = password_hash($value, PASSWORD_DEFAULT);
-            return true;
-        } else {
-            $this->data_error = Validator::getPasswordError();
-            return false;
-        }
-    }
-
-    public function setDUI($value)
-    {
-        if (!Validator::validateDUI($value)) {
-            $this->data_error = 'El DUI debe tener el formato #########';
-            return false;
-        } 
-        
-        if ($this->checkDuplicate($value)) {
-            $this->data_error = 'El DUI ingresado ya existe';
-            return false;
-        } 
-        
-        $this->dui = $value;
-        return true;
+        $sql = 'UPDATE tb_usuarios
+                SET nombre = ?, usuario = ?, correo = ?, clave = ?, telefono = ?, dui_cliente = ?, direccion_cliente = ?
+                WHERE id_usuario = ?';
+        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->telefono, $this->dui, $this-> direccion, $this->id);
+        return Database::executeRow($sql, $params);
     }
     
 
-    public function setTelefono($value)
+    public function deleteRow()
     {
-        // Eliminar todos los caracteres no numéricos del número de teléfono
-        $value = preg_replace('/\D/', '', $value);
-        
-        // Validar que el número de teléfono tenga al menos 7 dígitos
-        if (strlen($value) >= 7) {
-            $this->telefono = $value;
-            return true;
-        } else {
-            $this->data_error = 'El teléfono debe tener al menos 7 dígitos';
-            return false;
-        }
-    }
-    
-
-
-    // Método para obtener el error de los datos.
-    public function getDataError()
-    {
-        return $this->data_error;
+        $sql = 'DELETE FROM tb_usuarios
+                WHERE id_usuario = ?';
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
     }
 }
-
