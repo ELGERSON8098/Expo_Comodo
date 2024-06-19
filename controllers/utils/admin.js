@@ -19,39 +19,28 @@ MAIN_TITLE.classList.add('text-center', 'py-3');
 *   Retorno: ninguno.
 */
 const loadTemplate = async () => {
-    // Petición para obtener en nombre del usuario que ha iniciado sesión.
+    // Petición para obtener el nombre del usuario que ha iniciado sesión.
     const DATA = await fetchData(USER_API, 'getUser');
     // Se verifica si el usuario está autenticado, de lo contrario se envía a iniciar sesión.
     if (DATA.session) {
         // Se comprueba si existe un alias definido para el usuario, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            // Se agrega el encabezado de la página web antes del contenido principal.
-            MAIN.insertAdjacentHTML('beforebegin', `
-        <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
-            <div class="container">
-                <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0"
-                    href="../admin/dashboard.html">
-                    <img src="../../resources/img/LogoComods.png" class="logo img-fluid" alt="site icon">
-                </a>
-            </div>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse order-lg-1" id="navMenu">
-                <ul class="navbar-nav mx-auto text-center">
+            // Generar el contenido del header según el nivel de usuario
+            let navOptions = '';
+            if (DATA.user_level == 1) {
+                navOptions = `
                     <li class="nav-item px-2 py-2 dropdown">
                         <a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Productos
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-                        <li><a class="dropdown-item" href="../admin/producto.html">Productos</a></li>
-                        <li><a class="dropdown-item" href="../admin/categoria.html">Categorías</a></li>
-                        <li><a class="dropdown-item" href="../admin/genero.html">Género</a></li>
-                        <li class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="../admin/colores.html">Colores</a></li>
-                        <li><a class="dropdown-item" href="../admin/marcas.html">Marcas</a></li>
-                        <li><a class="dropdown-item" href="../admin/tallas.html">Tallas</a></li>
+                            <li><a class="dropdown-item" href="../admin/producto.html">Productos</a></li>
+                            <li><a class="dropdown-item" href="../admin/categoria.html">Categorías</a></li>
+                            <li><a class="dropdown-item" href="../admin/genero.html">Género</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="../admin/colores.html">Colores</a></li>
+                            <li><a class="dropdown-item" href="../admin/marcas.html">Marcas</a></li>
+                            <li><a class="dropdown-item" href="../admin/tallas.html">Tallas</a></li>
                         </ul>
                     </li>
                     <li class="nav-item px-2 py-2">
@@ -64,24 +53,71 @@ const loadTemplate = async () => {
                         <a class="nav-link text-uppercase text-dark" href="../admin/reserva.html">Reservas</a>
                     </li>
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/direccion.html"/>Dirección</a>
+                        <a class="nav-link text-uppercase text-dark" href="../admin/direccion.html">Dirección</a>
                     </li>
                     <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="../admin/administrador.html">Administradores</a>
                     </li>
+                `;
+            } else if (DATA.user_level == 2) {
+                navOptions = `
                     <li class="nav-item px-2 py-2 dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Cuenta: <b>${DATA.username}</b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="perfil.html">Editar perfil</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="#" onclick="logOut()">Cerrar sesión</a></li>
-                                </ul>
-                            </li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-    <br>`);
+                        <a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Productos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="productosDropdown">
+                            <li><a class="dropdown-item" href="../admin/producto.html">Productos</a></li>
+                            <li><a class="dropdown-item" href="../admin/categoria.html">Categorías</a></li>
+                            <li><a class="dropdown-item" href="../admin/genero.html">Género</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="../admin/colores.html">Colores</a></li>
+                            <li><a class="dropdown-item" href="../admin/marcas.html">Marcas</a></li>
+                            <li><a class="dropdown-item" href="../admin/tallas.html">Tallas</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="../admin/descuento.html">Descuentos</a>
+                    </li>
+                `;
+            } else if (DATA.user_level == 3) {
+                navOptions = `
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="../admin/usuariosc.html">Clientes</a>
+                    </li>
+                    <li class="nav-item px-2 py-2">
+                        <a class="nav-link text-uppercase text-dark" href="../admin/reserva.html">Reservas</a>
+                    </li>
+                `;
+            }
+            // Se agrega el encabezado de la página web antes del contenido principal.
+            MAIN.insertAdjacentHTML('beforebegin', `
+                <header>
+                    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
+                        <div class="container">
+                            <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="../admin/dashboard.html">
+                                <img src="../../resources/img/LogoComods.png" class="logo img-fluid" alt="site icon">
+                            </a>
+                        </div>
+                        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse order-lg-1" id="navMenu">
+                            <ul class="navbar-nav mx-auto text-center">
+                                ${navOptions}
+                                <li class="nav-item px-2 py-2 dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Cuenta: <b>${DATA.username}</b></a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="perfil.html">Editar perfil</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="#" onclick="logOut()">Cerrar sesión</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </header>
+                <br>
+            `);
             // Se agrega el pie de la página web después del contenido principal.
             MAIN.insertAdjacentHTML('afterend', ``);
         } else {
@@ -98,3 +134,6 @@ const loadTemplate = async () => {
         }
     }
 }
+
+// Llamar a la función para cargar la plantilla.
+loadTemplate();
