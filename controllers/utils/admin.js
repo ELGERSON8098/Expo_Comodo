@@ -41,6 +41,7 @@ const loadTemplate = async () => {
                             <li><a class="dropdown-item" href="../admin/colores.html">Colores</a></li>
                             <li><a class="dropdown-item" href="../admin/marcas.html">Marcas</a></li>
                             <li><a class="dropdown-item" href="../admin/tallas.html">Tallas</a></li>
+                            <li><a class="dropdown-item" href="../admin/material.html">Materiales</a></li>
                         </ul>
                     </li>
                     <li class="nav-item px-2 py-2">

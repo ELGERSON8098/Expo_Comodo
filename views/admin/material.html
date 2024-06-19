@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <!-- Codificación del documento -->
+    <meta charset="UTF-8">
+        <!-- Compatibilidad con Internet Explorer -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Escalabilidad para dispositivos -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS -->
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Icono de la página -->
+    <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
+    <!-- Iconos de Bootstrap -->
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="../../resources/css/administrador.css">
+</head>
+
+<body>
+    <!-- Separación del navbar -->
+    <div class="my-5"></div>
+    <main>
+        <!-- Título del contenido principal -->
+        <h3 id="mainTitle"></h3>
+        <!-- Formulario de búsqueda -->
+        <div class="row">
+            <form class="col-sm-12 col-md-6" id="searchForm">
+                <div class="row">
+                    <div class="col-6">
+                        <!-- Campo de búsqueda -->
+                        <input type="search" class="form-control" name="search" placeholder="Buscar" required>
+                    </div>
+                    <div class="col-6">
+                        <!-- Botón de búsqueda -->
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <!-- Botón de restablecer -->
+                        <button type="reset" class="btn btn-secondary" onclick="fillTable()">
+                            <i class="bi bi-x-square-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <br>
+            <!-- Botón para añadir nuevo registro -->
+            <div class="col-12 col-sm-auto ms-auto">
+                <button type="button" class="btn btn-primary rounded me-2 mb-2 mb-sm-0" onclick="openCreate()">
+                    <i class="bi bi-plus-square-fill"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabla para mostrar los registros existentes -->
+        <table class="table table-hover">
+            <!-- Encabezado de la tabla -->
+            <thead>
+                <!-- Cantidad de registros encontrados -->
+                <tr>
+                    <td colspan="28" id="rowsFound"></td>
+                </tr>
+                <!-- Títulos de las columnas -->
+                <tr>
+                    <th>Nombre del material</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <!-- Cuerpo de la tabla -->
+            <tbody id="tableBody"></tbody>
+        </table>
+
+        <!-- Componente Modal para guardar un registro -->
+        <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <!-- Título del modal -->
+                        <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                        <!-- Botón para cerrar el modal -->
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Formulario dentro del modal -->
+                    <form id="saveForm">
+                        <div class="modal-body row g-3">
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <input type="number" class="d-none" id="idMaterial" name="idMaterial">
+                            <!-- Campo para ingresar nombre de la marca -->
+                            <div class="col-sm-12 col-md-6">
+                                <label for="nombreMaterial" class="form-label">Nombre del material</label>
+                                <input id="nombreMaterial" type="text" name="nombreMaterial" class="form-control" required>
+                            </div>
+                        </div>
+                        <!-- Botón de guardar dentro del modal -->
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Bootstrap JS -->
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert JS -->
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+    <!-- Controlador de administrador -->
+    <script src="../../controllers/utils/admin.js"></script>
+    <!-- Controlador de componentes -->
+    <script src="../../controllers/utils/components.js"></script>
+    <!-- Controlador específico para marcas -->
+    <script src="../../controllers/admin/material.js"></script>
+
+</body>
+
+</html>
