@@ -4,8 +4,8 @@
 <head>
     <!-- Codificación del documento -->
     <meta charset="UTF-8">
-        <!-- Compatibilidad con Internet Explorer -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Compatibilidad con Internet Explorer -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Escalabilidad para dispositivos -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
@@ -68,9 +68,15 @@
                 <!-- Títulos de las columnas -->
                 <tr>
                     <th>Imagen</th>
-                    <th>Nombre del producto</th>
+                    <th>Producto</th>
                     <th>Código interno</th>
-                    <th>Código del proveedor</th>
+                    <th>Referencia del proveedor</th>
+                    <th>Precio</th>
+                    <th>Marca</th>
+                    <th>Género</th>
+                    <th>Categoría</th>
+                    <th>Material</th>
+                    <th>Descuento</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -91,69 +97,57 @@
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para el ID del producto -->
-                            <input type="hidden" id="idusuarioC" name="idusuarioC">
+                            <input type="hidden" id="idProducto" name="idProducto">
                             <!-- Campo para la imagen del producto -->
                             <div class="col-sm-12 col-md-6">
-                                <label for="ImagenP" class="form-label">Imagen del producto</label>
-                                <input id="ImagenP" type="file" name="ImagenP" class="form-control" required>
+                                <label for="imagen" class="form-label">Imagen del producto</label>
+                                <input id="imagen" type="file" name="imagen" class="form-control" required>
                             </div>
                             <!-- Campos para los datos del producto -->
                             <div class="col-sm-12 col-md-6">
-                                <label for="nombreP" class="form-label">Nombre del producto</label>
-                                <input id="nombreP" type="text" name="nombreP" class="form-control" required>
+                                <label for="nombreProducto" class="form-label">Nombre del producto</label>
+                                <input id="nombreProducto" type="text" name="nombreProducto" class="form-control"
+                                    required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="CodigoI" class="form-label">Código interno</label>
-                                <input id="CodigoI" type="number" name="CodigoI" class="form-control" required>
+                                <label for="codigoInterno" class="form-label">Código interno</label>
+                                <input id="codigoInterno" type="number" name="codigoInterno" class="form-control"
+                                    required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="CodigoP" class="form-label">Código Proveedor</label>
-                                <input id="CodigoP" type="number" name="CodigoP" class="form-control" required>
+                                <label for="referenciaPro" class="form-label">Código Proveedor</label>
+                                <input id="referenciaPro" type="number" name="referenciaPro" class="form-control"
+                                    required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="MaterialP" class="form-label">Material</label>
-                                <input id="MaterialP" type="text" name="MaterialP" class="form-control" required>
+                                <label for="precioProducto" class="form-label">Precio</label>
+                                <input id="precioProducto" type="number" name="precioProducto" class="form-control"
+                                    required>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="DescP" class="form-label">Descripción</label>
-                                <input id="DescP" type="text" name="DescP" class="form-control" required>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Tallap" class="form-label">Talla</label>
-                                <select id="Tallap" name="Tallap" class="form-control" required>
+                                <label for="nombreMarca" class="form-label">Marca</label>
+                                <select id="nombreMarca" name="nombreMarca" class="form-control" required>
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="ColorP" class="form-label">Color</label>
-                                <select id="ColorP" name="ColorP" class="form-control" required>
-                                </select>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="MarcaP" class="form-label">Marca</label>
-                                <select id="MarcaP" name="MarcaP" class="form-control" required>
+                                <label for="nombre_genero" class="form-label">Género</label>
+                                <select id="nombre_genero" name="nombre_genero" class="form-control" required>
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="CategoriaP" class="form-label">Categoría</label>
-                                <select id="CategoriaP" name="CategoriaP" class="form-control" required>
+                                <select id="nombreCategoria" name="CategoriaP" class="form-control" required>
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="SubCateP" class="form-label">Género</label>
-                                <select id="SubCateP" name="SubCateP" class="form-control" required>
+                                <label for="nombreMaterial" class="form-label">Material</label>
+                                <select id="nombreMaterial" name="CategoriaP" class="form-control" required>
                                 </select>
                             </div>
+
                             <div class="col-sm-12 col-md-6">
-                                <label for="PrecioP" class="form-label">Precio</label>
-                                <input id="PrecioP" type="number" name="PrecioP" class="form-control" required>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="ExistenciaP" class="form-label">Existencia</label>
-                                <input id="ExistenciaP" type="number" name="ExistenciaP" class="form-control" required>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="DescuentoP" class="form-label">Descuento</label>
-                                <select id="DescuentoP" name="DescuentoP" class="form-control">
+                                <label for="nombreDescuento" class="form-label">Descuento</label>
+                                <select id="nombreDescuento" name="nombreDescuento" class="form-control">
                                 </select>
                             </div>
                         </div>

@@ -1,4 +1,9 @@
 // Constantes para completar las rutas de la API.
+const MATERIAL_API = 'services/admin/materiales.php';
+const MARCA_API = 'services/admin/marca.php';
+const GENERO_API = 'services/admin/genero.php';
+const DESCUENTO_API = 'services/admin/descuento.php';
+const CATEGORIA_API = 'services/admin/categoria.php';
 const PRODUCTO_API = 'services/admin/producto.php';
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
@@ -11,11 +16,12 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_PRODUCTO = document.getElementById('idProducto'),
-    IMG_PRODUCTO = document.getElementById('ImagenP'),
     NOMBRE_PRODUCTO = document.getElementById('nombreProducto'),
-    CodigoI_Producto = document.getElementById('CodigoI')
+    CODIGO_INTERNO = document.getElementById('codigoInterno'),
+    REFERENCIA_PRO = document.getElementById('referenciaPro'),
+    PRECIO = document.getElementById('precioProducto');
 
-// Método del evento para cuando el documento ha cargado.
+ // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
@@ -57,7 +63,6 @@ SAVE_FORM.addEventListener('submit', async (event) => {
         sweetAlert(2, DATA.error, false);
     }
 });
-
 /*
 *   Función asíncrona para llenar la tabla con los registros disponibles.
 *   Parámetros: form (objeto opcional con los datos de búsqueda).
@@ -73,19 +78,26 @@ const fillTable = async (form = null) => {
     const DATA = await fetchData(PRODUCTO_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
+        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             TABLE_BODY.innerHTML += `
                 <tr>
-                <td><img src="${SERVER_URL}images/productos/${row.imagen}" height="50"></td>
+                    <td><img src="${SERVER_URL}images/productos/${row.imagen}" height="50"></td>
                     <td>${row.nombre_producto}</td>
                     <td>${row.codigo_interno}</td>
                     <td>${row.referencia_proveedor}</td>
+                    <td>${row.precio}</td>
+                    <td>${row.nombre_marca}</td>
+                    <td>${row.nombre_genero}</td>
+                    <td>${row.nombre_categoria}</td>
+                    <td>${row.nombre_material}</td>
+                    <td>${row.nombre_descuento}</td>
                     <td>
-                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_usuario})">
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_producto})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_usuario})">
+                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_producto})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>
@@ -99,6 +111,8 @@ const fillTable = async (form = null) => {
     }
 }
 
+
+
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
@@ -110,8 +124,11 @@ const openCreate = () => {
     MODAL_TITLE.textContent = 'Crear producto';
     // Se prepara el formulario.
     SAVE_FORM.reset();
-    EXISTENCIAS_PRODUCTO.disabled = false;
-    fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto');
+    fillSelect(CATEGORIA_API, 'readAll', 'nombreCategoria');
+    fillSelect(DESCUENTO_API, 'readAll', 'nombreDescuento');
+    fillSelect(MARCA_API, 'readAll', 'nombreMarca');
+    fillSelect(GENERO_API, 'readAll', 'nombre_genero');
+    fillSelect(MATERIAL_API, 'readAll', 'nombreMaterial');
 }
 
 /*

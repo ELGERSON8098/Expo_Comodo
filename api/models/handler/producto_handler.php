@@ -119,4 +119,13 @@ class productoHandler
         return Database::getRow($sql, $params);
     }
 
+    public function updateRow()
+    {
+        $sql = 'UPDATE tb_productos
+            SET nombre_producto = ?, codigo_interno = ?, referencia_proveedor = ?, precio = ?, id_marca = ?, id_genero = ?, id_categoria = ?, id_material = ?, id_descuento = ?, imagen = ?
+            WHERE id_producto = ?';
+        $params = array($this->nombre_producto, $this->codigo_interno, $this->referencia_proveedor, $this->precio, $this->id_marca, $this->id_genero, $this->id_categoria, $this->id_material, $this->id_descuento, $this->imagen, $this->id_producto);
+        return Database::executeRow($sql, $params);
+    }
+
 }
