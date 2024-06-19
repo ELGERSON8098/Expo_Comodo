@@ -47,7 +47,7 @@ if (isset($_GET['action'])) {
                     !$usuariosC->setNombre($_POST['nombreUsuarioC']) or
                     !$usuariosC->setAlias($_POST['aliasUsuarioC']) or
                     !$usuariosC->setCorreo($_POST['correoUsuarioC']) or
-                    !$usuariosC->setClave($_POST['claveUsuarioC']) or
+                    !$usuariosC->setDic($_POST['DirecC']) or
                     !$usuariosC->setTelefono($_POST['TelUsuarioC']) or
                     !$usuariosC->setDUI($_POST['duiUsuarioC'])
                 ) {
