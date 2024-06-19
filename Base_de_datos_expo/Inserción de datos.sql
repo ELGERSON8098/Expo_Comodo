@@ -94,6 +94,20 @@ VALUES
 (9, 'Mejicanos', 1),
 (10, 'Antiguo Cuscatlán', 3);
 
+INSERT INTO tb_admins (id_administrador, nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+VALUES 
+(1, 'Pep Guardiola', 'guardiola', 'pep@gmail.com', 'guardiola123', 1),
+(2, 'Kevin De Bruyne', 'debruyne17', 'kevin@gmail.com', 'debruyne456', 2),
+(3, 'Raheem Sterling', 'sterling7', 'raheem@gmail.com', 'sterling789', 2),
+(4, 'Ruben Dias', 'dias3', 'ruben@gmail.com', 'dias123', 2),
+(5, 'Ederson', 'ederson1', 'ederson@gmail.com', 'ederson456', 2),
+(6, 'Phil Foden', 'foden47', 'phil@gmail.com', 'foden789', 2),
+(7, 'Joao Cancelo', 'cancelo27', 'joao@gmail.com', 'cancelo123', 2),
+(8, 'Ilkay Gundogan', 'gundogan8', 'ilkay@gmail.com', 'gundogan456', 2),
+(9, 'Bernardo Silva', 'silva20', 'bernardo@gmail.com', 'silva789', 2),
+(10, 'Kyle Walker', 'walker2', 'kyle@gmail.com', 'walker123', 2);
+
+SELECT*FROM tb_admins;
 
 INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
@@ -118,20 +132,6 @@ VALUES
 
 SELECT*FROM tb_generos_zapatos;
 
-INSERT INTO tb_admins (id_administrador, nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
-VALUES 
-(1, 'Pep Guardiola', 'guardiola', 'pep@gmail.com', 'guardiola123', 1),
-(2, 'Kevin De Bruyne', 'debruyne17', 'kevin@gmail.com', 'debruyne456', 2),
-(3, 'Raheem Sterling', 'sterling7', 'raheem@gmail.com', 'sterling789', 2),
-(4, 'Ruben Dias', 'dias3', 'ruben@gmail.com', 'dias123', 2),
-(5, 'Ederson', 'ederson1', 'ederson@gmail.com', 'ederson456', 2),
-(6, 'Phil Foden', 'foden47', 'phil@gmail.com', 'foden789', 2),
-(7, 'Joao Cancelo', 'cancelo27', 'joao@gmail.com', 'cancelo123', 2),
-(8, 'Ilkay Gundogan', 'gundogan8', 'ilkay@gmail.com', 'gundogan456', 2),
-(9, 'Bernardo Silva', 'silva20', 'bernardo@gmail.com', 'silva789', 2),
-(10, 'Kyle Walker', 'walker2', 'kyle@gmail.com', 'walker123', 2);
-
-SELECT*FROM tb_admins;
 
 INSERT INTO tb_categorias (id_categoria, nombre_categoria, imagen)
 VALUES 
@@ -190,21 +190,6 @@ INSERT INTO tb_colores (id_color, color) VALUES
 
 SELECT*FROM tb_colores;
 
-INSERT INTO tb_productos (id_producto, nombre_producto, codigo_interno, referencia_proveedor, id_marca, id_genero, id_categoria, imagen)
-VALUES 
-(1, 'Zapatillas Running Nike Air Max', 'NIKE001', 'NIKE123', 1, 1, 1, 'running.png'),
-(2, 'Botas de Invierno Timberland', 'TIMBER001', 'TIMBER123', 3, 2, 4, 'botas.png'),
-(3, 'Zapatos Casuales Converse Chuck Taylor', 'CONVERSE001', 'CONVERSE123', 4, 3, 6, 'casuales.png'),
-(4, 'Sandalias de Verano Birkenstock', 'BIRKEN001', 'BIRKEN123', 5, 4, 9, 'botines.png'),
-(5, 'Botines de Moda Dr. Martens', 'MARTENS001', 'MARTENS123', 6, 5, 10, 'moda.png'),
-(6, 'Zapatos Formales Clarks', 'CLARKS001', 'CLARKS123', 7, 6, 7, 'formales.png'),
-(7, 'Zapatillas para Correr Adidas Ultraboost', 'ADIDAS001', 'ADIDAS123', 2, 7, 1, 'zapatillas.png'),
-(8, 'Chanclas de Playa Havaianas', 'HAVAIANAS001', 'HAVAIANAS123', 10, 8, 8, 'chanclas.png'),
-(9, 'Mocasines Elegantes Gucci', 'GUCCI001', 'GUCCI123', 8, 9, 7, 'mocasines.png'),
-(10, 'Botas de Lluvia Hunter', 'HUNTER001', 'HUNTER123', 9, 10, 5, 'botasdelluvia.png');
-
-SELECT*FROM tb_productos;
-
 INSERT INTO tb_descuentos (id_descuento, nombre_descuento, descripcion, valor) VALUES
 (1, 'Descuento Primavera', 'Descuento especial de primavera', 15.00),
 (2, 'Oferta Verano', 'Oferta especial de verano', 20.00),
@@ -234,23 +219,41 @@ VALUES
 
 SELECT*FROM tb_materiales;
 
-INSERT INTO tb_detalles_productos (id_detalle_producto, id_producto, id_talla, precio, existencias, id_color, id_descuento, descripcion, id_material)
-VALUES
-(1, 1, 1, 129.99, 50, 1, 1, 'Zapatillas Nike Air Max', 1),
-(2, 1, 2, 129.99, 75, 2, 2, 'Zapatillas Nike Air Max', 1),
-(3, 2, 3, 189.99, 30, 8, 3,  'Botas Timberland', 2),
-(4, 2, 4, 189.99, 40, 3,4,  'Botas Timberland', 2),
-(5, 3, 5, 59.99, 100, 3,5, 'Zapatillas Converse Chuck Taylor', 3),
-(6, 3, 6, 59.99, 80, 2, 6,'Zapatillas Converse Chuck Taylor', 3),
-(7, 4, 7, 79.99, 60, 1, 7, 'Sandalias Birkenstock', 4),
-(8, 4,  8, 79.99, 70, 2, 8, 'Sandalias Birkenstock', 4),
-(9, 5, 9, 169.99, 45, 1,9, 'Botas Dr. Martens', 5),
-(10, 5, 10, 169.99, 55, 4, 10,'Botas Dr. Martens', 5);
+INSERT INTO tb_productos (id_producto, nombre_producto, codigo_interno, referencia_proveedor, precio, id_marca, id_genero, id_categoria, imagen, id_material, id_descuento)
+VALUES 
+(1, 'Zapatillas Running Nike Air Max', 'NIKE001', 'NIKE123', 129.99, 1, 1, 1, 'running.png', 1, 1),
+(2, 'Botas de Invierno Timberland', 'TIMBER001', 'TIMBER123', 189.99, 3, 2, 4, 'botas.png', 2, 3),
+(3, 'Zapatos Casuales Converse Chuck Taylor', 'CONVERSE001', 'CONVERSE123', 59.99, 4, 3, 6, 'casuales.png', 3, 5),
+(4, 'Sandalias de Verano Birkenstock', 'BIRKEN001', 'BIRKEN123', 79.99, 5, 4, 9, 'botines.png', 4, 7),
+(5, 'Botines de Moda Dr. Martens', 'MARTENS001', 'MARTENS123', 169.99, 6, 5, 10, 'moda.png', 5, 9),
+(6, 'Zapatos Formales Clarks', 'CLARKS001', 'CLARKS123', 99.99, 7, 6, 7, 'formales.png', 6, 1),
+(7, 'Zapatillas para Correr Adidas Ultraboost', 'ADIDAS001', 'ADIDAS123', 119.99, 2, 7, 1, 'zapatillas.png', 7, 2),
+(8, 'Chanclas de Playa Havaianas', 'HAVAIANAS001', 'HAVAIANAS123', 39.99, 10, 8, 8, 'chanclas.png', 4, 4),
+(9, 'Mocasines Elegantes Gucci', 'GUCCI001', 'GUCCI123', 149.99, 8, 9, 7, 'mocasines.png', 8, 6),
+(10, 'Botas de Lluvia Hunter', 'HUNTER001', 'HUNTER123', 199.99, 9, 10, 5, 'botasdelluvia.png', 2, 8);
+
+
+SELECT*FROM tb_productos;
+
+INSERT INTO tb_detalles_productos (id_detalle_producto, id_producto, id_talla, existencias, id_color, id_descuento, descripcion, id_material)
+VALUES 
+(1, 1, 1, 50, 1, 1, 'Zapatillas Nike Air Max', 1),
+(2, 1, 2, 75, 2, 2, 'Zapatillas Nike Air Max', 1),
+(3, 2, 3, 30, 8, 3,  'Botas Timberland', 2),
+(4, 2, 4, 40, 3,4,  'Botas Timberland', 2),
+(5, 3, 5, 100, 3,5, 'Zapatillas Converse Chuck Taylor', 3),
+(6, 3, 6, 80, 2, 6,'Zapatillas Converse Chuck Taylor', 3),
+(7, 4, 7, 60, 1, 7, 'Sandalias Birkenstock', 4),
+(8, 4,  8, 70, 2, 8, 'Sandalias Birkenstock', 4),
+(9, 5, 9, 45, 1,9, 'Botas Dr. Martens', 5),
+(10, 5, 10, 55, 4, 10,'Botas Dr. Martens', 5);
+
 
 SELECT*FROM tb_detalles_productos;
 
-INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva, id_distrito) VALUES
-(1, 1, '2024-04-06 10:00:00', 'Pendiente' , 1),
+INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva, id_distrito)
+VALUES 
+(1, 1, '2024-04-06 10:00:00', 'Pendiente', 1),
 (2, 2, '2024-04-07 11:00:00', 'Pendiente', 2),
 (3, 3, '2024-04-08 12:00:00', 'Pendiente', 3),
 (4, 4, '2024-04-09 13:00:00', 'Pendiente',  4),
@@ -261,10 +264,11 @@ INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva, 
 (9, 9, '2024-04-14 18:00:00', 'Pendiente',9),
 (10, 10, '2024-04-15 19:00:00', 'Pendiente', 10);
 
+
 SELECT*FROM tb_reservas;
 
 INSERT INTO tb_detalles_reservas (id_detalle_reserva, id_reserva, id_producto, cantidad, precio_unitario, id_detalle_producto)
-VALUES
+VALUES 
 (1, 1, 1, 2, 129.99, 1),
 (2, 2, 2, 1, 189.99, 2),
 (3, 3, 3, 3, 59.99, 3),
@@ -277,3 +281,36 @@ VALUES
 (10, 10, 10, 2, 199.99, 10);
 
 SELECT*FROM tb_detalles_reservas;
+
+SELECT
+        p.id_producto,
+        p.nombre_producto,
+        p.codigo_interno,
+        p.referencia_proveedor,
+        p.precio,
+        p.imagen,
+        m.id_marca,
+        m.marca AS nombre_marca,
+        g.id_genero,
+        g.nombre_genero AS nombre_genero,
+        c.id_categoria,
+        c.nombre_categoria AS nombre_categoria,
+        ma.id_material,
+        ma.nombre AS nombre_material,
+        d.id_descuento,
+        d.nombre_descuento AS nombre_descuento,
+        d.valor AS porcentaje_descuento
+    FROM
+        tb_productos AS p
+    LEFT JOIN
+        tb_marcas AS m ON p.id_marca = m.id_marca
+    LEFT JOIN
+        tb_generos_zapatos AS g ON p.id_genero = g.id_genero
+    LEFT JOIN
+        tb_categorias AS c ON p.id_categoria = c.id_categoria
+    INNER JOIN
+        tb_materiales AS ma ON p.id_material = ma.id_material
+    INNER JOIN
+        tb_descuentos AS d ON p.id_descuento = d.id_descuento
+    WHERE
+        p.id_producto = 1
