@@ -13,13 +13,14 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ID_GENERO = document.getElementById('idGenero'),
     NOMBRE_GENERO = document.getElementById('nombre_genero'),
     IMAGEN_GENERO = document.getElementById('imagen_genero');
+    document.querySelector('title').textContent = 'Géneros';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
     // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Gestionar género';
+    MAIN_TITLE.textContent = 'Gestionar géneros';
     // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
 });
