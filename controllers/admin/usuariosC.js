@@ -1,29 +1,33 @@
 // Constantes para completar las rutas de la API.
 const USUARIO_API = 'services/admin/usuariosC.php';
+
 // Constante para establecer el formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm');
+
 // Constantes para establecer el contenido de la tabla.
-const TABLE_BODY = document.getElementById('tableBody'),
-    ROWS_FOUND = document.getElementById('rowsFound');
+const TABLE_BODY = document.getElementById('tableBody');
+const ROWS_FOUND = document.getElementById('rowsFound');
+
 // Constantes para establecer los elementos del componente Modal.
-const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
-    MODAL_TITLE = document.getElementById('modalTitle');
+const SAVE_MODAL = new bootstrap.Modal('#saveModal');
+const MODAL_TITLE = document.getElementById('modalTitle');
+
 // Constantes para establecer los elementos del formulario de guardar.
-const SAVE_FORM = document.getElementById('saveForm'),
-    ID_USUARIO = document.getElementById('idusuarioC'),
-    NOMBRE_USUARIO = document.getElementById('nombreUsuarioC'),
-    ALIAS_USUARIO = document.getElementById('aliasUsuarioC'),
-    CORREO_USUARIO = document.getElementById('correoUsuarioC'),
-    Tel_USUARIO = document.getElementById('TelUsuarioC'),
-    CONTRA_USUARIO = document.getElementById('ContraC'),
-    DUI_USUARIO = document.getElementById('duiUsuarioC');
+const SAVE_FORM = document.getElementById('saveForm');
+const ID_USUARIO = document.getElementById('idusuarioC');
+const NOMBRE_USUARIO = document.getElementById('nombreUsuarioC');
+const ALIAS_USUARIO = document.getElementById('aliasUsuarioC');
+const CORREO_USUARIO = document.getElementById('correoUsuarioC');
+const TEL_USUARIO = document.getElementById('Telefono');
+const DIRECCION_USUARIO = document.getElementById('DirecC');
+const DUI_USUARIO = document.getElementById('duiUsuarioC');
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
     // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Gestionar clientes';
+    document.getElementById('mainTitle').textContent = 'Gestionar clientes';
     // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
 });
@@ -43,7 +47,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
     // Se verifica la acción a realizar.
-    (ID_USUARIO.value) ? action = 'updateRow' : action = 'createRow';
+    const action = (ID_USUARIO.value) ? 'updateRow' : 'createRow';
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
     // Petición para guardar los datos del formulario.
@@ -67,99 +71,109 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 *   Retorno: ninguno.
 */
 const fillTable = async (form = null) => {
-    // Se inicializa el contenido de la tabla.
-    ROWS_FOUND.textContent = '';
-    TABLE_BODY.innerHTML = '';
-    // Se verifica la acción a realizar.
-    (form) ? action = 'searchRows' : action = 'readAll';
-    // Petición para obtener los registros disponibles.
-    const DATA = await fetchData(USUARIO_API, action, form);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se recorre el conjunto de registros fila por fila.
-        DATA.dataset.forEach(row => {
-            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-            TABLE_BODY.innerHTML += `
-                <tr>
-                    <td>${row.nombre}</td>
-                    <td>${row.usuario}</td>
-                    <td>${row.correo}</td>
-                    <td>${row.telefono}</td>
-                    <td>${row.dui_cliente}</td>
-                    <td>
-                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_usuario})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_usuario})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
-        });
-        // Se muestra un mensaje de acuerdo con el resultado.
-        ROWS_FOUND.textContent = DATA.message;
-    } else {
-        sweetAlert(4, DATA.error, true);
-    }
-}
-
-
-/*
-*   Función asíncrona para preparar el formulario al momento de actualizar un registro.
-*   Parámetros: id (identificador del registro seleccionado).
-*   Retorno: ninguno.
-*/
-const openUpdate = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idusuarioC', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(USUARIO_API, 'readOne', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se muestra la caja de diálogo con su título.
-        SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar cliente';
-        // Se prepara el formulario.
-        SAVE_FORM.reset();
-        // Se inicializan los campos con los datos.
-        const ROW = DATA.dataset;
-        ID_USUARIO.value = ROW.id_usuario;
-        NOMBRE_USUARIO.value = ROW.nombre;
-        ALIAS_USUARIO.value = ROW.usuario;
-        CORREO_USUARIO.value = ROW.correo;
-        Tel_USUARIO.value = ROW.telefono;
-        CONTRA_USUARIO.value = ROW.clave;
-        DUI_USUARIO.value = ROW.dui_cliente;
-    } else {
-        sweetAlert(2, DATA.error, false);
-    }
-}
-
-/*
-*   Función asíncrona para eliminar un registro.
-*   Parámetros: id (identificador del registro seleccionado).
-*   Retorno: ninguno.
-*/
-const openDelete = async (id) => {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el cliente de forma permanente?');
-    // Se verifica la respuesta del mensaje.
-    if (RESPONSE) {
-        // Se define una constante tipo objeto con los datos del registro seleccionado.
-        const FORM = new FormData();
-        FORM.append('idusuarioC', id);
-        // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(USUARIO_API, 'deleteRow', FORM);
+    try {
+        // Se inicializa el contenido de la tabla.
+        ROWS_FOUND.textContent = '';
+        TABLE_BODY.innerHTML = '';
+        // Se verifica la acción a realizar.
+        const action = (form) ? 'searchRows' : 'readAll';
+        // Petición para obtener los registros disponibles.
+        const DATA = await fetchData(USUARIO_API, action, form);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            // Se muestra un mensaje de éxito.
-            await sweetAlert(1, DATA.message, true);
-            // Se carga nuevamente la tabla para visualizar los cambios.
-            fillTable();
+            // Se recorre el conjunto de registros fila por fila.
+            DATA.dataset.forEach(row => {
+                // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+                TABLE_BODY.innerHTML += `
+                    <tr>
+                        <td>${row.nombre}</td>
+                        <td>${row.usuario}</td>
+                        <td>${row.correo}</td>
+                        <td>${row.telefono}</td>
+                        <td>${row.dui_cliente}</td>
+                        <td>
+                            <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openView(${row.id_usuario})">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+            // Se muestra un mensaje de acuerdo con el resultado.
+            ROWS_FOUND.textContent = DATA.message;
+        } else {
+            sweetAlert(4, DATA.error, true);
+        }
+    } catch (error) {
+        sweetAlert(4, 'Error al llenar la tabla: ' + error.message, false);
+    }
+}
+
+// Función para abrir el modal y mostrar datos del usuario para editar
+const openView = async (id) => {
+    try {
+        const FORM = new FormData();
+        FORM.append('idusuarioC', id);
+
+        const DATA = await fetchData(USUARIO_API, 'readOne', FORM);
+
+        if (DATA.status) {
+            // Deshabilitar campos que no deben ser editables
+            NOMBRE_USUARIO.disabled = true;
+            ALIAS_USUARIO.disabled = true;
+            CORREO_USUARIO.disabled = true;
+            TEL_USUARIO.disabled = true;
+            DUI_USUARIO.disabled = true;
+            DIRECCION_USUARIO.disabled= true;
+            SAVE_MODAL.show(); // Mostrar el modal
+
+            // Establecer título del modal
+            MODAL_TITLE.textContent = 'Editar Cliente';
+
+            // Resetear el formulario
+            SAVE_FORM.reset();
+
+            // Llenar campos con datos del usuario
+            const ROW = DATA.dataset;
+            ID_USUARIO.value = ROW.id_usuario;
+            NOMBRE_USUARIO.value = ROW.nombre;
+            ALIAS_USUARIO.value = ROW.usuario;
+            CORREO_USUARIO.value = ROW.correo;
+            TEL_USUARIO.value = ROW.telefono;
+            DIRECCION_USUARIO.value = ROW.direccion_cliente;
+            DUI_USUARIO.value = ROW.dui_cliente;
+
+            // Actualizar el mapa con la dirección del usuario al abrir el modal
+            updateMap(ROW.direccion_cliente);
         } else {
             sweetAlert(2, DATA.error, false);
         }
+    } catch (error) {
     }
+}
+
+// Función para inicializar el mapa con la dirección proporcionada
+function updateMap(address) {
+    const map = L.map('map').setView([13.6929, -89.2182], 13); // Coordenadas de San Salvador
+
+    // Añadir la capa del mapa
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Utilizar Nominatim para geocodificar la dirección
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                const marker = L.marker([lat, lon]).addTo(map);
+                map.setView([lat, lon], 15); // Centrar el mapa en la ubicación encontrada
+            } else {
+                sweetAlert(2, 'No se pudo encontrar la ubicación', false);
+            }
+        })
+        .catch(error => {
+            sweetAlert(2, 'Error al buscar la ubicación', false);
+        });
 }
