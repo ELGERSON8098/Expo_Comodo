@@ -109,6 +109,44 @@ const fillTable = async (form = null) => {
     }
 }
 
+// Variable global para mantener la referencia del mapa y marcador
+let map;
+let marker;
+
+// Función para inicializar el mapa con la dirección proporcionada
+function updateMap(address) {
+    if (!map) {
+        // Crear mapa si no existe
+        map = L.map('map').setView([13.6929, -89.2182], 13); // Coordenadas de San Salvador
+
+        // Añadir la capa del mapa
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+    }
+
+    // Utilizar Nominatim para geocodificar la dirección
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                // Si el marcador ya existe, actualizar su ubicación
+                if (marker) {
+                    marker.setLatLng([lat, lon]);
+                } else {
+                    marker = L.marker([lat, lon]).addTo(map);
+                }
+                map.setView([lat, lon], 15); // Centrar el mapa en la ubicación encontrada
+            } else {
+                sweetAlert(2, 'No se pudo encontrar la ubicación', false);
+            }
+        })
+        .catch(error => {
+            sweetAlert(2, 'Error al buscar la ubicación', false);
+        });
+}
+
 // Función para abrir el modal y mostrar datos del usuario para editar
 const openView = async (id) => {
     try {
@@ -119,12 +157,6 @@ const openView = async (id) => {
 
         if (DATA.status) {
             // Deshabilitar campos que no deben ser editables
-            NOMBRE_USUARIO.disabled = true;
-            ALIAS_USUARIO.disabled = true;
-            CORREO_USUARIO.disabled = true;
-            TEL_USUARIO.disabled = true;
-            DUI_USUARIO.disabled = true;
-            DIRECCION_USUARIO.disabled= true;
             SAVE_MODAL.show(); // Mostrar el modal
 
             // Establecer título del modal
@@ -132,6 +164,12 @@ const openView = async (id) => {
 
             // Resetear el formulario
             SAVE_FORM.reset();
+            NOMBRE_USUARIO.disabled = true;
+            ALIAS_USUARIO.disabled = true;
+            CORREO_USUARIO.disabled = true;
+            TEL_USUARIO.disabled = true;
+            DUI_USUARIO.disabled = true;
+            DIRECCION_USUARIO.disabled = true;
 
             // Llenar campos con datos del usuario
             const ROW = DATA.dataset;
@@ -144,36 +182,11 @@ const openView = async (id) => {
             DUI_USUARIO.value = ROW.dui_cliente;
 
             // Actualizar el mapa con la dirección del usuario al abrir el modal
-            updateMap(ROW.direccion_cliente);
+            updateMap(DIRECCION_USUARIO.value);
         } else {
             sweetAlert(2, DATA.error, false);
         }
     } catch (error) {
+        sweetAlert(2, 'Error al abrir la vista: ' + error.message, false);
     }
-}
-
-// Función para inicializar el mapa con la dirección proporcionada
-function updateMap(address) {
-    const map = L.map('map').setView([13.6929, -89.2182], 13); // Coordenadas de San Salvador
-
-    // Añadir la capa del mapa
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    // Utilizar Nominatim para geocodificar la dirección
-    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                const { lat, lon } = data[0];
-                const marker = L.marker([lat, lon]).addTo(map);
-                map.setView([lat, lon], 15); // Centrar el mapa en la ubicación encontrada
-            } else {
-                sweetAlert(2, 'No se pudo encontrar la ubicación', false);
-            }
-        })
-        .catch(error => {
-            sweetAlert(2, 'Error al buscar la ubicación', false);
-        });
 }
