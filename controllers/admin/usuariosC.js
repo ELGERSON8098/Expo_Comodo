@@ -113,16 +113,38 @@ const fillTable = async (form = null) => {
 let map;
 let marker;
 
-// Función para inicializar el mapa con la dirección proporcionada
+// Evento para inicializar el mapa cuando se muestra el modal
+document.getElementById('saveModal').addEventListener('shown.bs.modal', function () {
+    if (map) {
+        map.invalidateSize(); // Redimensionar el mapa si ya está inicializado
+    } else {
+        initializeMap();
+    }
+});
+
+// Evento para limpiar el marcador cuando se oculta el modal
+document.getElementById('saveModal').addEventListener('hidden.bs.modal', function () {
+    if (marker) {
+        map.removeLayer(marker); // Remover el marcador del mapa
+        marker = null; // Resetear el marcador
+    }
+});
+
+// Función para inicializar el mapa
+function initializeMap() {
+    map = L.map('map').setView([13.6929, -89.2182], 13); // Coordenadas de San Salvador
+
+    // Añadir la capa del mapa
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+}
+
+// Función para actualizar la ubicación en el mapa con la dirección proporcionada
 function updateMap(address) {
     if (!map) {
-        // Crear mapa si no existe
-        map = L.map('map').setView([13.6929, -89.2182], 13); // Coordenadas de San Salvador
-
-        // Añadir la capa del mapa
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(map);
+        // Inicializar el mapa si no existe
+        initializeMap();
     }
 
     // Utilizar Nominatim para geocodificar la dirección
