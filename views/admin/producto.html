@@ -97,7 +97,7 @@
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para el ID del producto -->
-                            <input type="hidden" id="idProducto" name="idProducto">
+                            <input type="number" class="d-none" id="idProducto" name="idProducto">
                             <!-- Campo para la imagen del producto -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="imagen" class="form-label">Imagen del producto</label>
@@ -111,12 +111,12 @@
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="codigoInterno" class="form-label">Código interno</label>
-                                <input id="codigoInterno" type="number" name="codigoInterno" class="form-control"
+                                <input id="codigoInterno" type="text" name="codigoInterno" class="form-control"
                                     required>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="referenciaPro" class="form-label">Código Proveedor</label>
-                                <input id="referenciaPro" type="number" name="referenciaPro" class="form-control"
+                                <input id="referenciaPro" type="text" name="referenciaPro" class="form-control"
                                     required>
                             </div>
                             <div class="col-sm-12 col-md-6">
@@ -135,13 +135,13 @@
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <label for="CategoriaP" class="form-label">Categoría</label>
-                                <select id="nombreCategoria" name="CategoriaP" class="form-control" required>
+                                <label for="nombreCategoria" class="form-label">Categoría</label>
+                                <select id="nombreCategoria" name="nombreCategoria" class="form-control" required>
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreMaterial" class="form-label">Material</label>
-                                <select id="nombreMaterial" name="CategoriaP" class="form-control" required>
+                                <select id="nombreMaterial" name="nombreMaterial" class="form-control" required>
                                 </select>
                             </div>
 

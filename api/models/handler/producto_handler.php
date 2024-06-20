@@ -1,15 +1,14 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 /*
- *  Clase para manejar el comportamiento de los datos de la tabla administrador.
- */
-class productoHandler
+*	Clase para manejar el comportamiento de los datos de la tabla PRODUCTO.
+*/
+class ProductoHandler
 {
     /*
-     *  Declaración de atributos para el manejo de datos.
-     */
-
+    *   Declaración de atributos para el manejo de datos.
+    */
     protected $id_producto = null;
     protected $nombre_producto = null;
     protected $codigo_interno = null;
@@ -30,7 +29,7 @@ class productoHandler
     {
         $sql = 'INSERT INTO tb_productos(nombre_producto, codigo_interno, referencia_proveedor, precio, id_marca, id_genero, id_categoria, id_material, id_descuento, imagen)
         VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombre_producto, $this->codigo_interno, $this->referencia_proveedor, $this->precio, $this->id_marca, $this->id_genero, $this->id_categoria, $this->id_material, $this->id_descuento, $this->imagen);
+        $params = array($this->nombre_producto, $this->codigo_interno, $this->referencia_proveedor, $this->precio, $this->id_marca, $this->id_genero, $this->id_categoria, $this->id_material, $this->id_descuento, $this->imagen_producto);
         return Database::executeRow($sql, $params);
     }
 

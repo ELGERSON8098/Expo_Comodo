@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once ('../../models/data/producto_data.php');
+require_once('../../models/data/producto_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -9,10 +9,9 @@ if (isset($_GET['action'])) {
     // Se instancia la clase correspondiente.
     $producto = new productoData;
     // Se declara e inicializa un arreglo para guardar el resultado que retorna la API.
-    $result = array('status' => 0, 'session' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'username' => null);
+    $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null, 'fileStatus' => null);
     // Se verifica si existe una sesión iniciada como administrador, de lo contrario se finaliza el script con un mensaje de error.
     if (isset($_SESSION['idAdministrador'])) {
-        $result['session'] = 1;
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'createRow':
@@ -26,26 +25,27 @@ if (isset($_GET['action'])) {
                     !$producto->setGenero($_POST['nombre_genero']) or
                     !$producto->setCategoria($_POST['nombreCategoria']) or
                     !$producto->setMaterial($_POST['nombreMaterial']) or
-                    !$producto->setDescuento($_POST['nombreDescuento']) or
+                    !$producto->setDescuento($_POST['nombreDescuento'])or
                     !$producto->setImagen($_FILES['imagen'])
                 ) {
-                    $result['error'] = $producto->getDataError(); // Obtener mensaje de error si la validación falla.
-                } elseif ($producto->createRow()) { // Intentar crear un nuevo libro.
-                    $result['status'] = 1; // Indicar que la operación fue exitosa.
-                    $result['message'] = 'Producto creado con éxito';
+                    $result['error'] = $producto->getDataError();
+                } elseif ($producto->createRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Producto creado correctamente';
+                    // Se asigna el estado del archivo después de insertar.
                     $result['fileStatus'] = Validator::saveFile($_FILES['imagen'], $producto::RUTA_IMAGEN);
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el libro'; // Mensaje de error si ocurre un problema.
+                    $result['error'] = 'Ocurrió un problema al crear el producto';
                 }
                 break;
-                case 'readAll':
-                    if ($result['dataset'] = $producto->readAll()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
-                    } else {
-                        $result['error'] = 'No existen productos registrados';
-                    }
-                    break;
+            case 'readAll':
+                if ($result['dataset'] = $producto->readAll()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen productos registrados';
+                }
+                break;
             case 'readOne':
                 if (!$producto->setId($_POST['idProducto'])) {
                     $result['error'] = $producto->getDataError();
@@ -55,23 +55,43 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Producto inexistente';
                 }
                 break;
-            default: // Caso por defecto para manejar acciones desconocidas.
-                $result['error'] = 'Acción no disponible dentro de la sesión'; // Mensaje si la acción no es válida.
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$producto->setNombre($_POST['nombreProducto']) or
+                    !$producto->setCodigo_Interno($_POST['codigoInterno']) or
+                    !$producto->setReferenciaProveedor($_POST['referenciaPro']) or
+                    !$producto->setPrecio($_POST['precioProducto']) or
+                    !$producto->setMarca($_POST['nombreMarca']) or
+                    !$producto->setGenero($_POST['nombre_genero']) or
+                    !$producto->setCategoria($_POST['nombreCategoria']) or
+                    !$producto->setMaterial($_POST['nombreMaterial']) or
+                    !$producto->setDescuento($_POST['nombreDescuento']) or
+                    !$producto->setImagen($_FILES['imagen'], $producto->getFilename())
+                ) {
+                    $result['error'] = $producto->getDataError();
+                } elseif ($producto->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Producto modificado correctamente';
+                    // Se asigna el estado del archivo después de actualizar.
+                    $result['fileStatus'] = Validator::changeFile($_FILES['imagen'], $producto::RUTA_IMAGEN, $producto->getFilename());
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el producto';
+                }
+                break;
+            
+            default:
+                $result['error'] = 'Acción no disponible dentro de la sesión';
         }
-
-        // Capturar cualquier excepción de la base de datos.
+        // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
-
-        // Configurar el tipo de contenido para la respuesta y la codificación de caracteres.
+        // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
         header('Content-type: application/json; charset=utf-8');
-
-        // Convertir el resultado a formato JSON y enviarlo como respuesta.
-        print (json_encode($result));
+        // Se imprime el resultado en formato JSON y se retorna al controlador.
+        print(json_encode($result));
     } else {
-        // Si no hay una sesión válida, se devuelve un mensaje de acceso denegado.
-        print (json_encode('Acceso denegado'));
+        print(json_encode('Acceso denegado'));
     }
 } else {
-    // Si no se recibe una acción, se devuelve un mensaje de recurso no disponible.
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }

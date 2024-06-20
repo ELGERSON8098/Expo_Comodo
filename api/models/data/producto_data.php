@@ -4,20 +4,23 @@ require_once ('../../helpers/validator.php');
 // Se incluye la clase padre.
 require_once ('../../models/handler/producto_handler.php');
 /*
- *  Clase para manejar el encapsulamiento de los datos de la tabla USUARIO.
+ *	Clase para manejar el encapsulamiento de los datos de la tabla PRODUCTO.
  */
-class productoData extends productoHandler
+class ProductoData extends ProductoHandler
 {
-    // Atributo genérico para manejo de errores.
-    private $data_error = null; // Variable para almacenar mensajes de error.
-    private $filename = null; // Nombre del archivo de imagen.
     /*
-     *  Métodos para validar y asignar valores de los atributos.
+     *  Atributos adicionales.
+     */
+    private $data_error = null;
+    private $filename = null;
+
+    /*
+     *   Métodos para validar y establecer los datos.
      */
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id = $value;
+            $this->id_producto = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del producto es incorrecto';
@@ -27,21 +30,21 @@ class productoData extends productoHandler
 
     public function setNombre($value, $min = 2, $max = 50)
     {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre del producto debe ser un valor alfabético';
+        if (!Validator::validateAlphanumeric($value)) {
+            $this->data_error = 'El nombre debe ser un valor alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->nombre = $value;
+            $this->nombre_producto = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre del producto debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
 
     public function setCodigo_Interno($value, $min = 2, $max = 50)
     {
-        if (!Validator::validateAlphabetic($value)) {
+        if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El codigo interno del producto debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
@@ -54,7 +57,7 @@ class productoData extends productoHandler
     }
     public function setReferenciaProveedor($value, $min = 2, $max = 50)
     {
-        if (!Validator::validateAlphabetic($value)) {
+        if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'La referencia del proveedor debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
@@ -74,6 +77,23 @@ class productoData extends productoHandler
         } else {
             $this->data_error = 'El precio debe ser un número positivo'; // Almacena mensaje de error.
             return false;
+        }
+    }
+
+    public function setImagen($file, $filename = null)
+    {
+        if (Validator::validateImageFile($file, 1000)) {
+            $this->imagen_producto = Validator::getFilename();
+            return true;
+        } elseif (Validator::getFileError()) {
+            $this->data_error = Validator::getFileError();
+            return false;
+        } elseif ($filename) {
+            $this->imagen_producto = $filename;
+            return true;
+        } else {
+            $this->imagen_producto = 'default.png';
+            return true;
         }
     }
     public function setMarca($value)
@@ -116,7 +136,7 @@ class productoData extends productoHandler
             return true;
         } else {
             $this->data_error = 'El identificador del material es incorrecto';
-            return false;
+            return true;
         }
     }
 
@@ -128,24 +148,6 @@ class productoData extends productoHandler
         } else {
             $this->data_error = 'El identificador del descuento es incorrecto';
             return false;
-        }
-    }
-
-
-    public function setImagen($file, $filename = null)
-    {
-        if (Validator::validateImageFile($file, 5000)) {
-            $this->imagen = Validator::getFilename();
-            return true;
-        } elseif (Validator::getFileError()) {
-            $this->data_error = Validator::getFileError();
-            return false;
-        } elseif ($filename) {
-            $this->imagen = $filename;
-            return true;
-        } else {
-            $this->imagen = 'default.png';
-            return true;
         }
     }
 
