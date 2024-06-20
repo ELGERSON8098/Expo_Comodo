@@ -20,8 +20,10 @@ const SAVE_FORM = document.getElementById('saveForm'),
     CODIGO_INTERNO = document.getElementById('codigoInterno'),
     REFERENCIA_PRO = document.getElementById('referenciaPro'),
     PRECIO = document.getElementById('precioProducto');
+    IMAGEN_PRODUCTO = document.getElementById('imagen');
 
- // Método del evento para cuando el documento ha cargado.
+
+// Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
@@ -136,13 +138,35 @@ const openCreate = () => {
 *   Parámetros: id (identificador del registro seleccionado).
 *   Retorno: ninguno.
 */
+
 const openUpdate = async (id) => {
-    // Se muestra la caja de diálogo con su título.
-    SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Actualizar producto';
-    // Se prepara el formulario.
-    SAVE_FORM.reset();
-    fillSelect(CATEGORIA_API, 'readAll', 'categoriaProducto');
+    // Se define una constante tipo objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idProducto', id);
+    // Petición para obtener los datos del registro solicitado.
+    const DATA = await fetchData(PRODUCTO_API, 'readOne', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se muestra la caja de diálogo con su título.
+        SAVE_MODAL.show();
+        MODAL_TITLE.textContent = 'Actualizar productos xd';
+        // Se prepara el formulario.
+        SAVE_FORM.reset();
+        // Se inicializan los campos con los datos.
+        const ROW = DATA.dataset;
+        ID_PRODUCTO.value = ROW.id_producto;
+        NOMBRE_PRODUCTO.value = ROW.nombre_producto;
+        CODIGO_INTERNO.value = ROW.codigo_interno;
+        REFERENCIA_PRO.value = ROW.referencia_proveedor;
+        PRECIO.value = ROW.precio;
+        fillSelect(CATEGORIA_API, 'readAll', 'nombreCategoria', ROW.nombre_categoria);
+        fillSelect(DESCUENTO_API, 'readAll', 'nombreDescuento', ROW.nombre_descuento);
+        fillSelect(MARCA_API, 'readAll', 'nombreMarca', ROW.nombre_marca);
+        fillSelect(GENERO_API, 'readAll', 'nombre_genero', ROW.nombre_genero);
+        fillSelect(MATERIAL_API, 'readAll', 'nombreMaterial',ROW.nombre_material);
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
 }
 
 /*
