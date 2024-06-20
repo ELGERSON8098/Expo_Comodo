@@ -90,11 +90,7 @@ const fillTable = async (form = null) => {
                     <td>${row.codigo_interno}</td>
                     <td>${row.referencia_proveedor}</td>
                     <td>${row.precio}</td>
-                    <td>${row.nombre_marca}</td>
-                    <td>${row.nombre_genero}</td>
                     <td>${row.nombre_categoria}</td>
-                    <td>${row.nombre_material}</td>
-                    <td>${row.nombre_descuento}</td>
                     <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_producto})">
                             <i class="bi bi-pencil-fill"></i>
@@ -149,7 +145,7 @@ const openUpdate = async (id) => {
     if (DATA.status) {
         // Se muestra la caja de diálogo con su título.
         SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar productos xd';
+        MODAL_TITLE.textContent = 'Actualizar productos';
         // Se prepara el formulario.
         SAVE_FORM.reset();
         // Se inicializan los campos con los datos.
