@@ -54,9 +54,6 @@ const loadTemplate = async () => {
                         <a class="nav-link text-uppercase text-dark" href="../admin/reserva.html">Reservas</a>
                     </li>
                     <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/direccion.html">Dirección</a>
-                    </li>
-                    <li class="nav-item px-2 py-2">
                         <a class="nav-link text-uppercase text-dark" href="../admin/administrador.html">Administradores</a>
                     </li>
                 `;
