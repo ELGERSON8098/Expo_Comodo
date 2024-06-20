@@ -90,7 +90,6 @@ const fillTable = async (form = null) => {
                     <td>${row.codigo_interno}</td>
                     <td>${row.referencia_proveedor}</td>
                     <td>${row.precio}</td>
-                    <td>${row.nombre_categoria}</td>
                     <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_producto})">
                             <i class="bi bi-pencil-fill"></i>

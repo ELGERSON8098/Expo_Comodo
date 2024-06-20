@@ -150,6 +150,53 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
+    public function setDescripcion($value, $min = 2, $max = 250)
+    {
+        if (!Validator::validateString($value)) {
+            $this->data_error = 'La descripción contiene caracteres prohibidos';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->descripcion = $value;
+            return true;
+        } else {
+            $this->data_error = 'La descripción debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
+    }
+
+    public function setExistencias($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->existencias = $value;
+            return true;
+        } else {
+            $this->data_error = 'Las existencias debe ser un número entero positivo';
+            return false;
+        }
+    }
+
+    public function setTalla($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_talla = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador de la talla es incorrecto';
+            return false;
+        }
+    }
+
+    public function setColor($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_color = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del color es incorrecto';
+            return false;
+        }
+    }
+
 
     // Método para establecer el nombre del archivo de imagen.
     public function setFilename()
