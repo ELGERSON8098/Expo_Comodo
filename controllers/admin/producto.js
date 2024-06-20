@@ -90,6 +90,8 @@ const fillTable = async (form = null) => {
                     <td>${row.codigo_interno}</td>
                     <td>${row.referencia_proveedor}</td>
                     <td>${row.precio}</td>
+                    <td></td>
+                    <td></td>
                     <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_producto})">
                             <i class="bi bi-pencil-fill"></i>
@@ -97,6 +99,9 @@ const fillTable = async (form = null) => {
                         <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_producto})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
+                         <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_producto})">
+                         <i class="bi bi-clipboard-plus-fill"></i>
+                         </button>
                     </td>
                 </tr>
             `;

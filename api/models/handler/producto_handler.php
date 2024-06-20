@@ -133,7 +133,7 @@ class ProductoHandler
 
 
     /*
-     * Método SCRUD para detalles
+     * Método SCRUD para detalles de productos
      */
 
     public function createDetail()
