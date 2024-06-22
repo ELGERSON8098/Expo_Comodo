@@ -153,14 +153,14 @@ class ProductoData extends ProductoHandler
 
     public function setDescuento($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->id_descuento = $value;
+        if ($value !== null && !Validator::validateNaturalNumber($value)) {
+            $this->id_descuento = null;
             return true;
-        } else {
-            $this->data_error = 'El identificador del descuento es incorrecto';
-            return false;
-        }
+        } 
+        $this->id_descuento = $value;
+        return true;
     }
+
     public function setDescripcion($value, $min = 2, $max = 250)
     {
         if (!Validator::validateString($value)) {

@@ -42,39 +42,40 @@ class ProductoHandler
     public function readAll()
     {
         $sql = 'SELECT
-    p.id_producto,
-    p.nombre_producto,
-    p.codigo_interno,
-    p.referencia_proveedor,
-    p.precio,
-    p.imagen,
-    m.id_marca,
-    m.marca AS nombre_marca,
-    g.id_genero,
-    g.nombre_genero AS nombre_genero,
-    c.id_categoria,
-    c.nombre_categoria AS nombre_categoria,
-    ma.id_material,
-    ma.nombre AS nombre_material,
-    d.id_descuento,
-    d.nombre_descuento AS nombre_descuento,
-    d.valor AS porcentaje_descuento
+        p.id_producto,
+        p.nombre_producto,
+        p.codigo_interno,
+        p.referencia_proveedor,
+        p.precio,
+        p.imagen,
+        m.id_marca,
+        m.marca AS nombre_marca,
+        g.id_genero,
+        g.nombre_genero AS nombre_genero,
+        c.id_categoria,
+        c.nombre_categoria AS nombre_categoria,
+        ma.id_material,
+        ma.nombre AS nombre_material,
+        d.id_descuento,
+        COALESCE(d.nombre_descuento, "Sin descuento") AS nombre_descuento,
+        COALESCE(d.valor, 0) AS porcentaje_descuento
     FROM
-    tb_productos AS p
+        tb_productos AS p
     LEFT JOIN
-    tb_marcas AS m ON p.id_marca = m.id_marca
+        tb_marcas AS m ON p.id_marca = m.id_marca
     LEFT JOIN
-    tb_generos_zapatos AS g ON p.id_genero = g.id_genero
+        tb_generos_zapatos AS g ON p.id_genero = g.id_genero
     LEFT JOIN
-    tb_categorias AS c ON p.id_categoria = c.id_categoria
+        tb_categorias AS c ON p.id_categoria = c.id_categoria
     INNER JOIN
-    tb_materiales AS ma ON p.id_material = ma.id_material
-    INNER JOIN
-    tb_descuentos AS d ON p.id_descuento = d.id_descuento
+        tb_materiales AS ma ON p.id_material = ma.id_material
+    LEFT JOIN
+        tb_descuentos AS d ON p.id_descuento = d.id_descuento
     ORDER BY
-    p.nombre_producto;';
+        p.nombre_producto;';
         return Database::getRows($sql);
     }
+
 
     public function readOne()
     {
@@ -93,9 +94,9 @@ class ProductoHandler
         c.nombre_categoria AS nombre_categoria,
         ma.id_material,
         ma.nombre AS nombre_material,
-        d.id_descuento,
-        d.nombre_descuento AS nombre_descuento,
-        d.valor AS porcentaje_descuento
+        COALESCE(d.id_descuento, NULL) AS id_descuento,
+        COALESCE(d.nombre_descuento, "Sin descuento") AS nombre_descuento,
+        COALESCE(d.valor, 0) AS porcentaje_descuento
     FROM
         tb_productos AS p
     LEFT JOIN
@@ -106,13 +107,14 @@ class ProductoHandler
         tb_categorias AS c ON p.id_categoria = c.id_categoria
     INNER JOIN
         tb_materiales AS ma ON p.id_material = ma.id_material
-    INNER JOIN
+    LEFT JOIN
         tb_descuentos AS d ON p.id_descuento = d.id_descuento
     WHERE
         p.id_producto = ?';
         $params = array($this->id_producto);
         return Database::getRow($sql, $params);
     }
+
 
     /*
      * Método para leer el nombre de archivo de la imagen de un libro.
@@ -148,7 +150,8 @@ class ProductoHandler
 
     // Dentro de producto_data.php
 
-    public function readDetails() {
+    public function readDetails()
+    {
         $sql = 'SELECT 
             dp.id_detalle_producto,
             dp.id_producto,
@@ -163,8 +166,9 @@ class ProductoHandler
         $params = array($this->id_producto);
         return Database::getRows($sql, $params);
     }
-    
-    public function updateDetail() {
+
+    public function updateDetail()
+    {
         $sql = 'UPDATE tb_detalles_productos SET 
             id_producto = ?, 
             id_talla = ?, 
@@ -172,13 +176,13 @@ class ProductoHandler
             id_color = ?, 
             descripcion = ?
         WHERE id_detalle_producto = ?';
-        
+
         $params = array($this->id_producto, $this->id_talla, $this->existencias, $this->id_color, $this->descripcion, $this->id_detalle_producto);
-        
+
         return Database::executeRow($sql, $params); // Asumiendo que executeRow() está correctamente implementado en Database class.
     }
-    
-    
+
+
 
 
 }
