@@ -94,30 +94,67 @@ class AdministradorHandler
     }
 
     public function createRow()
-{
+    {
+        // Insertar el administrador con el nivel de usuario correspondiente
+        $sql = 'INSERT INTO tb_admins(nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
+                VALUES (?, ?, ?, ?, ?)';
+        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, 1); // ID de nivel de usuario = 1
+        return Database::executeRow($sql, $params);
+    }
 
-    // Insertar el nuevo usuario como administrador
-    $sql = 'INSERT INTO tb_admins(nombre_administrador, correo_administrador, usuario_administrador, clave_administrador, id_nivel_usuario)
+    public function createTrabajadores()
+    {
+
+        // Insertar el nuevo usuario como administrador
+        $sql = 'INSERT INTO tb_admins(nombre_administrador, correo_administrador, usuario_administrador, clave_administrador, id_nivel_usuario)
             VALUES(?, ?, ?, ?, ?)';
-    $params = array($this->nombre, $this->correo, $this->alias, $this->clave, $this->id_nivel_usuario);
+        $params = array($this->nombre, $this->correo, $this->alias, $this->clave, $this->id_nivel_usuario);
 
-    return Database::executeRow($sql, $params);
-}
+        return Database::executeRow($sql, $params);
+    }
 
 
     public function readAll()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, usuario_administrador
-                FROM tb_admins
-                ORDER BY nombre_administrador';
+        $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
+FROM tb_admins a
+JOIN tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
+WHERE a.id_nivel_usuario IN (2, 3)
+ORDER BY a.nombre_administrador';
         return Database::getRows($sql);
     }
 
+    public function readAllNivelesUsuarios()
+    {
+        $sql = 'SELECT 
+                    id_nivel_usuario,
+                    nombre_nivel
+                FROM 
+                    tb_niveles_usuarios
+                WHERE 
+                    id_nivel_usuario IN (2, 3)';
+    
+        return Database::getRows($sql);
+    }
+    
+
+
+
     public function readOne()
     {
-        $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, usuario_administrador
-                FROM tb_admins
-                WHERE id_administrador = ?';
+        $sql = 'SELECT 
+    a.id_administrador, 
+    a.nombre_administrador, 
+    a.correo_administrador, 
+    a.usuario_administrador,
+    a.id_nivel_usuario,
+    n.nombre_nivel
+FROM 
+    tb_admins a
+INNER JOIN 
+    tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
+WHERE 
+    a.id_administrador = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
@@ -125,9 +162,9 @@ class AdministradorHandler
     public function updateRow()
     {
         $sql = 'UPDATE tb_admins
-                SET nombre_administrador = ?, correo_administrador = ?
-                WHERE id_administrador = ?';
-        $params = array($this->nombre, $this->correo, $this->id);
+                  SET nombre_administrador = ?, correo_administrador = ?, usuario_administrador = ?, id_nivel_usuario = ?
+                  WHERE id_administrador = ?';
+        $params = array($this->nombre, $this->correo, $this->alias, $this->id_nivel_usuario, $this->id);
         return Database::executeRow($sql, $params);
     }
 
