@@ -82,6 +82,52 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
+            case 'createDetail':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$producto->setId($_POST['idProducto']) or
+                    !$producto->setTalla($_POST['nombreTalla']) or
+                    !$producto->setExistencias($_POST['existencias']) or
+                    !$producto->setColor($_POST['nombreColor']) or
+                    !$producto->setDescripcion($_POST['descripcion'])
+                ) {
+                    $result['error'] = $producto->getDataError();
+                } elseif ($producto->createDetail()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Detalle creado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al crear el detalle';
+                }
+                break;
+                case 'updateDetail':
+                // Validar y obtener los datos.
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$producto->setIdDetalle($_POST['idDetalle']) or
+                    !$producto->setId($_POST['idProducto']) or
+                    !$producto->setTalla($_POST['idTalla']) or
+                    !$producto->setExistencias($_POST['existencias']) or
+                    !$producto->setColor($_POST['idColor']) or
+                    !$producto->setDescripcion($_POST['descripcion'])
+                ) {
+                    $result['error'] = $producto->getDataError();
+                } elseif ($producto->updateDetail()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Detalle actualizado correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al actualizar el detalle';
+                }
+                break;
+            case 'readDetails':
+                if (!$producto->setId($_POST['idProducto'])) {
+                    $result['error'] = $producto->getDataError();
+                } elseif ($result['dataset'] = $producto->readDetails()) { // Supongamos que tienes una función readDetails() en productoData
+                    $result['status'] = 1;
+                    $result['message'] = 'Detalles encontrados';
+                } else {
+                    $result['error'] = 'No hay detalles para este producto';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

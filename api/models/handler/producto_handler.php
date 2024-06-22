@@ -26,6 +26,8 @@ class ProductoHandler
     protected $id_color = null;
     protected $descripcion = null;
 
+    protected $id_detalle_producto = null;
+
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../images/productos/';
 
@@ -144,57 +146,39 @@ class ProductoHandler
         return Database::executeRow($sql, $params);
     }
 
-    public function readAllDetail()
-    {
-        $sql = 'SELECT 
-    dp.id_detalle_producto,
-    dp.id_producto,
-    p.nombre_producto,
-    dp.id_talla,
-    t.nombre_talla,
-    dp.existencias,
-    dp.id_color,
-    c.color,
-    dp.descripcion
-    FROM 
-    tb_detalles_productos AS dp
-    INNER JOIN 
-    tb_productos AS p ON dp.id_producto = p.id_producto
-    INNER JOIN 
-    tb_tallas AS t ON dp.id_talla = t.id_talla
-    INNER JOIN 
-    tb_colores AS c ON dp.id_color = c.id_color
-    ORDER BY 
-    dp.id_detalle_producto;';
-    return Database::getRows($sql);
-    }
+    // Dentro de producto_data.php
 
-    public function readOneDetail()
-    {
+    public function readDetails() {
         $sql = 'SELECT 
-        dp.id_detalle_producto,
-        dp.id_producto,
-        p.nombre_producto,
-        dp.id_talla,
-        t.nombre_talla,
-        dp.existencias,
-        dp.id_color,
-        c.color,
-        dp.descripcion
-    FROM 
-        tb_detalles_productos AS dp
-    INNER JOIN 
-        tb_productos AS p ON dp.id_producto = p.id_producto
-    INNER JOIN 
-        tb_tallas AS t ON dp.id_talla = t.id_talla
-    INNER JOIN 
-        tb_colores AS c ON dp.id_color = c.id_color
-    WHERE 
-        dp.id_detalle_producto = ?
-    ORDER BY 
-        dp.id_detalle_producto;';
+            dp.id_detalle_producto,
+            dp.id_producto,
+            t.nombre_talla AS nombre_talla,
+            c.color AS nombre_color,
+            dp.existencias,
+            dp.descripcion
+            FROM tb_detalles_productos dp
+            JOIN tb_tallas t ON dp.id_talla = t.id_talla
+            JOIN tb_colores c ON dp.id_color = c.id_color
+            WHERE dp.id_producto = ?';
         $params = array($this->id_producto);
-        return Database::getRow($sql, $params);
+        return Database::getRows($sql, $params);
     }
+    
+    public function updateDetail() {
+        $sql = 'UPDATE tb_detalles_productos SET 
+            id_producto = ?, 
+            id_talla = ?, 
+            existencias = ?, 
+            id_color = ?, 
+            descripcion = ?
+        WHERE id_detalle_producto = ?';
+        
+        $params = array($this->id_producto, $this->id_talla, $this->existencias, $this->id_color, $this->descripcion, $this->id_detalle_producto);
+        
+        return Database::executeRow($sql, $params); // Asumiendo que executeRow() está correctamente implementado en Database class.
+    }
+    
+    
+
 
 }

@@ -157,20 +157,18 @@
             </div>
         </div>
         <!-- Modal para ver y agregar detalles de productos -->
-        <div class="modal fade" id="saveDetailModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="modalDetailTitle" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal fade" id="saveDetailModal" tabindex="-1" aria-labelledby="modalDetailTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="modalDetailTitle">Detalles del Producto</h1>
+                        <h5 class="modal-title" id="modalDetailTitle">Agregar Detalle de Producto</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <!-- Tabla para mostrar los detalles de productos -->
-                        <table class="table table-hover">
+                        <!-- Tabla para mostrar los detalles existentes -->
+                        <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Producto</th>
                                     <th>Talla</th>
                                     <th>Existencias</th>
                                     <th>Color</th>
@@ -179,56 +177,39 @@
                                 </tr>
                             </thead>
                             <tbody id="detailsTableBody">
-                                <!-- Aquí se llenarán los detalles de los productos -->
+                                <!-- Aquí se mostrarán los detalles existentes -->
                             </tbody>
                         </table>
-                        <hr>
-                        <!-- Botón para agregar un nuevo detalle de producto -->
-                        <button type="button" class="btn btn-primary mb-3" id="addDetailButton">
-                            <i class="bi bi-plus-square-fill"></i> Agregar Detalle
-                        </button>
-                        <!-- Formulario para guardar un nuevo detalle de producto -->
-                        <form id="saveDetailForm" class="d-none">
-                            <div class="row g-3">
-                                <!-- Campo oculto para el ID del detalle del producto -->
-                                <input type="number" class="d-none" id="idDetalleProducto" name="idDetalleProducto">
-                                <!-- Campo para el ID del producto -->
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="idProductoDetalle" class="form-label">Producto</label>
-                                    <select id="idProductoDetalle" name="idProducto" class="form-control" required>
-                                    </select>
-                                </div>
-                                <!-- Campos para los datos del detalle del producto -->
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="idTalla" class="form-label">Talla</label>
-                                    <select id="idTalla" name="idTalla" class="form-control" required>
-                                    </select>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="existencias" class="form-label">Existencias</label>
-                                    <input id="existencias" type="number" name="existencias" class="form-control"
-                                        required>
-                                </div>
-                                <div class="col-sm-12 col-md-6">
-                                    <label for="idColor" class="form-label">Color</label>
-                                    <select id="idColor" name="idColor" class="form-control" required>
-                                    </select>
-                                </div>
-                                <div class="col-sm-12">
-                                    <label for="descripcion" class="form-label">Descripción</label>
-                                    <textarea id="descripcion" name="descripcion" class="form-control" rows="3"
-                                        required></textarea>
-                                </div>
+                        <!-- Formulario para agregar nuevos detalles -->
+                        <form id="saveDetailForm">
+                            <!-- Campo oculto para el ID del producto -->
+                            <input type="number" class="d-none" id="idProducto" name="idProducto">
+                            <input type="number" class="d-none" id="idDetalle" name="idDetalle">
+                            <div class="mb-3">
+                                <label for="nombreTalla" class="form-label">Talla</label>
+                                <select id="nombreTalla" name="nombreTalla" class="form-select" required></select>
                             </div>
-                            <div class="modal-footer">
-                                <!-- Botón para guardar el detalle del producto -->
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            <div class="mb-3">
+                                <label for="existencias" class="form-label">Existencias</label>
+                                <input type="number" id="existencias" name="existencias" class="form-control" required>
                             </div>
+                            <div class="mb-3">
+                                <label for="nombreColor" class="form-label">Color</label>
+                                <select id="nombreColor" name="nombreColor" class="form-select" required></select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="descripcion" class="form-label">Descripción</label>
+                                <textarea id="descripcion" name="descripcion" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar Detalle</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        
+        
+        
 
     </main>
     <!-- Bootstrap JavaScript -->
