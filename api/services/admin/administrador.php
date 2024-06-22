@@ -43,6 +43,25 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el administrador';
                 }
                 break;
+                case 'createTrabajadores':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$administrador->setNombre($_POST['NAdmin'])or
+                        !$administrador->setAlias($_POST['NUsuario'])or
+                        !$administrador->setCorreo($_POST['CorreoAd'])or 
+                        !$administrador->setClave($_POST['ContraAd'])or
+                        !$administrador->setNivel($_POST['NivAd'])
+                    ) {
+                        $result['error'] = $administrador->getDataError();
+                    } elseif ($_POST['ContraAd'] != $_POST['confirmarClaveA']) {
+                        $result['error'] = 'Contraseñas diferentes';
+                    } elseif ($administrador->createTrabajadores()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Administrador creado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al crear el administrador';
+                    }
+                    break;
             case 'readAll':
                 if ($result['dataset'] = $administrador->readAll()) {
                     $result['status'] = 1;
@@ -51,8 +70,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen administradores registrados';
                 }
                 break;
+                case 'readAllNivelesUsuarios':
+                    if ($result['dataset'] = $administrador->readAllNivelesUsuarios()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                    } else {
+                        $result['error'] = 'No existen niveles de usuario registrados';
+                    }
+                    break;
             case 'readOne':
-                if (!$administrador->setId($_POST['idAdministrador'])) {
+                if (!$administrador->setId($_POST['idAdmin'])) {
                     $result['error'] = 'Administrador incorrecto';
                 } elseif ($result['dataset'] = $administrador->readOne()) {
                     $result['status'] = 1;
@@ -60,34 +87,35 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Administrador inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$administrador->setId($_POST['idAdministrador']) or
-                    !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
-                    !$administrador->setCorreo($_POST['correoAdministrador'])
-                ) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Administrador modificado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el administrador';
-                }
-                break;
-            case 'deleteRow':
-                if ($_POST['idAdministrador'] == $_SESSION['idAdministrador']) {
-                    $result['error'] = 'No se puede eliminar a sí mismo';
-                } elseif (!$administrador->setId($_POST['idAdministrador'])) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Administrador eliminado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el administrador';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$administrador->setId($_POST['idAdmin'])or
+                        !$administrador->setNombre($_POST['NAdmin'])or
+                        !$administrador->setAlias($_POST['NUsuario'])or
+                        !$administrador->setCorreo($_POST['CorreoAd'])or 
+                        !$administrador->setNivel($_POST['NivAd'])
+                    ) {
+                        $result['error'] = $administrador->getDataError();
+                    } elseif ($administrador->updateRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Trabajador modificado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar el trabajador';
+                    }
+                    break;
+                case 'deleteRow':
+                    if (
+                        !$administrador->setid($_POST['idAdmin'])
+                    ) {
+                        $result['error'] = $administrador->getDataError();
+                    } elseif ($administrador->deleteRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Administrador eliminado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al eliminar el administrador';
+                    }
+                    break;
                 case 'getUser':
                     if (isset($_SESSION['aliasAdministrador'])) {
                         // Inicia la conexión a la base de datos.
@@ -132,7 +160,6 @@ if (isset($_GET['action'])) {
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
-                    !$administrador->setApellido($_POST['apellidoAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setAlias($_POST['aliasAdministrador'])
                 ) {
