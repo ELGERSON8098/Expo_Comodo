@@ -235,21 +235,20 @@ VALUES
 
 SELECT*FROM tb_productos;
 
-INSERT INTO tb_detalles_productos (id_detalle_producto, id_producto, id_talla, existencias, id_color, id_descuento, descripcion, id_material)
-VALUES 
-(1, 1, 1, 50, 1, 1, 'Zapatillas Nike Air Max', 1),
-(2, 1, 2, 75, 2, 2, 'Zapatillas Nike Air Max', 1),
-(3, 2, 3, 30, 8, 3,  'Botas Timberland', 2),
-(4, 2, 4, 40, 3,4,  'Botas Timberland', 2),
-(5, 3, 5, 100, 3,5, 'Zapatillas Converse Chuck Taylor', 3),
-(6, 3, 6, 80, 2, 6,'Zapatillas Converse Chuck Taylor', 3),
-(7, 4, 7, 60, 1, 7, 'Sandalias Birkenstock', 4),
-(8, 4,  8, 70, 2, 8, 'Sandalias Birkenstock', 4),
-(9, 5, 9, 45, 1,9, 'Botas Dr. Martens', 5),
-(10, 5, 10, 55, 4, 10,'Botas Dr. Martens', 5);
-
-
-SELECT*FROM tb_detalles_productos;
+-- Insertar registros en tb_detalles_productos
+INSERT INTO tb_detalles_productos (id_detalle_producto, id_producto, id_talla, existencias, id_color, descripcion)
+VALUES
+  (1, 1, 1, 50, 1, 'Zapatillas Nike Air Max'),
+  (2, 1, 2, 75, 2, 'Zapatillas Nike Air Max'),
+  (3, 2, 3, 30, 8, 'Botas Timberland'),
+  (4, 2, 4, 40, 3, 'Botas Timberland'),
+  (5, 3, 5, 100, 3, 'Zapatillas Converse Chuck Taylor'),
+  (6, 3, 6, 80, 2, 'Zapatillas Converse Chuck Taylor'),
+  (7, 4, 7, 60, 1, 'Sandalias Birkenstock'),
+  (8, 4, 8, 70, 2, 'Sandalias Birkenstock'),
+  (9, 5, 9, 45, 1, 'Botas Dr. Martens'),
+  (10, 5, 10, 55, 4, 'Botas Dr. Martens');
+SELECT * FROM tb_detalles_productos;
 
 INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva, id_distrito)
 VALUES 
