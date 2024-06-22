@@ -159,11 +159,11 @@ const openUpdate = async (id) => {
         CODIGO_INTERNO.value = ROW.codigo_interno;
         REFERENCIA_PRO.value = ROW.referencia_proveedor;
         PRECIO.value = ROW.precio;
-        fillSelect(CATEGORIA_API, 'readAll', 'nombreCategoria', ROW.nombre_categoria);
-        fillSelect(DESCUENTO_API, 'readAll', 'nombreDescuento', ROW.nombre_descuento);
-        fillSelect(MARCA_API, 'readAll', 'nombreMarca', ROW.nombre_marca);
-        fillSelect(GENERO_API, 'readAll', 'nombre_genero', ROW.nombre_genero);
-        fillSelect(MATERIAL_API, 'readAll', 'nombreMaterial', ROW.nombre_material);
+        fillSelect(CATEGORIA_API, 'readAll', 'nombreCategoria', parseInt(ROW.id_categoria));
+        fillSelect(DESCUENTO_API, 'readAll', 'nombreDescuento', parseInt(ROW.id_descuento));
+        fillSelect(MARCA_API, 'readAll', 'nombreMarca', parseInt(ROW.id_marca));
+        fillSelect(GENERO_API, 'readAll', 'nombre_genero', parseInt(ROW.id_genero));
+        fillSelect(MATERIAL_API, 'readAll', 'nombreMaterial', parseInt(ROW.id_material));
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -309,33 +309,24 @@ const fillDetailsTable = async (idProducto) => {
 *   Retorno: ninguno.
 */
 const openUpdateDetail = async (idDetalle) => {
-
-    detalleID = idDetalle;
-    const formData = new FormData();
-    formData.append('idDetalle', id);
-
     try {
-        const DATA = await fetchData(PRODUCTO_API, 'readDetails', formData);
+        const formData = new FormData();
+        formData.append('idDetalle', idDetalle);
+
+        const DATA = await fetchData(PRODUCTO_API, 'readOneDetail', formData);
 
         if (DATA.status) {
+            const detalle = DATA.dataset;
+            // Actualizar el formulario con los datos del detalle obtenido
+            document.getElementById('idDetalle').value = detalle.id_detalle_producto;
+            document.getElementById('existencias').value = detalle.existencias;
+            document.getElementById('idTalla').value = detalle.id_talla;
+            document.getElementById('idColor').value = detalle.id_color;
+            document.getElementById('descripcion').value = detalle.descripcion;
+
+            // Mostrar el modal de actualización
             SAVE_DETAIL_MODAL.show();
             MODAL_DETAIL_TITLE.textContent = 'Actualizar Detalle de Producto';
-            SAVE_DETAIL_FORM.reset();
-
-            const ROW = DATA.dataset;
-            SAVE_DETAIL_FORM.idDetalle.value = ROW.id_detalle_producto;
-            SAVE_DETAIL_FORM.existencias.value = ROW.existencias;
-            SAVE_DETAIL_FORM.idTalla.value = ROW.id_talla;
-            SAVE_DETAIL_FORM.idColor.value = ROW.id_color;
-            SAVE_DETAIL_FORM.descripcion.value = ROW.descripcion;
-
-            // Llenar los selectores de talla y color si es necesario
-            fillSelect(TALLA_API, 'readAll', 'idTalla', ROW.id_talla);
-            fillSelect(COLOR_API, 'readAll', 'idColor', ROW.id_color);
-
-            document.getElementById('idDetalle').value = idProducto;
-
-
         } else {
             sweetAlert(2, DATA.error, false);
         }
