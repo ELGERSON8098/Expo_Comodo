@@ -63,7 +63,7 @@ if (isset($_GET['action'])) {
                     }
                     break;
             case 'readAll':
-                if ($result['dataset'] = $administrador->readAll()) {
+                if ($result['dataset'] = $administrador->readAllS()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {

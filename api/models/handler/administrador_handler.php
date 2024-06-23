@@ -114,7 +114,7 @@ class AdministradorHandler
     }
 
 
-    public function readAll()
+    public function readAllS()
     {
         $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
 FROM tb_admins a
@@ -123,6 +123,15 @@ WHERE a.id_nivel_usuario IN (2, 3)
 ORDER BY a.nombre_administrador';
         return Database::getRows($sql);
     }
+
+    public function readAll()
+    {
+        $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, usuario_administrador
+                FROM tb_admins
+                ORDER BY nombre_administrador';
+        return Database::getRows($sql);
+    }
+
 
     public function readAllNivelesUsuarios()
     {
@@ -133,10 +142,10 @@ ORDER BY a.nombre_administrador';
                     tb_niveles_usuarios
                 WHERE 
                     id_nivel_usuario IN (2, 3)';
-    
+
         return Database::getRows($sql);
     }
-    
+
 
 
 
