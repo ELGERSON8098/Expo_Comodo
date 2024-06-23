@@ -16,6 +16,9 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_PRODUCTO = document.getElementById('idProducto'),
+    ID_DETALLE = document.getElementById('idDetalle'),
+    EXISTENCIAS = document.getElementById('existencias'),
+    DESCRIPCION = document.getElementById('descripcion'),
     NOMBRE_PRODUCTO = document.getElementById('nombreProducto'),
     CODIGO_INTERNO = document.getElementById('codigoInterno'),
     REFERENCIA_PRO = document.getElementById('referenciaPro'),
@@ -308,30 +311,20 @@ const fillDetailsTable = async (idProducto) => {
 *   Parámetros: idDetalle (identificador del detalle seleccionado).
 *   Retorno: ninguno.
 */
-const openUpdateDetail = async (idDetalle) => {
-    try {
-        const formData = new FormData();
-        formData.append('idDetalle', idDetalle);
-
-        const DATA = await fetchData(PRODUCTO_API, 'readOneDetail', formData);
-
-        if (DATA.status) {
-            const detalle = DATA.dataset;
-            // Actualizar el formulario con los datos del detalle obtenido
-            document.getElementById('idDetalle').value = detalle.id_detalle_producto;
-            document.getElementById('existencias').value = detalle.existencias;
-            document.getElementById('idTalla').value = detalle.id_talla;
-            document.getElementById('idColor').value = detalle.id_color;
-            document.getElementById('descripcion').value = detalle.descripcion;
-
-            // Mostrar el modal de actualización
-            SAVE_DETAIL_MODAL.show();
-            MODAL_DETAIL_TITLE.textContent = 'Actualizar Detalle de Producto';
-        } else {
-            sweetAlert(2, DATA.error, false);
-        }
-    } catch (error) {
-        console.error('Error updating detail:', error);
-        sweetAlert(2, 'Error al actualizar el detalle', false);
+const openUpdateDetail = async (idProducto) => {
+    MODAL_DETAIL_TITLE.textContent = 'Actualizar Detalle de Producto';
+    const formData = new FormData();
+    formData.append('idProducto', idProducto); // Cambiado a idProducto
+    const DATA = await fetchData(PRODUCTO_API, 'readOneDetail', formData);
+    if (DATA.status) {
+        const ROW = DATA.dataset;
+        ID_DETALLE.value = ROW.id_detalle_producto;
+        EXISTENCIAS.value = ROW.existencias;
+        DESCRIPCION.value = ROW.descripcion;
+        fillSelect(TALLA_API, 'readAll', 'nombreTalla', parseInt(ROW.id_talla));
+        fillSelect(COLOR_API, 'readAll', 'nombreColor', parseInt(ROW.id_color));
+        SAVE_DETAIL_MODAL.show();
+    } else {
+        sweetAlert(2, DATA.error, false);
     }
 };

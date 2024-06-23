@@ -14,6 +14,18 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            case 'readOneDetail':
+                // Validar y obtener los datos.
+                $_POST = Validator::validateForm($_POST);
+                if (!$producto->setId($_POST['idProducto'])) {
+                    $result['error'] = $producto->getDataError();
+                } elseif ($result['dataset'] = $producto->readOneDetail()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Detalle encontrado';
+                } else {
+                    $result['error'] = 'Detalle inexistente';
+                }
+                break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -105,9 +117,9 @@ if (isset($_GET['action'])) {
                 if (
                     !$producto->setIdDetalle($_POST['idDetalle']) or
                     !$producto->setId($_POST['idProducto']) or
-                    !$producto->setTalla($_POST['idTalla']) or
+                    !$producto->setTalla($_POST['nombreTalla']) or
                     !$producto->setExistencias($_POST['existencias']) or
-                    !$producto->setColor($_POST['idColor']) or
+                    !$producto->setColor($_POST['nombreColor']) or
                     !$producto->setDescripcion($_POST['descripcion'])
                 ) {
                     $result['error'] = $producto->getDataError();

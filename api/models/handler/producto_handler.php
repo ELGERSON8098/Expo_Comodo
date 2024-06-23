@@ -170,19 +170,44 @@ class ProductoHandler
     public function updateDetail()
     {
         $sql = 'UPDATE tb_detalles_productos SET 
-            id_producto = ?, 
-            id_talla = ?, 
-            existencias = ?, 
-            id_color = ?, 
-            descripcion = ?
-        WHERE id_detalle_producto = ?';
+        id_producto = ?, 
+        id_talla = ?, 
+        existencias = ?, 
+        id_color = ?, 
+        descripcion = ?
+    WHERE id_detalle_producto = ?';
 
-        $params = array($this->id_producto, $this->id_talla, $this->existencias, $this->id_color, $this->descripcion, $this->id_detalle_producto);
+        $params = array(
+            $this->id_producto,
+            $this->id_talla,
+            $this->existencias,
+            $this->id_color,
+            $this->descripcion,
+            $this->id_detalle_producto
+        );
 
-        return Database::executeRow($sql, $params); // Asumiendo que executeRow() está correctamente implementado en Database class.
+        return Database::executeRow($sql, $params);// Asumiendo que executeRow() está correctamente implementado en Database class.
     }
 
 
-
-
+    public function readOneDetail()
+    {
+        $sql = 'SELECT 
+        dp.id_detalle_producto,
+        dp.id_producto,
+        dp.id_talla,
+        dp.id_color,
+        t.nombre_talla AS nombre_talla,
+        c.color AS nombre_color,
+        dp.existencias,
+        dp.descripcion
+        FROM 
+        tb_detalles_productos dp
+        JOIN tb_tallas t ON dp.id_talla = t.id_talla
+        JOIN tb_colores c ON dp.id_color = c.id_color
+        WHERE 
+        dp.id_detalle_producto = ?';
+        $params = array($this->id_producto); 
+        return Database::getRow($sql, $params);
+    }
 }
