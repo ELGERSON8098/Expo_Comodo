@@ -318,6 +318,7 @@ const openUpdateDetail = async (idProducto) => {
     const DATA = await fetchData(PRODUCTO_API, 'readOneDetail', formData);
     if (DATA.status) {
         const ROW = DATA.dataset;
+        ID_PRODUCTO.value = ROW.id_producto;
         ID_DETALLE.value = ROW.id_detalle_producto;
         EXISTENCIAS.value = ROW.existencias;
         DESCRIPCION.value = ROW.descripcion;
