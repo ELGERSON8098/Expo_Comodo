@@ -151,6 +151,20 @@ if (isset($_GET['action'])) {
                     }
                     break;
 
+                    
+                case 'deleteDetails': // Acción para eliminar una fila por ID.
+                    // Verificar y establecer el ID del género a eliminar.
+                    if (
+                        !$producto->setIdDetalle($_POST['idProductoDetalle'])) {
+                        $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
+                    } elseif ($producto->deleteRow()) { // Intentar eliminar la fila.
+                        $result['status'] = 1; // Indicar que la operación fue exitosa.
+                        $result['message'] = 'Detalle de producto eliminado correctamente'; // Mensaje de éxito.
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al eliminar el detalle'; // Mensaje de error si ocurre un problema.
+                    }
+                    break;
+
             case 'readDetails':
                 if (!$producto->setId($_POST['idProducto'])) {
                     $result['error'] = $producto->getDataError();

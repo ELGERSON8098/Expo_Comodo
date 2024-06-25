@@ -201,6 +201,28 @@ const openDelete = async (id) => {
     }
 }
 
+const openDeleteDetails = async (id) => {
+    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
+    const RESPONSE = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
+    // Se verifica la respuesta del mensaje.
+    if (RESPONSE) {
+        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        const FORM = new FormData();
+        FORM.append('idProductoDetalle', id);
+        // Petición para eliminar el registro seleccionado.
+        const DATA = await fetchData(PRODUCTO_API, 'deleteDetails', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra un mensaje de éxito.
+            await sweetAlert(1, DATA.message, true);
+            // Se carga nuevamente la tabla para visualizar los cambios.
+            fillTable();
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    }
+}
+
 const COLOR_API = 'services/admin/color.php';
 const TALLA_API = 'services/admin/talla.php';
 // Constantes para establecer el contenido de la tabla de detalles.
