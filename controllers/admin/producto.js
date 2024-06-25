@@ -201,8 +201,6 @@ const openDelete = async (id) => {
     }
 }
 
-
-
 const COLOR_API = 'services/admin/color.php';
 const TALLA_API = 'services/admin/talla.php';
 // Constantes para establecer el contenido de la tabla de detalles.

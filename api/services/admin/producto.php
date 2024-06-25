@@ -140,7 +140,8 @@ if (isset($_GET['action'])) {
                 break;
                 case 'deleteRow': // Acción para eliminar una fila por ID.
                     // Verificar y establecer el ID del género a eliminar.
-                    if (!$producto->setId($_POST['idProducto'])) {
+                    if (
+                        !$producto->setId($_POST['idProducto'])) {
                         $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
                     } elseif ($producto->deleteRow()) { // Intentar eliminar la fila.
                         $result['status'] = 1; // Indicar que la operación fue exitosa.
@@ -149,6 +150,7 @@ if (isset($_GET['action'])) {
                         $result['error'] = 'Ocurrió un problema al eliminar el producto'; // Mensaje de error si ocurre un problema.
                     }
                     break;
+
             case 'readDetails':
                 if (!$producto->setId($_POST['idProducto'])) {
                     $result['error'] = $producto->getDataError();
@@ -159,6 +161,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay detalles para este producto';
                 }
                 break;
+
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

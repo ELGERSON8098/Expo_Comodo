@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 /*
  *	Clase para manejar el comportamiento de los datos de la tabla PRODUCTO.
  */
@@ -118,9 +118,9 @@ class ProductoHandler
      * Método para buscar registros de los productos.
      */
     public function searchRows()
-{
-    $value = '%' . Validator::getSearchValue() . '%';
-    $sql = 'SELECT
+    {
+        $value = '%' . Validator::getSearchValue() . '%';
+        $sql = 'SELECT
         p.id_producto,
         p.nombre_producto,
         p.codigo_interno,
@@ -149,9 +149,9 @@ class ProductoHandler
         p.codigo_interno LIKE ?
     ORDER BY
         p.nombre_producto;';
-    $params = array($value, $value);
-    return Database::getRows($sql, $params);
-}
+        $params = array($value, $value);
+        return Database::getRows($sql, $params);
+    }
 
 
 
@@ -189,22 +189,20 @@ class ProductoHandler
     /*
      * Método para eliminar un registro específico  por id.
      */
-    
+
+
+
     public function deleteRow()
     {
-        $sql = 'DELETE FROM tb_productos
-            WHERE id_producto = ?';
-        $params = array($this->id_producto);
-        return Database::executeRow($sql, $params);
+        $sqlDeleteDetalles = 'DELETE FROM tb_detalles_productos WHERE id_producto = ?';
+        $paramsDeleteDetalles = array($this->id_producto);
+        Database::executeRow($sqlDeleteDetalles, $paramsDeleteDetalles);
+
+        $sqlDeleteProducto = 'DELETE FROM tb_productos WHERE id_producto = ?';
+        $paramsDeleteProducto = array($this->id_producto);
+        return Database::executeRow($sqlDeleteProducto, $paramsDeleteProducto);
     }
 
-    public function deleteDetailsRow()
-    {
-        $sql = 'DELETE FROM tb_detalles_productos
-            WHERE id_detalle_producto = ?';
-        $params = array($this->id_detalle_producto);
-        return Database::executeRow($sql, $params);
-    }
 
     // Dentro de producto_data.php
 
@@ -225,8 +223,8 @@ class ProductoHandler
     }
 
     public function updateDetail()
-{
-    $sql = 'UPDATE tb_detalles_productos dp
+    {
+        $sql = 'UPDATE tb_detalles_productos dp
             SET
                 dp.id_talla = ?,
                 dp.id_color = ?,
@@ -235,16 +233,16 @@ class ProductoHandler
             WHERE 
                 dp.id_detalle_producto = ?';
 
-    $params = array(
-        $this->id_talla,
-        $this->id_color,
-        $this->existencias,
-        $this->descripcion,
-        $this->id_detalle_producto
-    );
+        $params = array(
+            $this->id_talla,
+            $this->id_color,
+            $this->existencias,
+            $this->descripcion,
+            $this->id_detalle_producto
+        );
 
-    return Database::executeRow($sql, $params);
-}
+        return Database::executeRow($sql, $params);
+    }
 
 
     public function readOneDetail()
@@ -264,7 +262,7 @@ class ProductoHandler
         JOIN tb_colores c ON dp.id_color = c.id_color
         WHERE 
         dp.id_detalle_producto = ?';
-        $params = array($this->id_detalle_producto); 
+        $params = array($this->id_detalle_producto);
         return Database::getRow($sql, $params);
     }
 }
