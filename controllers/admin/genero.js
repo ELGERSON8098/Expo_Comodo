@@ -13,7 +13,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ID_GENERO = document.getElementById('idGenero'),
     NOMBRE_GENERO = document.getElementById('nombre_genero'),
     IMAGEN_GENERO = document.getElementById('imagen_genero');
-    document.querySelector('title').textContent = 'Géneros';
+document.querySelector('title').textContent = 'Géneros';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -80,6 +80,7 @@ const fillTable = async (form = null) => {
                 <tr>
                     <td><img src="${SERVER_URL}images/generos/${row.imagen_genero}" height="50"></td>
                     <td>${row.nombre_genero}</td>
+                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
                     <td>
                         <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_genero})">
                             <i class="bi bi-pencil-fill"></i>
