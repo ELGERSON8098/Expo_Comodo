@@ -114,12 +114,12 @@ CREATE TABLE tb_productos (
   id_descuento INT UNSIGNED NOT NULL,
   imagen VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_producto),
-  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material),
-  CONSTRAINT fk_marcas FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
-  CONSTRAINT fk_generos FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
-  CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
-  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria),
-  CONSTRAINT ck_precio  CHECK (precio >= 0)
+  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT fk_marcas FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT fk_generos FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria) ON DELETE CASCADE ON UPDATE CASCADE,
+CONSTRAINT ck_precio CHECK (precio >= 0)
 );
 
 CREATE TABLE tb_detalles_productos (
