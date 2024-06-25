@@ -93,10 +93,10 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el producto';
                 }
                 break;
-
             case 'createDetail':
                 $_POST = Validator::validateForm($_POST);
                 if (
+                    !$producto->setId($_POST['idProductoDetalle']) or
                     !$producto->setTalla($_POST['nombreTalla']) or
                     !$producto->setExistencias($_POST['existencias']) or
                     !$producto->setColor($_POST['nombreColor']) or

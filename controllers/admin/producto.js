@@ -16,6 +16,7 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_PRODUCTO = document.getElementById('idProducto'),
+    ID_PRODUCTO_DETALLE = document.getElementById('idProductoDetalle'),
     ID_DETALLE = document.getElementById('idDetalle'),
     EXISTENCIAS = document.getElementById('existencias'),
     DESCRIPCION = document.getElementById('descripcion'),
@@ -229,8 +230,6 @@ SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
         SAVE_DETAIL_MODAL.hide();
         // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
-        // Se carga nuevamente la tabla de detalles para visualizar los cambios.
-        fillDetailsTable(productID);
     } else {
         sweetAlert(2, DATA.error, false);
     }
@@ -242,12 +241,12 @@ SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
 *   Parámetros: idProducto (identificador del producto).
 *   Retorno: ninguno.
 */
-const openCreateDetail = async (idDetalleProducto) => {
-
+const openCreateDetail = async (idProducto) => {
     // Mostrar el formulario de detalles para agregar nuevos
     SAVE_DETAIL_FORM.reset();
     SAVE_DETAIL_FORM.classList.remove('d-none');
     MODAL_DETAIL_TITLE.textContent = 'Agregar detalle de producto';
+    ID_PRODUCTO_DETALLE.value = idProducto;
     SAVE_DETAIL_MODAL.show();
     
     // Llenar los selects necesarios
@@ -255,7 +254,7 @@ const openCreateDetail = async (idDetalleProducto) => {
     fillSelect(COLOR_API, 'readAll', 'nombreColor');
 
     // Obtener y mostrar los detalles existentes del producto
-    fillDetailsTable(idDetalleProducto);
+    fillDetailsTable(idProducto);
 }
 
 // Función asíncrona para llenar la tabla con los detalles disponibles.
