@@ -10,6 +10,7 @@ CREATE TABLE tb_usuarios (
   usuario VARCHAR(100) NOT NULL,
   correo VARCHAR(100) NOT NULL,
   clave VARCHAR(100) NOT NULL, 
+  direccion_cliente LONGTEXT NOT NULL,
   telefono VARCHAR(20) NOT NULL, 
   dui_cliente VARCHAR(20) NOT NULL, 
   PRIMARY KEY (id_usuario),
@@ -19,27 +20,15 @@ CREATE TABLE tb_usuarios (
   CONSTRAINT uc_dui_cliente UNIQUE (dui_cliente)
 );
 
-CREATE TABLE tb_departamentos (
-  id_departamento INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  departamento VARCHAR(1000) NOT NULL,
-  PRIMARY KEY (id_departamento)
+SELECT * FROM tb_usuarios
+
+
+CREATE TABLE tb_niveles_usuarios (
+  id_nivel_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
+  nombre_nivel ENUM ('administrador', 'inventaristas', 'vendedoras') NOT NULL,
+  PRIMARY KEY (id_nivel_usuario)
 );
 
-CREATE TABLE tb_municipios (
-  id_municipio INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  municipio VARCHAR(1000) NOT NULL,
-  id_departamento INT UNSIGNED NOT NULL,
-  PRIMARY KEY (id_municipio),
-  CONSTRAINT fk_municipios FOREIGN KEY (id_departamento) REFERENCES tb_departamentos (id_departamento)
-);
-
-CREATE TABLE tb_distritos (
-  id_distrito INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  distrito VARCHAR(1000) NOT NULL,
-  id_municipio INT UNSIGNED NOT NULL,
-  PRIMARY KEY (id_distrito),
-  CONSTRAINT fk_distritos FOREIGN KEY (id_municipio) REFERENCES tb_municipios (id_municipio)
-);
 
 CREATE TABLE tb_admins (
   id_administrador INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -54,11 +43,15 @@ CREATE TABLE tb_admins (
   CONSTRAINT uc_correo_administrador UNIQUE (correo_administrador)
 );
 
-CREATE TABLE tb_niveles_usuarios (
-  id_nivel_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  nombre_nivel ENUM ('administrador', 'inventaristas', 'vendedoras') NOT NULL,
-  PRIMARY KEY (id_nivel_usuario)
-);
+SELECT * FROM tb_admins
+
+
+
+INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
+VALUES 
+(1, 'administrador'),
+(2, 'inventaristas'),
+(3, 'vendedoras');
 
 CREATE TABLE tb_generos_zapatos (
   id_genero INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -66,6 +59,7 @@ CREATE TABLE tb_generos_zapatos (
   imagen_genero VARCHAR(20) NULL,
   PRIMARY KEY (id_genero)
 );
+
 
 CREATE TABLE tb_categorias (
   id_categoria INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -147,9 +141,7 @@ CREATE TABLE tb_reservas (
   id_usuario INT UNSIGNED NOT NULL,
   fecha_reserva DATETIME DEFAULT CURRENT_DATE() NOT NULL, 
   estado_reserva ENUM ('Aceptado', 'Pendiente') NOT NULL,
-  id_distrito INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_reserva),
-  CONSTRAINT fk_direcciones FOREIGN KEY (id_distrito) REFERENCES tb_distritos (id_distrito),
   CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id_usuario)
 );
 
@@ -166,3 +158,4 @@ CREATE TABLE tb_detalles_reservas (
   CONSTRAINT ck_cantidad  CHECK (cantidad >= 0),
   CONSTRAINT ck_precio_unitario CHECK (precio_unitario >= 0)
 );
+
