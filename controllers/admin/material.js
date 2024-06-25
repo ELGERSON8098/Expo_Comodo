@@ -80,6 +80,7 @@ const fillTable = async (form = null) => {
             TABLE_BODY.innerHTML += `
                 <tr>
                     <td>${row.nombre}</td>
+                     <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
                     <td>
                         <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_material})">
                             <i class="bi bi-pencil-fill"></i>
