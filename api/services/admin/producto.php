@@ -26,6 +26,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Detalle inexistente';
                 }
                 break;
+                case 'searchRows':
+                    if (!Validator::validateSearch($_POST['search'])) {
+                        $result['error'] = Validator::getSearchError();
+                    } elseif ($result['dataset'] = $producto->searchRows()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    } else {
+                        $result['error'] = 'No hay coincidencias';
+                    }
+                    break;
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (

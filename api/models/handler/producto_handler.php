@@ -114,6 +114,45 @@ class ProductoHandler
         $params = array($this->id_producto);
         return Database::getRow($sql, $params);
     }
+    /*
+     * Método para buscar registros de los productos.
+     */
+    public function searchRows()
+{
+    $value = '%' . Validator::getSearchValue() . '%';
+    $sql = 'SELECT
+        p.id_producto,
+        p.nombre_producto,
+        p.codigo_interno,
+        p.referencia_proveedor,
+        p.precio,
+        p.imagen,
+        m.marca AS nombre_marca,
+        g.nombre_genero AS nombre_genero,
+        c.nombre_categoria AS nombre_categoria,
+        ma.nombre AS nombre_material,
+        COALESCE(d.id_descuento, NULL) AS id_descuento
+    FROM
+        tb_productos AS p
+    INNER JOIN
+        tb_marcas AS m ON p.id_marca = m.id_marca
+    INNER JOIN
+        tb_generos_zapatos AS g ON p.id_genero = g.id_genero
+    INNER JOIN
+        tb_categorias AS c ON p.id_categoria = c.id_categoria
+    INNER JOIN
+        tb_materiales AS ma ON p.id_material = ma.id_material
+    LEFT JOIN
+        tb_descuentos AS d ON p.id_descuento = d.id_descuento
+    WHERE
+        p.nombre_producto LIKE ? OR
+        p.codigo_interno LIKE ?
+    ORDER BY
+        p.nombre_producto;';
+    $params = array($value, $value);
+    return Database::getRows($sql, $params);
+}
+
 
 
     /*

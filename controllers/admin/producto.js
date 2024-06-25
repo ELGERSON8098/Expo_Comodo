@@ -171,6 +171,7 @@ const openUpdate = async (id) => {
     } else {
         sweetAlert(2, DATA.error, false);
     }
+    
 }
 
 /*
