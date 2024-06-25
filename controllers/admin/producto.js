@@ -318,24 +318,23 @@ const openUpdateDetail = async (idDetalleProducto) => {
     }
 };
 
-const openDeleteDetail= async (id) => {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
-    // Se verifica la respuesta del mensaje.
-    if (RESPONSE) {
-        // Se define una constante tipo objeto con los datos del registro seleccionado.
-        const FORM = new FormData();
-        FORM.append('idProductoDetalle', id);
-        // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(PRODUCTO_API, 'deleteDetails', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            // Se muestra un mensaje de éxito.
-            await sweetAlert(1, DATA.message, true);
-            // Se carga nuevamente la tabla para visualizar los cambios.
-            fillTable();
-        } else {
-            sweetAlert(2, DATA.error, false);
+const openDeleteDetail = async (idDetalleProducto) => {
+    const response = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
+    if (response) {
+        try {
+            const formData = new FormData();
+            formData.append('idProductoDetalle', idDetalleProducto);
+            const data = await fetchData(PRODUCTO_API, 'deleteDetail', formData);
+            if (data.status) {
+                await sweetAlert(1, data.message, true);
+                fillTable();
+            } else {
+                sweetAlert(2, data.error, false);
+            }
+        } catch (error) {
+            console.error('Error al eliminar el detalle del producto:', error);
+            sweetAlert(2, 'Ocurrió un error al eliminar el detalle del producto.', false);
         }
     }
 }
+
