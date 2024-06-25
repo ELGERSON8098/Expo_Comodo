@@ -200,6 +200,7 @@ class ProductoHandler
         $paramsDeleteProducto = array($this->id_producto);
         return Database::executeRow($sqlDeleteProducto, $paramsDeleteProducto);
     }
+    
     public function deleteDetail()
     {
         $sql = 'DELETE FROM tb_detalles_productos

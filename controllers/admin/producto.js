@@ -171,7 +171,7 @@ const openUpdate = async (id) => {
     } else {
         sweetAlert(2, DATA.error, false);
     }
-    
+
 }
 
 /*
@@ -219,10 +219,10 @@ SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
 
     // Se verifica la acción a realizar.
     const action = SAVE_DETAIL_FORM.idDetalle.value ? 'updateDetail' : 'createDetail';
-    
+
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_DETAIL_FORM);
-    
+
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(PRODUCTO_API, action, FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
@@ -249,7 +249,7 @@ const openCreateDetail = async (idProducto) => {
     MODAL_DETAIL_TITLE.textContent = 'Agregar detalle de producto';
     ID_PRODUCTO_DETALLE.value = idProducto;
     SAVE_DETAIL_MODAL.show();
-    
+
     // Llenar los selects necesarios
     fillSelect(TALLA_API, 'readAll', 'nombreTalla');
     fillSelect(COLOR_API, 'readAll', 'nombreColor');
@@ -262,7 +262,7 @@ const openCreateDetail = async (idProducto) => {
 const fillDetailsTable = async (idProducto) => {
     // Se inicializa el contenido de la tabla.
     DETAILS_TABLE_BODY.innerHTML = '';
-    
+
     const FORM = new FormData();
     FORM.append('idProducto', idProducto);
     // Petición para obtener los registros disponibles.
@@ -318,23 +318,27 @@ const openUpdateDetail = async (idDetalleProducto) => {
     }
 };
 
+
 const openDeleteDetail = async (idDetalleProducto) => {
-    const response = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
-    if (response) {
-        try {
-            const formData = new FormData();
-            formData.append('idProductoDetalle', idDetalleProducto);
-            const data = await fetchData(PRODUCTO_API, 'deleteDetail', formData);
-            if (data.status) {
-                await sweetAlert(1, data.message, true);
-                fillTable();
-            } else {
-                sweetAlert(2, data.error, false);
-            }
-        } catch (error) {
-            console.error('Error al eliminar el detalle del producto:', error);
-            sweetAlert(2, 'Ocurrió un error al eliminar el detalle del producto.', false);
+    const RESPONSE = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
+    if (RESPONSE) {
+
+    // Mostrar el formulario de detalles para agregar nuevos
+    SAVE_DETAIL_FORM.reset();
+    SAVE_DETAIL_FORM.classList.remove('d-none');
+
+    // Obtener y mostrar los detalles existentes del producto
+    fillDetailsTable(idProducto);
+    const formData = new FormData();
+        formData.append('idProductoDetalle', idDetalleProducto);
+        const data = await fetchData(PRODUCTO_API, 'deleteDetail', formData);
+        if (data.status) {
+            await sweetAlert(1, data.message, true);
+            fillTable();
+        } else {
+            sweetAlert(2, data.error, false);
         }
     }
 }
+
 
