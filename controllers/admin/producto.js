@@ -319,6 +319,7 @@ const openUpdateDetail = async (idDetalleProducto) => {
 };
 
 
+    // Metodo para eliminar el detalle del producto en el modal
 const openDeleteDetail = async (idDetalleProducto) => {
     const RESPONSE = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
     if (RESPONSE) {
