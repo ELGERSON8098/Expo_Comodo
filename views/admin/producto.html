@@ -185,6 +185,7 @@
                         <!-- Formulario para agregar nuevos detalles -->
                         <form id="saveDetailForm">
                             <!-- Campo oculto para el ID del producto -->
+                            <input type="number" class="d-none" id="idProductoDetalle" name="idProductoDetalle">
                             <input type="number" class="d-none" id="idDetalle" name="idDetalle">
                             <div class="mb-3">
                                 <label for="nombreTalla" class="form-label">Talla</label>
@@ -219,8 +220,8 @@
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
 
     <!-- Controladores JavaScript -->
-    <script src="../../controllers/utils/admin.js"></script>
     <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
     <script src="../../controllers/admin/producto.js"></script>
 </body>
 
