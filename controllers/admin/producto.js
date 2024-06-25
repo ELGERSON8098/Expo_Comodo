@@ -210,21 +210,16 @@ const DETAILS_TABLE_BODY = document.getElementById('detailsTableBody'),
     SAVE_DETAIL_MODAL = new bootstrap.Modal('#saveDetailModal'),
     MODAL_DETAIL_TITLE = document.getElementById('modalDetailTitle');
 
-// Variable para almacenar el ID del producto al que se le añadirán detalles.
-let productID = null;
-
 // Método del evento para cuando se envía el formulario de guardar detalles.
 SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
     // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    
+
     // Se verifica la acción a realizar.
     const action = SAVE_DETAIL_FORM.idDetalle.value ? 'updateDetail' : 'createDetail';
     
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_DETAIL_FORM);
-    // Añadir el ID del producto.
-    FORM.append('idProducto', productID);
     
     // Petición para guardar los datos del formulario.
     const DATA = await fetchData(PRODUCTO_API, action, FORM);
@@ -247,8 +242,7 @@ SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
 *   Parámetros: idProducto (identificador del producto).
 *   Retorno: ninguno.
 */
-const openCreateDetail = async (idProducto) => {
-    productID = idProducto;
+const openCreateDetail = async (idDetalleProducto) => {
 
     // Mostrar el formulario de detalles para agregar nuevos
     SAVE_DETAIL_FORM.reset();
@@ -259,12 +253,9 @@ const openCreateDetail = async (idProducto) => {
     // Llenar los selects necesarios
     fillSelect(TALLA_API, 'readAll', 'nombreTalla');
     fillSelect(COLOR_API, 'readAll', 'nombreColor');
-    
-    // Establecer el ID del producto en el formulario
-    document.getElementById('idProducto').value = idProducto;
 
     // Obtener y mostrar los detalles existentes del producto
-    fillDetailsTable(idProducto);
+    fillDetailsTable(idDetalleProducto);
 }
 
 // Función asíncrona para llenar la tabla con los detalles disponibles.
@@ -309,14 +300,13 @@ const fillDetailsTable = async (idProducto) => {
 *   Parámetros: idDetalle (identificador del detalle seleccionado).
 *   Retorno: ninguno.
 */
-const openUpdateDetail = async (idProducto) => {
-    MODAL_DETAIL_TITLE.textContent = 'Actualizar Detalle de Producto';
+const openUpdateDetail = async (idDetalleProducto) => {
+    MODAL_DETAIL_TITLE.textContent = 'Actualizar detalle de producto';
     const formData = new FormData();
-    formData.append('idProducto', idProducto); // Cambiado a idProducto
+    formData.append('idDetalleProducto', idDetalleProducto); // Cambiado a idProducto
     const DATA = await fetchData(PRODUCTO_API, 'readOneDetail', formData);
     if (DATA.status) {
         const ROW = DATA.dataset;
-        ID_PRODUCTO.value = ROW.id_producto;
         ID_DETALLE.value = ROW.id_detalle_producto;
         EXISTENCIAS.value = ROW.existencias;
         DESCRIPCION.value = ROW.descripcion;

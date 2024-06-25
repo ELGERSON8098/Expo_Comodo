@@ -202,7 +202,6 @@ class ProductoHandler
     {
         $sql = 'SELECT 
             dp.id_detalle_producto,
-            dp.id_producto,
             t.nombre_talla AS nombre_talla,
             c.color AS nombre_color,
             dp.existencias,
@@ -218,20 +217,18 @@ class ProductoHandler
     public function updateDetail()
 {
     $sql = 'UPDATE tb_detalles_productos dp
-            SET 
-                dp.id_detalle_producto = ?, 
-                dp.id_talla = (SELECT t.id_talla FROM tb_tallas t WHERE t.nombre_talla = ?),
-                dp.id_color = (SELECT c.id_color FROM tb_colores c WHERE c.color = ?),
+            SET
+                dp.id_talla = ?,
+                dp.id_color = ?,
                 dp.existencias = ?, 
                 dp.descripcion = ?
             WHERE 
-                dp.id_producto = ?';
+                dp.id_detalle_producto = ?';
 
     $params = array(
-        $this->id_producto,
         $this->id_talla,
-        $this->existencias,
         $this->id_color,
+        $this->existencias,
         $this->descripcion,
         $this->id_detalle_producto
     );
@@ -257,7 +254,7 @@ class ProductoHandler
         JOIN tb_colores c ON dp.id_color = c.id_color
         WHERE 
         dp.id_detalle_producto = ?';
-        $params = array($this->id_producto); 
+        $params = array($this->id_detalle_producto); 
         return Database::getRow($sql, $params);
     }
 }

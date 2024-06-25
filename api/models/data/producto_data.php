@@ -31,7 +31,7 @@ class ProductoData extends ProductoHandler
     public function setIdDetalle($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id_producto = $value;
+            $this->id_detalle_producto = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del detalle es incorrecto';
