@@ -157,7 +157,7 @@ if (isset($_GET['action'])) {
                     if (
                         !$producto->setIdDetalle($_POST['idProductoDetalle'])) {
                         $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
-                    } elseif ($producto->deleteRow()) { // Intentar eliminar la fila.
+                    } elseif ($producto->deleteDetails()) { // Intentar eliminar la fila.
                         $result['status'] = 1; // Indicar que la operación fue exitosa.
                         $result['message'] = 'Detalle de producto eliminado correctamente'; // Mensaje de éxito.
                     } else {
