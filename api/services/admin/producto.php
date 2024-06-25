@@ -17,7 +17,7 @@ if (isset($_GET['action'])) {
             case 'readOneDetail':
                 // Validar y obtener los datos.
                 $_POST = Validator::validateForm($_POST);
-                if (!$producto->setId($_POST['idProducto'])) {
+                if (!$producto->setIdDetalle($_POST['idDetalleProducto'])) {
                     $result['error'] = $producto->getDataError();
                 } elseif ($result['dataset'] = $producto->readOneDetail()) {
                     $result['status'] = 1;
@@ -97,7 +97,6 @@ if (isset($_GET['action'])) {
             case 'createDetail':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$producto->setId($_POST['idProducto']) or
                     !$producto->setTalla($_POST['nombreTalla']) or
                     !$producto->setExistencias($_POST['existencias']) or
                     !$producto->setColor($_POST['nombreColor']) or
@@ -111,12 +110,11 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el detalle';
                 }
                 break;
-                case 'updateDetail':
+            case 'updateDetail':
                 // Validar y obtener los datos.
                 $_POST = Validator::validateForm($_POST);
                 if (
                     !$producto->setIdDetalle($_POST['idDetalle']) or
-                    !$producto->setId($_POST['idProducto']) or
                     !$producto->setTalla($_POST['nombreTalla']) or
                     !$producto->setExistencias($_POST['existencias']) or
                     !$producto->setColor($_POST['nombreColor']) or
