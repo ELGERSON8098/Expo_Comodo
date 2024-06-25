@@ -115,7 +115,7 @@ class ProductoHandler
         return Database::getRow($sql, $params);
     }
     /*
-     * Método para buscar registros de los productos.
+     * Método para buscar registros de los productos por nombre y por codigo interno.
      */
     public function searchRows()
     {
