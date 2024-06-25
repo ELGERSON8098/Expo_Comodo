@@ -189,11 +189,20 @@ class ProductoHandler
     /*
      * Método para eliminar un registro específico  por id.
      */
+    
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_productos
             WHERE id_producto = ?';
         $params = array($this->id_producto);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function deleteDetailsRow()
+    {
+        $sql = 'DELETE FROM tb_detalles_productos
+            WHERE id_detalle_producto = ?';
+        $params = array($this->id_detalle_producto);
         return Database::executeRow($sql, $params);
     }
 
