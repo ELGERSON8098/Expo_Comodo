@@ -200,7 +200,10 @@ class ProductoHandler
         $paramsDeleteProducto = array($this->id_producto);
         return Database::executeRow($sqlDeleteProducto, $paramsDeleteProducto);
     }
-    
+    /*
+     * Método para eliminar un detalle de productos específico  por id.
+     */
+
     public function deleteDetail()
     {
         $sql = 'DELETE FROM tb_detalles_productos
