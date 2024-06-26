@@ -1,143 +1,127 @@
 <!DOCTYPE html>
+<!-- Declaración del idioma para el documento -->
 <html lang="es">
 
 <head>
-    <!-- Codificación del documento -->
     <meta charset="UTF-8">
-        <!-- Compatibilidad con Internet Explorer -->
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Escalabilidad para dispositivos -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-    <!-- Font Awesome para iconos -->
+    <title>Fontech</title>
+    <!-- fontawesome cdn -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Bootstrap CSS -->
-    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Icono de la página -->
-    <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
+    <!-- bootstrap csss -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- custom css -->
+    <link rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
+
+    
     <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-    <!-- CSS personalizado -->
-    <link rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
 </head>
 
 <body>
-    <!-- Separación del navbar -->
-    <div class="my-5"></div>
-    <!-- Contenido principal -->
+
+    <!-- Contenido principal del documento -->
     <main>
+        <br>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
+
+        <!-- Fila que contiene el formulario de búsqueda y botones -->
         <div class="row">
             <!-- Formulario de búsqueda -->
-            <form class="col-sm-12 col-md-6" id="searchForm">
-                <div class="row">
-                    <div class="col-6">
-                        <input type="search" class="form-control" name="search" placeholder="Buscar" required>
-                    </div>
-                    <div class="col-6">
-                        <button type="submit" class="btn btn-success">
-                            <i class="bi bi-search"></i>
-                        </button>
-                        <button type="reset" class="btn btn-secondary" onclick="fillTable()">
-                            <i class="bi bi-x-square-fill"></i>
-                        </button>
-                    </div>
+           <!-- Formulario de búsqueda -->
+           <form class="col-sm-12 col-md-6" id="searchForm">
+            <div class="row">
+                <div class="col-6">
+                    <input type="search" class="form-control" id="inputsearch" name="search" placeholder="Buscar" required>
                 </div>
-            </form>
+                <div class="col-6">
+                    <button type="submit" class="btn btn-success rounded me-2 mb-2 mb-sm-2">
+                        <i class="bi bi-search"></i>
+                    </button>
+                    <button type="reset" class="btn btn-secondary rounded me-2 mb-2 mb-sm-2" onclick="fillTable()">
+                        <i class="bi bi-x-square-fill"></i>
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        </div>
+        
         </div>
 
-        <!-- Tabla para mostrar los registros de reservas -->
-        <table class="table table-hover">
-            <!-- Encabezado de la tabla -->
-            <thead>
-                <tr>
-                    <!-- Cantidad de registros encontrados -->
-                    <td colspan="8" id="rowsFound"></td>
-                </tr>
-                <!-- Títulos de las columnas -->
-                <tr>
-                    <th>Nombre del cliente</th>
-                    <th>DUI</th>
-                    <th>Fecha de reserva</th>
-                    <th>Departamento</th>
-                    <th>Municipio</th>
-                    <th>Distrito</th>
+        <!-- Tabla con registros -->
+        <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+            <!-- Tabla para mostrar los registros existentes -->
+            <table class="table table-hover">
+                <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+                <thead>
+                    <tr>
+                        <td colspan="6" id="rowsFound"></td>
+                    </tr>
+                    <th>Usuario</th>
+                    <th>Fecha Reserva</th>
                     <th>Estado de la reserva</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <!-- Cuerpo de la tabla -->
-            <tbody id="tableBody"></tbody>
-        </table>
+                    <th>Accion</th>
+                </thead>
+                <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
 
-        <!-- Componente Modal para guardar una reserva -->
+        <!-- Componente Modal para guardar un registro -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
+                        <!-- Título del modal -->
                         <h1 class="modal-title fs-5" id="modalTitle"></h1>
+                        <!-- Botón de cierre del modal -->
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <!-- Formulario para guardar una reserva -->
+                    <!-- Formulario para crear o actualizar un registro -->
                     <form id="saveForm">
-                        <div class="modal-body row g-3">
-                            <!-- Campo oculto para el ID de la reserva -->
-                            <input type="hidden" id="idReserva" name="idReserva">
-                            <!-- Campos de información de la reserva -->
-                            <div class="col-sm-12 col-md-6">
-                                <label for="NomClien" class="form-label">Nombre del cliente</label>
-                                <input id="NomClien" type="text" name="NomClien" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="TEL" class="form-label">Teléfono del cliente</label>
-                                <input id="TEL" type="text" name="TEL" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="FechReserva" class="form-label">Fecha de reserva</label>
-                                <input id="FechReserva" type="datetime" name="FechReserva" class="form-control" required
-                                    readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Produc" class="form-label">Productos</label>
-                                <input id="Produc" type="text" name="Produc" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Materi" class="form-label">Material</label>
-                                <input id="Materi" type="text" name="Materi" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="COL" class="form-label">Color</label>
-                                <input id="COL" type="text" name="COL" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Tallas" class="form-label">Talla</label>
-                                <input id="Tallas" type="text" name="Tallas" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="MARCA" class="form-label">Marca</label>
-                                <input id="MARCA" type="text" name="MARCA" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Cant" class="form-label">Cantidad</label>
-                                <input id="Cant" type="number" name="Cant" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Precio" class="form-label">Precio total de productos precio normal</label>
-                                <input id="Precio" type="number" name="Precio" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Descu" class="form-label">Descuento</label>
-                                <input id="Descu" type="number" name="Descu" class="form-control" required readonly>
-                            </div>
-                            <div class="col-sm-12 col-md-6">
-                                <label for="Descuentos" class="form-label">Precio de productos aplicado el
-                                    descuento</label>
-                                <input id="Descuentos" type="number" name="Descuentos" class="form-control" required
-                                    readonly>
+                        <div class="modal-body row g-4">
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <input type="hidden" id="idPedido" name="idPedido">
+
+                            
+                            <!-- Pie del modal sin botones de acción -->
+                            
+                            <!-- Subtabla para mostrar los detalles del pedido -->
+                            <div id="subtable" class="mt-0">
+                                <!-- TABLA DE MODELO TALLAS -->
+                                <div class="modal-header border-0">
+                                    <h1 class="modal-title fs-5" id="submodalTitle"></h1>
+                                </div>
+
+                                <!-- Formulario de búsqueda para la subtabla -->
+                                
+
+                                <!-- Subtabla para mostrar los detalles del pedido -->
+                                <div class="table-responsive" style="max-height: 200px; overflow-y: auto;">
+                                    <table id="subheaderT" class="table table-hover ">
+                                        <!-- Cabeza de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
+                                        <thead>
+                                            <tr>
+                                                <td colspan="5" id="subrowsFound"></td>
+                                            </tr>
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th>Imagen</th>
+                                                <th>Fecha de reserva</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <!-- Cuerpo de la tabla para mostrar un registro por fila -->
+                                        <tbody id="subtableBody"></tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </form>
@@ -145,43 +129,88 @@
             </div>
         </div>
 
-        <!-- Componente Modal para actualizar el estado de la reserva -->
-        <div class="modal fade" id="saveModalS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="modalTitleS" aria-hidden="true">
+        <!-- SEGUNDO MODAL -->
+        <div class="modal fade" id="savetreModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="modalTitleS"></h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="tremodalTitle"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            onclick="subClose()"></button>
                     </div>
-                    <!-- Formulario para actualizar el estado de la reserva -->
-                    <form id="saveForms">
-                        <div class="modal-body row g-3">
-                            <!-- Campo oculto para el ID de la reserva -->
-                            <input type="hidden" id="idReservas" name="idReservas">
-                            <!-- Campo para seleccionar el estado del pedido -->
+                    <!-- Formulario para crear o actualizar un registro en la subtabla de modelos tallas -->
+                    <form id="savetreForm">
+                        <div class="modal-body row g-3 ">
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <input type="hidden" id="idDetalleReserva" name="idDetalleReserva">
                             <div class="col-sm-12 col-md-6">
-                                <label for="EstadoP" class="form-label">Estado del pedido</label>
-                                <select id="EstadoP" type="text" name="EstadoP" class="form-control" required></select>
+                                <label for="color" class="precioUnitario">Color</label>
+                                <input id="color" type="text" name="color" min="1" step="1"
+                                    class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="cantidad" class="precioUnitario">Cantidad</label>
+                                <input id="cantidad" type="text" name="cantidad" min="1" step="1"
+                                    class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="talla" class="talla">Talla</label>
+                                <input id="talla" type="text" name="talla" min="1" step="1"
+                                    class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="precio_unitario" class="precio_unitario">Precio</label>
+                                <input id="precio_unitario" type="text" name="precio_unitario" min="1" step="1"
+                                    class="form-control" required>
                             </div>
                         </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal para guardar un registro -->
+        <div class="modal fade" id="saveModalSS" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalTitleSS"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- Formulario para guardar un registro -->
+                    <form id="saveFormSS">
+                        <div class="col-sm-12 col-md-6">
+                            <input type="number" class="d-none" id="idEstadosa" name="idEstadosa">
+                            <label for="estadopedido" class="form-label">Estado del pedido</label>
+                            <select id="estadopedidosa" name="estadopedido" class="form-select" required>
+                                <option value="1">Aceptado</option>
+                                <option value="0">Pendiente</option>
+                            </select>
+                        </div>
                         <div class="modal-footer">
-                            <!-- Botón para guardar el cambio -->
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+
     </main>
-    <!-- Bootstrap JavaScript -->
+
+
+    <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
+    <!-- Llamada al framework y librería de mensajes -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert JavaScript -->
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-    <!-- Controladores JavaScript -->
-    <script src="../../controllers/utils/admin.js"></script>
-    <script src="../../controllers/utils/components.js"></script>
-    <script src="../../controllers/admin/reserva.js"></script>
+    <!-- Llamada al controlador general de la aplicación -->
+    <script type="text/javascript" src="../../controllers/utils/components.js"></script>
+    <!-- Llamada al controlador del sitio privado -->
+    <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
+    <!-- Llamada al controlador de la página web -->
+    <script type="text/javascript" src="../../controllers/admin/reserva.js"></script>
+
 </body>
 
 </html>

@@ -19,7 +19,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = Validator::getSearchError();
                 } elseif ($reserva['dataset'] = $reserva->searchRows()) {
                     $result['status'] = 1;
-                    //$result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
                     $result['error'] = 'No hay coincidencias';
                 }
@@ -67,7 +67,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
                 case 'readOneS':
-                    if (!$reserva->setId($_POST['idReservas'])) {
+                    if (!$reserva->setId($_POST['idReservass'])) {
                         $result['error'] = $reserva->getDataError();
                     } elseif ($result['dataset'] = $reserva->readOneS()) {
                         $result['status'] = 1;
@@ -75,6 +75,24 @@ if (isset($_GET['action'])) {
                         $result['error'] = 'Reserva inexistentes';
                     }
                     break;
+                    case 'readDetalles':
+                        if (!$reserva->setId($_POST['idReservas'])) {
+                            $result['error'] = $reserva->getDataError();
+                        } elseif ($result['dataset'] = $reserva->readDetalles()) {
+                            $result['status'] = 1;
+                        } else {
+                            $result['error'] = 'Reserva inexistentes';
+                        }
+                        break;
+                        case 'readDetalles2':
+                            if (!$reserva->setId($_POST['idDetalleReserva'])) {
+                                $result['error'] = $reserva->getDataError();
+                            } elseif ($result['dataset'] = $reserva->readDetalles2()) {
+                                $result['status'] = 1;
+                            } else {
+                                $result['error'] = 'Reserva inexistentes';
+                            }
+                            break;
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -124,3 +142,6 @@ if (isset($_GET['action'])) {
 } else {
     print(json_encode('Recurso no disponible'));
 }
+
+
+// Se imprime el resultado en formato JSON y se retorna al controlador.

@@ -27,7 +27,7 @@ class reservaData extends reservaHandler
     public function setIdDetalle($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id = $value;
+            $this->id_reserva = $value;
             return true;
         } else {
             $this->data_error = 'El identificador de la reserva es incorrecto';
@@ -77,20 +77,6 @@ class reservaData extends reservaHandler
             return false;
         }
     }
-
-    public function setCantidad($value)
-    {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->cantidad = $value;
-            return true;
-        } else {
-            $this->data_error = 'La cantidad del producto debe ser mayor o igual a 1';
-            return false;
-        }
-    }
-
-
-
     // Método para obtener el error de los datos.
     public function getDataError()
     {
