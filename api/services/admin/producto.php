@@ -111,9 +111,12 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Producto inexistente';
                 }
                 break;
-
+            // Caso para actualizar una fila existente
             case 'updateRow':
+                // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);
+
+                // Verificar si se pueden establecer todos los datos del producto para actualizar
                 if (
                     !$producto->setId($_POST['idProducto']) or
                     !$producto->setFilename() or
@@ -128,18 +131,27 @@ if (isset($_GET['action'])) {
                     !$producto->setDescuento($_POST['nombreDescuento']) or
                     !$producto->setImagen($_FILES['imagen'], $producto->getFilename())
                 ) {
+                    // Si hay un error al establecer alguno de los datos, se asigna el mensaje de error
                     $result['error'] = $producto->getDataError();
-                } elseif ($producto->updateRow()) {
+                }
+                // Intentar actualizar la fila en la base de datos
+                elseif ($producto->updateRow()) {
+                    // Si la actualización es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
                     $result['message'] = 'Producto modificado correctamente';
-                    // Se asigna el estado del archivo después de actualizar.
+                    // Cambiar el archivo de imagen si se ha actualizado
                     $result['fileStatus'] = Validator::changeFile($_FILES['imagen'], $producto::RUTA_IMAGEN, $producto->getFilename());
                 } else {
+                    // Si hay un problema al modificar el producto, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al modificar el producto';
                 }
                 break;
+            // Caso para crear un nuevo detalle de producto
             case 'createDetail':
+                // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);
+
+                // Verificar si se pueden establecer todos los datos del detalle del producto para crearlo
                 if (
                     !$producto->setId($_POST['idProductoDetalle']) or
                     !$producto->setTalla($_POST['nombreTalla']) or
@@ -147,17 +159,25 @@ if (isset($_GET['action'])) {
                     !$producto->setColor($_POST['nombreColor']) or
                     !$producto->setDescripcion($_POST['descripcion'])
                 ) {
+                    // Si hay un error al establecer alguno de los datos, se asigna el mensaje de error
                     $result['error'] = $producto->getDataError();
-                } elseif ($producto->createDetail()) {
+                }
+                // Intentar crear el detalle del producto en la base de datos
+                elseif ($producto->createDetail()) {
+                    // Si la creación es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
                     $result['message'] = 'Detalle creado correctamente';
                 } else {
+                    // Si hay un problema al crear el detalle del producto, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al crear el detalle';
                 }
                 break;
+            // Caso para actualizar un detalle de producto existente
             case 'updateDetail':
-                // Validar y obtener los datos.
+                // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);
+
+                // Verificar si se pueden establecer todos los datos del detalle del producto para actualizarlo
                 if (
                     !$producto->setIdDetalle($_POST['idDetalle']) or
                     !$producto->setTalla($_POST['nombreTalla']) or
@@ -165,11 +185,16 @@ if (isset($_GET['action'])) {
                     !$producto->setColor($_POST['nombreColor']) or
                     !$producto->setDescripcion($_POST['descripcion'])
                 ) {
+                    // Si hay un error al establecer alguno de los datos, se asigna el mensaje de error
                     $result['error'] = $producto->getDataError();
-                } elseif ($producto->updateDetail()) {
+                }
+                // Intentar actualizar el detalle del producto en la base de datos
+                elseif ($producto->updateDetail()) {
+                    // Si la actualización es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
                     $result['message'] = 'Detalle actualizado correctamente';
                 } else {
+                    // Si hay un problema al actualizar el detalle del producto, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al actualizar el detalle';
                 }
                 break;
@@ -186,18 +211,23 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el producto'; // Mensaje de error si ocurre un problema.
                 }
                 break;
-
+            // Caso para leer los detalles de un producto específico
             case 'readDetails':
+                // Verificar si se puede establecer el ID del producto
                 if (!$producto->setId($_POST['idProducto'])) {
+                    // Si hay un error al establecer el ID del producto, se asigna el mensaje de error
                     $result['error'] = $producto->getDataError();
-                } elseif ($result['dataset'] = $producto->readDetails()) { // Supongamos que tienes una función readDetails() en productoData
+                }
+                // Intentar leer los detalles del producto
+                elseif ($result['dataset'] = $producto->readDetails()) {
+                    // Si se encuentran detalles, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
                     $result['message'] = 'Detalles encontrados';
                 } else {
+                    // Si no se encuentran detalles para el producto, se asigna el mensaje de error
                     $result['error'] = 'No hay detalles para este producto';
                 }
                 break;
-
             case 'deleteDetail': // Acción para eliminar una fila por ID.
                 // Verificar y establecer el ID del género a eliminar.
                 if (!$producto->setIdDetalle($_POST['idProductoDetalle'])) {
@@ -209,7 +239,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el detalle'; // Mensaje de error si ocurre un problema.
                 }
                 break;
-
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
