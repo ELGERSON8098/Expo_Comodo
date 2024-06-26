@@ -237,7 +237,6 @@ SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
     }
 });
 
-
 /*
 *   Función asíncrona para llenar la tabla con los detalles disponibles.
 *   Parámetros: idProducto (identificador del producto).
@@ -245,18 +244,18 @@ SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
 */
 const openCreateDetail = async (idProducto) => {
     // Mostrar el formulario de detalles para agregar nuevos
-    SAVE_DETAIL_FORM.reset();
-    SAVE_DETAIL_FORM.classList.remove('d-none');
-    MODAL_DETAIL_TITLE.textContent = 'Agregar detalle de producto';
-    ID_PRODUCTO_DETALLE.value = idProducto;
-    SAVE_DETAIL_MODAL.show();
+    SAVE_DETAIL_FORM.reset(); // Restablece el formulario a su estado inicial
+    SAVE_DETAIL_FORM.classList.remove('d-none'); // Muestra el formulario si estaba oculto
+    MODAL_DETAIL_TITLE.textContent = 'Agregar detalle de producto'; // Cambia el título del modal
+    ID_PRODUCTO_DETALLE.value = idProducto; // Asigna el id del producto al campo correspondiente
+    SAVE_DETAIL_MODAL.show(); // Muestra el modal
 
     // Llenar los selects necesarios
-    fillSelect(TALLA_API, 'readAll', 'nombreTalla');
-    fillSelect(COLOR_API, 'readAll', 'nombreColor');
+    fillSelect(TALLA_API, 'readAll', 'nombreTalla'); // Llenar el select de tallas
+    fillSelect(COLOR_API, 'readAll', 'nombreColor'); // Llenar el select de colores
 
     // Obtener y mostrar los detalles existentes del producto
-    fillDetailsTable(idProducto);
+    fillDetailsTable(idProducto); // Llenar la tabla con los detalles del producto
 }
 
 // Función asíncrona para llenar la tabla con los detalles disponibles.
@@ -299,7 +298,6 @@ const fillDetailsTable = async (idProducto) => {
     }
 };
 
-
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un detalle.
 *   Parámetros: idDetalle (identificador del detalle seleccionado).
@@ -338,9 +336,7 @@ const openUpdateDetail = async (idDetalleProducto) => {
     }
 };
 
-
-
-    // Metodo para eliminar el detalle del producto en el modal
+// Metodo para eliminar el detalle del producto en el modal
 const openDeleteDetail = async (idDetalleProducto) => {
     const RESPONSE = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
     if (RESPONSE) {
