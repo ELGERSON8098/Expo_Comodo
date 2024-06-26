@@ -14,30 +14,48 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idAdministrador'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
+            // Caso para leer un detalle específico
             case 'readOneDetail':
-                // Validar y obtener los datos.
+                // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);
+
+                // Verificar si se puede establecer el ID del detalle del producto
                 if (!$producto->setIdDetalle($_POST['idDetalleProducto'])) {
+                    // Si hay un error al establecer el ID del detalle, se asigna el mensaje de error
                     $result['error'] = $producto->getDataError();
-                } elseif ($result['dataset'] = $producto->readOneDetail()) {
+                }
+                // Intentar leer el detalle específico
+                elseif ($result['dataset'] = $producto->readOneDetail()) {
+                    // Si se encuentra el detalle, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
                     $result['message'] = 'Detalle encontrado';
                 } else {
+                    // Si no se encuentra el detalle, se asigna el mensaje de error
                     $result['error'] = 'Detalle inexistente';
                 }
                 break;
-                case 'searchRows':
-                    if (!Validator::validateSearch($_POST['search'])) {
-                        $result['error'] = Validator::getSearchError();
-                    } elseif ($result['dataset'] = $producto->searchRows()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
-                    } else {
-                        $result['error'] = 'No hay coincidencias';
-                    }
-                    break;
+            // Caso para buscar filas
+            case 'searchRows':
+                // Validar el término de búsqueda
+                if (!Validator::validateSearch($_POST['search'])) {
+                    // Si la validación falla, se asigna el mensaje de error
+                    $result['error'] = Validator::getSearchError();
+                }
+                // Intentar buscar filas que coincidan con el término de búsqueda
+                elseif ($result['dataset'] = $producto->searchRows()) {
+                    // Si se encuentran coincidencias, se asigna el estado y el mensaje de éxito con el número de coincidencias
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
+                } else {
+                    // Si no se encuentran coincidencias, se asigna el mensaje de error
+                    $result['error'] = 'No hay coincidencias';
+                }
+                break;
+            // Caso para crear una nueva fila
             case 'createRow':
+                // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);
+                // Verificar si se pueden establecer todos los datos del producto
                 if (
                     !$producto->setNombre($_POST['nombreProducto']) or
                     !$producto->setCodigo_Interno($_POST['codigoInterno']) or
@@ -50,33 +68,50 @@ if (isset($_GET['action'])) {
                     !$producto->setDescuento($_POST['nombreDescuento']) or
                     !$producto->setImagen($_FILES['imagen'])
                 ) {
+                    // Si hay un error al establecer alguno de los datos, se asigna el mensaje de error
                     $result['error'] = $producto->getDataError();
-                } elseif ($producto->createRow()) {
+                }
+                // Intentar crear la nueva fila en la base de datos
+                elseif ($producto->createRow()) {
+                    // Si la creación es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
                     $result['message'] = 'Producto creado correctamente';
-                    // Se asigna el estado del archivo después de insertar.
+                    // Guardar el archivo de imagen
                     $result['fileStatus'] = Validator::saveFile($_FILES['imagen'], $producto::RUTA_IMAGEN);
                 } else {
+                    // Si hay un problema al crear el producto, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al crear el producto';
                 }
                 break;
+            // Caso para leer todos los registros
             case 'readAll':
+                // Intentar leer todos los registros de productos
                 if ($result['dataset'] = $producto->readAll()) {
+                    // Si la lectura es exitosa, se asigna el estado y el mensaje con la cantidad de registros encontrados
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
+                    // Si no se encuentran registros, se asigna el mensaje de error
                     $result['error'] = 'No existen productos registrados';
                 }
                 break;
+            // Caso para leer un registro específico
             case 'readOne':
+                // Verificar si se puede establecer el ID del producto
                 if (!$producto->setId($_POST['idProducto'])) {
+                    // Si hay un error al establecer el ID del producto, se asigna el mensaje de error
                     $result['error'] = $producto->getDataError();
-                } elseif ($result['dataset'] = $producto->readOne()) {
+                }
+                // Intentar leer el producto específico
+                elseif ($result['dataset'] = $producto->readOne()) {
+                    // Si la lectura es exitosa, se asigna el estado
                     $result['status'] = 1;
                 } else {
+                    // Si no se encuentra el producto, se asigna el mensaje de error
                     $result['error'] = 'Producto inexistente';
                 }
                 break;
+
             case 'updateRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -138,18 +173,19 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al actualizar el detalle';
                 }
                 break;
-                case 'deleteRow': // Acción para eliminar una fila por ID.
-                    // Verificar y establecer el ID del género a eliminar.
-                    if (
-                        !$producto->setId($_POST['idProducto'])) {
-                        $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
-                    } elseif ($producto->deleteRow()) { // Intentar eliminar la fila.
-                        $result['status'] = 1; // Indicar que la operación fue exitosa.
-                        $result['message'] = 'Producto eliminado correctamente'; // Mensaje de éxito.
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al eliminar el producto'; // Mensaje de error si ocurre un problema.
-                    }
-                    break;
+            case 'deleteRow': // Acción para eliminar una fila por ID.
+                // Verificar y establecer el ID del género a eliminar.
+                if (
+                    !$producto->setId($_POST['idProducto'])
+                ) {
+                    $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
+                } elseif ($producto->deleteRow()) { // Intentar eliminar la fila.
+                    $result['status'] = 1; // Indicar que la operación fue exitosa.
+                    $result['message'] = 'Producto eliminado correctamente'; // Mensaje de éxito.
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar el producto'; // Mensaje de error si ocurre un problema.
+                }
+                break;
 
             case 'readDetails':
                 if (!$producto->setId($_POST['idProducto'])) {
@@ -162,17 +198,17 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                case 'deleteDetail': // Acción para eliminar una fila por ID.
-                    // Verificar y establecer el ID del género a eliminar.
-                    if (!$producto->setIdDetalle($_POST['idProductoDetalle'])) {
-                        $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
-                    } elseif ($producto->deleteDetail()) { // Intentar eliminar la fila.
-                        $result['status'] = 1; // Indicar que la operación fue exitosa.
-                        $result['message'] = 'Detalle de producto eliminado correctamente'; // Mensaje de éxito.
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al eliminar el detalle'; // Mensaje de error si ocurre un problema.
-                    }
-                    break;
+            case 'deleteDetail': // Acción para eliminar una fila por ID.
+                // Verificar y establecer el ID del género a eliminar.
+                if (!$producto->setIdDetalle($_POST['idProductoDetalle'])) {
+                    $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
+                } elseif ($producto->deleteDetail()) { // Intentar eliminar la fila.
+                    $result['status'] = 1; // Indicar que la operación fue exitosa.
+                    $result['message'] = 'Detalle de producto eliminado correctamente'; // Mensaje de éxito.
+                } else {
+                    $result['error'] = 'Ocurrió un problema al eliminar el detalle'; // Mensaje de error si ocurre un problema.
+                }
+                break;
 
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
