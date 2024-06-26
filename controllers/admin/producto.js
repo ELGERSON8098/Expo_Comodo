@@ -264,8 +264,10 @@ const fillDetailsTable = async (idProducto) => {
     // Se inicializa el contenido de la tabla.
     DETAILS_TABLE_BODY.innerHTML = '';
 
+    // Se crea un FormData y se añade el id del producto.
     const FORM = new FormData();
     FORM.append('idProducto', idProducto);
+
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(PRODUCTO_API, 'readDetails', FORM);
 
@@ -292,9 +294,11 @@ const fillDetailsTable = async (idProducto) => {
             `;
         });
     } else {
+        // Muestra una alerta en caso de error.
         sweetAlert(4, DATA.error, true);
     }
-}
+};
+
 
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un detalle.
