@@ -18,7 +18,6 @@ if (isset($_GET['action'])) {
             case 'readOneDetail':
                 // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);
-
                 // Verificar si se puede establecer el ID del detalle del producto
                 if (!$producto->setIdDetalle($_POST['idDetalleProducto'])) {
                     // Si hay un error al establecer el ID del detalle, se asigna el mensaje de error
