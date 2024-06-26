@@ -1,31 +1,34 @@
 // Constantes para completar las rutas de la API.
-const MATERIAL_API = 'services/admin/materiales.php';
-const MARCA_API = 'services/admin/marca.php';
-const GENERO_API = 'services/admin/genero.php';
-const DESCUENTO_API = 'services/admin/descuento.php';
-const CATEGORIA_API = 'services/admin/categoria.php';
-const PRODUCTO_API = 'services/admin/producto.php';
-// Constante para establecer el formulario de buscar.
-const SEARCH_FORM = document.getElementById('searchForm');
-// Constantes para establecer el contenido de la tabla.
-const TABLE_BODY = document.getElementById('tableBody'),
-    ROWS_FOUND = document.getElementById('rowsFound');
-// Constantes para establecer los elementos del componente Modal.
-const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
-    MODAL_TITLE = document.getElementById('modalTitle');
-// Constantes para establecer los elementos del formulario de guardar.
-const SAVE_FORM = document.getElementById('saveForm'),
-    ID_PRODUCTO = document.getElementById('idProducto'),
-    ID_PRODUCTO_DETALLE = document.getElementById('idProductoDetalle'),
-    ID_DETALLE = document.getElementById('idDetalle'),
-    EXISTENCIAS = document.getElementById('existencias'),
-    DESCRIPCION = document.getElementById('descripcion'),
-    NOMBRE_PRODUCTO = document.getElementById('nombreProducto'),
-    CODIGO_INTERNO = document.getElementById('codigoInterno'),
-    REFERENCIA_PRO = document.getElementById('referenciaPro'),
-    PRECIO = document.getElementById('precioProducto');
-IMAGEN_PRODUCTO = document.getElementById('imagen');
+const MATERIAL_API = 'services/admin/materiales.php'; // Ruta para la API de materiales
+const MARCA_API = 'services/admin/marca.php'; // Ruta para la API de marcas
+const GENERO_API = 'services/admin/genero.php'; // Ruta para la API de géneros
+const DESCUENTO_API = 'services/admin/descuento.php'; // Ruta para la API de descuentos
+const CATEGORIA_API = 'services/admin/categoria.php'; // Ruta para la API de categorías
+const PRODUCTO_API = 'services/admin/producto.php'; // Ruta para la API de productos
 
+// Constante para establecer el formulario de búsqueda.
+const SEARCH_FORM = document.getElementById('searchForm'); // Formulario de búsqueda
+
+// Constantes para establecer el contenido de la tabla.
+const TABLE_BODY = document.getElementById('tableBody'), // Cuerpo de la tabla
+    ROWS_FOUND = document.getElementById('rowsFound'); // Contador de filas encontradas
+
+// Constantes para establecer los elementos del componente Modal.
+const SAVE_MODAL = new bootstrap.Modal('#saveModal'), // Modal de guardar
+    MODAL_TITLE = document.getElementById('modalTitle'); // Título del modal
+
+// Constantes para establecer los elementos del formulario de guardar.
+const SAVE_FORM = document.getElementById('saveForm'), // Formulario de guardar
+    ID_PRODUCTO = document.getElementById('idProducto'), // Campo de ID de producto
+    ID_PRODUCTO_DETALLE = document.getElementById('idProductoDetalle'), // Campo de ID de detalle de producto
+    ID_DETALLE = document.getElementById('idDetalle'), // Campo de ID de detalle
+    EXISTENCIAS = document.getElementById('existencias'), // Campo de existencias
+    DESCRIPCION = document.getElementById('descripcion'), // Campo de descripción
+    NOMBRE_PRODUCTO = document.getElementById('nombreProducto'), // Campo de nombre de producto
+    CODIGO_INTERNO = document.getElementById('codigoInterno'), // Campo de código interno
+    REFERENCIA_PRO = document.getElementById('referenciaPro'), // Campo de referencia del producto
+    PRECIO = document.getElementById('precioProducto'); // Campo de precio
+IMAGEN_PRODUCTO = document.getElementById('imagen'); // Campo de imagen del producto
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -117,9 +120,6 @@ const fillTable = async (form = null) => {
         sweetAlert(4, DATA.error, true);
     }
 }
-
-
-
 /*
 *   Función para preparar el formulario al momento de insertar un registro.
 *   Parámetros: ninguno.
@@ -137,13 +137,11 @@ const openCreate = () => {
     fillSelect(GENERO_API, 'readAll', 'nombre_genero');
     fillSelect(MATERIAL_API, 'readAll', 'nombreMaterial');
 }
-
 /*
 *   Función asíncrona para preparar el formulario al momento de actualizar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
 *   Retorno: ninguno.
 */
-
 const openUpdate = async (id) => {
     // Se define una constante tipo objeto con los datos del registro seleccionado.
     const FORM = new FormData();
@@ -174,7 +172,6 @@ const openUpdate = async (id) => {
     }
 
 }
-
 /*
 *   Función asíncrona para eliminar un registro.
 *   Parámetros: id (identificador del registro seleccionado).
@@ -201,8 +198,6 @@ const openDelete = async (id) => {
         }
     }
 }
-
-
 
 // Rutas de las APIs para colores y tallas
 const COLOR_API = 'services/admin/color.php';
@@ -310,28 +305,28 @@ const fillDetailsTable = async (idProducto) => {
 const openUpdateDetail = async (idDetalleProducto) => {
     // Cambia el título del modal
     MODAL_DETAIL_TITLE.textContent = 'Actualizar detalle de producto';
-    
+
     // Crea un FormData y añade el id del detalle del producto
     const formData = new FormData();
     formData.append('idDetalleProducto', idDetalleProducto); // Cambiado a idProducto
-    
+
     // Llama a la API para obtener los datos del detalle del producto
     const DATA = await fetchData(PRODUCTO_API, 'readOneDetail', formData);
-    
+
     // Si la solicitud fue exitosa
     if (DATA.status) {
         // Obtiene la fila de datos del dataset
         const ROW = DATA.dataset;
-        
+
         // Llena los campos del formulario con los datos obtenidos
         ID_DETALLE.value = ROW.id_detalle_producto;
         EXISTENCIAS.value = ROW.existencias;
         DESCRIPCION.value = ROW.descripcion;
-        
+
         // Llena los selects de talla y color con los datos obtenidos y selecciona el valor correspondiente
         fillSelect(TALLA_API, 'readAll', 'nombreTalla', parseInt(ROW.id_talla));
         fillSelect(COLOR_API, 'readAll', 'nombreColor', parseInt(ROW.id_color));
-        
+
         // Muestra el modal de guardar detalle
         SAVE_DETAIL_MODAL.show();
     } else {
@@ -345,13 +340,13 @@ const openDeleteDetail = async (idDetalleProducto) => {
     const RESPONSE = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
     if (RESPONSE) {
 
-    // Mostrar el formulario de detalles para agregar nuevos
-    SAVE_DETAIL_FORM.reset();
-    SAVE_DETAIL_FORM.classList.remove('d-none');
+        // Mostrar el formulario de detalles para agregar nuevos
+        SAVE_DETAIL_FORM.reset();
+        SAVE_DETAIL_FORM.classList.remove('d-none');
 
-    // Obtener y mostrar los detalles existentes del producto
-    fillDetailsTable(idProducto);
-    const formData = new FormData();
+        // Obtener y mostrar los detalles existentes del producto
+        fillDetailsTable(idProducto);
+        const formData = new FormData();
         formData.append('idProductoDetalle', idDetalleProducto);
         const data = await fetchData(PRODUCTO_API, 'deleteDetail', formData);
         if (data.status) {
