@@ -204,35 +204,39 @@ const openDelete = async (id) => {
 
 
 
+// Rutas de las APIs para colores y tallas
 const COLOR_API = 'services/admin/color.php';
 const TALLA_API = 'services/admin/talla.php';
-// Constantes para establecer el contenido de la tabla de detalles.
+
+// Constantes para establecer el contenido de la tabla de detalles y elementos del DOM
 const DETAILS_TABLE_BODY = document.getElementById('detailsTableBody'),
     ADD_DETAIL_BUTTON = document.getElementById('addDetailButton'),
     SAVE_DETAIL_FORM = document.getElementById('saveDetailForm'),
     SAVE_DETAIL_MODAL = new bootstrap.Modal('#saveDetailModal'),
     MODAL_DETAIL_TITLE = document.getElementById('modalDetailTitle');
 
-// Método del evento para cuando se envía el formulario de guardar detalles.
+// Método del evento para cuando se envía el formulario de guardar detalles
 SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
+    // Se evita recargar la página web después de enviar el formulario
     event.preventDefault();
 
-    // Se verifica la acción a realizar.
+    // Se verifica la acción a realizar (actualizar o crear un detalle)
     const action = SAVE_DETAIL_FORM.idDetalle.value ? 'updateDetail' : 'createDetail';
 
-    // Constante tipo objeto con los datos del formulario.
+    // Constante tipo objeto con los datos del formulario
     const FORM = new FormData(SAVE_DETAIL_FORM);
 
-    // Petición para guardar los datos del formulario.
+    // Petición para guardar los datos del formulario
     const DATA = await fetchData(PRODUCTO_API, action, FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción
     if (DATA.status) {
-        // Se cierra la caja de diálogo.
+        // Se cierra la caja de diálogo
         SAVE_DETAIL_MODAL.hide();
-        // Se muestra un mensaje de éxito.
+        // Se muestra un mensaje de éxito
         sweetAlert(1, DATA.message, true);
     } else {
+        // Se muestra un mensaje de error
         sweetAlert(2, DATA.error, false);
     }
 });
