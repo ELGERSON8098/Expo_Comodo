@@ -302,22 +302,38 @@ const fillDetailsTable = async (idProducto) => {
 *   Retorno: ninguno.
 */
 const openUpdateDetail = async (idDetalleProducto) => {
+    // Cambia el título del modal
     MODAL_DETAIL_TITLE.textContent = 'Actualizar detalle de producto';
+    
+    // Crea un FormData y añade el id del detalle del producto
     const formData = new FormData();
     formData.append('idDetalleProducto', idDetalleProducto); // Cambiado a idProducto
+    
+    // Llama a la API para obtener los datos del detalle del producto
     const DATA = await fetchData(PRODUCTO_API, 'readOneDetail', formData);
+    
+    // Si la solicitud fue exitosa
     if (DATA.status) {
+        // Obtiene la fila de datos del dataset
         const ROW = DATA.dataset;
+        
+        // Llena los campos del formulario con los datos obtenidos
         ID_DETALLE.value = ROW.id_detalle_producto;
         EXISTENCIAS.value = ROW.existencias;
         DESCRIPCION.value = ROW.descripcion;
+        
+        // Llena los selects de talla y color con los datos obtenidos y selecciona el valor correspondiente
         fillSelect(TALLA_API, 'readAll', 'nombreTalla', parseInt(ROW.id_talla));
         fillSelect(COLOR_API, 'readAll', 'nombreColor', parseInt(ROW.id_color));
+        
+        // Muestra el modal de guardar detalle
         SAVE_DETAIL_MODAL.show();
     } else {
+        // Muestra una alerta en caso de error
         sweetAlert(2, DATA.error, false);
     }
 };
+
 
 
     // Metodo para eliminar el detalle del producto en el modal
