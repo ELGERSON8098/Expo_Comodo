@@ -83,16 +83,18 @@ class AdministradorHandler
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
     public function searchRows()
-    {
-        $value = '%' . Validator::getSearchValue() . '%';
-        $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, usuario_administrador
-                FROM tb_admins
-                WHERE nombre_administrador LIKE ?
-                ORDER BY nombre_administrador';
-        $params = array($value, $value);
-        return Database::getRows($sql, $params);
-    }
+{
+    $value = '%' . Validator::getSearchValue() . '%';
+    $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
+            FROM tb_admins a
+            INNER JOIN tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
+            WHERE a.nombre_administrador LIKE ?
+            ORDER BY a.nombre_administrador';
+    $params = array($value);
+    return Database::getRows($sql, $params);
+}
 
+    
     public function createRow()
     {
         // Insertar el administrador con el nivel de usuario correspondiente

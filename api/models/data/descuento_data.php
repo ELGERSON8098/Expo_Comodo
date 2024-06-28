@@ -43,21 +43,13 @@ class descuentoData extends descuentoHandler
 
     public function setvalor($value, $min = 1, $max = 200)
     {
-        // Validar que el valor contenga solo números
-        if (!is_numeric($value)) {
-            $this->data_error = 'El valor debe contener solo números';
+        if (Validator::validateMoney($value)) {
+            $this->valor = $value;
+            return true;
+        } else {
+            $this->data_error = 'El valor debe ser un número positivo';
             return false;
         }
-    
-        // Validar la longitud del valor
-        if (!Validator::validateLength($value, $min, $max)) {
-            $this->data_error = 'El valor debe tener una longitud entre '  . $min . ' y ' . $max;
-            return false;
-        }
-    
-        // Asignar el valor validado al atributo de la clase
-        $this->valor = $value;
-        return true;
     }
     
 

@@ -53,7 +53,7 @@
             <br>
             <!-- Botón para añadir nuevo registro -->
             <div class="col-12 col-sm-auto ms-auto">
-                <button type="button" class="btn btn-primary rounded me-2 mb-2 mb-sm-0" onclick="openCreate()">
+                <button type="button" class="btn btn-primary  me-2 mb-2 mb-sm-0" onclick="openCreate()">
                     <i class="bi bi-plus-square-fill"></i>
                 </button>
             </div>
@@ -111,7 +111,7 @@
                     <form id="saveForm">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                            <input type="hidden" id="idMarca" name="idMarca">
+                            <input type="number" class="d-none" id="idMarca" name="idMarca">
                             <!-- Campo para ingresar nombre de la marca -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreMarca" class="form-label">Nombre de la marca</label>

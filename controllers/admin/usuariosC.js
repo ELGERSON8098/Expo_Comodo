@@ -92,8 +92,8 @@ const fillTable = async (form = null) => {
                         <td>${row.telefono}</td>
                         <td>${row.dui_cliente}</td>
                         <td>
-                            <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openView(${row.id_usuario})">
-                                <i class="bi bi-pencil-fill"></i>
+                            <button type="button" class="btn btn-info  me-2 mb-2 mb-sm-2" onclick="openView(${row.id_usuario})">
+                                <i class="bi bi-eye-fill"></i>
                             </button>
                         </td>
                     </tr>
@@ -182,7 +182,7 @@ const openView = async (id) => {
             SAVE_MODAL.show(); // Mostrar el modal
 
             // Establecer título del modal
-            MODAL_TITLE.textContent = 'Editar Cliente';
+            MODAL_TITLE.textContent = 'Información del Cliente';
 
             // Resetear el formulario
             SAVE_FORM.reset();

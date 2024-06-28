@@ -82,10 +82,10 @@ const fillTable = async (form = null) => {
                     <td>${row.marca}</td>
                     <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
                     <td>
-                        <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_marca})">
+                        <button type="button" class="btn btn-info  me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_marca})">
                             <i class="bi bi-pencil-fill"></i>
                         </button>
-                        <button type="button" class="btn btn-danger rounded me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_marca})">
+                        <button type="button" class="btn btn-danger  me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_marca})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
                     </td>

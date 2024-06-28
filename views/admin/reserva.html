@@ -40,10 +40,10 @@
                     <input type="search" class="form-control" id="inputsearch" name="search" placeholder="Buscar" required>
                 </div>
                 <div class="col-6">
-                    <button type="submit" class="btn btn-success rounded me-2 mb-2 mb-sm-2">
+                    <button type="submit" class="btn btn-success  me-2 mb-2 mb-sm-2">
                         <i class="bi bi-search"></i>
                     </button>
-                    <button type="reset" class="btn btn-secondary rounded me-2 mb-2 mb-sm-2" onclick="fillTable()">
+                    <button type="reset" class="btn btn-secondary  me-2 mb-2 mb-sm-2" onclick="fillTable()">
                         <i class="bi bi-x-square-fill"></i>
                     </button>
                 </div>
@@ -88,7 +88,7 @@
                     <form id="saveForm">
                         <div class="modal-body row g-4">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                            <input type="hidden" id="idPedido" name="idPedido">
+                            <input type="number" class="d-none" id="idPedido" name="idPedido">
 
                             
                             <!-- Pie del modal sin botones de acción -->
@@ -143,7 +143,7 @@
                     <form id="savetreForm">
                         <div class="modal-body row g-3 ">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                            <input type="hidden" id="idDetalleReserva" name="idDetalleReserva">
+                            <input type="number" class="d-none" id="idDetalleReserva" name="idDetalleReserva">
                             <div class="col-sm-12 col-md-6">
                                 <label for="color" class="precioUnitario">Color</label>
                                 <input id="color" type="text" name="color" min="1" step="1"

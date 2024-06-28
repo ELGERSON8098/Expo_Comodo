@@ -30,8 +30,19 @@ class GeneroData extends GeneroHandler
 
     public function setNombre($value, $min = 2, $max = 50)
     {
-        if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfanumérico';
+
+        // Verificar si la talla ya existe en la base de datos
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_generos_zapatos WHERE nombre_genero = ?';
+        $checkParams = array($value);
+        $checkResult = Database::getRow($checkSql, $checkParams);
+    
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'El género  ya existe';
+            return false;
+        }
+
+        if (!Validator::validateAlphabetic($value)) {
+            $this->data_error = 'El nombre debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre = $value;
