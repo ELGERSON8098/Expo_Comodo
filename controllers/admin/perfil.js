@@ -7,6 +7,7 @@ const PROFILE_FORM = document.getElementById('profileForm'),
 const PASSWORD_MODAL = new bootstrap.Modal('#passwordModal');
 // Constante para establecer el formulario de cambiar contraseña.
 const PASSWORD_FORM = document.getElementById('passwordForm');
+document.querySelector('title').textContent = 'Perfil';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', async () => {

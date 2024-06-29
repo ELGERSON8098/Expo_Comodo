@@ -14,6 +14,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     DEPARTAMENTO = document.getElementById('Departamento'),
     MUNICIPIO = document.getElementById('Municipio'),
     DISTRITO = document.getElementById('Distrito')
+    document.querySelector('title').textContent = 'Direcciones';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {

@@ -17,6 +17,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
     CONTRASEÑA_ADMINISTRADOR = document.getElementById('ContraAd'),
     CONTRASEÑA_CONFIRMAR_ADMINISTRADOR = document.getElementById('confirmarClaveA'),
     NIVEL_ADMINISTRADOR = document.getElementById('NivAd');
+    document.querySelector('title').textContent = 'Administrador';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {

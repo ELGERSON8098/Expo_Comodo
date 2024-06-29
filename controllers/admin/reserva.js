@@ -39,6 +39,7 @@ const SAVE_TREFORM = document.getElementById('savetreForm'),
     CANTIDAD = document.getElementById('cantidad');
     let ESTADO_BUSQUEDA = "Pendiente",
     TIMEOUT_ID;
+    document.querySelector('title').textContent = 'Reservas';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {

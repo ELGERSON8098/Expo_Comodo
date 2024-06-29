@@ -29,6 +29,7 @@ const SAVE_FORM = document.getElementById('saveForm'), // Formulario de guardar
     REFERENCIA_PRO = document.getElementById('referenciaPro'), // Campo de referencia del producto
     PRECIO = document.getElementById('precioProducto'); // Campo de precio
 IMAGEN_PRODUCTO = document.getElementById('imagen'); // Campo de imagen del producto
+document.querySelector('title').textContent = 'Productos';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
