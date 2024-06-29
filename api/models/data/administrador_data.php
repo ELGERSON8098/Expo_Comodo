@@ -50,9 +50,9 @@ class AdministradorData extends AdministradorHandler
             return false;
         }
     }
+    
 
-    public function setCorreo($value, $min = 8, $max = 100)
-    {
+    public function setCorreo($value, $min = 8, $max = 100) {
         if (!Validator::validateEmail($value)) {
             $this->data_error = 'El correo no es válido';
             return false;
@@ -65,8 +65,62 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
-    public function setAlias($value, $min = 6, $max = 25)
-    {
+    public function setAlias($value, $min = 6, $max = 25) {
+        if (!Validator::validateAlphanumeric($value)) {
+            $this->data_error = 'El alias debe ser un valor alfanumérico';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->alias = $value;
+            return true;
+        } else {
+            $this->data_error = 'El alias debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
+    }
+
+    public function setCorreos($value, $min = 8, $max = 100) {
+         // Verificar si el nombre ya existe en la base de datos, excluyendo el registro actual
+         if ($this->id) {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE correo_administrador = ? AND id_administrador != ?';
+            $checkParams = array($value, $this->id);
+        } else {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE correo_administrador = ?';
+            $checkParams = array($value);
+        }
+    
+        $checkResult = Database::getRow($checkSql, $checkParams);
+    
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'El correo ya existe';
+            return false;
+        }
+        if (!Validator::validateEmail($value)) {
+            $this->data_error = 'El correo no es válido';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->correo = $value;
+            return true;
+        } else {
+            $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
+    }
+
+    public function setAlia($value, $min = 6, $max = 25) {
+         // Verificar si el nombre ya existe en la base de datos, excluyendo el registro actual
+         if ($this->id) {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE usuario_administrador = ? AND id_administrador != ?';
+            $checkParams = array($value, $this->id);
+        } else {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE usuario_administrador = ?';
+            $checkParams = array($value);
+        }
+    
+        $checkResult = Database::getRow($checkSql, $checkParams);
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'El usuario ya existe';
+            return false;
+        }
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El alias debe ser un valor alfanumérico';
             return false;
