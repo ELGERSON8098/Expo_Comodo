@@ -17,7 +17,7 @@ if (isset($_GET['action'])) {
             case 'searchRows':
                 if (!Validator::validateSearch($_POST['search'])) {
                     $result['error'] = Validator::getSearchError();
-                } elseif ($reserva['dataset'] = $reserva->searchRows()) {
+                } elseif ($result['dataset'] = $reserva->searchRows()) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
@@ -84,6 +84,15 @@ if (isset($_GET['action'])) {
                             $result['error'] = 'Reserva inexistentes';
                         }
                         break;
+                        case 'readEstado':
+                            if (!$reserva->setEstado($_POST['estado'])) {
+                                $result['error'] = $reserva->getDataError();
+                            } elseif ($result['dataset'] = $reserva->readEstado()) {
+                                $result['status'] = 1;
+                            } else {
+                                $result['error'] = 'Inaxistentes';
+                            }
+                            break;
                         case 'readDetalles2':
                             if (!$reserva->setId($_POST['idDetalleReserva'])) {
                                 $result['error'] = $reserva->getDataError();
@@ -93,42 +102,19 @@ if (isset($_GET['action'])) {
                                 $result['error'] = 'Reserva inexistentes';
                             }
                             break;
-            case 'updateRow':
+            case 'UpdateORW':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$categoria->setId($_POST['idReserva']) or
-                    !$categoria->setFilename() or
-                    !$categoria->setNombre($_POST['nombreCategoria']) or
-                    !$categoria->setDescripcion($_POST['descripcionCategoria']) or
-                    !$categoria->setImagen($_FILES['imagenCategoria'], $categoria->getFilename())
+                    !$reserva->setEstado($_POST['estado'])
                 ) {
-                    $result['error'] = $categoria->getDataError();
-                } elseif ($categoria->updateRow()) {
+                    $result['error'] = $reserva->getDataError();
+                } elseif ($reserva->UpdateORW()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Categoría modificada correctamente';
-                    // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['imagenCategoria'], $categoria::RUTA_IMAGEN, $categoria->getFilename());
+                    $result['message'] = 'Estado de la reserva modificada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la categoría';
+                    $result['error'] = 'Ocurrió un problema al modificar la reserva';
                 }
                 break;
-            case 'deleteRow':
-                if (
-                    !$categoria->setId($_POST['idCategoria']) or
-                    !$categoria->setFilename()
-                ) {
-                    $result['error'] = $categoria->getDataError();
-                } elseif ($categoria->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Categoría eliminada correctamente';
-                    // Se asigna el estado del archivo después de eliminar.
-                    $result['fileStatus'] = Validator::deleteFile($categoria::RUTA_IMAGEN, $categoria->getFilename());
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la categoría';
-                }
-                break;
-            default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();

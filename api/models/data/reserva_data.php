@@ -24,16 +24,21 @@ class reservaData extends reservaHandler
         }
     }
 
-    public function setIdDetalle($value)
+    public function setEstado($value, $min = 2, $max = 50)
     {
-        if (Validator::validateNaturalNumber($value)) {
-            $this->id_reserva = $value;
+        if (!Validator::validateAlphabetic($value)) {
+            $this->data_error = 'El nombre debe ser un valor alfabético';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->estado_reserva = $value;
             return true;
         } else {
-            $this->data_error = 'El identificador de la reserva es incorrecto';
+            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
+
+    
 
     public function setNombre($value, $min = 2, $max = 50)
     {

@@ -12,6 +12,13 @@ body {
 
 }
 
+#map {
+    height: 300px;
+    /* Altura inicial del mapa */
+    width: 100%;
+    /* Ancho completo del contenedor */
+}
+
 .navbar-brand .logo {
     /* Agrega los estilos deseados para la clase "logo" aquí */
     max-height: 50px;
@@ -189,3 +196,4 @@ footer a:hover {
     font-size: 1.2em;
     color: #6c757d;
 }
+

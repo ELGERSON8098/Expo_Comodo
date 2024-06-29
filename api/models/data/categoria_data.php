@@ -28,6 +28,8 @@ class CategoriaData extends CategoriaHandler
         }
     }
 
+    
+
     public function setNombre($value, $min = 2, $max = 50)
     {
 

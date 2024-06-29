@@ -1,9 +1,11 @@
 // Constantes para completar las rutas de la API.
 const PEDIDO_API = 'services/admin/reserva.php',
-    DETALLEPEDIDO_API = 'services/admin/12detallepedidos.php';
-// Constante para establecer el formulario de buscar.
+    DETALLEPEDIDO_API = 'services/admin/detallepedidos.php';
+
+// Constantes para establecer los elementos del formulario de buscar.
 const SEARCH_FORM = document.getElementById('searchForm'),
     SEARCHSUB_FORM = document.getElementById('searchsubForm');
+
 // Constantes para establecer el contenido de la tabla.
 const SUBTABLE_HEAD = document.getElementById('subheaderT'),
     SUBTABLE = document.getElementById('subtable'),
@@ -11,35 +13,111 @@ const SUBTABLE_HEAD = document.getElementById('subheaderT'),
     TABLE_BODY = document.getElementById('tableBody'),
     ROWS_FOUND = document.getElementById('rowsFound'),
     SUBROWS_FOUND = document.getElementById('subrowsFound');
+
 // Constantes para establecer los elementos del componente Modal.
 const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
     MODAL_TITLE = document.getElementById('modalTitle'),
+    ESTADO_DEL_PEDIDO = document.getElementById('estado'),
     SUBMODAL_TITLE = document.getElementById('submodalTitle');
+
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_FORM = document.getElementById('saveForm'),
     INPUTSEARCH = document.getElementById('inputsearch'),
     ESTADO_PEDIDO = document.getElementById('estadoPedido');
 
-    const SAVE_MODALSS = new bootstrap.Modal('#saveModalSS'),
+const SAVE_MODALSS = new bootstrap.Modal('#saveModalSS'),
     MODAL_TITLESS = document.getElementById('modalTitleSS');
 
-    const SAVE_FORMSS = document.getElementById('saveFormSS'),
-    ID_ESTADOSA = document.getElementById('idEstadosa'),
-    ESTADO_DEL_PEDIDO = document.getElementById('estadopedidosa');
+const SAVE_FORMSS = document.getElementById('saveFormSS'),
+    ID_ESTADOSA = document.getElementById('idEstadosa');
 
 // Constantes para establecer los elementos del componente Modal.
 const SAVE_TREMODAL = new bootstrap.Modal('#savetreModal'),
     TREMODAL_TITLE = document.getElementById('tremodalTitle');
+
 // Constantes para establecer los elementos del formulario de guardar.
 const SAVE_TREFORM = document.getElementById('savetreForm'),
+    USUARIO_RESERVA = document.getElementById('user'),
+    DUI_RESERVA = document.getElementById('dui'),
+    TELEFONO_RESERVA = document.getElementById('telefono'),
+    PRODUCTO_RESERVA = document.getElementById('producto'),
+    INTERNO = document.getElementById('interno'),
+    PROVEEDOR_RESERVA = document.getElementById('proveedor'),
+    MARCA_RESERVA = document.getElementById('Marca'),
+    GENERO_RESERVA = document.getElementById('Genero'),
+    DESCUENTO_RESERVA = document.getElementById('precio_descuento'),
+    DIRECCION_RESERVA = document.getElementById('DirecC'),
     COLOR = document.getElementById('color'),
     TALLA = document.getElementById('talla'),
     PRECIO_UNI = document.getElementById('precio_unitario'),
-    ID_DETALLE = document.getElementById('idDetalleReserva');
+    PRECIO_DESCUENTOS = document.getElementById('descuento'),
+    ID_DETALLE = document.getElementById('idDetalleReserva'),
     CANTIDAD = document.getElementById('cantidad');
-    let ESTADO_BUSQUEDA = "Pendiente",
+
+let ESTADO_BUSQUEDA = "Pendiente",
     TIMEOUT_ID;
-    document.querySelector('title').textContent = 'Reservas';
+
+document.querySelector('title').textContent = 'Reservas';
+
+// Variable global para mantener la referencia del mapa y marcador
+let map;
+let marker;
+
+// Evento para inicializar el mapa cuando se muestra el modal
+document.getElementById('savetreModal').addEventListener('shown.bs.modal', function () {
+    if (map) {
+        map.invalidateSize(); // Redimensionar el mapa si ya está inicializado
+    } else {
+        initializeMap();
+    }
+});
+
+// Evento para limpiar el marcador cuando se oculta el modal
+document.getElementById('savetreModal').addEventListener('hidden.bs.modal', function () {
+    if (marker) {
+        map.removeLayer(marker); // Remover el marcador del mapa
+        marker = null; // Resetear el marcador
+    }
+});
+
+// Función para inicializar el mapa
+function initializeMap() {
+    map = L.map('map').setView([13.6929, -89.2182], 13); // Coordenadas de San Salvador
+
+    // Añadir la capa del mapa
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+}
+
+// Función para actualizar la ubicación en el mapa con la dirección proporcionada
+function updateMap(address) {
+    if (!map) {
+        // Inicializar el mapa si no existe
+        initializeMap();
+    }
+
+    // Utilizar Nominatim para geocodificar la dirección
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                // Si el marcador ya existe, actualizar su ubicación
+                if (marker) {
+                    marker.setLatLng([lat, lon]);
+                } else {
+                    marker = L.marker([lat, lon]).addTo(map);
+                }
+                map.setView([lat, lon], 15); // Centrar el mapa en la ubicación encontrada
+            } else {
+                sweetAlert(2, 'No se pudo encontrar la ubicación', false);
+            }
+        })
+        .catch(error => {
+            sweetAlert(2, 'Error al buscar la ubicación', false);
+        });
+}
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -69,7 +147,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
     // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_FORM);
     // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(PEDIDO_API, 'updateRow', FORM);
+    const DATA = await fetchData(PEDIDO_API, 'UpdateORW', FORM);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
         // Se cierra la caja de diálogo.
@@ -136,40 +214,46 @@ const openCreate = () => {
 
 //Función asíncrona para preparar el formulario al momento de actualizar un registro.
 const openUpdate = async (id) => {
-    // Se define un objeto con los datos del registro seleccionado.
-        // Se muestra la caja de diálogo con su título.
+    try {
+        console.log('Abriendo la actualización para el ID:', id);
+
+        // Mostrar modal y configurar título
         SAVE_MODAL.show();
         SUBTABLE.hidden = false;
         MODAL_TITLE.textContent = 'Información del pedido';
-        // Se prepara el formulario.
-        SAVE_FORM.reset();
-        fillSubTable(id);
         
-    } 
-
-
-//Función asíncrona para eliminar un registro.
-const openDelete = async (id) => {
-    // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea inactivar el PEDIDO de forma permanente?');
-    // Se verifica la respuesta del mensaje.
-    if (RESPONSE) {
-        // Se define una constante tipo objeto con los datos del registro seleccionado.
+        // Reiniciar formulario
+        SAVE_FORM.reset();
+        
+        // Llenar los detalles del pedido de manera asincrónica
+        await fillSubTable(id);
+        
+        // Petición para obtener el estado actual del pedido
         const FORM = new FormData();
-        FORM.append('idModelo', id);
-        // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(PEDIDO_API, 'deleteRow', FORM);
-        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-        if (DATA.status) {
-            // Se muestra un mensaje de éxito.
-            await sweetAlert(1, DATA.message, true);
-            // Se carga nuevamente la tabla para visualizar los cambios.
-            fillTable(ESTADO_BUSQUEDA);
+        FORM.append('idReserva', id); // Asegúrate de ajustar el nombre del campo según tu PHP
+        const DATA = await fetchData(PEDIDO_API, 'readEstado', FORM);
+        
+        // Verificar si se obtuvo el estado correctamente
+        if (DATA.status && DATA.dataset.estado_reserva) {
+            const estadoReserva = DATA.dataset.estado_reserva;
+            console.log('Estado actual del pedido:', estadoReserva);
+
+            // Iterar sobre las opciones del selector de estado
+            for (let i = 0; i < ESTADO_DEL_PEDIDO.options.length; i++) {
+                if (ESTADO_DEL_PEDIDO.options[i].value === estadoReserva) {
+                    ESTADO_DEL_PEDIDO.selectedIndex = i;
+                    console.log('Estado seleccionado:', ESTADO_DEL_PEDIDO.options[i].value);
+                    break;
+                }
+            }
         } else {
-            sweetAlert(2, DATA.error, false);
+            console.error('No se pudo obtener el estado del pedido desde DATA:', DATA);
         }
+    } catch (error) {
+        console.error('Error al abrir la actualización:', error);
     }
 }
+
 //Función asíncrona para llenar la tabla con los registros disponibles.
 const fillSubTable = async (id) => {
     SUBROWS_FOUND.textContent = '';
@@ -220,32 +304,51 @@ const opensubCreate = () => {
 
 //Función asíncrona para preparar el formulario al momento de actualizar un registro.
 const opensubUpdate = async (id) => {
-    // Se define un objeto con los datos del registro seleccionado.
-    SAVE_MODAL.hide();
-    const FORM = new FormData();
-    FORM.append('idDetalleReserva', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(PEDIDO_API, 'readDetalles2', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se muestra la caja de diálogo con su título.
-        SAVE_TREMODAL.show();
-        TREMODAL_TITLE.textContent = 'Detalle';
-        // Se prepara el formulario.
-        SAVE_TREFORM.reset();
-        // Se inicializan los campos con los datos.
-        const ROW = DATA.dataset;
+    try {
+        // Se define un objeto con los datos del registro seleccionado.
+        SAVE_MODAL.hide();
+        const FORM = new FormData();
+        FORM.append('idDetalleReserva', id);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(PEDIDO_API, 'readDetalles2', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra la caja de diálogo con su título.
+            SAVE_TREMODAL.show();
+            TREMODAL_TITLE.textContent = 'Detalle';
+            // Se prepara el formulario.
+            SAVE_TREFORM.reset();
+            // Se inicializan los campos con los datos.
+            const ROW = DATA.dataset;
 
-        ID_DETALLE.value = ROW.id_detalle_reserva;
-        COLOR.value = ROW.precio_unitario;
-        CANTIDAD.value = ROW.cantidad;
-        TALLA.value = ROW.nombre_talla;
-        PRECIO_UNI.value = ROW.precio_unitario;
+            ID_DETALLE.value = ROW.id_detalle_reserva;
+            COLOR.value = ROW.color;
+            CANTIDAD.value = ROW.cantidad;
+            TALLA.value = ROW.nombre_talla;
+            PRECIO_UNI.value = ROW.precio_unitario;
+            USUARIO_RESERVA.value = ROW.nombre_usuario;
+            DUI_RESERVA.value = ROW.dui_usuario;
+            TELEFONO_RESERVA.value = ROW.telefono_usuario;
+            PRODUCTO_RESERVA.value = ROW.nombre_producto;
+            INTERNO.value = ROW.codigo_interno;
+            PROVEEDOR_RESERVA.value = ROW.referencia_proveedor;
+            MARCA_RESERVA.value = ROW.nombre_marca;
+            GENERO_RESERVA.value = ROW.nombre_genero;
+            PRECIO_DESCUENTOS.value = ROW.valor_descuento;
+            DESCUENTO_RESERVA.value = ROW.precio_con_descuento;
+            DIRECCION_RESERVA.value = ROW.direccion_usuario;
 
-    } else {
-        sweetAlert(2, DATA.error, false);
+            // Actualizar el mapa con la dirección del usuario
+            updateMap(ROW.direccion_usuario);
+
+        } else {
+            sweetAlert(2, DATA.error, false);
+        }
+    } catch (error) {
+        console.error('Error al abrir la actualización:', error);
     }
 }
+
 //Función asíncrona para eliminar un registro.
 const opensubDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
@@ -268,7 +371,6 @@ const opensubDelete = async (id) => {
         }
     }
 }
-
 
 /*
 *   Función para abrir un reporte automático de PEDIDOs por categoría.
