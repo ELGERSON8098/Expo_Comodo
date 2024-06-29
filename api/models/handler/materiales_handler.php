@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 class materialHandler
 {
     protected $id = null;
@@ -31,9 +31,12 @@ class materialHandler
     public function readAll()
     {
         $sql = 'SELECT id_material, nombre
-                FROM tb_materiales';
+            FROM tb_materiales
+            ORDER BY nombre ASC;
+    ';
         return Database::getRows($sql);
     }
+
 
     // Método para leer una fila específica por id
     public function readOne()

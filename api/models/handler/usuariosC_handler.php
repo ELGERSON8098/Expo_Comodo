@@ -36,7 +36,8 @@ class UsuariosHandler
     public function readAll()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo, telefono, dui_cliente
-                FROM tb_usuarios';
+                FROM tb_usuarios
+                ORDER BY nombre ASC;';
         return Database::getRows($sql);
     }
 

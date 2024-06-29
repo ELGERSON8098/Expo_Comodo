@@ -104,7 +104,7 @@ class ClienteHandler
     {
         $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, estado_cliente
                 FROM cliente
-                ORDER BY apellido_cliente';
+                ORDER BY nombre_cliente ASC';
         return Database::getRows($sql);
     }
 

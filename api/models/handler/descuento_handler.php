@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -17,9 +17,9 @@ class descuentoHandler
     /*
      *  Métodos para gestionar la cuenta del administrador.
      */
- 
-     public function searchRows()
-     {
+
+    public function searchRows()
+    {
         $value = '%' . Validator::getSearchValue() . '%';
         $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
                 FROM tb_descuentos
@@ -27,27 +27,26 @@ class descuentoHandler
                 ORDER BY nombre_descuento';
         $params = array($value);
         return Database::getRows($sql, $params);
-     }
-     
-     public function createRow()
-     {
-         $sql = 'INSERT INTO tb_descuentos(nombre_descuento, descripcion, valor)
+    }
+
+    public function createRow()
+    {
+        $sql = 'INSERT INTO tb_descuentos(nombre_descuento, descripcion, valor)
                  VALUES(?, ?, ?)';
-         $params = array($this->nombre, $this->descripcion, $this->valor);
-         return Database::executeRow($sql, $params);
-     }
-     
-    
-    
-    
-    
-//Llamar los datos de la base de datos 
+        $params = array($this->nombre, $this->descripcion, $this->valor);
+        return Database::executeRow($sql, $params);
+    }
+
+    //Llamar los datos de la base de datos 
     public function readAll()
     {
-        $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
-                FROM tb_descuentos';
+        $sql = 'SELECT id_descuento, descripcion, nombre_descuento, valor
+            FROM tb_descuentos
+            ORDER BY nombre_descuento ASC;
+    ';
         return Database::getRows($sql);
     }
+
 
     public function readOne()
     {
@@ -66,7 +65,7 @@ class descuentoHandler
         $params = array($this->nombre, $this->descripcion, $this->valor, $this->id);
         return Database::executeRow($sql, $params);
     }
-    
+
 
     public function deleteRow()
     {

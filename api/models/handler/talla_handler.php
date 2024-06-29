@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -33,14 +33,16 @@ class tallaHandler
         $params = array($this->nombre);
         return Database::executeRow($sql, $params);
     }
-    
-//Llamar los datos de la base de datos 
+
+    //Llamar los datos de la base de datos 
     public function readAll()
     {
         $sql = 'SELECT id_talla, nombre_talla
-                FROM tb_tallas';
+            FROM tb_tallas
+            ORDER BY id_talla ASC';
         return Database::getRows($sql);
     }
+
 
     public function readOne()
     {
@@ -59,7 +61,7 @@ class tallaHandler
         $params = array($this->nombre, $this->id);
         return Database::executeRow($sql, $params);
     }
-    
+
 
     public function deleteRow()
     {
@@ -68,5 +70,5 @@ class tallaHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-    
+
 }

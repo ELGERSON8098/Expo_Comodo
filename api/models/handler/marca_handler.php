@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -25,7 +25,7 @@ class marcaHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-    
+
     public function createRow()
     {
         $sql = 'INSERT INTO tb_marcas(marca)
@@ -33,12 +33,13 @@ class marcaHandler
         $params = array($this->nombre);
         return Database::executeRow($sql, $params);
     }
-    
-//Llamar los datos de la base de datos 
+
+    //Llamar los datos de la base de datos 
     public function readAll()
     {
         $sql = 'SELECT id_marca, marca
-                FROM tb_marcas';
+            FROM tb_marcas
+            ORDER BY marca ASC';
         return Database::getRows($sql);
     }
 
@@ -59,7 +60,7 @@ class marcaHandler
         $params = array($this->nombre, $this->id);
         return Database::executeRow($sql, $params);
     }
-    
+
 
     public function deleteRow()
     {
@@ -68,5 +69,5 @@ class marcaHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-    
+
 }
