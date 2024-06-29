@@ -56,22 +56,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Descuento inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$descuento->setid($_POST['idDescuento']) or
-                    !$descuento->setNombre($_POST['nombreDescuento']) or
-                    !$descuento->setDesc($_POST['nombreDesc']) or
-                    !$descuento->setvalor($_POST['ValorM'])
-                ) {
-                    $result['error'] = $descuento->getDataError();
-                } elseif ($descuento->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Descuento modificado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el descuento';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$descuento->setid($_POST['idDescuento']) or
+                        !$descuento->setNombre($_POST['nombreDescuento']) or
+                        !$descuento->setDesc($_POST['nombreDesc']) or
+                        !$descuento->setvalor($_POST['ValorM'])
+                    ) {
+                        $result['error'] = $descuento->getDataError();
+                    } elseif ($descuento->updateRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Descuento modificado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar el descuento';
+                    }
+                    break;                
             case 'deleteRow':
                 if (
                     !$descuento->setid($_POST['idDescuento'])
