@@ -1,98 +1,20 @@
 USE expo_comodos;
 
-INSERT INTO tb_usuarios (id_usuario, nombre, usuario, correo, clave, telefono, dui_cliente)
+INSERT INTO tb_usuarios (id_usuario, nombre, usuario, correo, clave, direccion_cliente, telefono, dui_cliente)
 VALUES 
-(1, 'Lionel Messi', 'messi10', 'lionel@gmail.com', 'messi123', '7555-1001', '123456789'),
-(2, 'Harry Kane', 'Kane3', 'HKane@gmail.com', 'Kane456', '7555-1002', '987654321'),
-(3, 'Sergio Busquets', 'busquets5', 'busquets@gmail.com', 'busquets789', '7555-1003', '112233445'),
-(4, 'Jordi Alba', 'alba18', 'alba@gmail.com', 'alba123', '7555-1004', '543210987'),
-(5, 'Ansu Fati', 'fati22', 'fati@gmail.com', 'fati456', '7555-1005', '678905432'),
-(6, 'Frenkie de Jong', 'jong21', 'jong@gmail.com', 'jong789', '7555-1006', '876543210'),
-(7, 'Pedri', 'pedri16', 'pedri@gmail.com', 'pedri123', '7555-1007', '234567890'),
-(8, 'Luis Suarez', 'Suarez11', 'luchosuarez@gmail.com', 'suarez456', '7555-1008', '098765432'),
-(9, 'Marc-André ter Stegen', 'terstegen1', 'terstegen@gmail.com', 'terstegen123', '5755-1009', '456789012'),
-(10, 'Ronald Araújo', 'araujo4', 'araujo@gmail.com', 'araujo789', '7555-1010', '789012345');
+(1, 'Lionel Messi', 'messi10', 'lionel@gmail.com', 'messi123', 'Alameda Franklin Delano Roosevelt', '7555-1001', '123456789'),
+(2, 'Harry Kane', 'Kane3', 'HKane@gmail.com', 'Kane456', 'Alameda Franklin Delano Roosevelt', '7555-1002', '987654321'),
+(3, 'Sergio Busquets', 'busquets5', 'busquets@gmail.com', 'busquets789', 'Alameda Franklin Delano Roosevelt', '7555-1003', '112233445'),
+(4, 'Jordi Alba', 'alba18', 'alba@gmail.com', 'alba123', 'Alameda Franklin Delano Roosevelt', '7555-1004', '543210987'),
+(5, 'Ansu Fati', 'fati22', 'fati@gmail.com', 'fati456', 'Alameda Franklin Delano Roosevelt', '7555-1005', '678905432'),
+(6, 'Frenkie de Jong', 'jong21', 'jong@gmail.com', 'jong789', 'Alameda Franklin Delano Roosevelt', '7555-1006', '876543210'),
+(7, 'Pedri', 'pedri16', 'pedri@gmail.com', 'pedri123', 'Alameda Franklin Delano Roosevelt', '7555-1007', '234567890'),
+(8, 'Luis Suarez', 'Suarez11', 'luchosuarez@gmail.com', 'suarez456', 'Alameda Franklin Delano Roosevelt', '7555-1008', '098765432'),
+(9, 'Marc-André ter Stegen', 'terstegen1', 'terstegen@gmail.com', 'terstegen123', 'Alameda Franklin Delano Roosevelt', '5755-1009', '456789012'),
+(10, 'Ronald Araújo', 'araujo4', 'araujo@gmail.com', 'araujo789', 'Alameda Franklin Delano Roosevelt', '7555-1010', '789012345');
+
 
 SELECT*FROM tb_usuarios;
-
-
-INSERT INTO tb_departamentos (id_departamento, departamento)
-VALUES 
-(1, 'San Salvador'),
-(2, 'Santa Ana'),
-(3, 'San Miguel'),
-(4, 'La Libertad'),
-(5, 'Usulután'),
-(6, 'Sonsonate'),
-(7, 'Chalatenango'),
-(8, 'La Paz'),
-(9, 'Cuscatlán'),
-(10, 'Ahuachapán'),
-(11, 'Cabañas'),
-(12, 'Morazán'),
-(13, 'La Unión'),
-(14, 'San Vicente');
-
-SELECT*FROM tb_departamentos;
-
-INSERT INTO tb_municipios (id_municipio, municipio, id_departamento)
-VALUES
-(1, 'San Salvador Norte', 1),
-(2, 'San Salvador Oeste', 1),
-(3, 'San Salvador Este', 1),
-(4, 'San Salvador Centro', 1),
-(5, 'San Salvador Sur', 1),
-(6, 'La Libertad Norte', 4),
-(7, 'La Libertad Centro', 4),
-(8, 'La Libertad Oeste', 4),
-(9, 'La Libertad Este', 4),
-(10, 'La Libertad Costa', 4),
-(11, 'La Libertad Sur', 4),
-(12, 'Chalatenango Norte', 7),
-(13, 'Chalatenango Centro', 7),
-(14, 'Chalatenango Sur', 7),
-(15, 'Cuscatlán Norte', 9),
-(16, 'Cuscatlán Sur', 9),
-(17, 'Cabañas Este', 11),
-(18, 'Cabañas Oeste', 11),
-(19, 'La Paz Oeste', 8),
-(20, 'La Paz Centro', 8),
-(21, 'La Paz Este', 8),
-(22, 'La Unión Norte', 13),
-(23, 'La Unión Sur', 13),
-(24, 'Usulután Norte', 5),
-(25, 'Usulután Este', 5),
-(26, 'Usulután Oeste', 5),
-(27, 'Sonsonate Norte', 6),
-(28, 'Sonsonate Centro', 6),
-(29, 'Sonsonate Este', 6),
-(30, 'Sonsonate Oeste', 6),
-(31, 'Santa Ana Norte', 2),
-(32, 'Santa Ana Centro', 2),
-(33, 'Santa Ana Este', 2),
-(34, 'Santa Ana Oeste', 2),
-(35, 'San Vicente Norte', 14),
-(36, 'San Vicente Sur', 14),
-(37, 'San Miguel Norte', 3),
-(38, 'San Miguel Centro', 3),
-(39, 'San Miguel Oeste', 3),
-(40, 'Morazán Norte', 12),
-(41, 'Morazán Sur', 12);
-
-SELECT*FROM tb_municipios;
-
-INSERT INTO tb_distritos (id_distrito, distrito, id_municipio)
-VALUES
-(1, 'Centro Histórico', 1),
-(2, 'Colonia Escalón', 1),
-(3, 'Zona Rosa', 1),
-(4, 'Soyapango', 1),
-(5, 'Apopa', 1),
-(6, 'Ilopango', 1),
-(7, 'Santa Tecla', 2),
-(8, 'San Marcos', 1),
-(9, 'Mejicanos', 1),
-(10, 'Antiguo Cuscatlán', 3);
 
 INSERT INTO tb_admins (id_administrador, nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
 VALUES 
@@ -108,14 +30,6 @@ VALUES
 (10, 'Kyle Walker', 'walker2', 'kyle@gmail.com', 'walker123', 2);
 
 SELECT*FROM tb_admins;
-
-INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
-VALUES 
-(1, 'administrador'),
-(2, 'inventaristas'),
-(3, 'vendedoras');
-
-SELECT*FROM tb_niveles_usuarios;
 
 INSERT INTO tb_generos_zapatos (id_genero, nombre_genero, imagen_genero)
 VALUES 
@@ -250,66 +164,44 @@ VALUES
   (10, 5, 10, 55, 4, 'Botas Dr. Martens');
 SELECT * FROM tb_detalles_productos;
 
-INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva, id_distrito)
+INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva)
 VALUES 
-(1, 1, '2024-04-06 10:00:00', 'Pendiente', 1),
-(2, 2, '2024-04-07 11:00:00', 'Pendiente', 2),
-(3, 3, '2024-04-08 12:00:00', 'Pendiente', 3),
-(4, 4, '2024-04-09 13:00:00', 'Pendiente',  4),
-(5, 5, '2024-04-10 14:00:00', 'Pendiente', 5),
-(6, 6, '2024-04-11 15:00:00', 'Pendiente',6),
-(7, 7, '2024-04-12 16:00:00','Pendiente', 7),
-(8, 8, '2024-04-13 17:00:00', 'Pendiente', 8),
-(9, 9, '2024-04-14 18:00:00', 'Pendiente',9),
-(10, 10, '2024-04-15 19:00:00', 'Pendiente', 10);
+(1, 1, '2024-04-06 10:00:00', 'Pendiente'),
+(2, 2, '2024-04-07 11:00:00', 'Pendiente'),
+(3, 3, '2024-04-08 12:00:00', 'Pendiente'),
+(4, 4, '2024-04-09 13:00:00', 'Pendiente'),
+(5, 5, '2024-04-10 14:00:00', 'Pendiente'),
+(6, 6, '2024-04-11 15:00:00', 'Pendiente'),
+(7, 7, '2024-04-12 16:00:00','Pendiente'),
+(8, 8, '2024-04-13 17:00:00', 'Pendiente'),
+(9, 9, '2024-04-14 18:00:00', 'Pendiente'),
+(10, 10, '2024-04-15 19:00:00', 'Pendiente');
 
 
 SELECT*FROM tb_reservas;
 
-INSERT INTO tb_detalles_reservas (id_detalle_reserva, id_reserva, id_producto, cantidad, precio_unitario, id_detalle_producto)
+INSERT INTO tb_detalles_reservas (id_detalle_reserva, id_reserva, id_producto, precio_unitario, id_detalle_producto)
 VALUES 
-(1, 1, 1, 2, 129.99, 1),
-(2, 2, 2, 1, 189.99, 2),
-(3, 3, 3, 3, 59.99, 3),
-(4, 4, 4, 2, 79.99, 4),
-(5, 5, 5, 1, 169.99, 5),
-(6, 6, 6, 4, 99.99, 6),
-(7, 7, 7, 2, 119.99, 7),
-(8, 8, 8, 3, 39.99, 8),
-(9, 9, 9, 1, 149.99, 9),
-(10, 10, 10, 2, 199.99, 10);
+  (1, 1, 2, 129.99, 1),
+  (2, 7, 1, 119.99, 7),
+  (3, 2, 1, 189.99, 3),
+  (4, 4, 2, 79.99, 7),
+  (5, 3, 3, 59.99, 5),
+  (6, 6, 1, 99.99, 6),
+  (7, 1, 1, 129.99, 2),
+  (8, 5, 1, 169.99, 9),
+  (9, 2, 2, 189.99, 4),
+  (10, 8, 1, 39.99, 8),
+  (11, 3, 1, 59.99, 6),
+  (12, 7, 2, 119.99, 7),
+  (13, 4, 1, 79.99, 8),
+  (14, 9, 1, 149.99, 9),
+  (15, 5, 1, 169.99, 10),
+  (16, 10, 1, 199.99, 3),
+  (17, 1, 2, 129.99, 1),
+  (18, 6, 1, 99.99, 6),
+  (19, 2, 1, 189.99, 3),
+  (20, 8, 2, 39.99, 8);
 
-SELECT*FROM tb_detalles_reservas;
+SELECT * FROM tb_detalles_reservas;
 
-SELECT
-        p.id_producto,
-        p.nombre_producto,
-        p.codigo_interno,
-        p.referencia_proveedor,
-        p.precio,
-        p.imagen,
-        m.id_marca,
-        m.marca AS nombre_marca,
-        g.id_genero,
-        g.nombre_genero AS nombre_genero,
-        c.id_categoria,
-        c.nombre_categoria AS nombre_categoria,
-        ma.id_material,
-        ma.nombre AS nombre_material,
-        d.id_descuento,
-        d.nombre_descuento AS nombre_descuento,
-        d.valor AS porcentaje_descuento
-    FROM
-        tb_productos AS p
-    LEFT JOIN
-        tb_marcas AS m ON p.id_marca = m.id_marca
-    LEFT JOIN
-        tb_generos_zapatos AS g ON p.id_genero = g.id_genero
-    LEFT JOIN
-        tb_categorias AS c ON p.id_categoria = c.id_categoria
-    INNER JOIN
-        tb_materiales AS ma ON p.id_material = ma.id_material
-    INNER JOIN
-        tb_descuentos AS d ON p.id_descuento = d.id_descuento
-    WHERE
-        p.id_producto = 1

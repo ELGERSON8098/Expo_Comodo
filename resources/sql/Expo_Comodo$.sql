@@ -19,10 +19,6 @@ CREATE TABLE tb_usuarios (
   CONSTRAINT uc_telefono UNIQUE (telefono),
   CONSTRAINT uc_dui_cliente UNIQUE (dui_cliente)
 );
-
-SELECT * FROM tb_usuarios
-
-
 CREATE TABLE tb_niveles_usuarios (
   id_nivel_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
   nombre_nivel ENUM ('administrador', 'inventaristas', 'vendedoras') NOT NULL,
@@ -42,16 +38,6 @@ CREATE TABLE tb_admins (
   CONSTRAINT uc_usuario_administrador UNIQUE (usuario_administrador),
   CONSTRAINT uc_correo_administrador UNIQUE (correo_administrador)
 );
-
-SELECT * FROM tb_admins
-
-
-
-INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
-VALUES 
-(1, 'administrador'),
-(2, 'inventaristas'),
-(3, 'vendedoras');
 
 CREATE TABLE tb_generos_zapatos (
   id_genero INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -111,7 +97,7 @@ CREATE TABLE tb_productos (
   id_genero INT UNSIGNED,
   id_categoria INT UNSIGNED,
   id_material INT UNSIGNED NOT NULL,
-  id_descuento INT UNSIGNED NOT NULL,
+  id_descuento INT UNSIGNED NULL,
   imagen VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_producto),
   CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -159,3 +145,10 @@ CREATE TABLE tb_detalles_reservas (
   CONSTRAINT ck_precio_unitario CHECK (precio_unitario >= 0)
 );
 
+INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
+VALUES 
+(1, 'Administrador/a'),
+(2, 'Inventarista'),
+(3, 'Vendedor/a');
+
+SELECT*FROM tb_niveles_usuarios;
