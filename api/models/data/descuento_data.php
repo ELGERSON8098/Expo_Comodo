@@ -28,6 +28,21 @@ class descuentoData extends descuentoHandler
 
     public function setNombre($value, $min = 2, $max = 50)
     {
+        // Verificar si el nombre ya existe en la base de datos, excluyendo el registro actual
+        if ($this->id) {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_descuentos WHERE nombre_descuento = ? AND id_descuento != ?';
+            $checkParams = array($value, $this->id);
+        } else {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_descuentos WHERE nombre_descuento = ?';
+            $checkParams = array($value);
+        }
+    
+        $checkResult = Database::getRow($checkSql, $checkParams);
+    
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'El nombre del descuento ya existe';
+            return false;
+        }
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre del descuento debe ser un valor alfabético';
             return false;
@@ -39,6 +54,8 @@ class descuentoData extends descuentoHandler
             return false;
         }
     }
+    
+
 
 
     public function setvalor($value, $min = 1, $max = 200)
@@ -51,7 +68,7 @@ class descuentoData extends descuentoHandler
             return false;
         }
     }
-    
+
 
     public function setDesc($value, $min = 2, $max = 50)
     {
@@ -66,7 +83,7 @@ class descuentoData extends descuentoHandler
             return false;
         }
     }
-    
+
 
 
     // Método para obtener el error de los datos.
