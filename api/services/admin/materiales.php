@@ -40,7 +40,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen materiales registrados';
+                    $result['error'] = 'No existen materiales registrados.';
                 }
                 break;
             case 'readOne':
@@ -49,7 +49,7 @@ if (isset($_GET['action'])) {
                 } elseif ($result['dataset'] = $material->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Material inexistente';
+                    $result['error'] = 'Material inexistente.';
                 }
                 break;
             case 'updateRow':
@@ -59,9 +59,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $material->getDataError();
                 } elseif ($material->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Material modificado correctamente';
+                    $result['message'] = 'Material modificado correctamente.';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el material';
+                    $result['error'] = 'Ocurrió un problema al modificar el material.';
                 }
                 break;
             case 'deleteRow':
@@ -71,9 +71,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $material->getDataError();
                 } elseif ($material->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Material eliminado correctamente';
+                    $result['message'] = 'Material eliminado correctamente.';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el material';
+                    $result['error'] = 'Ocurrió un problema al eliminar el material.';
                 }
                 break;
 

@@ -48,16 +48,16 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen Direcciones registradas';
+                    $result['error'] = 'No existen direcciones registradas';
                 }
                 break;
             case 'readOne':
                 if (!$direccion->setId($_POST['Direc'])) {
-                    $result['error'] = 'Direccion incorrecto';
+                    $result['error'] = 'Dirección incorrecta';
                 } elseif ($result['dataset'] = $direccion->readOne()) {
                     $result['status'] = 1;
                 } else {
-                    $result['error'] = 'Direccion inexistente';
+                    $result['error'] = 'Dirección inexistente';
                 }
                 break;
             case 'updateRow':
@@ -70,9 +70,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Direccion modificado correctamente';
+                    $result['message'] = 'Dirección modificada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la direccion';
+                    $result['error'] = 'Ocurrió un problema al modificar la dirección.';
                 }
                 break;
             case 'deleteRow':
@@ -82,9 +82,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $direccion->getDataError();
                 } elseif ($direccion->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Direccion eliminada correctamente';
+                    $result['message'] = 'Dirección eliminada correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el la direccion';
+                    $result['error'] = 'Ocurrió un problema al eliminar el la dirección.';
                 }
                 break;
         }

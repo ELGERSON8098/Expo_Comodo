@@ -61,9 +61,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $marca->getDataError();
                 } elseif ($marca->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Marca modificado correctamente';
+                    $result['message'] = 'Marca modificado correctamente.';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la marca';
+                    $result['error'] = 'Ocurrió un problema al modificar la marca.';
                 }
                 break;
             case 'deleteRow':
@@ -73,9 +73,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $marca->getDataError();
                 } elseif ($marca->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Marca eliminada correctamente';
+                    $result['message'] = 'Marca eliminada correctamente.';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la marca';
+                    $result['error'] = 'Ocurrió un problema al eliminar la marca.';
                 }
                 break;
             

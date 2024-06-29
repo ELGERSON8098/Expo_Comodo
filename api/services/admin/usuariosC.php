@@ -29,7 +29,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen Clientes registrados';
+                    $result['error'] = 'No existen clientes registrados.';
                 }
                 break;
             case 'readOne':
@@ -56,7 +56,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Cliente modificado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar al cliente';
+                    $result['error'] = 'Ocurrió un problema al modificar al cliente.';
                 }
                 break;
             case 'deleteRow':
@@ -66,9 +66,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $usuariosC->getDataError();
                 } elseif ($usuariosC->deleteRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Cliente eliminado correctamente';
+                    $result['message'] = 'Cliente eliminado correctamente.';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el cliente';
+                    $result['error'] = 'Ocurrió un problema al eliminar el cliente.';
                 }
                 break;
         }

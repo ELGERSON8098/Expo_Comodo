@@ -41,7 +41,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Administrador creado correctamente';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al crear el administrador';
+                    $result['error'] = 'Ocurrió un problema al crear a el administrador';
                 }
                 break;
             case 'createTrabajadores':
@@ -100,7 +100,7 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
-                    $result['error'] = 'No existen niveles de usuario registrados';
+                    $result['error'] = 'No existen niveles de usuarios registrados.';
                 }
                 break;
             case 'readOne':
@@ -124,9 +124,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $administrador->getDataError();
                 } elseif ($administrador->updateRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Trabajador modificado correctamente';
+                    $result['message'] = 'Trabajador modificado correctamente.';
                 } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el trabajador';
+                    $result['error'] = 'Ocurrió un problema al modificar el trabajador.';
                 }
                 break;
             case 'deleteRow':
