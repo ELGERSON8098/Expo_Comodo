@@ -226,10 +226,10 @@ const fillDetailsTable = async (idProducto) => {
     }
 };
 
-const openViewDetail = async (idDetalleReserva) => {
+const openViewDetail = async (idDetalleReservaVista) => {
     // Preparar FormData con el ID del detalle de reserva seleccionado
     const formData = new FormData();
-    formData.append('idDetalleReserva', idDetalleReserva);
+    formData.append('idDetalleReserva', idDetalleReservaVista);
 
     try {
         // Realizar petición para obtener detalles del detalle de reserva
@@ -237,33 +237,28 @@ const openViewDetail = async (idDetalleReserva) => {
 
         // Verificar si la respuesta fue exitosa
         if (data.status) {
-            // Obtener todos los detalles de la reserva (suponiendo que hay varios por ID de reserva)
-            const ROWS = data.dataset;
+            // Obtener el primer detalle de la reserva (suponiendo que solo hay uno por ID de reserva)
+            const ROW = data.dataset;
 
             // Mostrar el modal y actualizar su contenido
             AbrirModalVista(); // Función para abrir el modal
 
-            // Limpiar el contenido anterior del modal (si es necesario)
-            // Luego, iterar sobre cada detalle y mostrarlo en el modal
-            ROWS.forEach(row => {
-                // Aquí actualizas el contenido del modal para cada detalle en ROWS
-                document.getElementById('detailUser').textContent = row.user;
-                document.getElementById('detailDUI').textContent = row.dui;
-                document.getElementById('detailTelefono').textContent = row.telefono;
-                document.getElementById('detailProducto').textContent = row.producto;
-                document.getElementById('detailInterno').textContent = row.interno;
-                document.getElementById('detailProveedor').textContent = row.proveedor;
-                document.getElementById('detailMarca').textContent = row.marca;
-                document.getElementById('detailGenero').textContent = row.genero;
-                document.getElementById('detailColor').textContent = row.color;
-                document.getElementById('detailCantidad').textContent = row.cantidad;
-                document.getElementById('detailTalla').textContent = row.talla;
-                document.getElementById('detailPrecioUnitario').textContent = row.precio_unitario;
-                document.getElementById('detailDescuento').textContent = row.descuento;
-                document.getElementById('detailPrecioDescuento').textContent = row.precio_descuento;
-                document.getElementById('detailDireccionCliente').textContent = row.DirecC;
-            });
-
+            // Actualizar los elementos del modal con los detalles obtenidos
+            document.getElementById('detailUser').textContent = ROW.user;
+            document.getElementById('detailDUI').textContent = ROW.dui;
+            document.getElementById('detailTelefono').textContent = ROW.telefono;
+            document.getElementById('detailProducto').textContent = ROW.producto;
+            document.getElementById('detailInterno').textContent = ROW.interno;
+            document.getElementById('detailProveedor').textContent = ROW.proveedor;
+            document.getElementById('detailMarca').textContent = ROW.marca;
+            document.getElementById('detailGenero').textContent = ROW.genero;
+            document.getElementById('detailColor').textContent = ROW.color;
+            document.getElementById('detailCantidad').textContent = ROW.cantidad;
+            document.getElementById('detailTalla').textContent = ROW.talla;
+            document.getElementById('detailPrecioUnitario').textContent = ROW.precio_unitario;
+            document.getElementById('detailDescuento').textContent = ROW.descuento;
+            document.getElementById('detailPrecioDescuento').textContent = ROW.precio_descuento;
+            document.getElementById('detailDireccionCliente').textContent = ROW.DirecC;
         } else {
             // Mostrar mensaje de error si no se pudieron obtener los detalles
             sweetAlert(4, data.error, true);
@@ -273,10 +268,4 @@ const openViewDetail = async (idDetalleReserva) => {
         console.error('Error al obtener detalles de la reserva:', error);
         sweetAlert(4, 'Error al obtener detalles de la reserva. Inténtelo de nuevo más tarde.', true);
     }
-};
-
-
-const AbrirModalVista = () => {
-    const viewDetailModal = new bootstrap.Modal(document.getElementById('viewDetailModal'));
-    viewDetailModal.show();
 };
