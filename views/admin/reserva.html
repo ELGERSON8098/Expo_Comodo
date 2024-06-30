@@ -126,13 +126,17 @@
                                 </div>
                             </div>
                             <div class="col-sm-12 col-md-6">
-                                <input type="number" class="d-none" id="estado" name="estado">
-                                <label for="estado" class="form-label">Estado del pedido</label>
-                                <select id="estado" name="estado" class="form-select">
+                                <!-- Input oculto para enviar el estado del pedido al servidor -->
+                                <input type="hidden" id="estado_oculto" name="estado">
+                            
+                                <!-- Etiqueta y select visible para el usuario -->
+                                <label for="estado_select" class="form-label">Estado del pedido</label>
+                                <select id="estado_select" name="estado_select" class="form-select">
                                     <option value="Aceptado">Aceptado</option>
                                     <option value="Pendiente">Pendiente</option>
                                 </select>
                             </div>
+                            
                             
                         </div>
                         <div class="modal-footer">

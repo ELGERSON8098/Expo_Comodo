@@ -66,15 +66,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Reserva inexistente';
                 }
                 break;
-                case 'readOneS':
-                    if (!$reserva->setId($_POST['idReservass'])) {
-                        $result['error'] = $reserva->getDataError();
-                    } elseif ($result['dataset'] = $reserva->readOneS()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Reserva inexistentes';
-                    }
-                    break;
                     case 'readDetalles':
                         if (!$reserva->setId($_POST['idReservas'])) {
                             $result['error'] = $reserva->getDataError();
@@ -85,14 +76,29 @@ if (isset($_GET['action'])) {
                         }
                         break;
                         case 'readEstado':
-                            if (!$reserva->setEstado($_POST['estado'])) {
-                                $result['error'] = $reserva->getDataError();
-                            } elseif ($result['dataset'] = $reserva->readEstado()) {
-                                $result['status'] = 1;
+                            if (!isset($_POST['id_reserva']) || !isset($_POST['estado'])) {
+                                $result['error'] = 'Faltan parámetros requeridos (id_reserva, estado)';
                             } else {
-                                $result['error'] = 'Inaxistentes';
+                                try {
+                                    $idReserva = $_POST['id_reserva'];
+                                    $estado = $_POST['estado'];
+                        
+                                    // Realizar consulta para obtener el estado de la reserva
+                                    $sql = 'SELECT estado_reserva FROM tb_reservas WHERE id_reserva = ?';
+                                    $params = array($idReserva);
+                                    $estadoReserva = Database::getRows($sql, $params);
+                        
+                                    if ($estadoReserva) {
+                                        $result['status'] = 1;
+                                        $result['dataset'] = $estadoReserva;
+                                    } else {
+                                        $result['error'] = 'No se encontraron datos para la reserva con ID: ' . $idReserva;
+                                    }
+                                } catch (Exception $e) {
+                                    $result['error'] = 'Error al obtener el estado de la reserva: ' . $e->getMessage();
+                                }
                             }
-                            break;
+                            break;                                                                                             
                         case 'readDetalles2':
                             if (!$reserva->setId($_POST['idDetalleReserva'])) {
                                 $result['error'] = $reserva->getDataError();
@@ -102,19 +108,32 @@ if (isset($_GET['action'])) {
                                 $result['error'] = 'Reserva inexistentes';
                             }
                             break;
-            case 'UpdateORW':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$reserva->setEstado($_POST['estado'])
-                ) {
-                    $result['error'] = $reserva->getDataError();
-                } elseif ($reserva->UpdateORW()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Estado de la reserva modificada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la reserva';
-                }
-                break;
+                            case 'UpdateORW':
+                                $_POST = Validator::validateForm($_POST); // Validación opcional si usas un validador
+                                
+                                if (!isset($_POST['id_reserva']) || !isset($_POST['estado'])) {
+                                    $result['error'] = 'Faltan parámetros requeridos (id_reserva, estado)';
+                                } else {
+                                    try {
+                                        $idReserva = $_POST['id_reserva'];
+                                        $nuevoEstado = $_POST['estado'];
+                                        
+                                        // Realizar la actualización del estado en la base de datos
+                                        $sql = 'UPDATE tb_reservas SET estado_reserva = ? WHERE id_reserva = ?';
+                                        $params = array($nuevoEstado, $idReserva);
+                                        $rowsAffected = Database::executeRow($sql, $params);
+                                        
+                                        if ($rowsAffected > 0) {
+                                            $result['status'] = 1;
+                                            $result['message'] = 'Estado de la reserva actualizado correctamente.';
+                                        } else {
+                                            $result['error'] = 'No se pudo actualizar el estado de la reserva con ID: ' . $idReserva;
+                                        }
+                                    } catch (Exception $e) {
+                                        $result['error'] = 'Error al actualizar el estado de la reserva: ' . $e->getMessage();
+                                    }
+                                }
+                                break;                  
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();

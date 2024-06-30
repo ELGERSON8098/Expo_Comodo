@@ -211,9 +211,7 @@ const openCreate = () => {
     fillSelect(MARCA_API, 'readAll', 'marcaModelo');
 }
 
-
-//Función asíncrona para preparar el formulario al momento de actualizar un registro.
-const openUpdate = async (id) => {
+const openUpdate = async (id, nuevoEstado) => {
     try {
         console.log('Abriendo la actualización para el ID:', id);
 
@@ -222,30 +220,30 @@ const openUpdate = async (id) => {
         SUBTABLE.hidden = false;
         MODAL_TITLE.textContent = 'Información del pedido';
         
-        // Reiniciar formulario
+        // Reiniciar formulario (si es necesario)
         SAVE_FORM.reset();
         
-        // Llenar los detalles del pedido de manera asincrónica
+        // Llenar los detalles del pedido de manera asincrónica (si es necesario)
         await fillSubTable(id);
         
         // Petición para obtener el estado actual del pedido
         const FORM = new FormData();
-        FORM.append('idReserva', id); // Asegúrate de ajustar el nombre del campo según tu PHP
+        FORM.append('id_reserva', id); // Asegúrate de ajustar el nombre del campo según tu PHP
+        FORM.append('estado', nuevoEstado); // Asegúrate de ajustar el nombre del estado según tu lógica
+        
         const DATA = await fetchData(PEDIDO_API, 'readEstado', FORM);
+        console.log('Respuesta del servidor:', DATA); // Verifica la respuesta del servidor
         
         // Verificar si se obtuvo el estado correctamente
-        if (DATA.status && DATA.dataset.estado_reserva) {
-            const estadoReserva = DATA.dataset.estado_reserva;
+        if (DATA && DATA.status === 1 && DATA.dataset && DATA.dataset.length > 0) {
+            const estadoReserva = DATA.dataset[0].estado_reserva;
             console.log('Estado actual del pedido:', estadoReserva);
 
-            // Iterar sobre las opciones del selector de estado
-            for (let i = 0; i < ESTADO_DEL_PEDIDO.options.length; i++) {
-                if (ESTADO_DEL_PEDIDO.options[i].value === estadoReserva) {
-                    ESTADO_DEL_PEDIDO.selectedIndex = i;
-                    console.log('Estado seleccionado:', ESTADO_DEL_PEDIDO.options[i].value);
-                    break;
-                }
-            }
+            // Asignar el estado actual al input oculto y al select visible
+            document.getElementById('estado_oculto').value = estadoReserva;
+            document.getElementById('estado_select').value = estadoReserva;
+            
+            console.log('Estado seleccionado:', estadoReserva);
         } else {
             console.error('No se pudo obtener el estado del pedido desde DATA:', DATA);
         }
@@ -253,6 +251,10 @@ const openUpdate = async (id) => {
         console.error('Error al abrir la actualización:', error);
     }
 }
+
+
+
+
 
 //Función asíncrona para llenar la tabla con los registros disponibles.
 const fillSubTable = async (id) => {
@@ -318,6 +320,22 @@ const opensubUpdate = async (id) => {
             TREMODAL_TITLE.textContent = 'Detalle';
             // Se prepara el formulario.
             SAVE_TREFORM.reset();
+
+            COLOR.disabled = true;
+            CANTIDAD.disabled = true;
+            TALLA.disabled = true;
+            PRECIO_UNI.disabled = true;
+            USUARIO_RESERVA.disabled = true;
+            DUI_RESERVA.disabled = true;
+            TELEFONO_RESERVA.disabled = true;
+            PRODUCTO_RESERVA.disabled = true;
+            INTERNO.disabled = true;
+            PROVEEDOR_RESERVA.disabled = true;
+            MARCA_RESERVA.disabled = true;
+            GENERO_RESERVA.disabled = true;
+            PRECIO_DESCUENTOS.disabled = true;
+            DESCUENTO_RESERVA.disabled = true;
+            DIRECCION_RESERVA.disabled = true;
             // Se inicializan los campos con los datos.
             const ROW = DATA.dataset;
 

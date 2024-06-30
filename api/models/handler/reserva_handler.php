@@ -192,10 +192,11 @@ WHERE
 }
 
 public function readEstado()
-    {
-        $sql = 'SELECT estado_reserva FROM tb_reservas WHERE id_reserva = ?';
-        $params = array($this->id);
-        return Database::getRows($sql, $params);
-    }
+{
+    $sql = 'SELECT estado_reserva FROM tb_reservas WHERE id_reserva = ?';
+    $params = array($this->id);
+    return Database::getRows($sql, $params);
+}
+
 
 }
