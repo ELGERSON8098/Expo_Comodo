@@ -6,85 +6,83 @@ require_once('../../models/handler/reserva_handler.php');
 /*
  *  Clase para manejar el encapsulamiento de los datos de la tabla CATEGORIA.
  */
-class reservaData extends reservaHandler
+class reservaData extends ReservaHandler
 {
     private $data_error = null;
+    private $estados = array(
+        array('Pendiente', 'Pendiente'),
+        array('Aceptado', 'Aceptado')
+    );
 
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
-    public function setId($value)
+    public function setIdReserva($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id = $value;
+            $this->id_reserva = $value;
             return true;
         } else {
             $this->data_error = 'El identificador de la reserva es incorrecto';
             return false;
         }
     }
-
-    public function setEstado($value, $min = 2, $max = 50)
+    public function setIdUsuario($value)
     {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->estado_reserva = $value;
+        // Valida que el identificador de usuario sea un número natural.
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_usuario = $value; // Asigna el valor del identificador de usuario.
             return true;
         } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        }
-    }
-
-    
-
-    public function setNombre($value, $min = 2, $max = 50)
-    {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->nombre = $value;
-            return true;
-        } else {
-            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        }
-    }
-
-    public function setApellido($value, $min = 2, $max = 50)
-    {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El apellido debe ser un valor alfabético';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->apellido = $value;
-            return true;
-        } else {
-            $this->data_error = 'El apellido debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El identificador de usuario es incorrecto'; // Almacena mensaje de error.
             return false;
         }
     }
 
 
-    public function setAlias($value, $min = 6, $max = 25)
+    public function setEstado($value)
     {
-        if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El alias debe ser un valor alfanumérico';
-            return false;
-        } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->alias = $value;
+        // Valida que el estado sea uno de los permitidos.
+        if (in_array($value, array_column($this->estados, 0))) {
+            $this->estado = $value;
             return true;
         } else {
-            $this->data_error = 'El alias debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'Estado incorrecto'; // Almacena mensaje de error.
             return false;
         }
     }
+
+    public function setFecha($value)
+    {
+        // Valida el formato de la fecha.
+        if (Validator::validateDateTime($value, 'Y-m-d H:i:s')) {
+            $this->fecha_reserva = $value; // Asigna el valor de la fecha.
+            return true;
+        } else {
+            $this->data_error = 'El formato de fecha debe ser YYYY-MM-DD HH:MM:SS'; // Almacena mensaje de error.
+            return false;
+        }
+    }
+
+    public function setIdDetalle($value)
+    {
+        // Valida que el identificador del detalle sea un número natural.
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_detalle_reserva = $value; // Asigna el valor del identificador del detalle.
+            return true;
+        } else {
+            $this->data_error = 'El identificador del detalle es incorrecto'; // Almacena mensaje de error.
+            return false;
+        }
+    }
+
     // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
+    }
+    public function getEstados()
+    {
+        return $this->estados; // Devuelve los estados permitidos.
     }
 }
