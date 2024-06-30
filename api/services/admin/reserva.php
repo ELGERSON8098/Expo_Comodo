@@ -33,6 +33,16 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Detalle inexistente';
                 }
                 break;
+                case 'readDetalles2':
+                    if (!$reserva->setIdDetalle($_POST['idDetalleReserva'])) {
+                        $result['error'] = $reserva->getDataError();
+                    } elseif ($result['dataset'] = $reserva->readDetalles2()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'Reserva inexistentes';
+                    }
+                    break;
+
             case 'readOneDetailForForm':
                 // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);

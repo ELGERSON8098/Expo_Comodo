@@ -213,7 +213,7 @@ const fillDetailsTable = async (idProducto) => {
                     <td>${row.imagen}</td>
                     <td>${row.fecha_reserva}</td>
                     <td>
-                        <button type="button" class="btn btn-info" onclick="openViewDetail(${row.id_detalle_reserva})">
+                        <button type="button" class="btn btn-info" onclick="opensubUpdate(${row.id_detalle_reserva})">
                             <i class="bi bi-person-exclamation"></i>
                         </button>
                     </td>
@@ -226,46 +226,145 @@ const fillDetailsTable = async (idProducto) => {
     }
 };
 
-const openViewDetail = async (idDetalleReservaVista) => {
-    // Preparar FormData con el ID del detalle de reserva seleccionado
-    const formData = new FormData();
-    formData.append('idDetalleReserva', idDetalleReservaVista);
+const SAVE_TREMODAL = new bootstrap.Modal('#savetreModal'),
+    TREMODAL_TITLE = document.getElementById('tremodalTitle');
 
+
+// Constantes para establecer los elementos del formulario de guardar.
+const SAVE_TREFORM = document.getElementById('savetreForm'),
+    USUARIO_RESERVA = document.getElementById('user'),
+    DUI_RESERVA = document.getElementById('dui'),
+    TELEFONO_RESERVA = document.getElementById('telefono'),
+    PRODUCTO_RESERVA = document.getElementById('producto'),
+    INTERNO = document.getElementById('interno'),
+    PROVEEDOR_RESERVA = document.getElementById('proveedor'),
+    MARCA_RESERVA = document.getElementById('Marca'),
+    GENERO_RESERVA = document.getElementById('Genero'),
+    DESCUENTO_RESERVA = document.getElementById('precio_descuento'),
+    DIRECCION_RESERVA = document.getElementById('DirecC'),
+    COLOR = document.getElementById('color'),
+    TALLA = document.getElementById('talla'),
+    PRECIO_UNI = document.getElementById('precio_unitario'),
+    PRECIO_DESCUENTOS = document.getElementById('descuento'),
+    CANTIDAD = document.getElementById('cantidad');
+
+// Variable global para mantener la referencia del mapa y marcador
+let map;
+let marker;
+
+// Evento para inicializar el mapa cuando se muestra el modal
+document.getElementById('savetreModal').addEventListener('shown.bs.modal', function () {
+    if (map) {
+        map.invalidateSize(); // Redimensionar el mapa si ya está inicializado
+    } else {
+        initializeMap();
+    }
+});
+
+// Evento para limpiar el marcador cuando se oculta el modal
+document.getElementById('savetreModal').addEventListener('hidden.bs.modal', function () {
+    if (marker) {
+        map.removeLayer(marker); // Remover el marcador del mapa
+        marker = null; // Resetear el marcador
+    }
+});
+
+// Función para inicializar el mapa
+function initializeMap() {
+    map = L.map('map').setView([13.6929, -89.2182], 13); // Coordenadas de San Salvador
+
+    // Añadir la capa del mapa
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+}
+
+// Función para actualizar la ubicación en el mapa con la dirección proporcionada
+function updateMap(address) {
+    if (!map) {
+        // Inicializar el mapa si no existe
+        initializeMap();
+    }
+
+    // Utilizar Nominatim para geocodificar la dirección
+    fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`)
+        .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    const { lat, lon } = data[0];
+                    // Si el marcador ya existe, actualizar su ubicación
+                    if (marker) {
+                        marker.setLatLng([lat, lon]);
+                    } else {
+                        marker = L.marker([lat, lon]).addTo(map);
+                    }
+                    map.setView([lat, lon], 15); // Centrar el mapa en la ubicación encontrada
+                } else {
+                    sweetAlert(2, 'No se pudo encontrar la ubicación', false);
+                }
+            })
+            .catch(error => {
+                sweetAlert(2, 'Error al buscar la ubicación', false);
+            });
+}
+const opensubUpdate = async (idDetalle) => {
     try {
-        // Realizar petición para obtener detalles del detalle de reserva
-        const data = await fetchData(RESERVA_API, 'readOneDetailForForm', formData);
+        // Se define un objeto con los datos del registro seleccionado.
+        SAVE_MODAL.hide();
+        const FORM = new FormData();
+        FORM.append('idDetalleReserva', idDetalle);
+        // Petición para obtener los datos del registro solicitado.
+        const DATA = await fetchData(RESERVA_API, 'readDetalles2', FORM);
+        // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+        if (DATA.status) {
+            // Se muestra la caja de diálogo con su título.
+            SAVE_TREMODAL.show();
+            TREMODAL_TITLE.textContent = 'Detalle';
+            // Se prepara el formulario.
+            SAVE_TREFORM.reset();
 
-        // Verificar si la respuesta fue exitosa
-        if (data.status) {
-            // Obtener el primer detalle de la reserva (suponiendo que solo hay uno por ID de reserva)
-            const ROW = data.dataset;
+            COLOR.disabled = true;
+            CANTIDAD.disabled = true;
+            TALLA.disabled = true;
+            PRECIO_UNI.disabled = true;
+            USUARIO_RESERVA.disabled = true;
+            DUI_RESERVA.disabled = true;
+            TELEFONO_RESERVA.disabled = true;
+            PRODUCTO_RESERVA.disabled = true;
+            INTERNO.disabled = true;
+            PROVEEDOR_RESERVA.disabled = true;
+            MARCA_RESERVA.disabled = true;
+            GENERO_RESERVA.disabled = true;
+            PRECIO_DESCUENTOS.disabled = true;
+            DESCUENTO_RESERVA.disabled = true;
+            DIRECCION_RESERVA.disabled = true;
+            // Se inicializan los campos con los datos.
+            const ROW = DATA.dataset;
 
-            // Mostrar el modal y actualizar su contenido
-            AbrirModalVista(); // Función para abrir el modal
+            ID_DETALLE.value = ROW.id_detalle_reserva;
+            COLOR.value = ROW.color;
+            CANTIDAD.value = ROW.cantidad;
+            TALLA.value = ROW.nombre_talla;
+            PRECIO_UNI.value = ROW.precio_unitario;
+            USUARIO_RESERVA.value = ROW.nombre_usuario;
+            DUI_RESERVA.value = ROW.dui_usuario;
+            TELEFONO_RESERVA.value = ROW.telefono_usuario;
+            PRODUCTO_RESERVA.value = ROW.nombre_producto;
+            INTERNO.value = ROW.codigo_interno;
+            PROVEEDOR_RESERVA.value = ROW.referencia_proveedor;
+            MARCA_RESERVA.value = ROW.nombre_marca;
+            GENERO_RESERVA.value = ROW.nombre_genero;
+            PRECIO_DESCUENTOS.value = ROW.valor_descuento;
+            DESCUENTO_RESERVA.value = ROW.precio_con_descuento;
+            DIRECCION_RESERVA.value = ROW.direccion_usuario;
 
-            // Actualizar los elementos del modal con los detalles obtenidos
-            document.getElementById('detailUser').textContent = ROW.user;
-            document.getElementById('detailDUI').textContent = ROW.dui;
-            document.getElementById('detailTelefono').textContent = ROW.telefono;
-            document.getElementById('detailProducto').textContent = ROW.producto;
-            document.getElementById('detailInterno').textContent = ROW.interno;
-            document.getElementById('detailProveedor').textContent = ROW.proveedor;
-            document.getElementById('detailMarca').textContent = ROW.marca;
-            document.getElementById('detailGenero').textContent = ROW.genero;
-            document.getElementById('detailColor').textContent = ROW.color;
-            document.getElementById('detailCantidad').textContent = ROW.cantidad;
-            document.getElementById('detailTalla').textContent = ROW.talla;
-            document.getElementById('detailPrecioUnitario').textContent = ROW.precio_unitario;
-            document.getElementById('detailDescuento').textContent = ROW.descuento;
-            document.getElementById('detailPrecioDescuento').textContent = ROW.precio_descuento;
-            document.getElementById('detailDireccionCliente').textContent = ROW.DirecC;
+            // Actualizar el mapa con la dirección del usuario
+            updateMap(ROW.direccion_usuario);
+
         } else {
-            // Mostrar mensaje de error si no se pudieron obtener los detalles
-            sweetAlert(4, data.error, true);
+            sweetAlert(2, DATA.error, false);
         }
     } catch (error) {
-        // Mostrar mensaje de error si ocurre un error en la petición
-        console.error('Error al obtener detalles de la reserva:', error);
-        sweetAlert(4, 'Error al obtener detalles de la reserva. Inténtelo de nuevo más tarde.', true);
+        console.error('Error al abrir la actualización:', error);
     }
-};
+}

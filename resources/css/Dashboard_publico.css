@@ -17,8 +17,7 @@ body {
     /* Altura inicial del mapa */
     width: 100%;
     /* Ancho completo del contenedor */
-}
-
+} 
 .navbar-brand .logo {
     /* Agrega los estilos deseados para la clase "logo" aquí */
     max-height: 50px;

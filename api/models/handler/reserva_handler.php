@@ -233,4 +233,58 @@ class ReservaHandler
         return Database::getRow($sql, $params);
     }
 
+    // Esta funcion es la que se utiliza cuando se abre el modal dentro de la segunda tabla para mostrar los detalles del producto
+    public function readDetalles2()
+    {
+        $sql = 'SELECT 
+        dr.cantidad,
+        c.color,
+        t.nombre_talla,
+        dr.precio_unitario,
+        p.codigo_interno,
+        p.referencia_proveedor,
+        m.marca AS nombre_marca,
+        g.nombre_genero AS nombre_genero,
+        u.nombre AS nombre_usuario,
+        u.correo AS correo_usuario,
+        u.direccion_cliente AS direccion_usuario,
+        u.telefono AS telefono_usuario,
+        u.dui_cliente AS dui_usuario,
+        p.nombre_producto AS nombre_producto,
+        d.nombre_descuento AS nombre_descuento,
+        ROUND(d.valor, 2) AS valor_descuento,  -- Redondea el valor del descuento a 2 decimales
+        CASE 
+            WHEN d.valor IS NOT NULL THEN ROUND(dr.precio_unitario * (1 - d.valor / 100), 2)
+            ELSE dr.precio_unitario
+        END AS precio_con_descuento
+    FROM 
+        tb_detalles_reservas dr
+    INNER JOIN 
+        tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+    INNER JOIN 
+        tb_colores c ON dp.id_color = c.id_color
+    INNER JOIN 
+        tb_tallas t ON dp.id_talla = t.id_talla
+    INNER JOIN 
+        tb_productos p ON dp.id_producto = p.id_producto
+    INNER JOIN 
+        tb_marcas m ON p.id_marca = m.id_marca
+    INNER JOIN 
+        tb_generos_zapatos g ON p.id_genero = g.id_genero
+    INNER JOIN 
+        tb_reservas r ON dr.id_reserva = r.id_reserva
+    INNER JOIN 
+        tb_usuarios u ON r.id_usuario = u.id_usuario
+    INNER JOIN 
+        tb_descuentos d ON p.id_descuento = d.id_descuento
+    WHERE 
+        dr.id_detalle_reserva = ?;';
+
+        $params = array($this->id_detalle_reserva);
+        return Database::getRow($sql, $params);
+    }
+
+
+
+
 }

@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <!-- Bootstrap CSS -->
     <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
     <!-- Icono de la página -->
@@ -143,40 +145,93 @@
                 </div>
             </div>
         </div>
-        <!-- Modal para ver detalles completos de la reserva -->
-        <div class="modal fade" id="viewDetailModal" tabindex="-1" aria-labelledby="modalDetailTitle"
-            aria-hidden="true">
-            <div class="modal-dialog modal-lg">
+        <!-- SEGUNDO MODAL -->
+        <div class="modal fade" id="savetreModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="modalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Detalles completos de la reserva</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <h1 class="modal-title fs-5" id="tremodalTitle"></h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                            onclick="subClose()"></button>
                     </div>
-                    <div class="modal-body">
-                        <input type="number" class="d-none" id="idDetalleReserva" name="idDetalleReserva">
-                        <div id="detailContainer">
-                            <!-- Aquí se mostrarán los detalles de la reserva -->
-                            <p><strong>Usuario:</strong> <span id="detailUser"></span></p>
-                            <p><strong>DUI:</strong> <span id="detailDUI"></span></p>
-                            <p><strong>Teléfono:</strong> <span id="detailTelefono"></span></p>
-                            <p><strong>Producto:</strong> <span id="detailProducto"></span></p>
-                            <p><strong>Código Interno:</strong> <span id="detailInterno"></span></p>
-                            <p><strong>Proveedor:</strong> <span id="detailProveedor"></span></p>
-                            <p><strong>Marca:</strong> <span id="detailMarca"></span></p>
-                            <p><strong>Género:</strong> <span id="detailGenero"></span></p>
-                            <p><strong>Color:</strong> <span id="detailColor"></span></p>
-                            <p><strong>Cantidad:</strong> <span id="detailCantidad"></span></p>
-                            <p><strong>Talla:</strong> <span id="detailTalla"></span></p>
-                            <p><strong>Precio Unitario:</strong> <span id="detailPrecioUnitario"></span></p>
-                            <p><strong>Descuento (%):</strong> <span id="detailDescuento"></span></p>
-                            <p><strong>Precio con descuento:</strong> <span id="detailPrecioDescuento"></span></p>
-                            <p><strong>Dirección de cliente:</strong> <span id="detailDireccionCliente"></span></p>
+                    <!-- Formulario para crear o actualizar un registro en la subtabla de modelos tallas -->
+                    <form id="savetreForm">
+                        <div class="modal-body row g-3 ">
+                            <!-- Campo oculto para asignar el id del registro al momento de modificar -->
+                            <input type="number" class="d-none" id="idDetalleReserva" name="idDetalleReserva">
+                            <div class="col-sm-12 col-md-6">
+                                <label for="user" class="user">Usuario</label>
+                                <input id="user" type="text" name="user" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="dui" class="dui">Dui</label>
+                                <input id="dui" type="text" name="dui" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="telefono" class="telefono">Teléfono</label>
+                                <input id="telefono" type="text" name="telefono" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="producto" class="producto">Producto</label>
+                                <input id="producto" type="text" name="producto" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="interno" class="interno">Código interno del producto</label>
+                                <input id="interno" type="text" name="interno" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="proveedor" class="proveedor">Código del proveedor</label>
+                                <input id="proveedor" type="text" name="proveedor" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Marca" class="Marca">Marca</label>
+                                <input id="Marca" type="text" name="Marca" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="Genero" class="Genero">Genero del zapato</label>
+                                <input id="Genero" type="text" name="Genero" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="color" class="precioUnitario">Color</label>
+                                <input id="color" type="text" name="color" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="cantidad" class="precioUnitario">Cantidad</label>
+                                <input id="cantidad" type="text" name="cantidad" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="talla" class="talla">Talla</label>
+                                <input id="talla" type="text" name="talla" class="form-control" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="precio_unitario" class="precio_unitario">Precio unitario</label>
+                                <input id="precio_unitario" type="number" name="precio_unitario" class="form-control"
+                                    required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="descuento" class="descuento">Descuento</label>
+                                <input id="descuento" type="number" name="descuento" step="0.01" class="form-control"
+                                    required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="precio_descuento" class="form-label">Precio aplicado el descuento</label>
+                                <input id="precio_descuento" type="number" name="precio_descuento" class="form-control"
+                                    step="0.01" required>
+                            </div>
+                            <div class="col-sm-12 col-md-6">
+                                <label for="DirecC" class="form-label">Dirección</label>
+                                <textarea id="DirecC" name="DirecC" class="form-control" rows="4" required></textarea>
+                            </div>
+                            <div class="col-sm-12 col-md-12">
+                                <label for="map" class="form-label">Mapa</label>
+                                <div id="map"></div> <!-- Contenedor del mapa -->
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-
     </main>
     <!-- Bootstrap JavaScript -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
@@ -187,6 +242,7 @@
     <script src="../../controllers/utils/components.js"></script>
     <script src="../../controllers/utils/admin.js"></script>
     <script src="../../controllers/admin/reserva.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </body>
 
 </html>
