@@ -38,11 +38,26 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-
     public function setNombre($value, $min = 2, $max = 50)
     {
-        if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfanumérico';
+        // Verificar si el nombre del producto ya existe en la base de datos, excluyendo el registro actual
+        if ($this->nombre_producto) {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE nombre_producto = ? AND id_producto != ?';
+            $checkParams = array($value, $this->nombre_producto);
+        } else {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE nombre_producto = ?';
+            $checkParams = array($value);
+        }
+        $checkResult = Database::getRow($checkSql, $checkParams);
+
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'El nombre del producto ya existe';
+            return false;
+        }
+
+        // Validar que el nombre solo contenga caracteres alfabéticos
+        if (!Validator::validateAlphabetic($value)) {
+            $this->data_error = 'El nombre debe ser un valor alfabético y no puede contener números';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre_producto = $value;
@@ -55,30 +70,62 @@ class ProductoData extends ProductoHandler
 
     public function setCodigo_Interno($value, $min = 2, $max = 50)
     {
+        // Verificar si el codigo interno del producto ya existe en la base de datos, excluyendo el registro actual
+        if ($this->codigo_interno) {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE codigo_interno = ? AND id_producto != ?';
+            $checkParams = array($value, $this->codigo_interno);
+        } else {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE codigo_interno = ?';
+            $checkParams = array($value);
+        }
+        $checkResult = Database::getRow($checkSql, $checkParams);
+
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'El codigo interno del producto ya existe';
+            return false;
+        }
+
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'El codigo interno del producto debe ser un valor alfabético';
+            $this->data_error = 'El codigo interno del producto debe ser un valor alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->codigo_interno = $value;
             return true;
         } else {
-            $this->data_error = 'El nombre del producto debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El codigo interno del producto debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
+
     public function setReferenciaProveedor($value, $min = 2, $max = 50)
     {
+        // Verificar si la referencia del proveedor ya existe en la base de datos, excluyendo el registro actual
+        if ($this->referencia_proveedor) {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE referencia_proveedor = ? AND id_producto != ?';
+            $checkParams = array($value, $this->referencia_proveedor);
+        } else {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE referencia_proveedor = ?';
+            $checkParams = array($value);
+        }
+        $checkResult = Database::getRow($checkSql, $checkParams);
+
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'La referencia del proveedor ya existe';
+            return false;
+        }
+
         if (!Validator::validateAlphanumeric($value)) {
-            $this->data_error = 'La referencia del proveedor debe ser un valor alfabético';
+            $this->data_error = 'La referencia del proveedor debe ser un valor alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->referencia_proveedor = $value;
             return true;
         } else {
-            $this->data_error = 'la referencia del proveedor debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'La referencia del proveedor debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
+
     public function setPrecio($value)
     {
         // Valida que el precio sea un número válido.
@@ -156,7 +203,7 @@ class ProductoData extends ProductoHandler
         if ($value !== null && !Validator::validateNaturalNumber($value)) {
             $this->id_descuento = null;
             return true;
-        } 
+        }
         $this->id_descuento = $value;
         return true;
     }

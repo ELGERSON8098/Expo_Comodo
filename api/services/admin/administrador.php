@@ -44,44 +44,44 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al crear el administrador';
                 }
                 break;
-                case 'createTrabajadores':
-                    $_POST = Validator::validateForm($_POST);
-                
-                    // Validar datos del formulario
-                    if (
-                        !$administrador->setNombre($_POST['NAdmin']) ||
-                        !$administrador->setAlias($_POST['NUsuario']) ||
-                        !$administrador->setCorreo($_POST['CorreoAd']) ||
-                        !$administrador->setClave($_POST['ContraAd']) ||
-                        !$administrador->setNivel($_POST['NivAd'])
-                    ) {
-                        $result['error'] = $administrador->getDataError();
-                    } elseif ($_POST['ContraAd'] !== $_POST['confirmarClaveA']) {
-                        $result['error'] = 'Las contraseñas no coinciden';
-                    } else {
-                        // Verificar duplicidad de usuario y correo electrónico
-                        $checkCorreoSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE correo_administrador = ?';
-                        $checkCorreoParams = array($_POST['CorreoAd']);
-                
-                        $checkAliasSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE usuario_administrador = ?';
-                        $checkAliasParams = array($_POST['NUsuario']);
-                
-                        $checkCorreoResult = Database::getRow($checkCorreoSql, $checkCorreoParams);
-                        $checkAliasResult = Database::getRow($checkAliasSql, $checkAliasParams);
-                
-                        if ($checkCorreoResult['count'] > 0) {
-                            $result['error'] = 'El correo electrónico ya está registrado';
-                        } elseif ($checkAliasResult['count'] > 0) {
-                            $result['error'] = 'El nombre de usuario ya está en uso';
-                        } elseif ($administrador->createTrabajadores()) {
-                            // Creación exitosa del trabajador (administrador)
-                            $result['status'] = 1;
-                            $result['message'] = 'Administrador creado correctamente';
-                            
-                            // Enviar correo de confirmación
-                            $email = $_POST['CorreoAd'];
-                            $subject = "Cuenta de trabajador en Comodo$";
-                            $body = "
+            case 'createTrabajadores':
+                $_POST = Validator::validateForm($_POST);
+
+                // Validar datos del formulario
+                if (
+                    !$administrador->setNombre($_POST['NAdmin']) ||
+                    !$administrador->setAlias($_POST['NUsuario']) ||
+                    !$administrador->setCorreo($_POST['CorreoAd']) ||
+                    !$administrador->setClave($_POST['ContraAd']) ||
+                    !$administrador->setNivel($_POST['NivAd'])
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($_POST['ContraAd'] !== $_POST['confirmarClaveA']) {
+                    $result['error'] = 'Las contraseñas no coinciden';
+                } else {
+                    // Verificar duplicidad de usuario y correo electrónico
+                    $checkCorreoSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE correo_administrador = ?';
+                    $checkCorreoParams = array($_POST['CorreoAd']);
+
+                    $checkAliasSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE usuario_administrador = ?';
+                    $checkAliasParams = array($_POST['NUsuario']);
+
+                    $checkCorreoResult = Database::getRow($checkCorreoSql, $checkCorreoParams);
+                    $checkAliasResult = Database::getRow($checkAliasSql, $checkAliasParams);
+
+                    if ($checkCorreoResult['count'] > 0) {
+                        $result['error'] = 'El correo electrónico ya está registrado';
+                    } elseif ($checkAliasResult['count'] > 0) {
+                        $result['error'] = 'El nombre de usuario ya está en uso';
+                    } elseif ($administrador->createTrabajadores()) {
+                        // Creación exitosa del trabajador (administrador)
+                        $result['status'] = 1;
+                        $result['message'] = 'Administrador creado correctamente';
+
+                        // Enviar correo de confirmación
+                        $email = $_POST['CorreoAd'];
+                        $subject = "Cuenta de trabajador en Comodo$";
+                        $body = "
                                 <p>Bienvenido/a a Comodo$</p>
                                 <p>¡Hola {$_POST['NAdmin']}!</p>
                                 <p>Gracias por unirte al equipo de administradores de Comodo$. 
@@ -97,19 +97,19 @@ if (isset($_GET['action'])) {
                                 <p>Saludos cordiales,<br>
                                 El equipo de Comodo$</p>
                             ";
-                
-                            $emailResult = sendEmail($email, $subject, $body);
-                            if ($emailResult !== true) {
-                                $result['message'] .= ' No se pudo enviar el correo de confirmación.';
-                            }
-                        } else {
-                            // Error general al crear el trabajador (administrador)
-                            $result['error'] = 'Ocurrió un problema al crear el trabajador';
+
+                        $emailResult = sendEmail($email, $subject, $body);
+                        if ($emailResult !== true) {
+                            $result['message'] .= ' No se pudo enviar el correo de confirmación.';
                         }
+                    } else {
+                        // Error general al crear el trabajador (administrador)
+                        $result['error'] = 'Ocurrió un problema al crear el trabajador';
                     }
-                    break;
-                
-                
+                }
+                break;
+
+
             case 'readAll':
                 if ($result['dataset'] = $administrador->readAllS()) {
                     $result['status'] = 1;
@@ -148,6 +148,25 @@ if (isset($_GET['action'])) {
                 } elseif ($administrador->updateRow()) {
                     $result['status'] = 1;
                     $result['message'] = 'Trabajador modificado correctamente';
+                    // Enviar correo de confirmación de actualización
+                    $email = $_POST['CorreoAd'];
+                    $subject = "Actualización de cuenta de trabajador en Comodo$";
+                    $body = "
+                    <p>Actualización de cuenta en Comodo$</p>
+                    <p>¡Hola {$_POST['NAdmin']}!</p>
+                    <p>Queremos informarte que algunos datos de tu cuenta de trabajador en Comodo$ ha sido actualizada exitosamente.</p>
+                    <p>Detalles de tu cuenta actualizada:</p>
+                    <ul>
+                    <li>Nombre de usuario: {$_POST['NUsuario']}</li>
+                    <li>Correo electrónico: {$_POST['CorreoAd']}</li>
+                    </ul>
+                    <p>Saludos cordiales,<br>
+                    El equipo de Comodo$</p>
+                    ";
+                    $emailResult = sendEmail($email, $subject, $body);
+                    if ($emailResult !== true) {
+                        $result['message'] .= ' No se pudo enviar el correo de confirmación de actualización.';
+                    }
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el trabajador';
                 }

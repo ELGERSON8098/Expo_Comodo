@@ -47,7 +47,8 @@ class ReservaHandler
                 FROM
                     tb_reservas r
                 INNER JOIN
-                    tb_usuarios u ON r.id_usuario = u.id_usuario';
+                    tb_usuarios u ON r.id_usuario = u.id_usuario
+                    ORDER BY u.usuario ASC;';
         return Database::getRows($sql);
     }
 

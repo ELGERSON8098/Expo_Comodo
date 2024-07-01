@@ -39,7 +39,7 @@ if (isset($_GET['action'])) {
                     } elseif ($result['dataset'] = $reserva->readDetalles2()) {
                         $result['status'] = 1;
                     } else {
-                        $result['error'] = 'Reserva inexistentes';
+                        $result['error'] = 'Reserva inexistente';
                     }
                     break;
 
@@ -95,7 +95,7 @@ if (isset($_GET['action'])) {
                 elseif ($reserva->createRow()) {
                     // Si la creación es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
-                    $result['message'] = 'Reserva creado correctamente';
+                    $result['message'] = 'Reserva creada correctamente';
                 } else {
                     // Si hay un problema al crear el reserva, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al crear la reserva';
@@ -146,7 +146,7 @@ if (isset($_GET['action'])) {
                 elseif ($reserva->updateRow()) {
                     // Si la actualización es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
-                    $result['message'] = 'Reserva modificado correctamente';
+                    $result['message'] = 'Reserva modificada correctamente';
                 } else {
                     // Si hay un problema al modificar el reserva, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al modificar la reserva';
@@ -160,9 +160,9 @@ if (isset($_GET['action'])) {
                     $result['error'] = $reserva->getDataError(); // Mensaje de error si el ID es inválido.
                 } elseif ($reserva->deleteRow()) { // Intentar eliminar la fila.
                     $result['status'] = 1; // Indicar que la operación fue exitosa.
-                    $result['message'] = 'reserva eliminado correctamente'; // Mensaje de éxito.
+                    $result['message'] = 'Reserva eliminada correctamente'; // Mensaje de éxito.
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el reserva'; // Mensaje de error si ocurre un problema.
+                    $result['error'] = 'Ocurrió un problema al eliminar la reserva'; // Mensaje de error si ocurre un problema.
                 }
                 break;
 
@@ -181,7 +181,7 @@ if (isset($_GET['action'])) {
                 elseif ($reserva->createRow()) {
                     // Si la creación es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
-                    $result['message'] = 'Reserva creado correctamente';
+                    $result['message'] = 'Reserva creada correctamente';
                 } else {
                     // Si hay un problema al crear el reserva, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al crear la reserva';
@@ -203,7 +203,7 @@ if (isset($_GET['action'])) {
                 elseif ($reserva->updateDetail()) {
                     // Si la actualización es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
-                    $result['message'] = 'Detalle actualizado correctamente';
+                    $result['message'] = 'Detalle de reserva actualizado correctamente';
                 } else {
                     // Si hay un problema al actualizar el detalle del reserva, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al actualizar el detalle';
@@ -234,7 +234,7 @@ if (isset($_GET['action'])) {
                     $result['message'] = 'Detalles encontrados';
                 } else {
                     // Si no se encuentran detalles para el reserva, se asigna el mensaje de error
-                    $result['error'] = 'No hay detalles para este reserva';
+                    $result['error'] = 'No hay detalles para esta reserva';
                 }
                 break;
             case 'getEstados':
