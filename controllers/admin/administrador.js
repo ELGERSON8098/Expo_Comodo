@@ -12,12 +12,12 @@ const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
 const SAVE_FORM = document.getElementById('saveForm'),
     ID_ADMINISTRADOR = document.getElementById('idAdmin'),
     NOMBRE_ADMINISTRADOR = document.getElementById('NAdmin'),
-    USUARIO_ADMINISTRADOR= document.getElementById('NUsuario'),
+    USUARIO_ADMINISTRADOR = document.getElementById('NUsuario'),
     CORREO_ADMINISTRADOR = document.getElementById('CorreoAd'),
     CONTRASEÑA_ADMINISTRADOR = document.getElementById('ContraAd'),
     CONTRASEÑA_CONFIRMAR_ADMINISTRADOR = document.getElementById('confirmarClaveA'),
     NIVEL_ADMINISTRADOR = document.getElementById('NivAd');
-    document.querySelector('title').textContent = 'Administrador';
+document.querySelector('title').textContent = 'Administrador';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -140,7 +140,7 @@ const openUpdate = async (id) => {
         NOMBRE_ADMINISTRADOR.value = ROW.nombre_administrador;
         USUARIO_ADMINISTRADOR.value = ROW.usuario_administrador;
         CORREO_ADMINISTRADOR.value = ROW.correo_administrador;
-        fillSelect(ADMINISTADOR_API, 'readAllNivelesUsuarios', 'NivAd',  parseInt(ROW.id_nivel_usuario));
+        fillSelect(ADMINISTADOR_API, 'readAllNivelesUsuarios', 'NivAd', parseInt(ROW.id_nivel_usuario));
     } else {
         sweetAlert(2, DATA.error, false);
     }
