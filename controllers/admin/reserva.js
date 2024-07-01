@@ -138,7 +138,7 @@ const openUpdate = async (id) => {
         // Se inicializan los campos con los datos.
         const ROW = DATA.dataset;
         ID_RESERVA.value = ROW.id_reserva;
-        fillSelect(RESERVA_API, 'getEstados', 'estadoPedido', ROW.estado);
+        fillSelect(RESERVA_API, 'getEstados', 'estadoPedido', ROW.estado_reserva);
     } else {
         sweetAlert(2, DATA.error, false);
     }
