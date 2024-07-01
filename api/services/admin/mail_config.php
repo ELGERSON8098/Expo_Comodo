@@ -1,5 +1,5 @@
 <?php
-require '../../vendor/autoload.php'; // Asegúrate de que la ruta sea correcta
+require '../../vendor/autoload.php'; // Ruta del archivo
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -31,4 +31,3 @@ function sendEmail($to, $subject, $body) {
         return "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
     }
 }
-?>

@@ -21,7 +21,7 @@ CREATE TABLE tb_usuarios (
 );
 CREATE TABLE tb_niveles_usuarios (
   id_nivel_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  nombre_nivel ENUM ('administrador', 'inventaristas', 'vendedoras') NOT NULL,
+  nombre_nivel ENUM ('Administrador/a', 'Inventarista', 'Vendedor/a') NOT NULL,
   PRIMARY KEY (id_nivel_usuario)
 );
 

@@ -204,7 +204,7 @@ if (isset($_GET['action'])) {
                         $result['error'] = 'No se pudo obtener el nivel de usuario';
                     }
                 } else {
-                    $result['error'] = 'Alias de administrador indefinido';
+                    $result['error'] = 'Usuario de administrador indefinido';
                 }
                 break;
 
