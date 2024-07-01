@@ -108,6 +108,7 @@ const sweetAlert = async (type, text, timer, url = null) => {
 
 const fillSelect = async (filename, action, select, filter = undefined) => {
     // Se verifica si el filtro contiene un objeto para enviar a la API.
+    console.log(typeof (filter))
     const FORM = (typeof (filter) == 'object') ? filter : null;
     // Petición para obtener los datos.
     const DATA = await fetchData(filename, action, FORM);
@@ -122,7 +123,7 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
             // Se obtiene el dato del segundo campo de la sentencia SQL.
             text = Object.values(row)[1];
             // Se verifica el valor del filtro para enlistar las opciones.
-            const SELECTED = (typeof (filter) == 'number') ? filter : null;
+            const SELECTED = (typeof (filter) == 'number' || typeof (filter) == 'string') ? filter : null;
             if (value != SELECTED) {
                 content += `<option value="${value}">${text}</option>`;
             } else {

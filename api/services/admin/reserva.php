@@ -119,9 +119,7 @@ if (isset($_GET['action'])) {
                 if (!$reserva->setIdReserva($_POST['idReserva'])) {
                     // Si hay un error al establecer el ID del reserva, se asigna el mensaje de error
                     $result['error'] = $reserva->getDataError();
-                }
-                // Intentar leer el reserva específico
-                elseif ($result['dataset'] = $reserva->readOne()) {
+                } elseif ($result['dataset'] = $reserva->readOne()) {
                     // Si la lectura es exitosa, se asigna el estado
                     $result['status'] = 1;
                 } else {
