@@ -135,40 +135,54 @@ ORDER BY
     public function readOne()
     {
         $sql = 'SELECT
-        p.id_producto,
-        p.nombre_producto,
-        p.codigo_interno,
-        p.referencia_proveedor,
-        p.precio,
-        p.imagen,
-        m.id_marca,
-        m.marca AS nombre_marca,
-        g.id_genero,
-        g.nombre_genero AS nombre_genero,
-        c.id_categoria,
-        c.nombre_categoria AS nombre_categoria,
-        ma.id_material,
-        ma.nombre AS nombre_material,
-        COALESCE(d.id_descuento, NULL) AS id_descuento,
-        COALESCE(d.nombre_descuento, "Sin descuento") AS nombre_descuento,
-        COALESCE(d.valor, 0) AS porcentaje_descuento
-    FROM
-        tb_productos AS p
-    LEFT JOIN
-        tb_marcas AS m ON p.id_marca = m.id_marca
-    LEFT JOIN
-        tb_generos_zapatos AS g ON p.id_genero = g.id_genero
-    LEFT JOIN
-        tb_categorias AS c ON p.id_categoria = c.id_categoria
-    INNER JOIN
-        tb_materiales AS ma ON p.id_material = ma.id_material
-    LEFT JOIN
-        tb_descuentos AS d ON p.id_descuento = d.id_descuento
-    WHERE
-        p.id_producto = ?';
+            p.id_producto,
+            p.nombre_producto,
+            p.codigo_interno,
+            p.referencia_proveedor,
+            p.precio,
+            p.imagen,
+            m.id_marca,
+            m.marca AS nombre_marca,
+            g.id_genero,
+            g.nombre_genero AS nombre_genero,
+            c.id_categoria,
+            c.nombre_categoria AS nombre_categoria,
+            ma.id_material,
+            ma.nombre AS nombre_material,
+            COALESCE(d.id_descuento, NULL) AS id_descuento,
+            COALESCE(d.nombre_descuento, "Sin descuento") AS nombre_descuento,
+            COALESCE(d.valor, 0) AS porcentaje_descuento,
+            dp.id_detalle_producto,
+            dp.existencias,
+            dp.descripcion AS descripcion_detalle,
+            t.id_talla,
+            t.nombre_talla,
+            col.id_color,
+            col.color
+        FROM
+            tb_productos AS p
+        LEFT JOIN
+            tb_marcas AS m ON p.id_marca = m.id_marca
+        LEFT JOIN
+            tb_generos_zapatos AS g ON p.id_genero = g.id_genero
+        LEFT JOIN
+            tb_categorias AS c ON p.id_categoria = c.id_categoria
+        INNER JOIN
+            tb_materiales AS ma ON p.id_material = ma.id_material
+        LEFT JOIN
+            tb_descuentos AS d ON p.id_descuento = d.id_descuento
+        INNER JOIN
+            tb_detalles_productos AS dp ON p.id_producto = dp.id_producto
+        INNER JOIN
+            tb_tallas AS t ON dp.id_talla = t.id_talla
+        INNER JOIN
+            tb_colores AS col ON dp.id_color = col.id_color
+        WHERE
+            p.id_producto = ?';
         $params = array($this->id_producto);
         return Database::getRow($sql, $params);
     }
+    
     /*
      * Método para buscar registros de los productos por nombre y por codigo interno.
      */

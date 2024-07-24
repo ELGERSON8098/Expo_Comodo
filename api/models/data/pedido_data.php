@@ -25,6 +25,17 @@ class PedidoData extends PedidoHandler
         }
     }
 
+    public function setIdReserva($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->id_reserva = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del pedido es incorrecto';
+            return false;
+        }
+    }
+
     public function setIdDetalle($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -58,6 +69,17 @@ class PedidoData extends PedidoHandler
         }
     }
 
+    public function setDetalleProducto($value)
+    {
+        if (Validator::validateNaturalNumber($value)) {
+            $this->idDetalleProducto = $value;
+            return true;
+        } else {
+            $this->data_error = 'El identificador del producto es incorrecto';
+            return false;
+        }
+    }
+
     public function setCantidad($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -73,5 +95,16 @@ class PedidoData extends PedidoHandler
     public function getDataError()
     {
         return $this->data_error;
+    }
+
+    public function setPrecio($value)
+    {
+        if (Validator::validateMoney($value)) {
+            $this->precio = $value;
+            return true;
+        } else {
+            $this->data_error = 'La cantidad del producto debe ser mayor o igual a 1';
+            return false;
+        }
     }
 }
