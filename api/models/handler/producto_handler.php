@@ -79,28 +79,53 @@ class ProductoHandler
     public function readProductosCategoria()
     {
         $sql = 'SELECT 
-                    p.id_producto, 
-                    p.imagen, 
-                    p.nombre_producto, 
-                    p.descripcion, 
-                    p.precio, 
-                    p.existencias,
-                    p.capacidad_memoria_interna_celular,
-                    p.ram_celular,
-                    p.pantalla_tamaño,
-                    p.camara_trasera_celular,
-                    p.sistema_operativo_celular,
-                    p.camara_frontal_celular,
-                    p.procesador_celular
-                FROM 
-                    tb_productos p
-                INNER JOIN 
-                    tb_categorias c ON p.id_categoria = c.id_categoria
-                WHERE 
-                    p.id_categoria = ? 
-                    AND p.estado_producto = true
-                ORDER BY 
-                    p.nombre_producto';
+    p.id_producto, 
+    p.nombre_producto, 
+    p.codigo_interno, 
+    p.referencia_proveedor, 
+    p.precio, 
+    p.imagen, 
+    p.id_marca,
+    p.id_genero,
+    p.id_categoria,
+    p.id_material,
+    p.id_descuento,
+    dp.id_detalle_producto,
+    dp.id_talla,
+    dp.existencias,
+    dp.id_color,
+    dp.descripcion AS descripcion_detalle,
+    m.marca,
+    g.nombre_genero,
+    c.nombre_categoria,
+    mat.nombre AS nombre_material,
+    d.nombre_descuento,
+    d.descripcion AS descripcion_descuento,
+    d.valor AS valor_descuento,
+    t.nombre_talla,
+    col.color
+FROM 
+    tb_productos p
+INNER JOIN 
+    tb_categorias c ON p.id_categoria = c.id_categoria
+INNER JOIN 
+    tb_marcas m ON p.id_marca = m.id_marca
+INNER JOIN 
+    tb_generos_zapatos g ON p.id_genero = g.id_genero
+INNER JOIN 
+    tb_materiales mat ON p.id_material = mat.id_material
+LEFT JOIN 
+    tb_descuentos d ON p.id_descuento = d.id_descuento
+INNER JOIN 
+    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+INNER JOIN 
+    tb_tallas t ON dp.id_talla = t.id_talla
+INNER JOIN 
+    tb_colores col ON dp.id_color = col.id_color
+WHERE 
+    p.id_categoria = ? 
+ORDER BY 
+    p.nombre_producto';
 
         $params = array($this->id_categoria);
         return Database::getRows($sql, $params);
