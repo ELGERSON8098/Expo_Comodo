@@ -150,6 +150,17 @@ class Validator
         }
     }
 
+    public static function validateColor($value)
+{
+    // Se verifica el contenido y la longitud de acuerdo con la base de datos.
+    // Permite letras, números, espacios, comas, puntos, punto y coma y colores hexadecimales.
+    if (preg_match('/^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s\,\;\.\#]+$/', $value) && preg_match('/^#[0-9A-Fa-f]{3,6}$/', $value)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
     /*
     *   Método para validar un dato alfabético (letras y espacios en blanco).
     *   Parámetros: $value (dato a validar).
@@ -203,7 +214,7 @@ class Validator
     public static function validateMoney($value)
     {
         // Se verifica que el número tenga una parte entera y como máximo dos cifras decimales.
-        if (preg_match('/^[0-9]+(?:\.[0-9]{1,2})?$/', $value)) {
+        if (preg_match('/^[1-9]+(?:\.[0-9]{1,2})?$/', $value)) {
             return true;
         } else {
             return false;

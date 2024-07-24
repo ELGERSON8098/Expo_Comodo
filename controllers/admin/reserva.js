@@ -210,7 +210,7 @@ const fillDetailsTable = async (idProducto) => {
             DETAILS_TABLE_BODY.innerHTML += `
                 <tr>
                     <td>${row.nombre_producto}</td>
-                    <td>${row.imagen}</td>
+                    <td><img src="${SERVER_URL}images/productos/${row.imagen}" height="50"></td>
                     <td>${row.fecha_reserva}</td>
                     <td>
                         <button type="button" class="btn btn-info" onclick="opensubUpdate(${row.id_detalle_reserva})">

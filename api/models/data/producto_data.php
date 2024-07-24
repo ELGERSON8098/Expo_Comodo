@@ -41,20 +41,16 @@ class ProductoData extends ProductoHandler
     public function setNombre($value, $min = 2, $max = 50)
     {
         // Verificar si el nombre del producto ya existe en la base de datos, excluyendo el registro actual
-        if ($this->nombre_producto) {
-            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE nombre_producto = ? AND id_producto != ?';
-            $checkParams = array($value, $this->nombre_producto);
-        } else {
-            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE nombre_producto = ?';
-            $checkParams = array($value);
-        }
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE nombre_producto = ? AND id_producto != ?';
+        $checkParams = array($value, $this->id_producto ? $this->id_producto : 0);
+        
         $checkResult = Database::getRow($checkSql, $checkParams);
-
+    
         if ($checkResult['count'] > 0) {
             $this->data_error = 'El nombre del producto ya existe';
             return false;
         }
-
+    
         // Validar que el nombre solo contenga caracteres alfabéticos
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre debe ser un valor alfabético y no puede contener números';
@@ -67,24 +63,20 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-
+    
     public function setCodigo_Interno($value, $min = 2, $max = 50)
     {
         // Verificar si el codigo interno del producto ya existe en la base de datos, excluyendo el registro actual
-        if ($this->codigo_interno) {
-            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE codigo_interno = ? AND id_producto != ?';
-            $checkParams = array($value, $this->codigo_interno);
-        } else {
-            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE codigo_interno = ?';
-            $checkParams = array($value);
-        }
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE codigo_interno = ? AND id_producto != ?';
+        $checkParams = array($value, $this->id_producto ? $this->id_producto : 0);
+        
         $checkResult = Database::getRow($checkSql, $checkParams);
-
+    
         if ($checkResult['count'] > 0) {
             $this->data_error = 'El codigo interno del producto ya existe';
             return false;
         }
-
+    
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El codigo interno del producto debe ser un valor alfanumérico';
             return false;
@@ -96,24 +88,20 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-
+    
     public function setReferenciaProveedor($value, $min = 2, $max = 50)
     {
         // Verificar si la referencia del proveedor ya existe en la base de datos, excluyendo el registro actual
-        if ($this->referencia_proveedor) {
-            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE referencia_proveedor = ? AND id_producto != ?';
-            $checkParams = array($value, $this->referencia_proveedor);
-        } else {
-            $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE referencia_proveedor = ?';
-            $checkParams = array($value);
-        }
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_productos WHERE referencia_proveedor = ? AND id_producto != ?';
+        $checkParams = array($value, $this->id_producto ? $this->id_producto : 0);
+        
         $checkResult = Database::getRow($checkSql, $checkParams);
-
+    
         if ($checkResult['count'] > 0) {
             $this->data_error = 'La referencia del proveedor ya existe';
             return false;
         }
-
+    
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'La referencia del proveedor debe ser un valor alfanumérico';
             return false;
@@ -125,7 +113,7 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-
+    
     public function setPrecio($value)
     {
         // Valida que el precio sea un número válido.

@@ -76,6 +76,36 @@ class ProductoHandler
         return Database::getRows($sql);
     }
 
+    public function readProductosCategoria()
+    {
+        $sql = 'SELECT 
+                    p.id_producto, 
+                    p.imagen, 
+                    p.nombre_producto, 
+                    p.descripcion, 
+                    p.precio, 
+                    p.existencias,
+                    p.capacidad_memoria_interna_celular,
+                    p.ram_celular,
+                    p.pantalla_tamaño,
+                    p.camara_trasera_celular,
+                    p.sistema_operativo_celular,
+                    p.camara_frontal_celular,
+                    p.procesador_celular
+                FROM 
+                    tb_productos p
+                INNER JOIN 
+                    tb_categorias c ON p.id_categoria = c.id_categoria
+                WHERE 
+                    p.id_categoria = ? 
+                    AND p.estado_producto = true
+                ORDER BY 
+                    p.nombre_producto';
+
+        $params = array($this->id_categoria);
+        return Database::getRows($sql, $params);
+    }
+
 
     public function readOne()
     {

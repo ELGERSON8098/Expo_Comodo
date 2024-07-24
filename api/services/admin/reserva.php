@@ -150,20 +150,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar la reserva';
                 }
                 break;
-            case 'deleteRow': // Acción para eliminar una fila por ID.
-                // Verificar y establecer el ID del género a eliminar.
-                if (
-                    !$reserva->setIdReserva($_POST['idReserva'])
-                ) {
-                    $result['error'] = $reserva->getDataError(); // Mensaje de error si el ID es inválido.
-                } elseif ($reserva->deleteRow()) { // Intentar eliminar la fila.
-                    $result['status'] = 1; // Indicar que la operación fue exitosa.
-                    $result['message'] = 'Reserva eliminada correctamente'; // Mensaje de éxito.
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la reserva'; // Mensaje de error si ocurre un problema.
-                }
-                break;
-
             case 'createDetail':
                 // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);

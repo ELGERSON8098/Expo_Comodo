@@ -52,18 +52,6 @@ class reservaData extends ReservaHandler
         }
     }
 
-    public function setFecha($value)
-    {
-        // Valida el formato de la fecha.
-        if (Validator::validateDateTime($value, 'Y-m-d H:i:s')) {
-            $this->fecha_reserva = $value; // Asigna el valor de la fecha.
-            return true;
-        } else {
-            $this->data_error = 'El formato de fecha debe ser YYYY-MM-DD HH:MM:SS'; // Almacena mensaje de error.
-            return false;
-        }
-    }
-
     public function setIdDetalle($value)
     {
         // Valida que el identificador del detalle sea un número natural.

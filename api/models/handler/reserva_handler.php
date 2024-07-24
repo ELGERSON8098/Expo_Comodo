@@ -20,7 +20,7 @@ class ReservaHandler
     protected $id_detalle_reserva = null;
 
     // Constante para establecer la ruta de las imágenes (si aplica).
-    const RUTA_IMAGEN = '../../images/reservas/';
+    const RUTA_IMAGEN = '../../images/productos/';
 
     /*
      * Método para crear una nueva reserva.
@@ -48,7 +48,7 @@ class ReservaHandler
                     tb_reservas r
                 INNER JOIN
                     tb_usuarios u ON r.id_usuario = u.id_usuario
-                    ORDER BY u.usuario ASC;';
+                    ORDER BY u.usuario ASC';
         return Database::getRows($sql);
     }
 
@@ -108,16 +108,6 @@ class ReservaHandler
     /*
      * Método para eliminar una reserva específica.
      */
-    public function deleteRow()
-    {
-        $sqlDeleteDetalles = 'DELETE FROM tb_detalles_reservas WHERE id_reserva = ?';
-        $paramsDeleteDetalles = array($this->id_reserva);
-        Database::executeRow($sqlDeleteDetalles);
-
-        $sqlDeleteReserva = 'DELETE FROM tb_reservas WHERE id_reserva = ?';
-        $paramsDeleteReserva = array($this->id_reserva);
-        return Database::executeRow($sqlDeleteReserva, $paramsDeleteReserva);
-    }
 
     /*
      * Métodos CRUD para los detalles de la reserva.
@@ -192,21 +182,21 @@ class ReservaHandler
     public function readOneDetailForForm()
     {
         $sql = 'SELECT
-    u.usuario AS user,
-    u.dui_cliente AS dui,
-    u.telefono AS telefono,
-    p.nombre_producto AS producto,
-    p.codigo_interno AS interno,
-    p.referencia_proveedor AS proveedor,
-    m.marca AS Marca,
-    g.nombre_genero AS Genero,
-    c.color AS color,
-    dr.cantidad AS cantidad,
-    t.nombre_talla AS talla,
-    dr.precio_unitario AS precio_unitario,
-    d.valor AS descuento,
+    u.usuario,
+    u.dui_cliente ,
+    u.telefono ,
+    p.nombre_producto ,
+    p.codigo_interno ,
+    p.referencia_proveedor,
+    m.marca ,
+    g.nombre_genero ,
+    c.color,
+    dr.cantidad,
+    t.nombre_talla,
+    dr.precio_unitario,
+    d.valor,
     (p.precio - (p.precio * (d.valor / 100))) AS precio_descuento,
-    u.direccion_cliente AS DirecC
+    u.direccion_cliente
     FROM
     tb_detalles_reservas dr
     INNER JOIN
