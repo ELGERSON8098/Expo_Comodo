@@ -128,9 +128,9 @@ class ClienteHandler
 
     public function readProfile()
     {
-        $sql = 'SELECT id_usuario, nombre, usuario, correo, direccion, clave, estado_cliente
+        $sql = 'SELECT id_usuario, nombre, usuario, correo, direccion_cliente, clave, estado_cliente, telefono
         FROM tb_usuarios
-        WHERE id_usuario = ?';
+        WHERE id_usuario = ? ';
         $params = array($_SESSION['idUsuario']);
         return Database::getRow($sql, $params);
     }
@@ -138,9 +138,9 @@ class ClienteHandler
     public function editProfileS()
     {
         $sql = 'UPDATE tb_usuarios
-                SET nombre = ?, usuario = ?, correo = ?
+                SET nombre = ?, usuario = ?, correo = ?, telefono = ?, direccion_cliente = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombre, $this->alias, $this->correo, $_SESSION['idUsuario']);
+        $params = array($this->nombre, $this->alias, $this->correo, $this->telefono, $this->direccion, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
 
