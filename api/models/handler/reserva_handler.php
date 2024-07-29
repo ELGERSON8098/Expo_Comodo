@@ -119,7 +119,8 @@ class ReservaHandler
         $params = array($this->id_reserva, $this->id_detalle_producto, $this->cantidad, $this->precio_unitario);
         return Database::executeRow($sql, $params);
     }
-
+    
+ // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetails()
     {
         $sql = 'SELECT
