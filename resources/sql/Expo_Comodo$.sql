@@ -13,17 +13,31 @@ CREATE TABLE tb_usuarios (
   direccion_cliente LONGTEXT NOT NULL,
   telefono VARCHAR(20) NOT NULL, 
   dui_cliente VARCHAR(20) NOT NULL, 
+  estado_cliente TINYINT(1) DEFAULT TRUE,
   PRIMARY KEY (id_usuario),
   CONSTRAINT uc_usuario UNIQUE (usuario),
   CONSTRAINT uc_correo UNIQUE (correo),
   CONSTRAINT uc_telefono UNIQUE (telefono),
   CONSTRAINT uc_dui_cliente UNIQUE (dui_cliente)
 );
+
+
+
+
 CREATE TABLE tb_niveles_usuarios (
   id_nivel_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  nombre_nivel ENUM ('Administrador/a', 'Inventarista', 'Vendedor/a') NOT NULL,
+  nombre_nivel VARCHAR (50) NOT NULL,
   PRIMARY KEY (id_nivel_usuario)
 );
+
+SELECT * FROM tb_niveles_usuarios
+
+INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
+VALUES 
+(1, 'administrador'),
+(2, 'inventaristas'),
+(3, 'vendedoras');
+
 
 
 CREATE TABLE tb_admins (
@@ -38,6 +52,11 @@ CREATE TABLE tb_admins (
   CONSTRAINT uc_usuario_administrador UNIQUE (usuario_administrador),
   CONSTRAINT uc_correo_administrador UNIQUE (correo_administrador)
 );
+
+SELECT * FROM tb_admins
+
+
+
 
 CREATE TABLE tb_generos_zapatos (
   id_genero INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -78,8 +97,10 @@ CREATE TABLE tb_descuentos (
   descripcion VARCHAR(200) NOT NULL,
   valor DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (id_descuento),
+  UNIQUE (nombre_descuento),
   CONSTRAINT ck_valor CHECK (valor >= 0)
 );
+
 
 CREATE TABLE tb_materiales (
   id_material INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -97,16 +118,20 @@ CREATE TABLE tb_productos (
   id_genero INT UNSIGNED,
   id_categoria INT UNSIGNED,
   id_material INT UNSIGNED NOT NULL,
-  id_descuento INT UNSIGNED NULL,
+  id_descuento INT UNSIGNED NOT NULL,
   imagen VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_producto),
-  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT fk_marcas FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT fk_generos FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria) ON DELETE CASCADE ON UPDATE CASCADE,
-CONSTRAINT ck_precio CHECK (precio >= 0)
+  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material),
+  CONSTRAINT fk_marcas FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
+  CONSTRAINT fk_generos FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
+  CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
+  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria),
+  CONSTRAINT ck_precio CHECK (precio >= 0),
+  CONSTRAINT uc_nombre_producto UNIQUE (nombre_producto),
+  CONSTRAINT uc_codigo_interno UNIQUE (codigo_interno),
+  CONSTRAINT uc_referencia_proveedor UNIQUE (referencia_proveedor)
 );
+
 
 CREATE TABLE tb_detalles_productos (
   id_detalle_producto INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -144,11 +169,3 @@ CREATE TABLE tb_detalles_reservas (
   CONSTRAINT ck_cantidad  CHECK (cantidad >= 0),
   CONSTRAINT ck_precio_unitario CHECK (precio_unitario >= 0)
 );
-
-INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
-VALUES 
-(1, 'Administrador/a'),
-(2, 'Inventarista'),
-(3, 'Vendedor/a');
-
-SELECT*FROM tb_niveles_usuarios;

@@ -128,6 +128,8 @@ if (isset($_GET['action'])) {
                     !$cliente->setAlias($_POST['usuarioCliente']) or
                     !$cliente->setCorreo($_POST['correoCliente']) or
                     !$cliente->setClave($_POST['claveCliente'])or
+                    !$cliente->setTelefono($_POST['telefonoCliente'])or
+                    !$cliente->setDui($_POST['duiCliente'])or
                     !$cliente ->setDirec($_POST['direccionCliente'])
                     ){
                         $result['error'] = $cliente ->getDataError();

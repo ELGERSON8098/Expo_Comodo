@@ -25,6 +25,20 @@ class ClienteData extends ClienteHandler
         }
     }
 
+    public function setAlias($value, $min = 6, $max = 25)
+    {
+        if (!Validator::validateAlphanumeric($value)) {
+            $this->data_error = 'El alias debe ser un valor alfanumérico';
+            return false;
+        } elseif (Validator::validateLength($value, $min, $max)) {
+            $this->alias = $value;
+            return true;
+        } else {
+            $this->data_error = 'El alias debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
+    }
+
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -39,19 +53,20 @@ class ClienteData extends ClienteHandler
         }
     }
 
-    public function setApellido($value, $min = 2, $max = 50)
+    public function setDirec($value, $min = 2, $max = 500)
     {
-        if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El apellido debe ser un valor alfabético';
+        if (!Validator::validateString($value)) {
+            $this->data_error = 'El nombre debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->apellido = $value;
+            $this->direccion = $value;
             return true;
         } else {
-            $this->data_error = 'El apellido debe tener una longitud entre ' . $min . ' y ' . $max;
+            $this->data_error = 'El nombre debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         }
     }
+
 
     public function setCorreo($value, $min = 8, $max = 100)
     {
@@ -61,7 +76,7 @@ class ClienteData extends ClienteHandler
         } elseif (!Validator::validateLength($value, $min, $max)) {
             $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
-        } elseif($this->checkDuplicate($value)) {
+        } elseif ($this->checkDuplicate($value)) {
             $this->data_error = 'El correo ingresado ya existe';
             return false;
         } else {
@@ -81,45 +96,16 @@ class ClienteData extends ClienteHandler
         }
     }
 
-    public function setDUI($value)
+    public function setDui($value)
     {
-        if (!Validator::validateDUI($value)) {
-            $this->data_error = 'El DUI debe tener el formato ########-#';
-            return false;
-        } elseif($this->checkDuplicate($value)) {
-            $this->data_error = 'El DUI ingresado ya existe';
-            return false;
-        } else {
+        if (Validator::validateDUI($value)) {
             $this->dui = $value;
             return true;
-        }
-    }
-
-    public function setNacimiento($value)
-    {
-        if (Validator::validateDate($value)) {
-            $this->nacimiento = $value;
-            return true;
         } else {
-            $this->data_error = 'La fecha de nacimiento es incorrecta';
+            $this->data_error = 'El dui debe tener el formato ########-#';
             return false;
         }
     }
-
-    public function setDireccion($value, $min = 2, $max = 250)
-    {
-        if (!Validator::validateString($value)) {
-            $this->data_error = 'La dirección contiene caracteres prohibidos';
-            return false;
-        } elseif(Validator::validateLength($value, $min, $max)) {
-            $this->direccion = $value;
-            return true;
-        } else {
-            $this->data_error = 'La dirección debe tener una longitud entre ' . $min . ' y ' . $max;
-            return false;
-        }
-    }
-
     public function setClave($value)
     {
         if (Validator::validatePassword($value)) {

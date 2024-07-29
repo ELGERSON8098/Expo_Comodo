@@ -10,6 +10,7 @@ class ClienteHandler
     *   Declaración de atributos para el manejo de datos.
     */
     protected $id = null;
+    protected $alias = null;
     protected $nombre = null;
     protected $apellido = null;
     protected $correo = null;
@@ -23,28 +24,30 @@ class ClienteHandler
     /*
     *   Métodos para gestionar la cuenta del cliente.
     */
-    public function checkUser($mail, $password)
+    public function checkUser($correo, $password)
     {
-        $sql = 'SELECT id_cliente, correo_cliente, clave_cliente, estado_cliente
-                FROM cliente
-                WHERE correo_cliente = ?';
-        $params = array($mail);
+        $sql = 'SELECT id_usuario, usuario, clave, estado_cliente, usuario
+                FROM tb_usuarios
+                WHERE usuario = ?';
+        $params = array($correo);
         $data = Database::getRow($sql, $params);
-        if (password_verify($password, $data['clave_cliente'])) {
-            $this->id = $data['id_cliente'];
-            $this->correo = $data['correo_cliente'];
+    
+        if ($data && password_verify($password, $data['clave'])) {
+            $this->id = $data['id_usuario'];
+            $this->alias = $data['usuario'];
             $this->estado = $data['estado_cliente'];
             return true;
         } else {
             return false;
         }
     }
+    
 
     public function checkStatus()
     {
         if ($this->estado) {
-            $_SESSION['idCliente'] = $this->id;
-            $_SESSION['correoCliente'] = $this->correo;
+            $_SESSION['idUsuario'] = $this->id;
+            $_SESSION['UsuarioCliente'] = $this->alias;
             return true;
         } else {
             return false;
@@ -53,20 +56,25 @@ class ClienteHandler
 
     public function changePassword()
     {
-        $sql = 'UPDATE cliente
-                SET clave_cliente = ?
-                WHERE id_cliente = ?';
-        $params = array($this->clave, $this->id);
+        $sql = 'UPDATE tb_usuarios
+                SET clave = ?
+                WHERE id_usuario = ?';
+        $params = array($this->clave, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
 
-    public function editProfile()
+    public function checkPassword($password)
     {
-        $sql = 'UPDATE cliente
-                SET nombre_cliente = ?, apellido_cliente = ?, correo_cliente = ?, dui_cliente = ?, telefono_cliente = ?, nacimiento_cliente = ?, direccion_cliente = ?
-                WHERE id_cliente = ?';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
-        return Database::executeRow($sql, $params);
+        $sql = 'SELECT clave
+                FROM tb_usuarios
+                WHERE id_usuario = ?';
+        $params = array($_SESSION['idUsuario']);
+        $data = Database::getRow($sql, $params);
+        if (password_verify($password, $data['clave'])) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public function changeStatus()
@@ -92,29 +100,48 @@ class ClienteHandler
         return Database::getRows($sql, $params);
     }
 
-    public function createRow()
+    public function createUsuario()
     {
-        $sql = 'INSERT INTO cliente(nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, clave_cliente)
-                VALUES(?, ?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->apellido, $this->correo, $this->dui, $this->telefono, $this->nacimiento, $this->direccion, $this->clave);
+        $sql = 'INSERT INTO tb_usuarios (nombre, usuario, correo, clave, direccion_cliente, telefono, dui_cliente)
+                VALUES (?, ?, ?, ?, ?, ?, ?)';
+        $params = array($this->nombre, $this->alias, $this->correo, $this->clave,  $this->direccion, $this->telefono, $this->dui);
         return Database::executeRow($sql, $params);
     }
-
+    
     public function readAll()
     {
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, estado_cliente
-                FROM cliente
-                ORDER BY nombre_cliente ASC';
+        $sql = 'SELECT id_usuario, nombre, usuario, correo
+                FROM tb_usuarios
+                ORDER BY usuario';
         return Database::getRows($sql);
     }
-
+    
     public function readOne()
     {
-        $sql = 'SELECT id_cliente, nombre_cliente, apellido_cliente, correo_cliente, dui_cliente, telefono_cliente, nacimiento_cliente, direccion_cliente, estado_cliente
-                FROM cliente
-                WHERE id_cliente = ?';
+        $sql = 'SELECT id_usuario, nombre, usuario, correo, clave
+                FROM tb_usuarios
+                WHERE id_usuario = ?';
         $params = array($this->id);
         return Database::getRow($sql, $params);
+    }
+    
+
+    public function readProfile()
+    {
+        $sql = 'SELECT id_usuario, nombre, usuario, correo, direccion, clave, estado_cliente
+        FROM tb_usuarios
+        WHERE id_usuario = ?';
+        $params = array($_SESSION['idUsuario']);
+        return Database::getRow($sql, $params);
+    }
+
+    public function editProfileS()
+    {
+        $sql = 'UPDATE tb_usuarios
+                SET nombre = ?, usuario = ?, correo = ?
+                WHERE id_usuario = ?';
+        $params = array($this->nombre, $this->alias, $this->correo, $_SESSION['idUsuario']);
+        return Database::executeRow($sql, $params);
     }
 
     public function updateRow()
