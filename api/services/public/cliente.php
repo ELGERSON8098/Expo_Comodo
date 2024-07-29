@@ -34,9 +34,11 @@ if (isset($_GET['action'])) {
                     case 'editProfile':
                         $_POST = Validator::validateForm($_POST);
                         if (
-                            !$cliente->setNombre($_POST['nombreCliente']) or
-                            !$cliente->setCorreo($_POST['correoCliente']) or
-                            !$cliente->setAlias($_POST['aliaCliente'])
+                            !$cliente->setNombre($_POST['nombre']) or
+                            !$cliente->setCorreo($_POST['correo']) or
+                            !$cliente->setAlias($_POST['username']) or
+                            !$cliente->setTelefono($_POST['telefono']) or
+                            !$cliente ->setDirec($_POST['direccion'])
                         ) {
                             $result['error'] = $cliente->getDataError();
                         } elseif ($cliente->editProfileS()) {
