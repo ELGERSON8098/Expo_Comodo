@@ -28,6 +28,13 @@ if (isset($_GET['action'])) {
                 $result['error'] = 'Producto inexistente';
             }
             break;
+        case 'getProductosConDescuento':
+            if ($result['dataset'] = $producto->getProductosConDescuento()) {
+                $result['status'] = 1;
+            } else {
+                $result['error'] = 'No hay productos con descuento';
+            }
+            break;
         default:
             $result['error'] = 'Acción no disponible';
     }
