@@ -38,17 +38,18 @@ if (isset($_GET['action'])) {
                             !$cliente->setCorreo($_POST['correo']) or
                             !$cliente->setAlias($_POST['username']) or
                             !$cliente->setTelefono($_POST['telefono']) or
-                            !$cliente ->setDirec($_POST['direccion'])
+                            !$cliente->setDirec($_POST['direccion'])
                         ) {
                             $result['error'] = $cliente->getDataError();
                         } elseif ($cliente->editProfileS()) {
                             $result['status'] = 1;
                             $result['message'] = 'Perfil modificado correctamente';
-                            $_SESSION['aliaCliente'] = $_POST['aliaCliente'];
+                            $_SESSION['aliaCliente'] = $_POST['username'];
                         } else {
                             $result['error'] = 'Ocurrió un problema al modificar el perfil';
                         }
                         break;
+                    
 
                     case 'changePassword':
                         $_POST = Validator::validateForm($_POST);
