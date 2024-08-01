@@ -31,8 +31,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al leer el perfil';
                 }
                 break;
-
-<<<<<<< HEAD
             case 'editProfile':
                 $_POST = Validator::validateForm($_POST);
                 if (
@@ -51,27 +49,25 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }
                 break;
-=======
-                    case 'editProfile':
-                        $_POST = Validator::validateForm($_POST);
-                        if (
-                            !$cliente->setNombre($_POST['nombre']) or
-                            !$cliente->setCorreo($_POST['correo']) or
-                            !$cliente->setAlias($_POST['username']) or
-                            !$cliente->setTelefono($_POST['telefono']) or
-                            !$cliente->setDirec($_POST['direccion'])
-                        ) {
-                            $result['error'] = $cliente->getDataError();
-                        } elseif ($cliente->editProfileS()) {
-                            $result['status'] = 1;
-                            $result['message'] = 'Perfil modificado correctamente';
-                            $_SESSION['aliaCliente'] = $_POST['username'];
-                        } else {
-                            $result['error'] = 'Ocurrió un problema al modificar el perfil';
-                        }
-                        break;
-                    
->>>>>>> f13dd46df3de1df6ff62d0a6f05a4dbc3a645db4
+            case 'editProfile':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setNombre($_POST['nombre']) or
+                    !$cliente->setCorreo($_POST['correo']) or
+                    !$cliente->setAlias($_POST['username']) or
+                    !$cliente->setTelefono($_POST['telefono']) or
+                    !$cliente->setDirec($_POST['direccion'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->editProfileS()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Perfil modificado correctamente';
+                    $_SESSION['aliaCliente'] = $_POST['username'];
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                }
+                break;
+
 
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
