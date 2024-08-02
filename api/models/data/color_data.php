@@ -38,7 +38,7 @@ class colorData extends colorHandler
         }
     
         // Validar el valor y la longitud del nombre
-        if (!Validator::validateColor($value)) {
+        if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre debe ser un valor hola';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
