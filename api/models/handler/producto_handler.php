@@ -348,17 +348,19 @@ ORDER BY
     public function getProductosConDescuento()
     {
         $sql = 'SELECT 
-                    p.id_producto, 
-                    p.nombre_producto, 
-                    p.precio, 
-                    d.nombre_descuento, 
-                    d.valor 
-                FROM 
-                    tb_productos p
-                JOIN 
-                    tb_descuentos d ON p.id_descuento = d.id_descuento
-                WHERE 
-                    p.id_descuento IS NOT NULL';
+    p.id_producto, 
+    p.nombre_producto, 
+    p.precio, 
+    d.nombre_descuento, 
+    d.valor 
+    FROM 
+    tb_productos p
+    JOIN 
+    tb_descuentos d ON p.id_descuento = d.id_descuento
+    JOIN 
+    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+    WHERE 
+    p.id_descuento IS NOT NULL';
         return Database::getRows($sql);
     }
 }
