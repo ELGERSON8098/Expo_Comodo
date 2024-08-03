@@ -27,7 +27,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = $pedido->getDataError();
                 } elseif ($pedido->createDetail()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Producto agregado correctamente';
+                    $result['message'] = 'Producto agregado correctamente ' . $_SESSION['idReserva'];
                 } else {
                     $result['error'] = 'Ocurrió un problema al agregar el producto';
                 }

@@ -72,9 +72,9 @@ class PedidoHandler
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
 {
-    $sql = 'INSERT INTO tb_detalles_reservas (id_producto, precio_unitario, cantidad, id_reserva, id_detalle_producto)
-            VALUES (?, (SELECT precio FROM tb_productos WHERE id_producto = ?), ?, ?, ?)';
-    $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva'], $this->idDetalleProducto);
+    $sql = 'INSERT INTO tb_detalles_reservas (id_detalle_producto, precio_unitario, cantidad, id_reserva)
+            VALUES (?, (SELECT precio FROM tb_productos INNER JOIN tb_detalles_productos USING(id_producto) WHERE id_detalle_producto = ?), ?, ?)';
+    $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
     return Database::executeRow($sql, $params);
 }
 
@@ -85,20 +85,23 @@ class PedidoHandler
         $sql = 'SELECT 
                 dr.id_detalle_reserva, 
                 p.nombre_producto,
+                p.id_producto,
                 p.imagen, 
                 IFNULL(o.valor, 0) AS valor_oferta, -- Utiliza IFNULL para manejar el caso de no oferta
                 dr.precio_unitario, 
                 dr.cantidad, 
                 r.estado_reserva
-            FROM 
+                FROM 
                 tb_detalles_reservas dr
-            INNER JOIN 
+                INNER JOIN 
                 tb_reservas r ON dr.id_reserva = r.id_reserva
-            INNER JOIN 
-                tb_productos p ON dr.id_producto = p.id_producto
-            LEFT JOIN
-                tb_ofertas o ON p.id_oferta = o.id_oferta -- Usa LEFT JOIN para incluir productos sin oferta
-            WHERE 
+                INNER JOIN tb_detalles_productos dp 
+				USING(id_detalle_producto)
+                INNER JOIN 
+                tb_productos p ON dp.id_producto = p.id_producto
+                LEFT JOIN
+                tb_descuentos o ON p.id_descuento = o.id_descuento -- Usa LEFT JOIN para incluir productos sin oferta
+                WHERE 
                 dr.id_reserva = ?';
         $params = array($_SESSION['idReserva']);
         return Database::getRows($sql, $params);
@@ -121,20 +124,20 @@ class PedidoHandler
 
         // Consulta SQL actualizada para incluir el valor de la oferta
         $sql = 'SELECT 
-    dr.id_detalle_reserva, 
-    p.id_producto, 
-    r.fecha_registro,
-    p.nombre_producto, 
-    dr.precio_unitario, 
-    dr.cantidad, 
-    r.estado_reserva,
-    u.nombre AS nombre_usuario,
-    u.usuario,
-    u.correo,
-    u.direccion,
-    p.imagen,
-    o.valor AS valor_oferta
-FROM 
+        dr.id_detalle_reserva, 
+        p.id_producto, 
+        r.fecha_registro,
+        p.nombre_producto, 
+        dr.precio_unitario, 
+        dr.cantidad, 
+        r.estado_reserva,
+        u.nombre AS nombre_usuario,
+        u.usuario,
+        u.correo,
+        u.direccion,
+        p.imagen,
+        o.valor AS valor_oferta
+        FROM 
     tb_detalles_reservas dr
 INNER JOIN 
     tb_reservas r ON dr.id_reserva = r.id_reserva
