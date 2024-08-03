@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
  *	Clase para manejar el comportamiento de los datos de la tabla PRODUCTO.
  */
@@ -182,7 +182,7 @@ ORDER BY
         $params = array($this->id_producto);
         return Database::getRow($sql, $params);
     }
-    
+
     /*
      * Método para buscar registros de los productos por nombre y por codigo interno.
      */
@@ -343,22 +343,25 @@ ORDER BY
         $params = array($this->id_detalle_producto);
         return Database::getRow($sql, $params);
     }
-    
+
     // Método para obtener productos con descuento
     public function getProductosConDescuento()
     {
         $sql = 'SELECT 
-                    p.id_producto, 
-                    p.nombre_producto, 
-                    p.precio, 
-                    d.nombre_descuento, 
-                    d.valor 
-                FROM 
-                    tb_productos p
-                JOIN 
-                    tb_descuentos d ON p.id_descuento = d.id_descuento
-                WHERE 
-                    p.id_descuento IS NOT NULL';
+    p.id_producto, 
+    p.nombre_producto, 
+    p.precio, 
+    p.imagen,
+    d.nombre_descuento, 
+    d.valor 
+FROM 
+    tb_productos p
+JOIN 
+    tb_descuentos d ON p.id_descuento = d.id_descuento
+JOIN 
+    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+WHERE 
+    p.id_descuento IS NOT NULL';
         return Database::getRows($sql);
     }
 }

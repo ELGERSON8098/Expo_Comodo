@@ -21,24 +21,11 @@ CREATE TABLE tb_usuarios (
   CONSTRAINT uc_dui_cliente UNIQUE (dui_cliente)
 );
 
-
-
-
 CREATE TABLE tb_niveles_usuarios (
   id_nivel_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
   nombre_nivel VARCHAR (50) NOT NULL,
   PRIMARY KEY (id_nivel_usuario)
 );
-
-SELECT * FROM tb_niveles_usuarios
-
-INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
-VALUES 
-(1, 'administrador'),
-(2, 'inventaristas'),
-(3, 'vendedoras');
-
-
 
 CREATE TABLE tb_admins (
   id_administrador INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -52,11 +39,6 @@ CREATE TABLE tb_admins (
   CONSTRAINT uc_usuario_administrador UNIQUE (usuario_administrador),
   CONSTRAINT uc_correo_administrador UNIQUE (correo_administrador)
 );
-
-SELECT * FROM tb_admins
-
-
-
 
 CREATE TABLE tb_generos_zapatos (
   id_genero INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -169,3 +151,15 @@ CREATE TABLE tb_detalles_reservas (
   CONSTRAINT ck_cantidad  CHECK (cantidad >= 0),
   CONSTRAINT ck_precio_unitario CHECK (precio_unitario >= 0)
 );
+
+ALTER TABLE tb_usuarios
+ADD COLUMN recovery_pin VARCHAR(10) NULL,
+ADD COLUMN pin_expiry DATETIME NULL;
+
+INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
+VALUES 
+(1, 'administrador'),
+(2, 'inventaristas'),
+(3, 'vendedoras');
+
+SELECT * FROM tb_niveles_usuarios

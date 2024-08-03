@@ -1,14 +1,14 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once('../../helpers/database.php');
+require_once ('../../helpers/database.php');
 /*
-*	Clase para manejar el comportamiento de los datos de la tabla CLIENTE.
-*/
+ *	Clase para manejar el comportamiento de los datos de la tabla CLIENTE.
+ */
 class ClienteHandler
 {
     /*
-    *   Declaración de atributos para el manejo de datos.
-    */
+     *   Declaración de atributos para el manejo de datos.
+     */
     protected $id = null;
     protected $alias = null;
     protected $nombre = null;
@@ -22,8 +22,8 @@ class ClienteHandler
     protected $estado = null;
 
     /*
-    *   Métodos para gestionar la cuenta del cliente.
-    */
+     *   Métodos para gestionar la cuenta del cliente.
+     */
     public function checkUser($correo, $password)
     {
         $sql = 'SELECT id_usuario, usuario, clave, estado_cliente, usuario
@@ -31,7 +31,7 @@ class ClienteHandler
                 WHERE usuario = ?';
         $params = array($correo);
         $data = Database::getRow($sql, $params);
-    
+
         if ($data && password_verify($password, $data['clave'])) {
             $this->id = $data['id_usuario'];
             $this->alias = $data['usuario'];
@@ -41,7 +41,7 @@ class ClienteHandler
             return false;
         }
     }
-    
+
 
     public function checkStatus()
     {
@@ -87,8 +87,8 @@ class ClienteHandler
     }
 
     /*
-    *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
-    */
+     *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
+     */
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -104,10 +104,10 @@ class ClienteHandler
     {
         $sql = 'INSERT INTO tb_usuarios (nombre, usuario, correo, clave, direccion_cliente, telefono, dui_cliente)
                 VALUES (?, ?, ?, ?, ?, ?, ?)';
-        $params = array($this->nombre, $this->alias, $this->correo, $this->clave,  $this->direccion, $this->telefono, $this->dui);
+        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->direccion, $this->telefono, $this->dui);
         return Database::executeRow($sql, $params);
     }
-    
+
     public function readAll()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo
@@ -115,7 +115,7 @@ class ClienteHandler
                 ORDER BY usuario';
         return Database::getRows($sql);
     }
-    
+
     public function readOne()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo, clave
@@ -124,7 +124,7 @@ class ClienteHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
-    
+
 
     public function readProfile()
     {
@@ -169,4 +169,52 @@ class ClienteHandler
         $params = array($value, $value);
         return Database::getRow($sql, $params);
     }
+
+    public function generarPinRecuperacion()
+    {
+        $pin = sprintf("%06d", mt_rand(1, 999999)); // Genera un PIN de 6 dígitos
+        $expiry = date('Y-m-d H:i:s', strtotime('+30 minutes')); // 30 minutos desde ahora
+
+        $sql = "UPDATE tb_usuarios SET recovery_pin = ?, pin_expiry = ? WHERE correo = ?";
+        $params = array($pin, $expiry, $this->correo);
+
+        if (Database::executeRow($sql, $params)) {
+            return $pin; // Retorna el PIN para enviarlo al usuario
+        } else {
+            // Manejo de errores
+            error_log("Error al generar el PIN de recuperación para el correo: " . $this->correo);
+        }
+        return false;
+    }
+
+    public function verificarPinRecuperacion($pin)
+    {
+        $sql = "SELECT id_usuario FROM tb_usuarios 
+            WHERE correo = ? AND recovery_pin = ? AND pin_expiry > NOW()";
+        $params = array($this->correo, $pin);
+
+        $result = Database::getRow($sql, $params);
+
+        if ($result) {
+            return $result['id_usuario'];
+        } else {
+            // Manejo de errores
+            error_log("Error al verificar el PIN de recuperación para el correo: " . $this->correo);
+        }
+        return false;
+    }
+
+    public function resetearPin()
+    {
+        $sql = "UPDATE tb_usuarios SET recovery_pin = NULL, pin_expiry = NULL WHERE id_usuario = ?";
+        $params = array($this->id);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function cambiarClaveConPin($id_usuario, $nuevaClave) {
+        $sql = 'UPDATE tb_usuarios SET clave = ? WHERE id_usuario = ?';
+        $params = array(password_hash($nuevaClave, PASSWORD_DEFAULT), $id_usuario);
+        return Database::executeRow($sql, $params);
+    }
+    
 }
