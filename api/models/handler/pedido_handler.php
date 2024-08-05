@@ -71,12 +71,12 @@ class PedidoHandler
 
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
-{
-    $sql = 'INSERT INTO tb_detalles_reservas (id_detalle_producto, precio_unitario, cantidad, id_reserva)
+    {
+        $sql = 'INSERT INTO tb_detalles_reservas (id_detalle_producto, precio_unitario, cantidad, id_reserva)
             VALUES (?, (SELECT precio FROM tb_productos INNER JOIN tb_detalles_productos USING(id_producto) WHERE id_detalle_producto = ?), ?, ?)';
-    $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
-    return Database::executeRow($sql, $params);
-}
+        $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
+        return Database::executeRow($sql, $params);
+    }
 
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
@@ -151,7 +151,7 @@ WHERE
     r.estado_reserva = "Aceptado" AND
     r.id_reserva = ? AND
     p.nombre_producto LIKE ?';
-$params = array($_SESSION['idReserva'], $value);
+        $params = array($_SESSION['idReserva'], $value);
         return Database::getRows($sql, $params);
     }
 
@@ -174,7 +174,7 @@ $params = array($_SESSION['idReserva'], $value);
         $sql = 'SELECT 
     dr.id_detalle_reserva, 
     p.id_producto, 
-    r.fecha_registro,
+    r.fecha_reserva,
     p.nombre_producto, 
     dr.precio_unitario, 
     dr.cantidad, 
@@ -182,7 +182,7 @@ $params = array($_SESSION['idReserva'], $value);
     u.nombre AS nombre_usuario,
     u.usuario,
     u.correo,
-    u.direccion,
+    u.direccion_cliente AS direccion,  
     p.imagen,
     o.valor AS valor_oferta
 FROM 
@@ -194,9 +194,10 @@ INNER JOIN
 INNER JOIN
     tb_usuarios u ON r.id_usuario = u.id_usuario
 LEFT JOIN
-    tb_ofertas o ON p.id_oferta = o.id_oferta
-WHERE r.estado_reserva = "Aceptado" AND
-    u.id_usuario = ? AND nombre_producto LIKE ?';
+    tb_descuentos o ON p.id_descuento = o.id_descuento
+WHERE 
+    r.estado_reserva = "Aceptado" AND
+    u.id_usuario IS NOT NULL';
 
         $params = array($_SESSION['idUsuario'], $value);
         return Database::getRows($sql, $params);
