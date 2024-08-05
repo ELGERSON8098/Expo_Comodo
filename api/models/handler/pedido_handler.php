@@ -184,7 +184,8 @@ WHERE
     u.correo,
     u.direccion_cliente AS direccion,  
     p.imagen,
-    o.valor AS valor_oferta
+    o.valor AS valor_oferta,
+    (dr.precio_unitario * dr.cantidad) AS subtotal  -- Añadida una coma antes de esta línea
 FROM 
     tb_detalles_reservas dr
 INNER JOIN 
