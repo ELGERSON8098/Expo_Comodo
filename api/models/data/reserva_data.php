@@ -11,7 +11,8 @@ class reservaData extends ReservaHandler
     private $data_error = null;
     private $estados = array(
         array('Pendiente', 'Pendiente'),
-        array('Aceptado', 'Aceptado')
+        array('Aceptado', 'Aceptado'),
+        array('Cancelado', 'Cancelado')
     );
 
     /*
