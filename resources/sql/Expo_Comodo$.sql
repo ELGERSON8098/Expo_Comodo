@@ -133,7 +133,7 @@ CREATE TABLE tb_reservas (
   id_reserva INT UNSIGNED AUTO_INCREMENT NOT NULL,
   id_usuario INT UNSIGNED NOT NULL,
   fecha_reserva DATETIME DEFAULT CURRENT_DATE() NOT NULL, 
-  estado_reserva ENUM ('Aceptado', 'Pendiente') NOT NULL,
+  estado_reserva ENUM ('Aceptado', 'Pendiente', 'Cancelado') NOT NULL,
   PRIMARY KEY (id_reserva),
   CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id_usuario)
 );
