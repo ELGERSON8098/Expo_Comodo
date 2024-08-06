@@ -72,12 +72,11 @@ class PedidoHandler
     // Método para agregar un producto al carrito de compras.
     public function createDetail()
     {
-        $sql = 'INSERT INTO tb_detalles_reservas (id_detalle_producto, precio_unitario, cantidad, id_reserva)
-            VALUES (?, (SELECT precio FROM tb_productos INNER JOIN tb_detalles_productos USING(id_producto) WHERE id_detalle_producto = ?), ?, ?)';
-        $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
+        $sql = 'INSERT INTO tb_detalles_reservas (id_producto, id_detalle_producto, precio_unitario, cantidad, id_reserva)
+            VALUES ((SELECT id_producto FROM tb_detalles_productos WHERE id_detalle_producto = ?),?, (SELECT precio FROM tb_productos INNER JOIN tb_detalles_productos USING(id_producto) WHERE id_detalle_producto = ?), ?, ?)';
+        $params = array ($this->producto,$this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
         return Database::executeRow($sql, $params);
     }
-
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
     public function readDetail()
@@ -166,42 +165,38 @@ WHERE
             return $data['existencias'];
         }
     }
-    public function readHistorials($value)
+    public function readHistorials()
     {
-        $value = $value === '' ? '%%' : '%' . $value . '%';
-
         // Consulta SQL actualizada para incluir el valor de la oferta
         $sql = 'SELECT 
-    dr.id_detalle_reserva, 
-    p.id_producto, 
-    r.fecha_reserva,
-    p.nombre_producto, 
-    dr.precio_unitario, 
-    dr.cantidad, 
-    r.estado_reserva,
-    u.nombre AS nombre_usuario,
-    u.usuario,
-    u.correo,
-    u.direccion_cliente AS direccion,  
-    p.imagen,
-    o.valor AS valor_oferta,
-    (dr.precio_unitario * dr.cantidad) AS subtotal  -- Añadida una coma antes de esta línea
-FROM 
-    tb_detalles_reservas dr
-INNER JOIN 
-    tb_reservas r ON dr.id_reserva = r.id_reserva
-INNER JOIN 
-    tb_productos p ON dr.id_producto = p.id_producto
-INNER JOIN
-    tb_usuarios u ON r.id_usuario = u.id_usuario
-LEFT JOIN
-    tb_descuentos o ON p.id_descuento = o.id_descuento
-WHERE 
-    r.estado_reserva = "Aceptado" AND
-    u.id_usuario IS NOT NULL';
-
-        $params = array($_SESSION['idUsuario'], $value);
-        return Database::getRows($sql, $params);
+        dr.id_detalle_reserva, 
+        p.id_producto, 
+        r.fecha_reserva,
+        p.nombre_producto, 
+        dr.precio_unitario, 
+        dr.cantidad, 
+        r.estado_reserva,
+        u.nombre AS nombre_usuario,
+        u.usuario,
+        u.correo,
+        u.direccion_cliente AS direccion,  
+        p.imagen,
+        o.valor AS valor_oferta,
+        (dr.precio_unitario * dr.cantidad) AS subtotal  -- Añadida una coma antes de esta línea
+        FROM 
+            tb_detalles_reservas dr
+        INNER JOIN 
+            tb_reservas r ON dr.id_reserva = r.id_reserva
+        INNER JOIN 
+           tb_productos p ON dr.id_producto = p.id_producto
+        INNER JOIN
+            tb_usuarios u ON r.id_usuario = u.id_usuario
+        LEFT JOIN
+            tb_descuentos o ON p.id_descuento = o.id_descuento
+        WHERE 
+            r.estado_reserva = "Aceptado" AND
+            u.id_usuario IS NOT NULL';
+        return Database::getRows($sql);
     }
 
 

@@ -43,7 +43,7 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readHistorials':
-                if ($result['dataset'] = $pedido->readHistorials($_POST['valor'])) {
+                if ($result['dataset'] = $pedido->readHistorials()) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'No existen productos para mostrar';
