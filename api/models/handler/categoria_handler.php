@@ -88,4 +88,16 @@ class CategoriaHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function readAllCategorias()
+    {
+        $sql = 'SELECT c.id_categoria, c.nombre_categoria, c.imagen
+            FROM tb_categorias c
+            JOIN tb_productos p ON c.id_categoria = p.id_categoria
+            JOIN tb_detalles_productos dp ON p.id_producto = dp.id_producto
+            GROUP BY c.id_categoria, c.nombre_categoria, c.imagen
+            HAVING COUNT(dp.id_detalle_producto) > 0
+            ORDER BY c.nombre_categoria';
+        return Database::getRows($sql);
+    }
 }
