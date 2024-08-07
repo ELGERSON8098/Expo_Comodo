@@ -10,8 +10,8 @@ if (isset($_GET['action'])) {
     $result = array('status' => 0, 'message' => null, 'dataset' => null, 'error' => null, 'exception' => null);
     // Se compara la acción a realizar según la petición del controlador.
     switch ($_GET['action']) {
-        case 'readAll':
-            if ($result['dataset'] = $categoria->readAll()) {
+        case 'readAllCategorias':
+            if ($result['dataset'] = $categoria->readAllCategorias()) {
                 $result['status'] = 1;
             } else {
                 $result['error'] = 'No existen categorías para mostrar';
