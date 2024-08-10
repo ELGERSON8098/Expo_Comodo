@@ -195,8 +195,9 @@ WHERE
             tb_descuentos o ON p.id_descuento = o.id_descuento
         WHERE 
             r.estado_reserva = "Aceptado" AND
-            u.id_usuario IS NOT NULL';
-        return Database::getRows($sql);
+            u.id_usuario = ?';
+        $params = array($_SESSION['idUsuario']);
+        return Database::getRows($sql,$params);
     }
 
 
