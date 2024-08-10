@@ -70,7 +70,7 @@ class ClienteData extends ClienteHandler
 
     public function setCorreo($value, $min = 8, $max = 100)
     {
-        $checkSql = 'SELECT COUNT(*) as count FROM clientes WHERE correo = ?';
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_usuarios WHERE correo = ?';
         $checkParams = array($value);
         $checkResult = Database::getRow($checkSql, $checkParams);
 
@@ -93,7 +93,7 @@ class ClienteData extends ClienteHandler
 
     public function setTelefono($value)
     {
-        $checkSql = 'SELECT COUNT(*) as count FROM clientes WHERE telefono = ?';
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_usuarios WHERE telefono = ?';
         $checkParams = array($value);
         $checkResult = Database::getRow($checkSql, $checkParams);
 
@@ -113,7 +113,7 @@ class ClienteData extends ClienteHandler
 
     public function setDui($value)
     {
-        $checkSql = 'SELECT COUNT(*) as count FROM clientes WHERE dui = ?';
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_usuarios WHERE dui_cliente = ?';
         $checkParams = array($value);
         $checkResult = Database::getRow($checkSql, $checkParams);
 
