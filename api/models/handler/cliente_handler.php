@@ -163,12 +163,14 @@ class ClienteHandler
 
     public function checkDuplicate($value)
     {
-        $sql = 'SELECT id_cliente
-                FROM cliente
-                WHERE dui_cliente = ? OR correo_cliente = ?';
-        $params = array($value, $value);
+        // Consulta para verificar si el correo electrónico ya existe en la base de datos.
+        $sql = 'SELECT id_usuario
+            FROM tb_usuarios
+            WHERE correo = ?';
+        $params = array($value);
         return Database::getRow($sql, $params);
     }
+
 
     public function generarPinRecuperacion()
     {
@@ -211,10 +213,11 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 
-    public function cambiarClaveConPin($id_usuario, $nuevaClave) {
+    public function cambiarClaveConPin($id_usuario, $nuevaClave)
+    {
         $sql = 'UPDATE tb_usuarios SET clave = ? WHERE id_usuario = ?';
         $params = array(password_hash($nuevaClave, PASSWORD_DEFAULT), $id_usuario);
         return Database::executeRow($sql, $params);
     }
-    
+
 }

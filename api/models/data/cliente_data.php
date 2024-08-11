@@ -70,20 +70,14 @@ class ClienteData extends ClienteHandler
 
     public function setCorreo($value, $min = 8, $max = 100)
     {
-        $checkSql = 'SELECT COUNT(*) as count FROM tb_usuarios WHERE correo = ?';
-        $checkParams = array($value);
-        $checkResult = Database::getRow($checkSql, $checkParams);
-
-        if ($checkResult['count'] > 0) {
-            $this->data_error = 'El correo ingresado ya existe';
-            return false;
-        }
-
         if (!Validator::validateEmail($value)) {
             $this->data_error = 'El correo no es válido';
             return false;
         } elseif (!Validator::validateLength($value, $min, $max)) {
             $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        } elseif ($this->checkDuplicate($value)) {
+            $this->data_error = 'El correo ingresado ya existe';
             return false;
         } else {
             $this->correo = $value;
@@ -93,15 +87,23 @@ class ClienteData extends ClienteHandler
 
     public function setTelefono($value)
     {
+        // Verificar si el valor del teléfono es una cadena.
+        if (!is_string($value)) {
+            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)###-####';
+            return false;
+        }
+    
+        // Consulta para verificar si el teléfono ya existe en la base de datos.
         $checkSql = 'SELECT COUNT(*) as count FROM tb_usuarios WHERE telefono = ?';
-        $checkParams = array($value);
+        $checkParams = array($value); // El valor se tratará como una cadena automáticamente
         $checkResult = Database::getRow($checkSql, $checkParams);
-
-        if ($checkResult['count'] > 0) {
+    
+        if ($checkResult && $checkResult['count'] > 0) {
             $this->data_error = 'El teléfono ingresado ya existe';
             return false;
         }
-
+    
+        // Validar el formato del teléfono.
         if (Validator::validatePhone($value)) {
             $this->telefono = $value;
             return true;
@@ -110,6 +112,7 @@ class ClienteData extends ClienteHandler
             return false;
         }
     }
+    
 
     public function setDui($value)
     {
