@@ -364,4 +364,13 @@ WHERE
     p.id_descuento IS NOT NULL';
         return Database::getRows($sql);
     }
+
+    //Metodo para la grafica de distribucion de productos por genero (Automatica)
+    public function cantidadProductosGenero() {
+        $sql = 'SELECT g.nombre_genero, COUNT(p.id_producto) AS cantidad
+                FROM tb_productos p
+                JOIN tb_generos_zapatos g ON p.id_genero = g.id_genero
+                GROUP BY g.nombre_genero';
+        return Database::getRows($sql);
+    }
 }
