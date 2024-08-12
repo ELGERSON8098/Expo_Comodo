@@ -319,8 +319,8 @@ WHERE
 
 public function updateDetail()
 {
-    // Primero, obtenemos las existencias del producto
-    $sql = 'SELECT dp.existencias 
+    // Primero, obtenemos las existencias actuales del producto
+    $sql = 'SELECT dp.existencias, dr.cantidad
             FROM tb_detalles_productos dp 
             INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto
             WHERE dr.id_detalle_reserva = ? AND dr.id_reserva = ?';
@@ -328,26 +328,33 @@ public function updateDetail()
     $params = array($this->id_detalle, $_SESSION['idReserva']);
     $result = Database::getRow($sql, $params);
 
-    // Verificamos si se obtuvo un resultado y si la cantidad a actualizar es válida
-    if ($result && $this->cantidad > $result['existencias']) {
-        return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
-    }
+    // Verificamos si se obtuvo un resultado
+    if ($result) {
+        $existenciasDisponibles = $result['existencias'];
+        $cantidadActual = $result['cantidad'];
+        
+        // Calculamos la nueva cantidad solicitada
+        $nuevaCantidad = $this->cantidad;
+        
+        // Verificamos si la cantidad solicitada excede las existencias disponibles
+        if ($nuevaCantidad > $existenciasDisponibles) {
+            return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
+        }
 
-    // Si la validación es exitosa, proceder a actualizar
-    $sql = 'UPDATE tb_detalles_reservas
-            SET cantidad = ?
-            WHERE id_detalle_reserva = ? AND id_reserva = ? AND cantidad + ? <= (
-                SELECT dp.existencias
-                FROM tb_detalles_productos dp
-                WHERE dp.id_detalle_producto = dr.id_detalle_producto
-            )';
+        // Si la validación es exitosa, proceder a actualizar
+        $sql = 'UPDATE tb_detalles_reservas
+                SET cantidad = ?
+                WHERE id_detalle_reserva = ? AND id_reserva = ?';
 
-    $params = array($this->cantidad, $this->id_detalle, $_SESSION['idReserva'], $this->cantidad - $result['existencias']);
+        $params = array($nuevaCantidad, $this->id_detalle, $_SESSION['idReserva']);
 
-    if (Database::executeRow($sql, $params)) {
-        return json_encode(['status' => true, 'message' => 'Cantidad actualizada con éxito.']);
+        if (Database::executeRow($sql, $params)) {
+            return json_encode(['status' => true, 'message' => 'Cantidad actualizada con éxito.']);
+        } else {
+            return json_encode(['status' => false, 'message' => 'Error: No se pudo actualizar la cantidad.']);
+        }
     } else {
-        return json_encode(['status' => false, 'message' => 'Error: No se pudo actualizar la cantidad.']);
+        return json_encode(['status' => false, 'message' => 'Error: No se encontraron existencias para el producto.']);
     }
 }
 

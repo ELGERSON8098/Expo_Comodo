@@ -56,7 +56,7 @@ class ClienteData extends ClienteHandler
     public function setDirec($value, $min = 2, $max = 500)
     {
         if (!Validator::validateString($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
+            $this->data_error = 'Direccion';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->direccion = $value;
@@ -78,6 +78,20 @@ class ClienteData extends ClienteHandler
             return false;
         } elseif ($this->checkDuplicate($value)) {
             $this->data_error = 'El correo ingresado ya existe';
+            return false;
+        } else {
+            $this->correo = $value;
+            return true;
+        }
+    }
+
+    public function setCorreos($value, $min = 8, $max = 100)
+    {
+        if (!Validator::validateEmail($value)) {
+            $this->data_error = 'El correo no es válido';
+            return false;
+        } elseif (!Validator::validateLength($value, $min, $max)) {
+            $this->data_error = 'El correo debe tener una longitud entre ' . $min . ' y ' . $max;
             return false;
         } else {
             $this->correo = $value;

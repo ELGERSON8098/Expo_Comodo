@@ -35,7 +35,7 @@ if (isset($_GET['action'])) {
                     $_POST = Validator::validateForm($_POST);
                     if (
                         !$cliente->setNombre($_POST['nombre']) or
-                        !$cliente->setCorreo($_POST['correo']) or
+                        !$cliente->setCorreos($_POST['correo']) or
                         !$cliente->setAlias($_POST['username']) or
                         !$cliente->setTelefono($_POST['telefono']) or
                         !$cliente->setDirec($_POST['direccion'])
@@ -159,11 +159,11 @@ if (isset($_GET['action'])) {
 
 
             //Metodos para recuperación de contraseña en movil
-            case 'solicitarPinRecuperacion':
+           case 'solicitarPinRecuperacion':
                 $_POST = Validator::validateForm($_POST);
                 if (!isset($_POST['correo'])) {
                     $result['error'] = 'Falta el correo electrónico';
-                } elseif (!$cliente->setCorreo($_POST['correo'])) {
+                } elseif (!$cliente->setCorreos($_POST['correo'])) {
                     $result['error'] = 'Correo electrónico inválido';
                 } else {
                     // Verificar si el correo existe en la base de datos
