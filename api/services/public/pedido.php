@@ -86,12 +86,14 @@ if (isset($_GET['action'])) {
                         $existencias = $pedido->getExistencias($_POST['idDetalle']); // Método que obtendrá las existencias del producto
                         $cantidadActual = $pedido->getCantidadActual($_POST['idDetalle']); // Método que obtendrá la cantidad actual del producto
                         
-                        // Calcular la diferencia entre la nueva cantidad y la actual
-                        $diferencia = $_POST['cantidadProducto'] - $cantidadActual;
+                        // Calcular la nueva cantidad
+                        $nuevaCantidad = $_POST['cantidadProducto'];
                         
-                        // Validar si la diferencia excede las existencias disponibles
-                        if ($diferencia > $existencias) {
+                        // Validar si la nueva cantidad excede las existencias disponibles
+                        if ($nuevaCantidad > $existencias) {
                             $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
+                        } elseif ($nuevaCantidad === $existencias) {
+                            $result['error'] = 'La cantidad solicitada ya está en el límite de existencias.';
                         } elseif ($pedido->updateDetail()) {
                             $result['status'] = 1;
                             $result['message'] = 'Cantidad modificada correctamente';
