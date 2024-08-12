@@ -87,6 +87,23 @@ class ClienteData extends ClienteHandler
 
     public function setTelefono($value)
     {
+        // Verificar si el valor del teléfono es una cadena.
+        if (!is_string($value)) {
+            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)###-####';
+            return false;
+        }
+    
+        // Consulta para verificar si el teléfono ya existe en la base de datos.
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_usuarios WHERE telefono = ?';
+        $checkParams = array($value); // El valor se tratará como una cadena automáticamente
+        $checkResult = Database::getRow($checkSql, $checkParams);
+    
+        if ($checkResult && $checkResult['count'] > 0) {
+            $this->data_error = 'El teléfono ingresado ya existe';
+            return false;
+        }
+    
+        // Validar el formato del teléfono.
         if (Validator::validatePhone($value)) {
             $this->telefono = $value;
             return true;
@@ -95,14 +112,24 @@ class ClienteData extends ClienteHandler
             return false;
         }
     }
+    
 
     public function setDui($value)
     {
+        $checkSql = 'SELECT COUNT(*) as count FROM tb_usuarios WHERE dui_cliente = ?';
+        $checkParams = array($value);
+        $checkResult = Database::getRow($checkSql, $checkParams);
+
+        if ($checkResult['count'] > 0) {
+            $this->data_error = 'El DUI ingresado ya existe';
+            return false;
+        }
+
         if (Validator::validateDUI($value)) {
             $this->dui = $value;
             return true;
         } else {
-            $this->data_error = 'El dui debe tener el formato ########-#';
+            $this->data_error = 'El DUI debe tener el formato ########-#';
             return false;
         }
     }
