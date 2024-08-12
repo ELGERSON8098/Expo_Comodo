@@ -80,4 +80,13 @@ class GeneroHandler
         $params = array($this->id_genero);
         return Database::executeRow($sql, $params);
     }
+    
+    //Metodo para la grafica de distribucion de productos por genero (Automatica)
+    public function cantidadProductosGenero() {
+        $sql = 'SELECT g.nombre_genero, COUNT(p.id_producto) AS cantidad
+                FROM tb_productos p
+                JOIN tb_generos_zapatos g ON p.id_genero = g.id_genero
+                GROUP BY g.nombre_genero';
+        return Database::getRows($sql);
+    }
 }
