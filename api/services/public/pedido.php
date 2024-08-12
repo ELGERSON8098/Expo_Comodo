@@ -16,22 +16,29 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
                 // Acción para agregar un producto al carrito de compras.
-            case 'createDetail':
-                $_POST = Validator::validateForm($_POST);
-                if (!$pedido->startOrder()) {
-                    $result['error'] = 'Ocurrió un problema al iniciar el pedido';
-                } elseif (
-                    !$pedido->setProducto($_POST['idProducto']) or
-                    !$pedido->setCantidad($_POST['cantidadProducto'])
-                ) {
-                    $result['error'] = $pedido->getDataError();
-                } elseif ($pedido->createDetail()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Producto agregado correctamente ' . $_SESSION['idReserva'];
-                } else {
-                    $result['error'] = 'Ocurrió un problema al agregar el producto';
-                }
-                break;
+                case 'createDetail':
+                    $_POST = Validator::validateForm($_POST);
+                    
+                    // Iniciar el pedido
+                    if (!$pedido->startOrder()) {
+                        $result['error'] = 'Ocurrió un problema al iniciar el pedido';
+                    } elseif (
+                        !$pedido->setProducto($_POST['idProducto']) or
+                        !$pedido->setCantidad($_POST['cantidadProducto'])
+                    ) {
+                        $result['error'] = $pedido->getDataError();
+                    } else {
+                        // Validar existencias antes de agregar el producto
+                        if (!$pedido->validateStock($_POST['idProducto'], $_POST['cantidadProducto'])) {
+                            $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
+                        } elseif ($pedido->createDetail()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Producto agregado correctamente a la reserva ' . $_SESSION['idReserva'];
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al agregar el producto';
+                        }
+                    }
+                    break;
                 // Acción para obtener los productos agregados en el carrito de compras.
             case 'readDetail':
                 if (!$pedido->getOrder()) {
@@ -66,20 +73,35 @@ if (isset($_GET['action'])) {
                 }
                 break;
                 // Acción para actualizar la cantidad de un producto en el carrito de compras.
-            case 'updateDetail':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$pedido->setIdDetalle($_POST['idDetalle']) or
-                    !$pedido->setCantidad($_POST['cantidadProducto'])
-                ) {
-                    $result['error'] = $pedido->getDataError();
-                } elseif ($pedido->updateDetail()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Cantidad modificada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la cantidad';
-                }
-                break;
+                case 'updateDetail':
+                    $_POST = Validator::validateForm($_POST);
+                    
+                    if (
+                        !$pedido->setIdDetalle($_POST['idDetalle']) or
+                        !$pedido->setCantidad($_POST['cantidadProducto'])
+                    ) {
+                        $result['error'] = $pedido->getDataError();
+                    } else {
+                        // Obtener existencias y cantidad actual del producto
+                        $existencias = $pedido->getExistencias($_POST['idDetalle']); // Método que obtendrá las existencias del producto
+                        $cantidadActual = $pedido->getCantidadActual($_POST['idDetalle']); // Método que obtendrá la cantidad actual del producto
+                        
+                        // Calcular la nueva cantidad
+                        $nuevaCantidad = $_POST['cantidadProducto'];
+                        
+                        // Validar si la nueva cantidad excede las existencias disponibles
+                        if ($nuevaCantidad > $existencias) {
+                            $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
+                        } elseif ($nuevaCantidad === $existencias) {
+                            $result['error'] = 'La cantidad solicitada ya está en el límite de existencias.';
+                        } elseif ($pedido->updateDetail()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Cantidad modificada correctamente';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al modificar la cantidad';
+                        }
+                    }
+                    break;
                 // Acción para remover un producto del carrito de compras.
             case 'deleteDetail':
                 if (!$pedido->setIdDetalle($_POST['idDetalle'])) {

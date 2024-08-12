@@ -80,4 +80,5 @@ class GeneroHandler
         $params = array($this->id_genero);
         return Database::executeRow($sql, $params);
     }
+    
 }
