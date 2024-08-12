@@ -238,6 +238,14 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el detalle'; // Mensaje de error si ocurre un problema.
                 }
                 break;
+            case 'cantidadProductosGenero':
+    if ($result['dataset'] = $producto->cantidadProductosGenero()) {
+        $result['status'] = 1;
+        $result['message'] = 'Datos obtenidos correctamente';
+    } else {
+        $result['error'] = 'No se pudieron obtener los datos';
+    }
+    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
