@@ -1,4 +1,5 @@
 USE expo_comodos;
+
 INSERT INTO tb_generos_zapatos (nombre_genero, imagen_genero)
 VALUES
 ('Masculino', 'masculino.jpg'),
