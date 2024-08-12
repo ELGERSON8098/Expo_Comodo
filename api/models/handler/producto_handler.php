@@ -364,7 +364,7 @@ WHERE
     p.id_descuento IS NOT NULL';
         return Database::getRows($sql);
     } 
-<<<<<<< HEAD
+
     public function cantidadProductosCategoria()
     {
         $sql = 'SELECT nombre_categoria, COUNT(id_producto) cantidad
@@ -389,7 +389,7 @@ WHERE
 
     public function descuentosMasUtilizados()
     {
-        $sql = 'SELECT d.nombre_descuento, COUNT (p.id_producto) AS cantidad
+        $sql = 'SELECT d.nombre_descuento, COUNT(p.id_producto) AS cantidad
                 FROM tb_descuentos d
                 INNER JOIN tb_productos p ON d.id_descuento = p.id_descuento
                 GROUP BY d.nombre_descuento
@@ -401,7 +401,7 @@ WHERE
 
     public function marcaMasComprada()
     {
-        $sql = 'SELECT m.marca, COUNT (p.id_producto) AS cantidad
+        $sql = 'SELECT m.marca, COUNT(p.id_producto) AS cantidad
                 FROM tb_productos p
                 INNER JOIN tb_marcas m ON p.id_marca = m.id_marca
                 INNER JOIN tb_detalles_reservas dr ON p.id_producto = dr.id_producto
@@ -414,7 +414,7 @@ WHERE
     
     public function productosMasVendidosPorCategoria()
     {
-        $sql = 'SELECT c.nombre_categoria, COUNT (p.id_producto) AS cantidad
+        $sql = 'SELECT c.nombre_categoria, COUNT(p.id_producto) AS cantidad
                 FROM tb_productos p
                 INNER JOIN tb_detalles_reservas dr ON p.id_producto = dr.id_producto
                 INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva AND r.estado_reserva = "Aceptado"
@@ -424,10 +424,8 @@ WHERE
                 LIMIT 5';
         return Database::getRows($sql);
     }
-    
 
-    }
-=======
+
 
     //Metodo para la grafica de distribucion de productos por genero (Automatica)
     public function cantidadProductosGenero() {
@@ -438,4 +436,4 @@ WHERE
         return Database::getRows($sql);
     }
 }
->>>>>>> 9dfb4207e59eb313ee5a39bdf9df609606709b0a
+

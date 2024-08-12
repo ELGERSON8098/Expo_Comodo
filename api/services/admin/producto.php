@@ -145,41 +145,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el producto';
                 }
                 break;
-                case 'cantidadProductosCategoria':
-                    if ($result['dataset'] = $producto->cantidadProductosCategoria()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'No hay datos disponibles';
-                    }
-                    break;
-                case 'porcentajeProductosCategoria':
-                    if ($result['dataset'] = $producto->porcentajeProductosCategoria()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'No hay datos disponibles';
-                    }
-                    break;
-                    case 'descuentosMasUtilizados':
-                        if ($result['dataset'] = $producto->descuentosMasUtilizados()) {
-                            $result['status'] = 1;
-                        } else {
-                            $result['error'] = 'No hay datos disponibles';
-                        }
-                        break;
-                        case 'marcaMasComprada':
-                            if ($result['dataset'] = $producto->marcaMasComprada()) {
-                                $result['status'] = 1;
-                            } else {
-                                $result['error'] = 'No hay datos disponibles';
-                            }
-                            break;
-                            case 'productosMasVendidosPorCategoria':
-                                if ($result['dataset'] = $producto->productosMasVendidosPorCategoria()) {
-                                    $result['status'] = 1;
-                                } else {
-                                    $result['error'] = 'No hay datos disponibles';
-                                }
-                                break;
+                
             // Caso para crear un nuevo detalle de producto
             case 'createDetail':
                 // Validar y obtener los datos del formulario
@@ -245,6 +211,41 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar el producto'; // Mensaje de error si ocurre un problema.
                 }
                 break;
+                case 'cantidadProductosCategoria':
+                    if ($result['dataset'] = $producto->cantidadProductosCategoria()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+                case 'porcentajeProductosCategoria':
+                    if ($result['dataset'] = $producto->porcentajeProductosCategoria()) {
+                        $result['status'] = 1;
+                    } else {
+                        $result['error'] = 'No hay datos disponibles';
+                    }
+                    break;
+                    case 'descuentosMasUtilizados':
+                        if ($result['dataset'] = $producto->descuentosMasUtilizados()) {
+                            $result['status'] = 1;
+                        } else {
+                            $result['error'] = 'No hay datos disponibles';
+                        }
+                        break;
+                        case 'marcaMasComprada':
+                            if ($result['dataset'] = $producto->marcaMasComprada()) {
+                                $result['status'] = 1;
+                            } else {
+                                $result['error'] = 'No hay datos disponibles';
+                            }
+                            break;
+                            case 'productosMasVendidosPorCategoria':
+                                if ($result['dataset'] = $producto->productosMasVendidosPorCategoria()) {
+                                    $result['status'] = 1;
+                                } else {
+                                    $result['error'] = 'No hay datos disponibles';
+                                }
+                                break;
             // Caso para leer los detalles de un producto específico
             case 'readDetails':
                 // Verificar si se puede establecer el ID del producto
