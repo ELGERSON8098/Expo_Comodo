@@ -364,4 +364,65 @@ WHERE
     p.id_descuento IS NOT NULL';
         return Database::getRows($sql);
     }
-}
+    public function cantidadProductosCategoria()
+    {
+        $sql = 'SELECT nombre_categoria, COUNT(id_producto) cantidad
+                FROM tb_productos
+                INNER JOIN tb_categorias USING(id_categoria)
+                GROUP BY nombre_categoria ORDER BY cantidad DESC LIMIT 5';
+        return Database::getRows($sql);
+    }
+
+    public function porcentajeProductosCategoria()
+    {
+        $sql = 'SELECT c.nombre_categoria, 
+                       ROUND((COUNT(p.id_producto) * 100.0 / (SELECT COUNT(id_producto) FROM tb_productos)), 2) AS porcentaje
+                FROM tb_productos p
+                INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+                GROUP BY c.nombre_categoria
+                ORDER BY porcentaje DESC
+                LIMIT 5';
+        return Database::getRows($sql);
+    }
+    
+
+    public function descuentosMasUtilizados()
+    {
+        $sql = 'SELECT d.nombre_descuento, COUNT (p.id_producto) AS cantidad
+                FROM tb_descuentos d
+                INNER JOIN tb_productos p ON d.id_descuento = p.id_descuento
+                GROUP BY d.nombre_descuento
+                ORDER BY cantidad DESC
+                LIMIT 5';
+        return Database::getRows($sql);
+    }
+    
+
+    public function marcaMasComprada()
+    {
+        $sql = 'SELECT m.marca, COUNT (p.id_producto) AS cantidad
+                FROM tb_productos p
+                INNER JOIN tb_marcas m ON p.id_marca = m.id_marca
+                INNER JOIN tb_detalles_reservas dr ON p.id_producto = dr.id_producto
+                INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva AND r.estado_reserva = "Aceptado"
+                GROUP BY m.marca
+                ORDER BY cantidad DESC
+                LIMIT 5';
+        return Database::getRows($sql);
+    }
+    
+    public function productosMasVendidosPorCategoria()
+    {
+        $sql = 'SELECT c.nombre_categoria, COUNT (p.id_producto) AS cantidad
+                FROM tb_productos p
+                INNER JOIN tb_detalles_reservas dr ON p.id_producto = dr.id_producto
+                INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva AND r.estado_reserva = "Aceptado"
+                INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+                GROUP BY c.nombre_categoria
+                ORDER BY cantidad DESC
+                LIMIT 5';
+        return Database::getRows($sql);
+    }
+    
+
+    }

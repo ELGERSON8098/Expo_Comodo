@@ -25,15 +25,56 @@
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
         <!-- Contenedor de gráficos -->
-        <div class="row">
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <!-- Gráfico 1: Cantidad de productos por categoría -->
-                <canvas id="chart1"></canvas>
+        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+                    aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                    aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                    aria-label="Slide 3"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+                    aria-label="Slide 4"></button>
+                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4"
+                    aria-label="Slide 5"></button>
             </div>
-            <div class="col-sm-12 col-md-6 col-lg-4">
-                <!-- Gráfico 2: Porcentaje de productos por categoría -->
-                <canvas id="chart2"></canvas>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="d-flex justify-content-center">
+                        <canvas id="chart1"></canvas>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex justify-content-center">
+                        <canvas id="chart2"></canvas>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex justify-content-center">
+                        <canvas id="chart3"></canvas>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex justify-content-center">
+                        <canvas id="chart4"></canvas>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="d-flex justify-content-center">
+                        <canvas id="chart5"></canvas>
+                    </div>
+                </div>
             </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
         <!-- Importación de la librería Chart.js para generar los gráficos -->
         <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>
@@ -54,6 +95,8 @@
     <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
     <!-- Controlador específico de esta página -->
     <script type="text/javascript" src="../../controllers/admin/dashboard.js"></script>
+    <script src="../../resources/js/chart.umd.min.js"></script>
+
 
 </body>
 

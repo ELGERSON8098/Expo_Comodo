@@ -9,21 +9,23 @@ document.addEventListener('DOMContentLoaded', () => {
     let greeting = '';
     // Dependiendo del número de horas transcurridas en el día, se asigna un saludo para el usuario.
     if (HOUR < 12) {
-        greeting = '<br>Buenos días';
+        greeting = 'Buenos días';
     } else if (HOUR < 19) {
-        greeting = '<br>Buenas tardes';
+        greeting = 'Buenas tardes';
     } else if (HOUR <= 23) {
-        greeting = '<br>Buenas noches';
+        greeting = 'Buenas noches';
     }
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
-    // Se establece el título del contenido principal con los saludos y el mensaje de bienvenida.
-    MAIN_TITLE.innerHTML = `${greeting}<br> Bienvenido`;
-    // Llamada a la funciones que generan los gráficos en la página web.
+    // Se establece el título del contenido principal.
+    MAIN_TITLE.textContent = `${greeting}, bienvenido`;
+    // Llamada a las funciones que generan los gráficos en la página web.
     graficoBarrasCategorias();
     graficoPastelCategorias();
+    graficoLineasCategorias();
+    graficoRadarCategorias();
+    graficoPolarCategorias();
 });
-
 
 /*
 *   Función asíncrona para mostrar un gráfico de barras con la cantidad de productos por categoría.
@@ -31,20 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
 *   Retorno: ninguno.
 */
 const graficoBarrasCategorias = async () => {
-    // Petición para obtener los datos del gráfico.
     const DATA = await fetchData(PRODUCTO_API, 'cantidadProductosCategoria');
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
     if (DATA.status) {
-        // Se declaran los arreglos para guardar los datos a graficar.
         let categorias = [];
         let cantidades = [];
-        // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
-            // Se agregan los datos a los arreglos.
             categorias.push(row.nombre_categoria);
             cantidades.push(row.cantidad);
         });
-        // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
         barGraph('chart1', categorias, cantidades, 'Cantidad de productos', 'Cantidad de productos por categoría');
     } else {
         document.getElementById('chart1').remove();
@@ -58,23 +54,81 @@ const graficoBarrasCategorias = async () => {
 *   Retorno: ninguno.
 */
 const graficoPastelCategorias = async () => {
-    // Petición para obtener los datos del gráfico.
     const DATA = await fetchData(PRODUCTO_API, 'porcentajeProductosCategoria');
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
     if (DATA.status) {
-        // Se declaran los arreglos para guardar los datos a gráficar.
         let categorias = [];
         let porcentajes = [];
-        // Se recorre el conjunto de registros fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
-            // Se agregan los datos a los arreglos.
             categorias.push(row.nombre_categoria);
             porcentajes.push(row.porcentaje);
         });
-        // Llamada a la función para generar y mostrar un gráfico de pastel. Se encuentra en el archivo components.js
         pieGraph('chart2', categorias, porcentajes, 'Porcentaje de productos por categoría');
     } else {
         document.getElementById('chart2').remove();
         console.log(DATA.error);
     }
 }
+
+/*
+*   Función asíncrona para mostrar un gráfico de líneas con la cantidad de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const graficoLineasCategorias = async () => {
+    const DATA = await fetchData(PRODUCTO_API, 'descuentosMasUtilizados');
+    if (DATA.status) {
+        let descuentos = [];
+        let cantidades = [];
+        DATA.dataset.forEach(row => {
+            descuentos.push(row.nombre_descuento);
+            cantidades.push(row.cantidad);
+        });
+        lineGraph('chart3', descuentos, cantidades, 'Cantidad de productos', 'Descuentos más utilizados');
+    } else {
+        document.getElementById('chart3').remove();
+        console.log(DATA.error);
+    }
+}
+
+/*
+*   Función asíncrona para mostrar un gráfico de radar con la cantidad de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const graficoRadarCategorias = async () => {
+    const DATA = await fetchData(PRODUCTO_API, 'marcaMasComprada');
+    if (DATA.status) {
+        let marcas = [];
+        let cantidades = [];
+        DATA.dataset.forEach(row => {
+            marcas.push(row.marca);
+            cantidades.push(row.cantidad);
+        });
+        radarGraph('chart4', marcas, cantidades, 'Cantidad de productos vendidos', 'Marca más comprada');
+    } else {
+        document.getElementById('chart4').remove();
+        console.log(DATA.error);
+    }
+}
+
+/*
+*   Función asíncrona para mostrar un gráfico polar con la cantidad de productos por categoría.
+*   Parámetros: ninguno.
+*   Retorno: ninguno.
+*/
+const graficoPolarCategorias = async () => {
+    const DATA = await fetchData(PRODUCTO_API, 'productosMasVendidosPorCategoria');
+    if (DATA.status) {
+        let categorias = [];
+        let cantidades = [];
+        DATA.dataset.forEach(row => {
+            categorias.push(row.nombre_categoria);
+            cantidades.push(row.cantidad);
+        });
+        polarGraph('chart5', categorias, cantidades, 'Cantidad de productos vendidos', 'Productos más vendidos por categoría');
+    } else {
+        document.getElementById('chart5').remove();
+        console.log(DATA.error);
+    }
+}
+

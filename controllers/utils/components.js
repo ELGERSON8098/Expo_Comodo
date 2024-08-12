@@ -2,7 +2,7 @@
 *   CONTROLADOR DE USO GENERAL EN TODAS LAS PÁGINAS WEB.
 */
 // Constante para establecer la ruta base del servidor.
-const SERVER_URL = 'http://localhost/Expo_Comodo/api/';
+const SERVER_URL = 'http://localhost/expo_comodo/api/';
 
 /*
 *   Función para mostrar un mensaje de confirmación. Requiere la librería sweetalert para funcionar.
@@ -143,13 +143,11 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
 *   Retorno: ninguno.
 */
 const barGraph = (canvas, xAxis, yAxis, legend, title) => {
-    // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
     let colors = [];
-    // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
     xAxis.forEach(() => {
-        colors.push('#' + (Math.random().toString(16)).substring(2, 8));
+        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
     });
-    // Se crea una instancia para generar el gráfico con los datos recibidos.
+
     new Chart(document.getElementById(canvas), {
         type: 'bar',
         data: {
@@ -157,51 +155,291 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
             datasets: [{
                 label: legend,
                 data: yAxis,
-                backgroundColor: colors
+                backgroundColor: colors,
+                borderColor: '#ddd',
+                borderWidth: 1,
+                barThickness: 24,
+                maxBarThickness: 40,
+                minBarLength: 2
             }]
         },
         options: {
+            responsive: true,
             plugins: {
                 title: {
                     display: true,
-                    text: title
+                    text: title,
+                    padding: {
+                        bottom: 20
+                    },
+                    color: '#333',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    }
                 },
                 legend: {
                     display: false
                 }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            },
+            animation: {
+                duration: 1200,
+                easing: 'easeInOutExpo'
             }
         }
     });
 }
 
-/*
-*   Función para generar un gráfico de pastel. Requiere la librería chart.js para funcionar.
-*   Parámetros: canvas (identificador de la etiqueta canvas), legends (valores para las etiquetas), values (valores de los datos) y title (título del gráfico).
-*   Retorno: ninguno.
-*/
+// Gráfico de Pastel
 const pieGraph = (canvas, legends, values, title) => {
-    // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
     let colors = [];
-    // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
     values.forEach(() => {
-        colors.push('#' + (Math.random().toString(16)).substring(2, 8));
+        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
     });
-    // Se crea una instancia para generar el gráfico con los datos recibidos.
+
     new Chart(document.getElementById(canvas), {
         type: 'pie',
         data: {
             labels: legends,
             datasets: [{
                 data: values,
-                backgroundColor: colors
+                backgroundColor: colors,
+                borderColor: '#fff',
+                borderWidth: 1
             }]
         },
         options: {
+            responsive: true,
             plugins: {
                 title: {
                     display: true,
-                    text: title
+                    text: title,
+                    padding: {
+                        bottom: 20
+                    },
+                    color: '#333',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: '#333',
+                        font: {
+                            size: 14
+                        }
+                    }
                 }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200,
+                easing: 'easeInOutExpo'
+            }
+        }
+    });
+}
+
+// Gráfico de Líneas
+const lineGraph = (canvas, xAxis, yAxis, legend, title) => {
+    new Chart(document.getElementById(canvas), {
+        type: 'line',
+        data: {
+            labels: xAxis,
+            datasets: [{
+                label: legend,
+                data: yAxis,
+                fill: false,
+                borderColor: '#007bff',
+                tension: 0.2,
+                borderWidth: 2,
+                pointRadius: 6,
+                pointBackgroundColor: '#007bff',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: '#007bff'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: title,
+                    padding: {
+                        bottom: 20
+                    },
+                    color: '#333',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    }
+                }
+            },
+            animation: {
+                duration: 1200,
+                easing: 'easeInOutExpo'
+            }
+        }
+    });
+}
+
+// Gráfico de Radar
+const radarGraph = (canvas, labels, data, label, title) => {
+    new Chart(document.getElementById(canvas), {
+        type: 'radar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                fill: true,
+                backgroundColor: 'rgba(54, 162, 235, 0.3)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                r: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        color: '#666'
+                    }
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: title,
+                    padding: {
+                        bottom: 20
+                    },
+                    color: '#333',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    }
+                }
+            },
+            animation: {
+                duration: 1200,
+                easing: 'easeInOutExpo'
+            }
+        }
+    });
+}
+
+// Gráfico Polar
+const polarGraph = (canvas, labels, data, label, title) => {
+    let colors = [];
+    data.forEach(() => {
+        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
+    });
+
+    new Chart(document.getElementById(canvas), {
+        type: 'polarArea',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: colors,
+                borderColor: '#fff',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: title,
+                    padding: {
+                        bottom: 20
+                    },
+                    color: '#333',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    position: 'top',
+                    labels: {
+                        color: '#333',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            },
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 1200,
+                easing: 'easeInOutExpo'
             }
         }
     });
