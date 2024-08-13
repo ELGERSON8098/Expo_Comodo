@@ -1,5 +1,6 @@
 // Constante para completar la ruta de la API.
 const PRODUCTO_API = 'services/admin/producto.php';
+const RESERVA_API = 'services/admin/reserva.php';
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
     graficoRadarCategorias();
     graficoPolarCategorias();
     graficoTortaGeneros();
+    graficoTortaReservas();
 });
 
 /*
@@ -152,6 +154,29 @@ const graficoTortaGeneros = async () => {
         pieGraph('chart6', generos, cantidades, 'Distribución de productos por género');
     } else {
         document.getElementById('chart6').remove();
+        console.log(DATA.error);
+    }
+}
+
+const graficoTortaReservas = async () => {
+    // Petición para obtener los datos del gráfico.
+    const DATA = await fetchData(RESERVA_API, 'cantidadReservasEstado');
+    
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se remueve la etiqueta canvas.
+    if (DATA.status) {
+        let estados = [];
+        let cantidades = [];
+        
+        // Se recorre el conjunto de registros fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            estados.push(row.estado_reserva);
+            cantidades.push(row.cantidad);
+        });
+        
+        // Llamada a la función para generar y mostrar un gráfico de torta.
+        polarGraph('chart7', estados, cantidades, 'Distribución de reservas por estado');
+    } else {
+        document.getElementById('chart7').remove();
         console.log(DATA.error);
     }
 }
