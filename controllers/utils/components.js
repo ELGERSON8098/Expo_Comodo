@@ -390,13 +390,19 @@ const radarGraph = (canvas, labels, data, label, title) => {
         }
     });
 }
-
-// Gráfico Polar
 const polarGraph = (canvas, labels, data, label, title) => {
-    let colors = [];
-    data.forEach(() => {
-        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
-    });
+    // Define un conjunto de colores personalizados
+    const colors = [
+        'rgba(255, 99, 132, 0.7)', // Color 1
+        'rgba(54, 162, 235, 0.7)', // Color 2
+        'rgba(255, 206, 86, 0.7)', // Color 3
+        'rgba(75, 192, 192, 0.7)', // Color 4
+        'rgba(153, 102, 255, 0.7)', // Color 5
+        'rgba(255, 159, 64, 0.7)'  // Color 6
+    ];
+
+    // Si hay más datos que colores, repite los colores
+    const backgroundColors = data.map((_, index) => colors[index % colors.length]);
 
     new Chart(document.getElementById(canvas), {
         type: 'polarArea',
@@ -405,7 +411,7 @@ const polarGraph = (canvas, labels, data, label, title) => {
             datasets: [{
                 label: label,
                 data: data,
-                backgroundColor: colors,
+                backgroundColor: backgroundColors,
                 borderColor: '#fff',
                 borderWidth: 1
             }]
@@ -495,3 +501,4 @@ const fetchData = async (filename, action, form = null) => {
         console.log(error);
     }
 }
+
