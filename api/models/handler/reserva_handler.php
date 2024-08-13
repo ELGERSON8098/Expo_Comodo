@@ -282,4 +282,16 @@ class ReservaHandler
                 GROUP BY estado_reserva';
         return Database::getRows($sql);
     }
+
+    public function ventasPorCategoriaFecha($fechaInicio, $fechaFin) {
+        $sql = 'SELECT c.nombre_categoria, SUM(d.cantidad * d.precio_unitario) AS total_ventas
+                FROM tb_detalles_reservas d
+                INNER JOIN tb_reservas r ON d.id_reserva = r.id_reserva
+                INNER JOIN tb_productos p ON d.id_producto = p.id_producto
+                INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+                WHERE r.fecha_reserva BETWEEN ? AND ?
+                GROUP BY c.nombre_categoria';
+        $params = array($fechaInicio, $fechaFin);
+        return Database::getRows($sql, $params);
+    }
 }

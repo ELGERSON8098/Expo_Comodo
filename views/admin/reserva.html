@@ -47,6 +47,11 @@
                         <button type="reset" class="btn btn-secondary" onclick="fillTable()">
                             <i class="bi bi-x-square-fill"></i>
                         </button>
+
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#chartModal">
+                            Ver ventas por categoría
+                        </button>
                     </div>
                 </div>
             </form>
@@ -232,7 +237,40 @@
                 </div>
             </div>
         </div>
+        <!-- Modal para la gráfica de ventas por categoría -->
+        <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="chartModalLabel">Ventas por categoría</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulario para seleccionar el rango de fechas -->
+                        <form id="dateRangeForm" class="row g-3">
+                            <div class="col-md-6">
+                                <label for="startDate" class="form-label">Fecha de inicio</label>
+                                <input type="date" class="form-control" id="startDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="endDate" class="form-label">Fecha de fin</label>
+                                <input type="date" class="form-control" id="endDate" required>
+                            </div>
+                            <div class="col-md-12 text-end">
+                                <button type="submit" class="btn btn-success">Generar Gráfica</button>
+                            </div>
+                        </form>
+
+                        <!-- Contenedor para la gráfica -->
+                        <div class="mt-4">
+                            <canvas id="categorySalesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
+    <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>
     <!-- Bootstrap JavaScript -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert JavaScript -->
