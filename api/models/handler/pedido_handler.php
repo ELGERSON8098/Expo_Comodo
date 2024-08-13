@@ -190,6 +190,7 @@ WHERE
     }
 
 
+    
 
 
     public function getExistencias($idDetalle)
