@@ -1,20 +1,24 @@
-Nombre del proyecto: Comodos
+# 🌟 Comodos 🌟
 
-Descripción del proyecto: La problemática y necesidad ira dirigida al emprendimiento Comodo$ se debe a que no cuentan con un software que les permita a sus clientes visualizar los zapatos que están en ventas, realizar compras, registro y uso, etc. Sin embargo, si cuentan con software que les permite solamente inventariar los productos vendidos por medio de WhatsApp, es por ello que se necesita una aplicación móvil para clientes para realizar todos los procesos de reservas dentro de la aplicación móvil y una administrativa para realizar todos los procesos de ventas y la agregación, eliminación y actualización de productos dentro de la app, para esto cabe recalcar que se necesita un sistema de gestión de base de datos en el que se almacenaran los datos y así poder realizar la app de manera eficiente.   
+## 📜 Descripción del proyecto
 
+**Comodos** es una solución móvil innovadora para abordar las limitaciones actuales del emprendimiento Comodo$. En este momento, Comodo$ no cuenta con un software que permita a sus clientes visualizar el catálogo de zapatos, realizar compras, gestionar reservas y llevar a cabo otras operaciones importantes. Actualmente, el inventario de productos se gestiona únicamente a través de WhatsApp, lo que limita la eficiencia en las ventas y la gestión de inventario.
 
-Sección: 1B
+Para solucionar estas problemáticas, desarrollaremos una aplicación móvil con dos componentes principales:
 
+1. **📱 Aplicación Móvil para clientes**: Permite a los clientes visualizar el catálogo de productos, realizar reservas, comprar y gestionar su cuenta.
+2. **🛠️ Aplicación administrativa**: Facilita a los administradores la gestión de ventas, así como la adición, eliminación y actualización de productos en el inventario.
 
-Integrantes:
+Además, integraremos un **🗃️ Sistema de Gestión de Bases de Datos** para almacenar y manejar eficientemente toda la información necesaria para el funcionamiento de la aplicación.
 
+## 📚 Sección: 1B
 
-*GERSON ALEXANDER ECHEVERRÍA HERNÁNDEZ 20220175
+## 👥 Integrantes del Proyecto
 
-*TERESA YESSENIA RUIZ GONZÁLEZ 20220651
+- **Gerson Alexander Echeverría Hernández** (ID: 20220175)
+- **Teresa Yessenia Ruiz González** (ID: 20220651)
+- **Verónica Alejandra Sánchez Rosales** (ID: 20220505)
+- **Allan Gabriel Fuentes Galdamez** (ID: 20220406)
+- **Alejandro Alberto Fernández Robles** (ID: 20220096)
 
-*VERÓNICA ALEJANDRA SÁNCHEZ ROSALES 20220505
-
-*ALLAN GABRIEL FUENTES GALDAMEZ 20220406
-
-*ALEJANDRO ALBERTO FERNÁNDEZ ROBLES 20220096
+---
