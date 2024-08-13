@@ -72,26 +72,25 @@ class PedidoHandler
 
 
     public function createDetail()
-{
-    // Validar existencias
-    if (!$this->validateStock($this->producto, $this->cantidad)) {
-        return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
+    {
+        // Validar existencias
+        if (!$this->validateStock($this->producto, $this->cantidad)) {
+            return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
+        }
+
+        // Si la validación es exitosa, proceder a insertar
+        $sql = 'INSERT INTO tb_detalles_reservas (id_detalle_producto, precio_unitario, cantidad, id_reserva)
+            VALUES (?, (SELECT precio FROM tb_productos INNER JOIN tb_detalles_productos USING(id_producto) WHERE id_detalle_producto = ?), ?, ?)';
+
+        $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
+
+        // Ejecutar la inserción
+        if (Database::executeRow($sql, $params)) {
+            return json_encode(['status' => true, 'message' => 'Producto agregado al carrito con éxito.']);
+        } else {
+            return json_encode(['status' => false, 'message' => 'No se pudo agregar el producto al carrito.']);
+        }
     }
-
-    // Si la validación es exitosa, proceder a insertar
-    $sql = 'INSERT INTO tb_detalles_reservas (id_producto, id_detalle_producto, precio_unitario, cantidad, id_reserva)
-            VALUES ((SELECT id_producto FROM tb_detalles_productos WHERE id_detalle_producto = ?), ?,
-            (SELECT precio FROM tb_productos INNER JOIN tb_detalles_productos USING(id_producto) WHERE id_detalle_producto = ?), ?, ?)';
-
-    $params = array($this->producto, $this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
-
-    // Ejecutar la inserción
-    if (Database::executeRow($sql, $params)) {
-        return json_encode(['status' => true, 'message' => 'Producto agregado al carrito con éxito.']);
-    } else {
-        return json_encode(['status' => false, 'message' => 'No se pudo agregar el producto al carrito.']);
-    }
-}
 
     public function validateStock($idDetalleProducto, $cantidadSolicitada)
     {
@@ -194,17 +193,17 @@ WHERE
 
 
     public function getExistencias($idDetalle)
-{
-    $sql = 'SELECT dp.existencias 
+    {
+        $sql = 'SELECT dp.existencias 
             FROM tb_detalles_productos dp 
             INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto 
             WHERE dr.id_detalle_reserva = ?';
 
-    $params = array($idDetalle);
-    $result = Database::getRow($sql, $params);
+        $params = array($idDetalle);
+        $result = Database::getRow($sql, $params);
 
-    return $result ? $result['existencias'] : 0; // Retorna las existencias o 0 si no se encuentra
-}
+        return $result ? $result['existencias'] : 0; // Retorna las existencias o 0 si no se encuentra
+    }
 
 
     public function readHistorials()
@@ -212,7 +211,8 @@ WHERE
         // Consulta SQL actualizada para incluir el valor de la oferta
         $sql = 'SELECT 
         dr.id_detalle_reserva, 
-        p.id_producto, 
+        dp.id_detalle_producto, 
+        p.id_producto,
         r.fecha_reserva,
         p.nombre_producto, 
         dr.precio_unitario, 
@@ -230,7 +230,10 @@ WHERE
         INNER JOIN 
             tb_reservas r ON dr.id_reserva = r.id_reserva
         INNER JOIN 
-           tb_productos p ON dr.id_producto = p.id_producto
+           tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+        INNER JOIN 
+           tb_productos p ON dp.id_producto = p.id_producto
+        
         INNER JOIN
             tb_usuarios u ON r.id_usuario = u.id_usuario
         LEFT JOIN
@@ -306,60 +309,60 @@ WHERE
         return Database::getRow($sql, $params);
     }
     public function getCantidadActual($idDetalle)
-{
-    $sql = 'SELECT cantidad 
+    {
+        $sql = 'SELECT cantidad 
             FROM tb_detalles_reservas
             WHERE id_detalle_reserva = ?';
 
-    $params = array($idDetalle);
-    $result = Database::getRow($sql, $params);
+        $params = array($idDetalle);
+        $result = Database::getRow($sql, $params);
 
-    return $result ? $result['cantidad'] : 0; // Retorna la cantidad actual o 0 si no se encuentra
-}
+        return $result ? $result['cantidad'] : 0; // Retorna la cantidad actual o 0 si no se encuentra
+    }
 
-public function updateDetail()
-{
-    // Primero, obtenemos las existencias actuales del producto
-    $sql = 'SELECT dp.existencias, dr.cantidad
+    public function updateDetail()
+    {
+        // Primero, obtenemos las existencias actuales del producto
+        $sql = 'SELECT dp.existencias, dr.cantidad
             FROM tb_detalles_productos dp 
             INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto
             WHERE dr.id_detalle_reserva = ? AND dr.id_reserva = ?';
 
-    $params = array($this->id_detalle, $_SESSION['idReserva']);
-    $result = Database::getRow($sql, $params);
+        $params = array($this->id_detalle, $_SESSION['idReserva']);
+        $result = Database::getRow($sql, $params);
 
-    // Verificamos si se obtuvo un resultado
-    if ($result) {
-        $existenciasDisponibles = $result['existencias'];
-        $cantidadActual = $result['cantidad'];
-        
-        // Calculamos la nueva cantidad solicitada
-        $nuevaCantidad = $this->cantidad;
-        
-        // Verificamos si la cantidad solicitada excede las existencias disponibles
-        if ($nuevaCantidad > $existenciasDisponibles) {
-            return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
-        }
+        // Verificamos si se obtuvo un resultado
+        if ($result) {
+            $existenciasDisponibles = $result['existencias'];
+            $cantidadActual = $result['cantidad'];
 
-        // Si la validación es exitosa, proceder a actualizar
-        $sql = 'UPDATE tb_detalles_reservas
+            // Calculamos la nueva cantidad solicitada
+            $nuevaCantidad = $this->cantidad;
+
+            // Verificamos si la cantidad solicitada excede las existencias disponibles
+            if ($nuevaCantidad > $existenciasDisponibles) {
+                return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
+            }
+
+            // Si la validación es exitosa, proceder a actualizar
+            $sql = 'UPDATE tb_detalles_reservas
                 SET cantidad = ?
                 WHERE id_detalle_reserva = ? AND id_reserva = ?';
 
-        $params = array($nuevaCantidad, $this->id_detalle, $_SESSION['idReserva']);
+            $params = array($nuevaCantidad, $this->id_detalle, $_SESSION['idReserva']);
 
-        if (Database::executeRow($sql, $params)) {
-            return json_encode(['status' => true, 'message' => 'Cantidad actualizada con éxito.']);
+            if (Database::executeRow($sql, $params)) {
+                return json_encode(['status' => true, 'message' => 'Cantidad actualizada con éxito.']);
+            } else {
+                return json_encode(['status' => false, 'message' => 'Error: No se pudo actualizar la cantidad.']);
+            }
         } else {
-            return json_encode(['status' => false, 'message' => 'Error: No se pudo actualizar la cantidad.']);
+            return json_encode(['status' => false, 'message' => 'Error: No se encontraron existencias para el producto.']);
         }
-    } else {
-        return json_encode(['status' => false, 'message' => 'Error: No se encontraron existencias para el producto.']);
     }
-}
 
 
-    
+
     // Método para eliminar un producto que se encuentra en el carrito de compras.
     public function deleteDetail()
     {

@@ -138,10 +138,11 @@ CREATE TABLE tb_reservas (
   CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id_usuario)
 );
 
+
 CREATE TABLE tb_detalles_reservas (
   id_detalle_reserva INT UNSIGNED AUTO_INCREMENT NOT NULL,
   id_reserva INT UNSIGNED NOT NULL,
-  id_producto INT UNSIGNED NOT NULL,
+ -- id_producto INT UNSIGNED NOT NULL, El id de producto no es necesario, ya que el id detalle de producto ya lo conoce.
   cantidad INT UNSIGNED NOT NULL,
   precio_unitario DECIMAL(10,2) NOT NULL,
   id_detalle_producto INT UNSIGNED NOT NULL,
@@ -163,3 +164,5 @@ VALUES
 (3, 'vendedoras');
 
 SELECT * FROM tb_niveles_usuarios
+
+
