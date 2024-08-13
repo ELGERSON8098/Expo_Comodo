@@ -33,15 +33,15 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Detalle inexistente';
                 }
                 break;
-                case 'readDetalles2':
-                    if (!$reserva->setIdDetalle($_POST['idDetalleReserva'])) {
-                        $result['error'] = $reserva->getDataError();
-                    } elseif ($result['dataset'] = $reserva->readDetalles2()) {
-                        $result['status'] = 1;
-                    } else {
-                        $result['error'] = 'Reserva inexistente';
-                    }
-                    break;
+            case 'readDetalles2':
+                if (!$reserva->setIdDetalle($_POST['idDetalleReserva'])) {
+                    $result['error'] = $reserva->getDataError();
+                } elseif ($result['dataset'] = $reserva->readDetalles2()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'Reserva inexistente';
+                }
+                break;
 
             case 'readOneDetailForForm':
                 // Validar y obtener los datos del formulario
@@ -226,6 +226,14 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1; // Indicar que la operación fue exitosa.
                 } else {
                     $result['error'] = 'No exiten estados disponibles'; // Mensaje si no se encuentran autores.
+                }
+                break;
+            case 'cantidadReservasEstado':
+                if ($result['dataset'] = $reserva->cantidadReservasEstado()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Datos obtenidos correctamente';
+                } else {
+                    $result['error'] = 'No se pudieron obtener los datos';
                 }
                 break;
             default:
