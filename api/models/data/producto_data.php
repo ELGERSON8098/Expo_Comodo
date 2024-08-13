@@ -117,7 +117,7 @@ class ProductoData extends ProductoHandler
     public function setPrecio($value)
     {
         // Valida que el precio sea un número válido.
-        if (Validator::validateNaturalNumber($value)) {
+        if (Validator::validateMoney($value)) {
             $this->precio = $value; // Asigna el valor del precio.
             return true;
         } else {

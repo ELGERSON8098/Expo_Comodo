@@ -141,14 +141,10 @@ class Validator
     *   Retorno: booleano (true si el valor es correcto o false en caso contrario).
     */
     public static function validateString($value)
-    {
-        // Se verifica el contenido y la longitud de acuerdo con la base de datos.
-        if (preg_match('/^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s\,\;\.]+$/', $value)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+{
+    // Permitir cualquier cadena de texto sin restricciones.
+    return true;
+}
 
     public static function validateColor($value)
 {
@@ -212,14 +208,14 @@ class Validator
     *   Retorno: booleano (true si el valor es correcto o false en caso contrario).
     */
     public static function validateMoney($value)
-    {
-        // Se verifica que el número tenga una parte entera y como máximo dos cifras decimales.
-        if (preg_match('/^[1-9]+(?:\.[0-9]{1,2})?$/', $value)) {
-            return true;
-        } else {
-            return false;
-        }
+{
+    // Se verifica que el número pueda tener cualquier cantidad de dígitos en la parte entera y hasta dos cifras decimales.
+    if (preg_match('/^\d+(\.\d{1,2})?$/', $value)) {
+        return true;
+    } else {
+        return false;
     }
+}
 
     /*
     *   Método para validar una contraseña.

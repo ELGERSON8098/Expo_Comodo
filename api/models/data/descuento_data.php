@@ -60,7 +60,7 @@ class descuentoData extends descuentoHandler
 
     public function setvalor($value, $min = 1, $max = 200)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        if (Validator::validateMoney($value)) {
             $this->valor = $value;
             return true;
         } else {

@@ -53,7 +53,7 @@ class ClienteData extends ClienteHandler
         }
     }
 
-    public function setDirec($value, $min = 2, $max = 500)
+    public function setDirec($value, $min = 2, $max = 1000)
     {
         if (!Validator::validateString($value)) {
             $this->data_error = 'Direccion';
@@ -117,6 +117,23 @@ class ClienteData extends ClienteHandler
             return false;
         }
     
+        // Validar el formato del teléfono.
+        if (Validator::validatePhone($value)) {
+            $this->telefono = $value;
+            return true;
+        } else {
+            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)###-####';
+            return false;
+        }
+    }
+
+    public function setTelefonos($value)
+    {
+        // Verificar si el valor del teléfono es una cadena.
+        if (!is_string($value)) {
+            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)###-####';
+            return false;
+        }
         // Validar el formato del teléfono.
         if (Validator::validatePhone($value)) {
             $this->telefono = $value;
