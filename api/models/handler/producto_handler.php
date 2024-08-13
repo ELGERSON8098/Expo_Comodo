@@ -352,6 +352,7 @@ ORDER BY
     p.nombre_producto, 
     p.precio, 
     p.imagen,
+    dp.id_detalle_producto,
     d.nombre_descuento, 
     d.valor 
 FROM 
