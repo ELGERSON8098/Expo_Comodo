@@ -204,7 +204,7 @@ if (isset($_GET['action'])) {
             case 'verificarPin':
                 if (!isset($_POST['correo']) || !isset($_POST['pin'])) {
                     $result['error'] = 'Faltan datos necesarios';
-                } elseif (!$cliente->setCorreo($_POST['correo'])) {
+                } elseif (!$cliente->setCorreos($_POST['correo'])) {
                     $result['error'] = 'Correo electrónico inválido';
                 } else {
                     $id_usuario = $cliente->verificarPinRecuperacion($_POST['pin']);
