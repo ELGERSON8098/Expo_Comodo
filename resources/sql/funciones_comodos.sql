@@ -15,4 +15,11 @@ DELIMITER ; -- Restaura el delimitador predeterminado.
 
 SELECT nombre, generar_saludo(nombre) AS saludo FROM tb_usuarios; -- Selecciona el nombre de los usuarios y llama a la función generar_saludo para obtener el saludo correspondiente.
 
+ALTER TABLE tb_productos
+MODIFY COLUMN id_descuento INT UNSIGNED DEFAULT NULL,
+ADD CONSTRAINT ck_descuento 
+    FOREIGN KEY (id_descuento) 
+    REFERENCES tb_descuentos(id_descuento) 
+    ON DELETE CASCADE 
+    ON UPDATE CASCADE;
 
