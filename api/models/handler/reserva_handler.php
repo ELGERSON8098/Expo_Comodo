@@ -248,34 +248,38 @@ class ReservaHandler
         WHEN d.valor IS NOT NULL THEN ROUND(dr.precio_unitario * (1 - d.valor / 100), 2)
         ELSE dr.precio_unitario
     END AS precio_con_descuento
-FROM 
+    FROM 
     tb_detalles_reservas dr
-INNER JOIN 
+    INNER JOIN 
     tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
-INNER JOIN 
+    INNER JOIN 
     tb_colores c ON dp.id_color = c.id_color
-INNER JOIN 
+    INNER JOIN 
     tb_tallas t ON dp.id_talla = t.id_talla
-INNER JOIN 
+    INNER JOIN 
     tb_productos p ON dp.id_producto = p.id_producto
-INNER JOIN 
+    INNER JOIN 
     tb_marcas m ON p.id_marca = m.id_marca
-INNER JOIN 
+    INNER JOIN 
     tb_generos_zapatos g ON p.id_genero = g.id_genero
-INNER JOIN 
+    INNER JOIN 
     tb_reservas r ON dr.id_reserva = r.id_reserva
-INNER JOIN 
+    INNER JOIN 
     tb_usuarios u ON r.id_usuario = u.id_usuario
-LEFT JOIN 
+    LEFT JOIN 
     tb_descuentos d ON p.id_descuento = d.id_descuento
-WHERE 
+    WHERE 
     dr.id_detalle_reserva = ?';
 
         $params = array($this->id_detalle_reserva);
         return Database::getRow($sql, $params);
     }
-
-
-
-
+    //Metodo para grafica automatica de reservas
+    public function cantidadReservasEstado()
+    {
+        $sql = 'SELECT estado_reserva, COUNT(id_reserva) AS cantidad
+                FROM tb_reservas
+                GROUP BY estado_reserva';
+        return Database::getRows($sql);
+    }
 }
