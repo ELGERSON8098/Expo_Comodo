@@ -56,7 +56,9 @@ class Report extends FPDF
     public function header()
     {
         // Se establece el logo.
-        $this->image('../../images/logo.png', 15, 15, 20);
+        $this->image('../../images/Fondoreporte$.png', 0, 0, 215.9, 279.4);
+
+        $this->image('../../images/logoComodos.png', 5, 0, 42);
         // Se ubica el título.
         $this->cell(20);
         $this->setFont('Arial', 'B', 15);
@@ -64,7 +66,7 @@ class Report extends FPDF
         // Se ubica la fecha y hora del servidor.
         $this->cell(20);
         $this->setFont('Arial', '', 10);
-        $this->cell(166, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
+        $this->cell(300, 0, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
         $this->ln(10);
     }
@@ -75,10 +77,18 @@ class Report extends FPDF
     */
     public function footer()
     {
+        $this->setFont('Arial', 'I', 10);
+        $this->SetTextColor(0, 0, 0); 
+        $this->cell(0, 400, "Reporte generado por el usuario : ' " . $this->encodeString($_SESSION['aliasAdministrador']) . " ' ", 0, 0, 'C');
         // Se establece la posición para el número de página (a 15 milímetros del final).
         $this->setY(-15);
+
+        // Establece el color del texto a negro
+        $this->SetTextColor(0, 0, 0); // Color negro en formato RGB
+
         // Se establece la fuente para el número de página.
         $this->setFont('Arial', 'I', 8);
+
         // Se imprime una celda con el número de página.
         $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
     }
