@@ -442,10 +442,10 @@ WHERE
     */
     public function productosCategoria()
     {
-        $sql = 'SELECT p.nombre_producto, dp.descripcion, dp.existencias, p.precio
+        $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias, p.precio
                 FROM tb_productos p
-                INNER JOIN tb_categorias c ON c.id_categoria = c.id_categoria
-                INNER JOIN tb_detalles_productos dp ON dp.id_detalle_producto = dp.id_detalle_producto
+                INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+                INNER JOIN tb_detalles_productos dp ON p.id_producto = dp.id_detalle_producto
                 WHERE c.id_categoria = ?
                 ORDER BY p.nombre_producto';
         $params = array($this->id_categoria);
