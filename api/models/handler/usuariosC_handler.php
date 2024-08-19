@@ -70,13 +70,11 @@ class UsuariosHandler
 
     //Funcion de la consulta para generar reporte
 
-    public function usuariosRegistrados($estado_cliente)
+    public function usuariosRegistrados()
     {
-        // Consulta SQL para seleccionar los campos deseados de la tabla tb_usuarios
-        $sql = 'SELECT nombre, correo, dui_cliente, telefono, direccion_cliente
-        FROM tb_usuarios
-        ORDER BY nombre ASC;'; // Filtra los usuarios según el estado proporcionado
-
+        $sql = 'SELECT usuario, correo, dui_cliente, telefono
+                FROM tb_usuarios
+                ORDER BY usuario ASC;'; // Filtra los usuarios según el estado proporcionado
     
         // Ejecuta la consulta y devuelve los resultados
         return Database::getRows($sql); // Llama a la función getRows de la clase Database para ejecutar la consulta
