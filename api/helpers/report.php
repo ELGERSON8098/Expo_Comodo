@@ -66,7 +66,9 @@ class Report extends FPDF
         // Se ubica la fecha y hora del servidor.
         $this->cell(20);
         $this->setFont('Arial', '', 10);
-        $this->cell(300, 0, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
+        
+        $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
+        $this->cell(280, 0, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
         $this->ln(10);
     }
@@ -78,11 +80,13 @@ class Report extends FPDF
     public function footer()
     {
         $this->setFont('Arial', 'I', 10);
-        $this->SetTextColor(0, 0, 0); 
-        $this->cell(0, 400, "Reporte generado por el usuario : ' " . $this->encodeString($_SESSION['aliasAdministrador']) . " ' ", 0, 0, 'C');
-        // Se establece la posición para el número de página (a 15 milímetros del final).
-        $this->setY(-15);
+       $this->setY(-15);
 
+        $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
+        $this->Cell(0, 0, "Reporte generado por el usuario : ' " . $this->encodeString($_SESSION['aliasAdministrador']) . " ' ", 0, 0, 'C');
+
+        // Se establece la posición para el número de página (a 15 milímetros del final).
+        $this->SetY(-15);
         // Establece el color del texto a negro
         $this->SetTextColor(0, 0, 0); // Color negro en formato RGB
 
