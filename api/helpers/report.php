@@ -56,11 +56,11 @@ class Report extends FPDF
     public function header()
     {
         // Se establece el logo.
-        $this->image('../../images/Fondoreporte$.png', 0, 0, 215.9, 279.4);
+        $this->image('../../images/Fondoreporte2$.png', 0, 0, 215.9, 279.4);
 
-        $this->image('../../images/logoComodos.png', 5, 0, 42);
+        $this->image('../../images/logoComodos.png', 5, 0, 50);
         // Establecer fuente y tamaño para el texto debajo de la imagen.
-        $this->SetFont('Arial', 'B', 12);
+        $this->SetFont('Arial', 'B', 20);
 
         $this->SetTextColor(255, 255, 255);
         $this->Cell(0, -10, 'COMODO$', 0, 1, 'C'); // Agrega el texto
@@ -74,7 +74,7 @@ class Report extends FPDF
         $this->setFont('Arial', '', 10);
 
         $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
-        $this->cell(280, 15, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
+        $this->cell(280, 35, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
         $this->ln(10);
     }
@@ -88,8 +88,8 @@ class Report extends FPDF
         $this->setFont('Arial', 'I', 10);
         $this->setY(-15);
 
-        $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
-        $this->Cell(0, 0, "Reporte generado por el usuario : ' " . $this->encodeString($_SESSION['aliasAdministrador']) . " ' ", 0, 0, 'C');
+        $this->SetTextColor(255, 255, 255); // Establece el color del texto a negro
+        $this->Cell(120, 20, "Reporte generado por el usuario : ' " . $this->encodeString($_SESSION['aliasAdministrador']) . " ' ", 0, 0, 'C');
 
         // Se establece la posición para el número de página (a 15 milímetros del final).
         $this->SetY(-15);
@@ -100,6 +100,7 @@ class Report extends FPDF
         $this->setFont('Arial', 'I', 8);
 
         // Se imprime una celda con el número de página.
-        $this->cell(0, 10, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
+        $this->SetTextColor(255, 255, 255); // Establece el color del texto a negro
+        $this->cell(380, 20, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
     }
 }
