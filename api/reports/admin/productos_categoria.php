@@ -11,7 +11,7 @@ $tableTopY = 40; // Posición inicial de la tabla en la primera página
 
 $pdf->startReport('');
 $pdf->SetTextColor(0, 0, 0); // Establece el color del texto a blanco
-$pdf->SetFont('Arial', '', 15);
+$pdf->SetFont('Arial', 'B', 15);
 $pdf->SetY(45); // Ajusta el valor según sea necesario para subir el título
 $pdf->Cell(0, 0, $pdf->encodeString('Productos por categoría'), 0, 1, 'C'); // Imprime el título en la posición ajustada
 
