@@ -58,9 +58,6 @@ class Report extends FPDF
         // Se establece el logo.
 
         $this->image('../../images/ReporteComodo$.png', 0, 0, 215.9, 279.4);
-
-        $this->image('../../images/Fondoreporte2$.png', 0, 0, 215.9, 279.4);
-
         $this->image('../../images/logoComodos.png', 5, 3, 42);
     
         // Establecer fuente y tamaño para el texto debajo de la imagen.
@@ -80,7 +77,7 @@ class Report extends FPDF
         $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
     
         // Centrar la fecha y hora
-        $this->cell(0, 20, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C'); // Cambiado a negrita y centrado
+        $this->cell(0, 30, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C'); // Cambiado a negrita y centrado
     
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
         $this->ln(10);

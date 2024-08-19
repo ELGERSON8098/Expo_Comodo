@@ -21,13 +21,16 @@ $pdf->Ln(10); // Salto de línea para espacio
 $usuario = new UsuariosData;
 
 // Función para imprimir el encabezado de la tabla
-function printTableHeader($pdf) {
+function printTableHeader($pdf)
+{
+
+    $pdf->SetTextColor(225, 225, 225);
     $pdf->SetFillColor(27, 88, 169);
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(40, 10, 'Nombre del usuario', 1, 0, 'C', 1);
     $pdf->Cell(50, 10, 'Correo', 1, 0, 'C', 1);
     $pdf->Cell(40, 10, 'Dui', 1, 0, 'C', 1);
-    
+
     $pdf->Cell(40, 10, 'Telefono', 1, 1, 'C', 1);
 }
 
@@ -53,18 +56,18 @@ if ($dataClientes = $usuario->readAll()) {
         // Imprimir nombre de usuario
         $pdf->SetTextColor(0, 0, 0); // Establecer color del texto a negro
         $pdf->Cell(40, 10, $pdf->encodeString($rowClientes['usuario']), 1, 0, 'L');
-        
+
         // Imprimir correo de usuario
         $pdf->Cell(50, 10, $pdf->encodeString($rowClientes['correo']), 1, 0, 'L');
 
         // Imprimir DUI
         $pdf->Cell(40, 10, $pdf->encodeString($rowClientes['dui_cliente']), 1, 0, 'L');
 
-        
+
         // Imprimir teléfono
         $pdf->Cell(40, 10, $pdf->encodeString($rowClientes['telefono']), 1, 1, 'L');
 
-        
+
         // Asegurarse de que la posición Y no se sobreponga con el final de la página
         if ($pdf->GetY() > 250) {
             $pdf->AddPage(); // Agrega una nueva página si es necesario
@@ -80,4 +83,3 @@ if ($dataClientes = $usuario->readAll()) {
 
 // Generar el PDF
 $pdf->output('I', 'Usuario.pdf');
-?>
