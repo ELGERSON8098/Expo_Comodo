@@ -77,7 +77,7 @@ class Report extends FPDF
         $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
     
         // Centrar la fecha y hora
-        $this->cell(0, 30, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C'); // Cambiado a negrita y centrado
+        $this->cell(170, 30, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C'); // Cambiado a negrita y centrado
     
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
         $this->ln(10);
@@ -93,7 +93,7 @@ class Report extends FPDF
         $this->setY(-15);
 
         $this->SetTextColor(255, 255, 255); // Establece el color del texto a negro
-        $this->Cell(120, 20, "Reporte generado por el usuario : ' " . $this->encodeString($_SESSION['aliasAdministrador']) . " ' ", 0, 0, 'C');
+        $this->Cell(120, 18, "Reporte generado por el usuario : ' " . $this->encodeString($_SESSION['aliasAdministrador']) . " ' ", 0, 0, 'C');
 
         // Se establece la posición para el número de página (a 15 milímetros del final).
         $this->SetY(-15);
@@ -105,6 +105,6 @@ class Report extends FPDF
 
         // Se imprime una celda con el número de página.
         $this->SetTextColor(255, 255, 255); // Establece el color del texto a negro
-        $this->cell(380, 20, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
+        $this->cell(380, 17, $this->encodeString('Página ') . $this->pageNo() . '/{nb}', 0, 0, 'C');
     }
 }
