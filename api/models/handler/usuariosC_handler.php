@@ -31,8 +31,8 @@ class UsuariosHandler
         $params = array($value, $value, $value);
         return Database::getRows($sql, $params);
     }
-    
-//Llamar los datos de la base de datos 
+
+    //Llamar los datos de la base de datos 
     public function readAll()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo, telefono, dui_cliente
@@ -55,10 +55,10 @@ class UsuariosHandler
         $sql = 'UPDATE tb_usuarios
                 SET nombre = ?, usuario = ?, correo = ?, clave = ?, telefono = ?, dui_cliente = ?, direccion_cliente = ?
                 WHERE id_usuario = ?';
-        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->telefono, $this->dui, $this-> direccion, $this->id);
+        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->telefono, $this->dui, $this->direccion, $this->id);
         return Database::executeRow($sql, $params);
     }
-    
+
 
     public function deleteRow()
     {
@@ -66,5 +66,19 @@ class UsuariosHandler
                 WHERE id_usuario = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    //Funcion de la consulta para generar reporte
+
+    public function usuariosRegistrados($estado_cliente)
+    {
+        // Consulta SQL para seleccionar los campos deseados de la tabla tb_usuarios
+        $sql = 'SELECT nombre, correo, dui_cliente, telefono, direccion_cliente
+        FROM tb_usuarios
+        ORDER BY nombre ASC;'; // Filtra los usuarios según el estado proporcionado
+
+    
+        // Ejecuta la consulta y devuelve los resultados
+        return Database::getRows($sql); // Llama a la función getRows de la clase Database para ejecutar la consulta
     }
 }
