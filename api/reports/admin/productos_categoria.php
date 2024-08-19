@@ -12,7 +12,7 @@ $tableTopY = 40; // Posición inicial de la tabla en la primera página
 $pdf->startReport('');
 $pdf->SetTextColor(255, 255, 255); // Establece el color del texto a blanco
 $pdf->SetFont('Arial', '', 15);
-$pdf->Cell(0, 10, $pdf->encodeString('Productos por categoría'), 0, 1, 'C'); // Imprime el título en la posición ajustada
+$pdf->Cell(0, 5, $pdf->encodeString('Productos por categoría'), 0, 1, 'C'); // Imprime el título en la posición ajustada
 
 $pdf->Ln(10); // Primer salto de línea
 
@@ -46,7 +46,7 @@ if ($dataCategoria = $categoria->readAll()) {
                         $pdf->AddPage(); // Agrega una nueva página si es necesario
                         // Reimprime el título y el encabezado de la tabla
                         $pdf->SetFont('Arial', '', 15);
-                        $pdf->Cell(0, 15, $pdf->encodeString('Productos por categoría'), 0, 1, 'C');
+                        $pdf->Cell(0, 10, $pdf->encodeString('Productos por categoría'), 0, 1, 'C');
                         $pdf->Ln(10); // Salto de línea
                         printTableHeader($pdf);
 
@@ -63,7 +63,7 @@ if ($dataCategoria = $categoria->readAll()) {
                     $xStart = $pdf->GetX();
 
                     $pdf->SetTextColor(0, 0, 0);
-                    $pdf->MultiCell(70, 13, $pdf->encodeString($rowProductos['nombre_producto']), 1, 'L');
+                    $pdf->MultiCell(70, 10, $pdf->encodeString($rowProductos['nombre_producto']), 1, 'L');
                     $multiCellHeightTitulo = $pdf->GetY() - $yStart;
 
                     $pdf->SetXY($xStart + 70, $yStart);

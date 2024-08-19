@@ -59,6 +59,12 @@ class Report extends FPDF
         $this->image('../../images/Fondoreporte$.png', 0, 0, 215.9, 279.4);
 
         $this->image('../../images/logoComodos.png', 5, 0, 42);
+        // Establecer fuente y tamaño para el texto debajo de la imagen.
+        $this->SetFont('Arial', 'B', 12);
+
+        $this->SetTextColor(255, 255, 255);
+        $this->Cell(0, -10, 'COMODO$', 0, 1, 'C'); // Agrega el texto
+
         // Se ubica el título.
         $this->cell(20);
         $this->setFont('Arial', 'B', 15);
@@ -66,9 +72,9 @@ class Report extends FPDF
         // Se ubica la fecha y hora del servidor.
         $this->cell(20);
         $this->setFont('Arial', '', 10);
-        
+
         $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
-        $this->cell(280, 0, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
+        $this->cell(280, 15, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C');
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
         $this->ln(10);
     }
@@ -80,7 +86,7 @@ class Report extends FPDF
     public function footer()
     {
         $this->setFont('Arial', 'I', 10);
-       $this->setY(-15);
+        $this->setY(-15);
 
         $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
         $this->Cell(0, 0, "Reporte generado por el usuario : ' " . $this->encodeString($_SESSION['aliasAdministrador']) . " ' ", 0, 0, 'C');
