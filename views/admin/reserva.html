@@ -48,7 +48,8 @@
                             <i class="bi bi-x-square-fill"></i>
                         </button>
                         <div class="col-12 col-sm-auto ms-auto">
-                            <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" data-bs-toggle="modal" data-bs-target="#chartModal">
+                            <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" data-bs-toggle="modal"
+                                data-bs-target="#chartModal">
                                 <i class="bi bi-bar-chart-fill"></i> Gráfico de ventas
                             </button>
                         </div>
@@ -238,34 +239,35 @@
             </div>
         </div>
         <!-- Modal para el gráfico de ventas -->
-<div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chartModalLabel">Gráfico de ventas por categoría</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="fechaInicio" class="form-label">Fecha de inicio:</label>
-                        <input type="date" id="fechaInicio" name="fechaInicio" class="form-control">
+        <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="chartModalLabel">Gráfico de ventas por categoría</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="col-md-6">
-                        <label for="fechaFin" class="form-label">Fecha de fin:</label>
-                        <input type="date" id="fechaFin" name="fechaFin" class="form-control">
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="fechaInicio" class="form-label">Fecha de inicio:</label>
+                                <input type="date" id="fechaInicio" name="fechaInicio" class="form-control">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fechaFin" class="form-label">Fecha de fin:</label>
+                                <input type="date" id="fechaFin" name="fechaFin" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <button onclick="graficoVentasPorCategoria()" class="btn btn-primary">Generar
+                                    gráfico</button>
+                            </div>
+                        </div>
+                        <canvas id="chartVentas"></canvas>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <button onclick="graficoVentasPorCategoria()" class="btn btn-primary">Generar gráfico</button>
-                    </div>
-                </div>
-                <canvas id="chartVentas"></canvas>
             </div>
         </div>
-    </div>
-</div>
     </main>
     <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>
     <!-- Bootstrap JavaScript -->

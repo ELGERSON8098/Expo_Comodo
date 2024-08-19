@@ -390,7 +390,7 @@ const radarGraph = (canvas, labels, data, label, title) => {
         }
     });
 }
-const polarGraph = (canvas, labels, data, label, title) => {
+const polarGraph = (canvas, labels, data, title) => {
     // Define un conjunto de colores personalizados
     const colors = [
         'rgba(255, 99, 132, 0.7)', // Color 1
@@ -409,7 +409,6 @@ const polarGraph = (canvas, labels, data, label, title) => {
         data: {
             labels: labels,
             datasets: [{
-                label: label,
                 data: data,
                 backgroundColor: backgroundColors,
                 borderColor: '#fff',
