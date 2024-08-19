@@ -96,6 +96,9 @@ const fillTable = async (form = null) => {
                          <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_reserva})">
                          <i class="bi bi-eye-fill"></i>
                          </button>
+                         <button type="button" class="btn btn-info" onclick="openReportReservas(${row.id_reserva})">
+                         <i class="bi bi-cart-fill"></i> <!-- Ícono de carrito de compras -->
+                         </button>
                     </td>
                 </tr>
             `;
@@ -216,6 +219,7 @@ const fillDetailsTable = async (idProducto) => {
                         <button type="button" class="btn btn-info" onclick="opensubUpdate(${row.id_detalle_reserva})">
                             <i class="bi bi-person-exclamation"></i>
                         </button>
+                        
                     </td>
                 </tr>
             `;
@@ -289,23 +293,23 @@ function updateMap(address) {
     // Utilizar Nominatim para geocodificar la dirección
     fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}`)
         .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    const { lat, lon } = data[0];
-                    // Si el marcador ya existe, actualizar su ubicación
-                    if (marker) {
-                        marker.setLatLng([lat, lon]);
-                    } else {
-                        marker = L.marker([lat, lon]).addTo(map);
-                    }
-                    map.setView([lat, lon], 15); // Centrar el mapa en la ubicación encontrada
+        .then(data => {
+            if (data.length > 0) {
+                const { lat, lon } = data[0];
+                // Si el marcador ya existe, actualizar su ubicación
+                if (marker) {
+                    marker.setLatLng([lat, lon]);
                 } else {
-                    sweetAlert(2, 'No se pudo encontrar la ubicación', false);
+                    marker = L.marker([lat, lon]).addTo(map);
                 }
-            })
-            .catch(error => {
-                sweetAlert(2, 'Error al buscar la ubicación', false);
-            });
+                map.setView([lat, lon], 15); // Centrar el mapa en la ubicación encontrada
+            } else {
+                sweetAlert(2, 'No se pudo encontrar la ubicación', false);
+            }
+        })
+        .catch(error => {
+            sweetAlert(2, 'Error al buscar la ubicación', false);
+        });
 }
 const opensubUpdate = async (idDetalle) => {
     try {
@@ -372,22 +376,22 @@ const opensubUpdate = async (idDetalle) => {
 async function graficoVentasPorCategoria() {
     const fechaInicio = document.getElementById('fechaInicio').value;
     const fechaFin = document.getElementById('fechaFin').value;
- 
+
     if (!fechaInicio || !fechaFin) {
         sweetAlert(3, 'Por favor, seleccione ambas fechas', null);
         return;
     }
- 
+
     const form = new FormData();
     form.append('fechaInicio', fechaInicio);
     form.append('fechaFin', fechaFin);
- 
+
     const DATA = await fetchData(RESERVA_API, 'ventasPorCategoriaEnRango', form);
- 
+
     if (DATA.status) {
         const categorias = DATA.dataset.map(row => row.nombre_categoria);
         const ventas = DATA.dataset.map(row => parseFloat(row.total_ventas));
- 
+
         const ctx = document.getElementById('chartVentas').getContext('2d');
         new Chart(ctx, {
             type: 'bar',
@@ -419,17 +423,17 @@ async function graficoVentasPorMarcas() {
     const fechaInicio = document.getElementById('fechaInicio').value;
     const fechaFin = document.getElementById('fechaFin').value;
     const selectedMarcas = Array.from(document.querySelectorAll('input[name="marca"]:checked')).map(el => el.value);
- 
+
     if (!fechaInicio || !fechaFin || selectedMarcas.length === 0) {
         sweetAlert(3, 'Por favor, seleccione fechas y al menos una marca', null);
         return;
     }
- 
+
     const form = new FormData();
     form.append('fechaInicio', fechaInicio);
     form.append('fechaFin', fechaFin);
     form.append('marcas', JSON.stringify(selectedMarcas));
- 
+
     const DATA = await fetchData(RESERVA_API, 'ventasPorMarcasEnRango', form);
     if (DATA.status) {
         const marcasData = selectedMarcas.map(marca => {
@@ -444,7 +448,7 @@ async function graficoVentasPorMarcas() {
                 tension: 0.1
             };
         });
- 
+
         const ctx = document.getElementById('chartVentasMarcas').getContext('2d');
         new Chart(ctx, {
             type: 'line',
@@ -470,7 +474,7 @@ async function graficoVentasPorMarcas() {
         sweetAlert(2, DATA.error, null);
     }
 }
- 
+
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -478,4 +482,10 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+const openReportReservas = () => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/admin/usuarios_Registrados.php`);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
 }
