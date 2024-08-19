@@ -23,6 +23,8 @@ $categoria = new CategoriaData;
 
 // Función para imprimir el encabezado de la tabla
 function printTableHeader($pdf) {
+    
+    $pdf->SetTextColor(255, 255, 255);
     $pdf->SetFillColor(38, 15, 189);
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(70, 10, 'Nombre del producto', 1, 0, 'C', 1);
