@@ -78,6 +78,19 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar la marca.';
                 }
                 break;
+                case 'ventasPorCategoriaEnRango':
+                    $_POST = Validator::validateForm($_POST);
+                    $fechaInicio = $_POST['fechaInicio'];
+                    $fechaFin = $_POST['fechaFin'];
+    
+                    if ($result['dataset'] = $marca->ventasPorCategoriaFecha($fechaInicio, $fechaFin)) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Datos obtenidos correctamente';
+                    } else {
+                        $result['error'] = 'No se pudieron obtener los datos';
+                    }
+                    break;
+    
             
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
