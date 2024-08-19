@@ -236,7 +236,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No se pudieron obtener los datos';
                 }
                 break;
-            case 'ventasPorCategoriaFecha':
+            case 'ventasPorCategoriaEnRango':
                 $_POST = Validator::validateForm($_POST);
                 $fechaInicio = $_POST['fechaInicio'];
                 $fechaFin = $_POST['fechaFin'];

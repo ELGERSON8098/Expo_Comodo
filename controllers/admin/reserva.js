@@ -368,3 +368,49 @@ const opensubUpdate = async (idDetalle) => {
         console.error('Error al abrir la actualización:', error);
     }
 }
+
+async function graficoVentasPorCategoria() {
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+ 
+    if (!fechaInicio || !fechaFin) {
+        sweetAlert(3, 'Por favor, seleccione ambas fechas', null);
+        return;
+    }
+ 
+    const form = new FormData();
+    form.append('fechaInicio', fechaInicio);
+    form.append('fechaFin', fechaFin);
+ 
+    const DATA = await fetchData(RESERVA_API, 'ventasPorCategoriaEnRango', form);
+ 
+    if (DATA.status) {
+        const categorias = DATA.dataset.map(row => row.nombre_categoria);
+        const ventas = DATA.dataset.map(row => parseFloat(row.total_ventas));
+ 
+        const ctx = document.getElementById('chartVentas').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: categorias,
+                datasets: [{
+                    label: 'Total de ventas',
+                    data: ventas,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    } else {
+        sweetAlert(2, DATA.error, null);
+    }
+}
