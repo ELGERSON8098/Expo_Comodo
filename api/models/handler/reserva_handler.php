@@ -300,7 +300,8 @@ class ReservaHandler
     WHERE 
     r.fecha_reserva BETWEEN ? AND ?
     GROUP BY 
-    c.nombre_categoria;';
+    c.nombre_categoria
+    LIMIT 5;';
         $params = array($fechaInicio, $fechaFin);
         return Database::getRows($sql, $params);
     }

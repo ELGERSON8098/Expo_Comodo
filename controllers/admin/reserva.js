@@ -394,7 +394,7 @@ async function graficoVentasPorCategoria() {
             data: {
                 labels: categorias,
                 datasets: [{
-                    label: 'Total de ventas',
+                    label: 'Total de ventas (US$)',
                     data: ventas,
                     backgroundColor: 'rgba(75, 192, 192, 0.6)',
                     borderColor: 'rgba(75, 192, 192, 1)',
