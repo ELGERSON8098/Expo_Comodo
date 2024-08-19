@@ -236,30 +236,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No se pudieron obtener los datos';
                 }
                 break;
-            case 'ventasPorCategoriaEnRango':
-                $_POST = Validator::validateForm($_POST);
-                $fechaInicio = $_POST['fechaInicio'];
-                $fechaFin = $_POST['fechaFin'];
-
-                if ($result['dataset'] = $reserva->ventasPorCategoriaFecha($fechaInicio, $fechaFin)) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Datos obtenidos correctamente';
-                } else {
-                    $result['error'] = 'No se pudieron obtener los datos';
-                }
-                break;
-
-                case 'ventasPorMarcasEnRango':
-                    $_POST = Validator::validateForm($_POST);
-                    $fechaInicio = $_POST['fechaInicio'];
-                    $fechaFin = $_POST['fechaFin'];
-                    if ($result['dataset'] = $reserva->ventasPorMarcasFecha($fechaInicio, $fechaFin)) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Datos obtenidos correctamente';
-                    } else {
-                        $result['error'] = 'No se pudieron obtener los datos';
-                    }
-                    break;
+            
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
