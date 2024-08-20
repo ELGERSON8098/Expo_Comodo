@@ -433,7 +433,8 @@ WHERE
         $sql = 'SELECT g.nombre_genero, COUNT(p.id_producto) AS cantidad
                 FROM tb_productos p
                 JOIN tb_generos_zapatos g ON p.id_genero = g.id_genero
-                GROUP BY g.nombre_genero';
+                GROUP BY g.nombre_genero
+                LIMIT 5';
         return Database::getRows($sql);
     }
 
