@@ -222,6 +222,18 @@ ORDER BY
         return Database::getRows($sql, $params);
     }
 
+    public function productosMarca()
+    {
+        $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor, dp.existencias
+            FROM tb_productos p
+            INNER JOIN tb_marcas m ON p.id_marca = m.id_marca
+            INNER JOIN tb_detalles_productos dp ON p.id_producto = dp.id_producto
+            WHERE p.id_marca = ?
+            ORDER BY p.nombre_producto';
+        $params = array($this->id_marca);
+        return Database::getRows($sql, $params);
+    }
+
 
 
     /*
@@ -459,13 +471,13 @@ WHERE
         WHEN 12 THEN 'Diciembre'
     END AS mes,
     SUM(dr.cantidad * dr.precio_unitario) AS ventas_totales
-    FROM tb_reservas r
-    INNER JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
-    WHERE r.estado_reserva = 'Aceptado'
-    AND r.fecha_reserva >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-    AND r.fecha_reserva <= CURDATE()
-    GROUP BY mes
-    ORDER BY MONTH(r.fecha_reserva) ASC;";
+FROM tb_reservas r
+INNER JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+WHERE r.estado_reserva = 'Aceptado'
+  AND r.fecha_reserva >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+  AND r.fecha_reserva <= CURDATE()
+GROUP BY mes
+ORDER BY MONTH(r.fecha_reserva) ASC;";
         return Database::getRows($sql);
     }
 
