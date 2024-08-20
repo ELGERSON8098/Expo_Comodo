@@ -18,7 +18,7 @@ if (isset($_GET['idMarca'])) {
         // Se verifica si la marca existe, de lo contrario se muestra un mensaje.
         if ($rowMarca = $marca->readOne()) {
             // Se inicia el reporte con el encabezado del documento.
-            $pdf->startReport('Productos de la marca ' .  $pdf->encodeString($rowMarca['marca']));
+            $pdf->startReport('Productos de la marca: ' .  $pdf->encodeString($rowMarca['marca']));
 
             // Establecer color de fondo y texto para encabezados
             $pdf->SetFillColor(38, 15, 189); // Color de fondo

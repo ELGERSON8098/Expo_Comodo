@@ -246,6 +246,17 @@ ORDER BY
     return Database::getRows($sql, $params);
 }
 
+public function productosDescuento()
+{
+    $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor AS codigo_externo
+            FROM tb_productos p
+            INNER JOIN tb_descuentos d ON p.id_descuento = d.id_descuento
+            WHERE p.id_descuento = ?
+            ORDER BY p.nombre_producto';
+    $params = array($this->id_descuento);
+    return Database::getRows($sql, $params);
+}
+
 public function productosTalla()
 {
     $sql = 'SELECT 

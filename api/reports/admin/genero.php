@@ -18,7 +18,7 @@ if (isset($_GET['idGenero'])) {
         // Se verifica si la marca existe, de lo contrario se muestra un mensaje.
         if ($rowGenero = $genero->readOne()) {
             // Se inicia el reporte con el encabezado del documento.
-            $pdf->startReport('Productos del género ' .  $pdf->encodeString($rowGenero['nombre_genero']));
+            $pdf->startReport('Productos del género: ' .  $pdf->encodeString($rowGenero['nombre_genero']));
         
             // Establecer color de fondo y texto para encabezados
             $pdf->SetFillColor(38, 15, 189); // Color de fondo
