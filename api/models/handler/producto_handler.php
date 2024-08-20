@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 /*
  *	Clase para manejar el comportamiento de los datos de la tabla PRODUCTO.
  */
@@ -364,7 +364,7 @@ JOIN
 WHERE 
     p.id_descuento IS NOT NULL';
         return Database::getRows($sql);
-    } 
+    }
 
     public function cantidadProductosCategoria()
     {
@@ -386,7 +386,7 @@ WHERE
                 LIMIT 5';
         return Database::getRows($sql);
     }
-    
+
 
     public function descuentosMasUtilizados()
     {
@@ -398,7 +398,7 @@ WHERE
                 LIMIT 5';
         return Database::getRows($sql);
     }
-    
+
 
     public function marcaMasComprada()
     {
@@ -413,7 +413,7 @@ WHERE
     LIMIT 5;';
         return Database::getRows($sql);
     }
-    
+
     public function productosMasVendidosPorCategoria()
     {
         $sql = 'SELECT c.nombre_categoria, COUNT(p.id_producto) AS cantidad
@@ -431,7 +431,8 @@ WHERE
 
 
     //Metodo para la grafica de distribucion de productos por genero (Automatica)
-    public function cantidadProductosGenero() {
+    public function cantidadProductosGenero()
+    {
         $sql = 'SELECT g.nombre_genero, COUNT(p.id_producto) AS cantidad
                 FROM tb_productos p
                 JOIN tb_generos_zapatos g ON p.id_genero = g.id_genero
@@ -439,10 +440,23 @@ WHERE
                 LIMIT 5';
         return Database::getRows($sql);
     }
+    //Metodo para grafica predictiva
+    public function ventasUltimosSeisMeses()
+    {
+        $sql = 'SELECT DATE_FORMAT(r.fecha_reserva, "%Y-%m") AS mes, 
+                   SUM(dr.cantidad * dr.precio_unitario) AS ventas_totales
+            FROM tb_reservas r
+            INNER JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+            WHERE r.estado_reserva = "Aceptado"
+              AND r.fecha_reserva >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+            GROUP BY mes
+            ORDER BY mes ASC';
+        return Database::getRows($sql);
+    }
 
     /*
-    *   Métodos para generar reportes .
-    */
+     *   Métodos para generar reportes .
+     */
     public function productosCategoria()
     {
         $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias, p.precio
