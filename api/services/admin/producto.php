@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once ('../../models/data/producto_data.php');
+require_once('../../models/data/producto_data.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -244,6 +244,14 @@ if (isset($_GET['action'])) {
                     $result['status'] = 1;
                 } else {
                     $result['error'] = 'No hay datos disponibles';
+                }
+                break;
+                //Case para grafica predictiva
+            case 'ventasUltimosSeisMeses':
+                if ($result['dataset'] = $producto->ventasUltimosSeisMeses()) {
+                    $result['status'] = 1;
+                } else {
+                    $result['error'] = 'No hay datos de ventas disponibles';
                 }
                 break;
             // Caso para leer los detalles de un producto específico
