@@ -19,6 +19,9 @@ class ReservaHandler
     protected $precio_unitario = null;
     protected $id_detalle_reserva = null;
 
+    protected $fechaInicio = null;
+    protected $fechaFin = null;
+
     // Constante para establecer la ruta de las imágenes (si aplica).
     const RUTA_IMAGEN = '../../images/productos/';
 
@@ -282,4 +285,28 @@ class ReservaHandler
                 GROUP BY estado_reserva';
         return Database::getRows($sql);
     }
+
+    public function ventasPorCategoriaFecha($fechaInicio, $fechaFin) {
+        $sql = 'SELECT 
+    c.nombre_categoria, 
+    SUM(dr.cantidad * dr.precio_unitario) AS total_ventas
+    FROM 
+    tb_detalles_reservas dr
+    INNER JOIN 
+    tb_reservas r ON dr.id_reserva = r.id_reserva
+    INNER JOIN 
+    tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+    INNER JOIN 
+    tb_productos p ON dp.id_producto = p.id_producto
+    INNER JOIN 
+    tb_categorias c ON p.id_categoria = c.id_categoria
+    WHERE 
+    r.fecha_reserva BETWEEN ? AND ?
+    GROUP BY 
+    c.nombre_categoria
+    LIMIT 5;';
+        $params = array($fechaInicio, $fechaFin);
+        return Database::getRows($sql, $params);
+    }
+
 }
