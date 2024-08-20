@@ -284,7 +284,7 @@ await model.fit(xs, ys, {epochs: 500});
     } else {
         console.log(DATA.error);
     }
-<<<<<<< HEAD
+
 }
 
 const graficoBarrasCategoriasVentas = async () => {
@@ -344,6 +344,3 @@ const top5ProductosMasVendidos = async () => {
 }
 
 
-=======
-};
->>>>>>> 187e1a8c2ac50cafb6b54b31422200fd02662d2f
