@@ -64,7 +64,7 @@
         <div class="row mb-3">
             <div class="col text-end">
                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#chartModal">
-                    <i class="bi bi-bar-chart-fill"></i>    Grafica para comparar ventas
+                    <i class="bi bi-bar-chart-fill"></i> Grafica para comparar ventas
                 </button>
             </div>
         </div>
@@ -136,7 +136,46 @@
                 </div>
             </div>
         </div>
-        
+
+        <!-- Modal para la gráfica de ventas por marcas -->
+        <div class="modal fade" id="chartModal" tabindex="-1" aria-labelledby="chartModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="chartModalLabel">Ventas por Marcas</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="fechaInicio" class="form-label">Fecha de inicio:</label>
+                                <input type="date" class="form-control" id="fechaInicio">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="fechaFin" class="form-label">Fecha de fin:</label>
+                                <input type="date" class="form-control" id="fechaFin">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label class="form-label">Seleccionar marcas:</label>
+                                <div id="marcasCheckboxes">
+                                    <!-- Los checkboxes de marcas se añadirán aquí dinámicamente -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <button class="btn btn-primary" onclick="graficoVentasPorMarcas()">Generar
+                                    gráfico</button>
+                            </div>
+                        </div>
+                        <canvas id="chartVentasMarcas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
     <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>
     <!-- Bootstrap JS -->
