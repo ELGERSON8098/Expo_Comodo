@@ -28,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     graficoPolarCategorias();
     graficoTortaGeneros();
     graficoTortaReservas();
+    graficaVentasPrediccion();
 });
 
 /*
@@ -177,6 +178,87 @@ const graficoTortaReservas = async () => {
         polarGraph('chart7', estados, cantidades, 'Distribución de reservas por estado');
     } else {
         document.getElementById('chart7').remove();
+        console.log(DATA.error);
+    }
+}
+
+const graficaVentasPrediccion = async () => {
+    const DATA = await fetchData(PRODUCTO_API, 'ventasUltimosSeisMeses');
+    if (DATA.status) {
+        let meses = [];
+        let ventas = [];
+        const ordenMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        
+        // Ordenar los datos según el orden de los meses
+        DATA.dataset.sort((a, b) => ordenMeses.indexOf(a.mes) - ordenMeses.indexOf(b.mes));
+
+        DATA.dataset.forEach(row => {
+            meses.push(row.mes);
+            ventas.push(parseFloat(row.ventas_totales));
+        });
+
+        // Calcular la proyección para los próximos 3 meses
+        const ultimasVentas = ventas.slice(-3);
+        const tendencia = (ultimasVentas[2] - ultimasVentas[0]) / 2;
+        
+        for (let i = 1; i <= 3; i++) {
+            const ultimaVenta = ventas[ventas.length - 1];
+            const nuevaVenta = ultimaVenta + tendencia;
+            ventas.push(nuevaVenta);
+            
+            const ultimoMesIndex = ordenMeses.indexOf(meses[meses.length - 1]);
+            const nuevoMesIndex = (ultimoMesIndex + 1) % 12;
+            meses.push(ordenMeses[nuevoMesIndex]);
+        }
+
+        // Crear la gráfica
+        const ctx = document.getElementById('chartVentas').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: meses,
+                datasets: [{
+                    label: 'Ventas reales',
+                    data: ventas.slice(0, -3),
+                    borderColor: 'blue',
+                    fill: false
+                }, {
+                    label: 'Ventas proyectadas',
+                    data: ventas.slice(-4),
+                    borderColor: 'red',
+                    borderDash: [5, 5],
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: 'Ventas reales y proyectadas'
+                },
+                legend: {
+                    position: 'top',
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Mes'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Ventas ($)'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    } else {
         console.log(DATA.error);
     }
 }

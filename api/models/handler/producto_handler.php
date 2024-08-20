@@ -443,14 +443,29 @@ WHERE
     //Metodo para grafica predictiva
     public function ventasUltimosSeisMeses()
     {
-        $sql = 'SELECT DATE_FORMAT(r.fecha_reserva, "%Y-%m") AS mes, 
-                   SUM(dr.cantidad * dr.precio_unitario) AS ventas_totales
-            FROM tb_reservas r
-            INNER JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
-            WHERE r.estado_reserva = "Aceptado"
-              AND r.fecha_reserva >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
-            GROUP BY mes
-            ORDER BY mes ASC';
+        $sql = "SELECT 
+    CASE MONTH(r.fecha_reserva)
+        WHEN 1 THEN 'Enero'
+        WHEN 2 THEN 'Febrero'
+        WHEN 3 THEN 'Marzo'
+        WHEN 4 THEN 'Abril'
+        WHEN 5 THEN 'Mayo'
+        WHEN 6 THEN 'Junio'
+        WHEN 7 THEN 'Julio'
+        WHEN 8 THEN 'Agosto'
+        WHEN 9 THEN 'Septiembre'
+        WHEN 10 THEN 'Octubre'
+        WHEN 11 THEN 'Noviembre'
+        WHEN 12 THEN 'Diciembre'
+    END AS mes,
+    SUM(dr.cantidad * dr.precio_unitario) AS ventas_totales
+FROM tb_reservas r
+INNER JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+WHERE r.estado_reserva = 'Aceptado'
+  AND r.fecha_reserva >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+  AND r.fecha_reserva <= CURDATE()
+GROUP BY mes
+ORDER BY MONTH(r.fecha_reserva) ASC;";
         return Database::getRows($sql);
     }
 
