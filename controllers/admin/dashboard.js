@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     graficaVentasPrediccion();
     graficoBarrasCategoriasVentas();
     top5ProductosMasVendidos();
+    graficoInventarioMarcasyTallas();
 });
 
 /*
@@ -286,7 +287,7 @@ await model.fit(xs, ys, {epochs: 500});
     }
 
 }
-
+// Grafico automatico
 const graficoBarrasCategoriasVentas = async () => {
     try {
         // Reemplaza 'ventasDiariasPorCategoria' con la función PHP adecuada que no requiere parámetros
@@ -314,7 +315,9 @@ const graficoBarrasCategoriasVentas = async () => {
         console.error('Error al obtener los datos del gráfico:', error);
     }
 }
-// se viene merge
+// se viene merge-Grafico automatico
+
+
 const top5ProductosMasVendidos = async () => {
     try {
         // Reemplaza 'productosMasVendidosTop5' con la función PHP adecuada que no requiere parámetros
@@ -342,5 +345,21 @@ const top5ProductosMasVendidos = async () => {
         console.error('Error al obtener los datos del gráfico:', error);
     }
 }
+
+const graficoInventarioMarcasyTallas = async () => {
+    const DATA = await fetchData(PRODUCTO_API, 'InventarioMarcasyTallas');
+    if (DATA.status) {
+        let tallas = [];
+        let cantidades = [];
+        DATA.dataset.forEach(row => {
+            tallas.push(row.talla); // Ajuste para capturar las tallas
+            cantidades.push(row.cantidad); // Ajuste para capturar la cantidad de productos
+        });
+        barGraph3('chart10', tallas, cantidades, 'Cantidad de productos en inventario', 'Inventario de productos por talla');
+    } else {
+        document.getElementById('chart10').remove();
+        console.log(DATA.error);
+    }
+};
 
 
