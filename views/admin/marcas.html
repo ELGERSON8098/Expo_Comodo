@@ -170,7 +170,7 @@
                                     gráfico</button>
                             </div>
                         </div>
-                        <canvas id="chartVentasMarcas"></canvas>
+                        <canvas id="chartVentasMarcas" style="width:100%; height:400px;"></canvas>
                     </div>
                 </div>
             </div>
@@ -178,14 +178,16 @@
 
     </main>
     <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
     <!-- Bootstrap JS -->
     <script src="../../resources/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert JS -->
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-    <!-- Controlador de administrador -->
-    <script src="../../controllers/utils/admin.js"></script>
     <!-- Controlador de componentes -->
     <script src="../../controllers/utils/components.js"></script>
+    <!-- Controlador de administrador -->
+    <script src="../../controllers/utils/admin.js"></script>
     <!-- Controlador específico para marcas -->
     <script src="../../controllers/admin/marca.js"></script>
 

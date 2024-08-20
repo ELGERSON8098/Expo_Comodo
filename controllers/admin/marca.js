@@ -166,7 +166,28 @@ const openDelete = async (id) => {
     }
 }
 
+// Función para cargar las marcas disponibles como checkboxes
+async function cargarMarcas() {
+    const DATA = await fetchData(MARCA_API, 'readAll');
+    if (DATA.status) {
+        const marcasCheckboxes = document.getElementById('marcasCheckboxes');
+        marcasCheckboxes.innerHTML = ''; // Limpiar contenido existente
+        DATA.dataset.forEach(marca => {
+            marcasCheckboxes.innerHTML += `
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="${marca.marca}" id="marca${marca.id_marca}" name="marca">
+                    <label class="form-check-label" for="marca${marca.id_marca}">
+                        ${marca.marca}
+                    </label>
+                </div>
+            `;
+        });
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+}
 
+// Función para generar el gráfico
 async function graficoVentasPorMarcas() {
     const fechaInicio = document.getElementById('fechaInicio').value;
     const fechaFin = document.getElementById('fechaFin').value;
@@ -182,7 +203,7 @@ async function graficoVentasPorMarcas() {
     form.append('fechaFin', fechaFin);
     form.append('marcas', JSON.stringify(selectedMarcas));
 
-    const DATA = await fetchData(MARCA_API, 'ventasPorMarcasEnRango', form);
+    const DATA = await fetchData(MARCA_API, 'ventasPorMarcasFecha', form);
     if (DATA.status) {
         const marcasData = selectedMarcas.map(marca => {
             return {
@@ -198,7 +219,10 @@ async function graficoVentasPorMarcas() {
         });
 
         const ctx = document.getElementById('chartVentasMarcas').getContext('2d');
-        new Chart(ctx, {
+        if (window.ventasChart) {
+            window.ventasChart.destroy();
+        }
+        window.ventasChart = new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: marcasData
@@ -213,7 +237,21 @@ async function graficoVentasPorMarcas() {
                         }
                     },
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Ventas ($)'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Ventas por marca'
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
                     }
                 }
             }
@@ -223,6 +261,7 @@ async function graficoVentasPorMarcas() {
     }
 }
 
+// Función auxiliar para generar colores aleatorios
 function getRandomColor() {
     const letters = '0123456789ABCDEF';
     let color = '#';
@@ -231,3 +270,21 @@ function getRandomColor() {
     }
     return color;
 }
+
+// Evento para cargar las marcas cuando se abre el modal
+document.getElementById('chartModal').addEventListener('show.bs.modal', cargarMarcas);
+
+// Asegúrate de que esto esté dentro de tu evento DOMContentLoaded existente
+document.addEventListener('DOMContentLoaded', () => {
+    // ... tu código existente ...
+
+    // Agregar evento al botón que abre el modal de la gráfica
+    document.querySelector('[data-bs-target="#chartModal"]').addEventListener('click', () => {
+        // Restablecer fechas y limpiar gráfica existente si la hay
+        document.getElementById('fechaInicio').value = '';
+        document.getElementById('fechaFin').value = '';
+        if (window.ventasChart) {
+            window.ventasChart.destroy();
+        }
+    });
+});
