@@ -39,7 +39,38 @@ class reservaData extends ReservaHandler
             return false;
         }
     }
+    
+    /* public function setFecha($value)
+    {
+        // Valida el formato de la fecha.
+        if (Validator::validateDateTime($value, 'Y-m-d H:i:s')) {
+            $this->fecha_reserva = $value; // Asigna el valor de la fecha.
+            return true;
+        } else {
+            $this->data_error = 'El formato de fecha debe ser YYYY-MM-DD HH:MM:SS'; // Almacena mensaje de error.
+            return false;
+        }
+    }
+    public function setFechaInicio($fecha_reserva)
+    {
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha_reserva)) {
+            $this->fechaInicio = $fecha_reserva;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
 
+    public function setFechaFin($fecha_reserva)
+    {
+        if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha_reserva)) {
+            $this->fechaFin = $fecha_reserva;
+            return true;
+        } else {
+            return false;
+        }
+    }*/
 
     public function setEstado($value)
     {

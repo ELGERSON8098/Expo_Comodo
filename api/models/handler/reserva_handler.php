@@ -19,6 +19,9 @@ class ReservaHandler
     protected $precio_unitario = null;
     protected $id_detalle_reserva = null;
 
+    protected $fechaInicio = null;
+    protected $fechaFin = null;
+
     // Constante para establecer la ruta de las imágenes (si aplica).
     const RUTA_IMAGEN = '../../images/productos/';
 
