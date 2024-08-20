@@ -206,3 +206,6 @@ canvas {
     max-height: 90%;
 }
 
+#chartVentasMarcas {
+    max-height: 400px; /* Limitar la altura máxima del gráfico */
+}
