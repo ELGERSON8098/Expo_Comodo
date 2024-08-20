@@ -234,6 +234,18 @@ ORDER BY
         return Database::getRows($sql, $params);
     }
 
+    public function productosGenero()
+{
+    $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias
+            FROM tb_productos p
+            INNER JOIN tb_detalles_productos dp ON p.id_producto = dp.id_producto
+            INNER JOIN tb_generos_zapatos gz ON p.id_genero = gz.id_genero
+            WHERE gz.id_genero = ?
+            ORDER BY p.nombre_producto';
+    $params = array($this->id_genero);
+    return Database::getRows($sql, $params);
+}
+
 
 
     /*
@@ -495,37 +507,5 @@ ORDER BY MONTH(r.fecha_reserva) ASC;";
         $params = array($this->id_categoria);
         return Database::getRows($sql, $params);
     }
-
-    public function ventasDiariasPorCategoria()
-{
-    $sql = 'SELECT c.nombre_categoria AS categoria, 
-       SUM(dr.cantidad * dr.precio_unitario) AS total_ventas
-FROM tb_reservas r
-INNER JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
-INNER JOIN tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
-INNER JOIN tb_productos p ON dp.id_producto = p.id_producto
-INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
-WHERE r.estado_reserva = "Aceptado"
-GROUP BY c.id_categoria
-ORDER BY total_ventas DESC';
-    return Database::getRows($sql);
-}
-
-public function productosMasVendidosTop5()
-{
-    $sql = 'SELECT p.nombre_producto, 
-    SUM(dr.cantidad) AS total_vendido
-FROM tb_detalles_reservas dr
-INNER JOIN tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
-INNER JOIN tb_productos p ON dp.id_producto = p.id_producto
-INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva
-WHERE r.estado_reserva = "Aceptado"
-GROUP BY p.id_producto, p.nombre_producto
-ORDER BY total_vendido DESC
-LIMIT 5;
-';
-    return Database::getRows($sql);
-}
-
 }
 
