@@ -188,29 +188,45 @@ const graficaVentasPrediccion = async () => {
         let meses = [];
         let ventas = [];
         const ordenMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-        
+ 
         // Ordenar los datos según el orden de los meses
         DATA.dataset.sort((a, b) => ordenMeses.indexOf(a.mes) - ordenMeses.indexOf(b.mes));
-
+ 
         DATA.dataset.forEach(row => {
             meses.push(row.mes);
             ventas.push(parseFloat(row.ventas_totales));
         });
-
-        // Calcular la proyección para los próximos 3 meses
-        const ultimasVentas = ventas.slice(-3);
-        const tendencia = (ultimasVentas[2] - ultimasVentas[0]) / 2;
-        
-        for (let i = 1; i <= 3; i++) {
-            const ultimaVenta = ventas[ventas.length - 1];
-            const nuevaVenta = ultimaVenta + tendencia;
-            ventas.push(nuevaVenta);
-            
-            const ultimoMesIndex = ordenMeses.indexOf(meses[meses.length - 1]);
-            const nuevoMesIndex = (ultimoMesIndex + 1) % 12;
-            meses.push(ordenMeses[nuevoMesIndex]);
+ 
+        // Convertir los datos de ventas a un tensor
+        const xs = tf.tensor1d(ventas.map((_, i) => i));
+        const ys = tf.tensor1d(ventas);
+ 
+        // Definir un modelo de regresión lineal
+        const model = tf.sequential();
+        model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+ 
+        // Compilar el modelo
+        model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
+ 
+        // Entrenar el modelo
+await model.fit(xs, ys, {epochs: 500});
+ 
+        // Hacer predicciones para los próximos 3 meses
+        const numMeses = ventas.length;
+        let predicciones = [];
+        for (let i = numMeses; i < numMeses + 3; i++) {
+            const prediccion = model.predict(tf.tensor2d([i], [1, 1]));
+            predicciones.push(prediccion.dataSync()[0]);
         }
-
+ 
+        // Añadir las predicciones a las ventas y los meses
+        predicciones.forEach((venta, i) => {
+            ventas.push(venta);
+            const ultimoMesIndex = ordenMeses.indexOf(meses[meses.length - 1]);
+            const nuevoMesIndex = (ultimoMesIndex + 1 + i) % 12;
+            meses.push(ordenMeses[nuevoMesIndex]);
+        });
+ 
         // Crear la gráfica
         const ctx = document.getElementById('chartVentas').getContext('2d');
         new Chart(ctx, {
@@ -224,7 +240,7 @@ const graficaVentasPrediccion = async () => {
                     fill: false
                 }, {
                     label: 'Ventas proyectadas',
-                    data: ventas.slice(-4),
+                    data: ventas.slice(-3),
                     borderColor: 'red',
                     borderDash: [5, 5],
                     fill: false
@@ -261,4 +277,4 @@ const graficaVentasPrediccion = async () => {
     } else {
         console.log(DATA.error);
     }
-}
+};
