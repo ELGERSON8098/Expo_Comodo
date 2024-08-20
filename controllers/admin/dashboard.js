@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     graficoTortaGeneros();
     graficoTortaReservas();
     graficaVentasPrediccion();
+    graficoBarrasCategoriasVentas();
+    top5ProductosMasVendidos();
 });
 
 /*
@@ -262,3 +264,61 @@ const graficaVentasPrediccion = async () => {
         console.log(DATA.error);
     }
 }
+
+const graficoBarrasCategoriasVentas = async () => {
+    try {
+        // Reemplaza 'ventasDiariasPorCategoria' con la función PHP adecuada que no requiere parámetros
+        const DATA = await fetchData(PRODUCTO_API, 'ventasDiariasPorCategoria'); // Ajusta el nombre según tu función PHP
+        if (DATA.status) {
+            let categorias = [];
+            let ventas = [];
+            DATA.dataset.forEach(row => {
+                categorias.push(row.categoria); // Cambiado de 'fecha' a 'categoria'
+                ventas.push(row.total_ventas);
+            });
+
+            // Utiliza la función barGraph para generar el gráfico de barras
+            barGraph1('chart8', categorias, ventas, 'Ventas por Categoría', 'Ventas Totales por Categoría'); // Ajusta el título según corresponda
+        } else {
+            // Si hay un error, eliminar el gráfico existente y mostrar el mensaje de error
+            const chartElement = document.getElementById('chart8');
+            if (chartElement) {
+                chartElement.remove();
+            }
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        // Manejo de errores de la llamada fetch
+        console.error('Error al obtener los datos del gráfico:', error);
+    }
+}
+
+const top5ProductosMasVendidos = async () => {
+    try {
+        // Reemplaza 'productosMasVendidosTop5' con la función PHP adecuada que no requiere parámetros
+        const DATA = await fetchData(PRODUCTO_API, 'productosMasVendidosTop5'); // Ajusta el nombre según tu función PHP
+        if (DATA.status) {
+            let productos = [];
+            let ventas = [];
+            DATA.dataset.forEach(row => {
+                productos.push(row.nombre_producto); 
+                ventas.push(row.total_vendido);
+            });
+
+            // Utiliza la función barGraph para generar el gráfico de barras
+            barGraph2('chart9', productos, ventas, 'Ventas por Producto', 'Top 5 Productos Más Vendidos'); // Ajusta el título según corresponda
+        } else {
+            // Si hay un error, eliminar el gráfico existente y mostrar el mensaje de error
+            const chartElement = document.getElementById('chart9');
+            if (chartElement) {
+                chartElement.remove();
+            }
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        // Manejo de errores de la llamada fetch
+        console.error('Error al obtener los datos del gráfico:', error);
+    }
+}
+
+

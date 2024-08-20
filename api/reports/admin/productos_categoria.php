@@ -25,7 +25,7 @@ $categoria = new CategoriaData;
 function printTableHeader($pdf) {
     
     $pdf->SetTextColor(255, 255, 255);
-    $pdf->SetFillColor(38, 15, 189);
+    $pdf->SetFillColor(7, 81, 161 );
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(70, 10, 'Nombre del producto', 1, 0, 'C', 1);
     $pdf->Cell(60, 10, 'Codigo', 1, 0, 'C', 1);
@@ -38,8 +38,8 @@ if ($dataCategoria = $categoria->readAll()) {
 
     foreach ($dataCategoria as $rowCategoria) {
         $pdf->SetFont('Times', 'B', 11);
-        $pdf->SetFillColor(40, 126, 240);
-        $pdf->SetTextColor(255, 255, 255);
+        $pdf->SetFillColor(164, 197, 233 );
+        $pdf->SetTextColor(0, 0, 0 );
         $pdf->Cell(190, 10, $pdf->encodeString('Nombre de la categoría: ') . $pdf->encodeString($rowCategoria['nombre_categoria']), 1, 1, 'C', 1);
 
         $productos = new ProductoData;

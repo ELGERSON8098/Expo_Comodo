@@ -448,8 +448,154 @@ const polarGraph = (canvas, labels, data, title) => {
             }
         }
     });
+    
+}
+// Función barGraph proporcionada
+const barGraph1 = (canvas, xAxis, yAxis, legend, title) => {
+    let colors = [];
+    xAxis.forEach(() => {
+        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
+    });
+
+    new Chart(document.getElementById(canvas), {
+        type: 'bar',
+        data: {
+            labels: xAxis,
+            datasets: [{
+                label: legend,
+                data: yAxis,
+                backgroundColor: colors,
+                borderColor: '#ddd',
+                borderWidth: 1,
+                barThickness: 24,
+                maxBarThickness: 40,
+                minBarLength: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: title,
+                    padding: {
+                        bottom: 20
+                    },
+                    color: '#333',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            },
+            animation: {
+                duration: 1200,
+                easing: 'easeInOutExpo'
+            }
+        }
+    });
 }
 
+const barGraph2 = (canvas, xAxis, yAxis, legend, title) => {
+    let colors = [];
+    xAxis.forEach(() => {
+        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
+    });
+
+    new Chart(document.getElementById(canvas), {
+        type: 'bar',
+        data: {
+            labels: xAxis,
+            datasets: [{
+                label: legend,
+                data: yAxis,
+                backgroundColor: colors,
+                borderColor: '#ddd',
+                borderWidth: 1,
+                barThickness: 24,
+                maxBarThickness: 40,
+                minBarLength: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: title,
+                    padding: {
+                        bottom: 20
+                    },
+                    color: '#333',
+                    font: {
+                        size: 18,
+                        weight: 'bold'
+                    }
+                },
+                legend: {
+                    display: false
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: {
+                            size: 14
+                        }
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)',
+                        borderDash: [5, 5]
+                    },
+                    ticks: {
+                        color: '#666',
+                        font: {
+                            size: 14
+                        }
+                    }
+                }
+            },
+            animation: {
+                duration: 1200,
+                easing: 'easeInOutExpo'
+            }
+        }
+    });
+}
 /*
 *   Función asíncrona para cerrar la sesión del usuario.
 *   Parámetros: ninguno.
