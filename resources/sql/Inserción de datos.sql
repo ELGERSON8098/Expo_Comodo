@@ -203,3 +203,53 @@ VALUES
 (19, 2, 1,  189.99, 3),
 (20, 8, 2,  39.99, 8);
 SELECT * FROM tb_detalles_reservas;
+
+
+
+-- Inserta reservas y detalles de reservas para los últimos 6 meses
+INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva)
+VALUES 
+(11, 1, '2024-01-05 10:00:00', 'Aceptado'),
+(12, 2, '2024-01-15 11:00:00', 'Aceptado'),
+(13, 3, '2024-02-02 12:00:00', 'Aceptado'),
+(14, 4, '2024-02-20 13:00:00', 'Aceptado'),
+(15, 5, '2024-03-10 14:00:00', 'Aceptado'),
+(16, 6, '2024-03-25 15:00:00', 'Aceptado'),
+(17, 7, '2024-04-05 16:00:00', 'Aceptado'),
+(18, 8, '2024-04-20 17:00:00', 'Aceptado'),
+(19, 9, '2024-05-10 18:00:00', 'Aceptado'),
+(20, 10, '2024-05-25 19:00:00', 'Aceptado'),
+(21, 1, '2024-06-10 10:00:00', 'Aceptado');
+
+INSERT INTO tb_detalles_reservas (id_detalle_reserva, id_reserva, cantidad, precio_unitario, id_detalle_producto)
+VALUES
+(21, 11, 1, 129.99, 1),
+(22, 12, 2, 119.99, 2),
+(23, 13, 1, 189.99, 3),
+(24, 14, 3, 79.99, 4),
+(25, 15, 1, 59.99, 5),
+(26, 16, 2, 99.99, 6),
+(27, 17, 1, 129.99, 7),
+(28, 18, 2, 169.99, 8),
+(29, 19, 1, 189.99, 9),
+(30, 20, 3, 39.99, 10);
+
+--Ejecutar uno por uno a partir de acá
+-- Inserta reservas y detalles de reservas para los próximos 3 meses
+INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva)
+VALUES 
+(22, 1, '2024-07-05 10:00:00', 'Pendiente'),
+(23, 2, '2024-07-15 11:00:00', 'Pendiente'),
+(24, 3, '2024-08-02 12:00:00', 'Pendiente'),
+(25, 4, '2024-08-20 13:00:00', 'Pendiente'),
+(26, 5, '2024-09-10 14:00:00', 'Pendiente'),
+(27, 6, '2024-09-25 15:00:00', 'Pendiente');
+
+INSERT INTO tb_detalles_reservas (id_detalle_reserva, id_reserva, cantidad, precio_unitario, id_detalle_producto)
+VALUES
+(32, 22, 1, 129.99, 1),
+(33, 23, 2, 119.99, 2),
+(34, 24, 1, 189.99, 3),
+(35, 25, 2, 79.99, 4),
+(36, 26, 1, 59.99, 5),
+(37, 27, 1, 99.99, 6);
