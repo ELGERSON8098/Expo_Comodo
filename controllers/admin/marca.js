@@ -212,9 +212,9 @@ async function graficoVentasPorMarcas() {
                     x: row.fecha_reserva,
                     y: parseFloat(row.total_ventas)
                 })),
-                fill: false,
+                backgroundColor: getRandomColor(),
                 borderColor: getRandomColor(),
-                tension: 0.1
+                borderWidth: 1
             };
         });
 
@@ -223,25 +223,24 @@ async function graficoVentasPorMarcas() {
             window.ventasChart.destroy();
         }
         window.ventasChart = new Chart(ctx, {
-            type: 'line',
+            type: 'bar',
             data: {
+                labels: DATA.dataset.map(row => row.fecha_reserva),
                 datasets: marcasData
             },
             options: {
                 responsive: true,
                 scales: {
                     x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        }
+                        stacked: true
                     },
                     y: {
                         beginAtZero: true,
                         title: {
                             display: true,
                             text: 'Ventas ($)'
-                        }
+                        },
+                        stacked: true
                     }
                 },
                 plugins: {
@@ -260,6 +259,7 @@ async function graficoVentasPorMarcas() {
         sweetAlert(2, DATA.error, null);
     }
 }
+
 
 // Función auxiliar para generar colores aleatorios
 function getRandomColor() {

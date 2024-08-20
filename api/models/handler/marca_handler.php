@@ -113,7 +113,8 @@ class marcaHandler
     GROUP BY 
     m.marca, r.fecha_reserva
     ORDER BY 
-    r.fecha_reserva ASC;';
+    r.fecha_reserva ASC
+    LIMIT 5;';
         $params = array($fechaInicio, $fechaFin);
         return Database::getRows($sql, $params);
     }
