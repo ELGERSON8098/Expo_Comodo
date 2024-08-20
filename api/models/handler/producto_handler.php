@@ -246,6 +246,28 @@ ORDER BY
     return Database::getRows($sql, $params);
 }
 
+public function productosTalla()
+{
+    $sql = 'SELECT 
+    p.nombre_producto, 
+    p.codigo_interno, 
+    p.referencia_proveedor AS codigo_externo,
+    dp.existencias
+FROM 
+    tb_productos p
+INNER JOIN 
+    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+INNER JOIN 
+    tb_tallas t ON dp.id_talla = t.id_talla
+WHERE 
+    t.id_talla = ?
+ORDER BY 
+    p.nombre_producto';
+    $params = array($this->id_talla);
+    return Database::getRows($sql, $params);
+}
+
+
 
 
     /*
