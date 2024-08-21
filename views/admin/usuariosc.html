@@ -47,6 +47,14 @@
                     </div>
                 </div>
             </form>
+            <br>
+            <br>
+            <div class="col-12 col-sm-auto ms-auto">
+                <!-- Botón para agregar un nuevo producto -->
+                <button type="button" class="btn btn-primary" onclick="openReportClientes()">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                </button>
+            </div>
         </div>
 
         <!-- Tabla para mostrar los registros existentes -->
@@ -65,10 +73,6 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            
-            <button type="button" class="btn btn-primary rounded me-2 mb-2 mb-sm-0" onclick="openReportClientes()">
-                <i class="bi bi-person"></i> Reporte
-            </button>
             <!-- Cuerpo de la tabla para mostrar un registro por fila -->
             <tbody id="tableBody"></tbody>
         </table>

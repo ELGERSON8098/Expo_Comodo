@@ -26,8 +26,6 @@
 </head>
 
 <body>
-    <!-- Separación del navbar -->
-    <div class="my-5"></div>
     <!-- Contenido principal -->
     <main>
         <!-- Título del contenido principal -->
@@ -51,12 +49,14 @@
                 </div>
             </form>
             <div class="col-12 col-sm-auto ms-auto">
-                <button type="button" class="btn btn-info rounded me-2 mb-2 mb-sm-0" data-bs-toggle="modal"
+                <button type="button" class="btn btn-info me-2 mb-2 mb-sm-2" data-bs-toggle="modal"
                     data-bs-target="#chartModal">
                     <i class="bi bi-bar-chart-fill"></i> Gráfico de ventas
                 </button>
+                <button type="button" class="btn btn-warning me-2 mb-2 mb-sm-2" onclick="openReport()">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                </button>
             </div>
-            <br>
             <br>
             <div class="col-12 col-sm-auto ms-auto">
                 <!-- Botón para agregar un nuevo producto
@@ -65,10 +65,6 @@
                 </button> -->
             </div>
         </div>
-
-        <button type="button" class="btn btn-warning me-2 mb-2 mb-sm-2" onclick="openReport()">
-            <i class="bi bi-file-earmark-pdf-fill"></i>
-        </button>
         <!-- Tabla para mostrar los registros de productos -->
         <table class="table table-hover">
             <!-- Encabezado de la tabla -->
