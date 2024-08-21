@@ -239,31 +239,31 @@ ORDER BY
     }
 
     public function productosGenero()
-{
-    $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias
+    {
+        $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias
             FROM tb_productos p
             INNER JOIN tb_detalles_productos dp ON p.id_producto = dp.id_producto
             INNER JOIN tb_generos_zapatos gz ON p.id_genero = gz.id_genero
             WHERE gz.id_genero = ?
             ORDER BY p.nombre_producto';
-    $params = array($this->id_genero);
-    return Database::getRows($sql, $params);
-}
+        $params = array($this->id_genero);
+        return Database::getRows($sql, $params);
+    }
 
-public function productosDescuento()
-{
-    $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor AS codigo_externo
+    public function productosDescuento()
+    {
+        $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor AS codigo_externo
             FROM tb_productos p
             INNER JOIN tb_descuentos d ON p.id_descuento = d.id_descuento
             WHERE p.id_descuento = ?
             ORDER BY p.nombre_producto';
-    $params = array($this->id_descuento);
-    return Database::getRows($sql, $params);
-}
+        $params = array($this->id_descuento);
+        return Database::getRows($sql, $params);
+    }
 
-public function productosTalla()
-{
-    $sql = 'SELECT 
+    public function productosTalla()
+    {
+        $sql = 'SELECT 
     p.nombre_producto, 
     p.codigo_interno, 
     p.referencia_proveedor AS codigo_externo,
@@ -278,9 +278,9 @@ WHERE
     t.id_talla = ?
 ORDER BY 
     p.nombre_producto';
-    $params = array($this->id_talla);
-    return Database::getRows($sql, $params);
-}
+        $params = array($this->id_talla);
+        return Database::getRows($sql, $params);
+    }
 
 
 
@@ -558,7 +558,7 @@ ORDER BY MONTH(r.fecha_reserva) ASC;";
     ORDER BY total_ventas DESC';
         return Database::getRows($sql);
     }
-    
+
     public function productosMasVendidosTop5()
     {
         $sql = 'SELECT p.nombre_producto, 
@@ -575,7 +575,7 @@ ORDER BY MONTH(r.fecha_reserva) ASC;";
         return Database::getRows($sql);
     }
 
-    
+
 
     public function InventarioMarcasyTallas()
     {
@@ -600,17 +600,21 @@ ORDER BY MONTH(r.fecha_reserva) ASC;";
                     p.id_producto, p.nombre_producto, m.marca, t.nombre_talla
                 ORDER BY 
                     total_existencias DESC';
-        
-        
-        $params = array($this->id_marca, $this->id_marca, $this->id_talla, $this->id_talla
+
+
+        $params = array(
+            $this->id_marca,
+            $this->id_marca,
+            $this->id_talla,
+            $this->id_talla
         );
-        
+
         return Database::getRows($sql, $params);
     }
-    
+
     public function DescuentosPRango()
-{
-    $sql = 'SELECT 
+    {
+        $sql = 'SELECT 
                 d.nombre_descuento,
                 p.nombre_producto,
                 p.precio,
@@ -627,48 +631,48 @@ ORDER BY MONTH(r.fecha_reserva) ASC;";
             ORDER BY 
                 precio_final ASC';
 
-    $params = array($this->precio_minimo, $this->precio_minimo, $this->precio_maximo, $this->precio_maximo);
+        $params = array($this->precio_minimo, $this->precio_minimo, $this->precio_maximo, $this->precio_maximo);
 
-    return Database::getRows($sql, $params);
-}
+        return Database::getRows($sql, $params);
+    }
 
-public function PrediccionAgotamientoStock()
-{
-    $sql = 'SELECT 
-                p.nombre_producto,
-                dp.existencias,
-                IFNULL(AVG(v.cantidad_vendida), 0) AS ventas_diarias_promedio,
-                CASE 
-                    WHEN IFNULL(AVG(v.cantidad_vendida), 0) = 0 THEN "Stock no se agotará"
-                    ELSE ROUND(dp.existencias / AVG(v.cantidad_vendida), 2)
-                END AS dias_para_agotamiento
-            FROM 
-                tb_productos p
-            INNER JOIN 
-                tb_detalles_productos dp ON p.id_producto = dp.id_producto
-            LEFT JOIN 
-                (SELECT 
-                    id_detalle_producto, 
-                    SUM(cantidad) AS cantidad_vendida,
-                    DATEDIFF(CURDATE(), MIN(fecha_reserva)) AS dias_venta
-                FROM 
-                    tb_detalles_reservas dr
-                INNER JOIN 
-                    tb_reservas r ON dr.id_reserva = r.id_reserva
-                WHERE 
-                    r.estado_reserva = "Aceptado"
-                GROUP BY 
-                    id_detalle_producto) v ON dp.id_detalle_producto = v.id_detalle_producto
-            GROUP BY 
-                p.id_producto, p.nombre_producto, dp.existencias
-            ORDER BY 
-                dias_para_agotamiento ASC
-                LIMIT 6';
-    
-    return Database::getRows($sql);
-}
+    public function PrediccionAgotamientoStock()
+    {
+        $sql = 'SELECT 
+    p.nombre_producto,
+    dp.existencias,
+    IFNULL(AVG(v.cantidad_vendida), 0) AS ventas_diarias_promedio,
+    CASE 
+        WHEN IFNULL(AVG(v.cantidad_vendida), 0) = 0 THEN "Stock no se agotará"
+        ELSE FLOOR(dp.existencias / AVG(v.cantidad_vendida))  -- Cambiado a FLOOR para obtener un número entero
+    END AS dias_para_agotamiento
+    FROM 
+    tb_productos p
+    INNER JOIN 
+    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+    LEFT JOIN 
+    (SELECT 
+        id_detalle_producto, 
+        SUM(cantidad) AS cantidad_vendida,
+        DATEDIFF(CURDATE(), MIN(fecha_reserva)) AS dias_venta
+    FROM 
+        tb_detalles_reservas dr
+    INNER JOIN 
+        tb_reservas r ON dr.id_reserva = r.id_reserva
+    WHERE 
+        r.estado_reserva = "Aceptado"
+    GROUP BY 
+        id_detalle_producto) v ON dp.id_detalle_producto = v.id_detalle_producto
+    GROUP BY 
+    p.id_producto, p.nombre_producto, dp.existencias
+    ORDER BY 
+    dias_para_agotamiento ASC
+    LIMIT 6;';
 
-    
+        return Database::getRows($sql);
+    }
+
+
 
 }
 
