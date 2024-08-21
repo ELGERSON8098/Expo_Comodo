@@ -13,7 +13,6 @@ const SAVE_FORM = document.getElementById('saveForm'),
     ID_Marca = document.getElementById('idMarca'),
     NOMBRE_Marca = document.getElementById('nombreMarca');
     CHART_MODAL = new bootstrap.Modal('#chartModal');
-    CHART_MODAL_2 = new bootstrap.Modal('#chartModalG');
 
 // Se establece el título de la página web.
 document.querySelector('title').textContent = 'Marcas';
@@ -26,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     MAIN_TITLE.textContent = 'Gestionar marcas';
     // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
-    openChart();
 });
 
 // Método del evento para cuando se envía el formulario de buscar.
@@ -90,9 +88,6 @@ const fillTable = async (form = null) => {
                         </button>
                         <button type="button" class="btn btn-danger  me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_marca})">
                             <i class="bi bi-trash-fill"></i>
-                        </button>
-                         <button type="button" class="btn btn-warning me-2 mb-2 mb-sm-2" onclick="openChart(${row.id_marca})">
-                            <i class="bi bi-bar-chart-fill"></i>
                         </button>
                         <button type="button" class="btn btn-warning me-2 mb-2 mb-sm-2" onclick="openReport(${row.id_marca})">
                             <i class="bi bi-file-earmark-pdf-fill"></i>
@@ -314,30 +309,3 @@ const openReportMarcasPredictivo = () => {
     window.open(PATH.href);
 }
 
-const openChart = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idMarca', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(MARCA_API, 'InventarioTallaMarca');
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con el error.
-    if (DATA.status) {
-        // Se muestra la caja de diálogo con su título.
-        CHART_MODAL_2.show();
-        // Se declaran los arreglos para guardar los datos a graficar.
-        let tallas = [];
-        let existencias = [];
-        // Se recorre el conjunto de registros fila por fila a través del objeto row.
-        DATA.dataset.forEach(row => {
-            // Se agregan los datos a los arreglos.
-            tallas.push(row.talla);
-            existencias.push(row.total_existencias);
-        });
-        // Se agrega la etiqueta canvas al contenedor de la modal.
-        document.getElementById('chartContainer').innerHTML = `<canvas id="chart"></canvas>`;
-        // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
-        barGraph('chart', tallas, existencias, 'Existencias de productos', 'Inventario por Talla y Marca');
-    } else {
-        sweetAlert(4, DATA.error, true);
-    }
-}

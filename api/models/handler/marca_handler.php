@@ -208,25 +208,4 @@ class marcaHandler
         $params = array($fechaInicio, $fechaFin);
         return Database::getRows($sql, $params);
     }
-     
-    public function InventarioTallaMarca()
-    {
-        $sql = 'SELECT 
-                t.nombre_talla AS talla,
-                SUM(dp.existencias) AS total_existencias
-                FROM 
-                tb_detalles_productos dp
-                INNER JOIN 
-                tb_productos p ON dp.id_producto = p.id_producto
-                INNER JOIN 
-                tb_tallas t ON dp.id_talla = t.id_talla
-                    WHERE 
-                    p.id_marca = ?
-                    GROUP BY 
-                    t.nombre_talla
-                    ORDER BY 
-                    t.nombre_talla ASC;';
-        $params = array($this->id);
-        return Database::getRows($sql, $params);
-    }
 }

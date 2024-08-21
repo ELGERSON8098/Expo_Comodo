@@ -78,6 +78,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al eliminar la marca.';
                 }
                 break;
+
             case 'ventasPorMarcasFecha':
                 $_POST = Validator::validateForm($_POST);
                 $fechaInicio = $_POST['fechaInicio'];
@@ -89,17 +90,7 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No se pudieron obtener los datos';
                 }
                 break;
-            case 'InventarioTallaMarca':
-                if (!$marca->setId($_POST['idMarca'])) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($result['dataset'] = $marca->InventarioTallaMarca()) {
-                    $result['status'] = 1;
-                } else {
-                    $result['error'] = 'No existen productos vendidos por el momento';
-                }
-                break;
-            default:
-                $result['error'] = 'Acción no disponible dentro de la sesión';
+
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();
