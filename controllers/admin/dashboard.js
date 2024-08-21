@@ -351,18 +351,19 @@ const top5ProductosMasVendidos = async () => {
 const graficoInventarioMarcasyTallas = async () => {
     const DATA = await fetchData(PRODUCTO_API, 'InventarioMarcasyTallas');
     if (DATA.status) {
-        let tallas = [];
+        let productos = [];
         let cantidades = [];
         DATA.dataset.forEach(row => {
-            tallas.push(row.talla); // Ajuste para capturar las tallas
-            cantidades.push(row.cantidad); // Ajuste para capturar la cantidad de productos
+            productos.push(`${row.nombre_producto} (${row.nombre_talla})`); // Captura el nombre del producto junto con la talla
+            cantidades.push(row.total_existencias); // Captura la cantidad de productos
         });
-        barGraph3('chart10', tallas, cantidades, 'Cantidad de productos en inventario', 'Inventario de productos por talla');
+        barGraph('chart10', productos, cantidades, 'Cantidad de productos en inventario', 'Inventario de productos por talla');
     } else {
         document.getElementById('chart10').remove();
         console.log(DATA.error);
     }
 };
+
 
 const graficoDescuentosPorRangoPrecios = async () => {
     // Define los parámetros para el fetchData, incluyendo el manejo de valores nulos

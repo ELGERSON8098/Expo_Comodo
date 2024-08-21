@@ -580,36 +580,25 @@ ORDER BY MONTH(r.fecha_reserva) ASC;";
     public function InventarioMarcasyTallas()
     {
         $sql = 'SELECT 
-                    p.nombre_producto,
-                    m.marca AS nombre_marca,
-                    t.nombre_talla,
-                    SUM(dp.existencias) AS total_existencias
-                FROM 
-                    tb_productos p
-                INNER JOIN 
-                    tb_detalles_productos dp ON p.id_producto = dp.id_producto
-                INNER JOIN 
-                    tb_tallas t ON dp.id_talla = t.id_talla
-                INNER JOIN 
-                    tb_marcas m ON p.id_marca = m.id_marca
-                WHERE 
-                    (? IS NULL OR m.id_marca = ?) 
-                    AND 
-                    (? IS NULL OR t.id_talla = ?)
-                GROUP BY 
-                    p.id_producto, p.nombre_producto, m.marca, t.nombre_talla
-                ORDER BY 
-                    total_existencias DESC';
+    p.nombre_producto,
+    m.marca AS nombre_marca,
+    t.nombre_talla,
+    SUM(dp.existencias) AS total_existencias
+FROM 
+    tb_productos p
+INNER JOIN 
+    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+INNER JOIN 
+    tb_tallas t ON dp.id_talla = t.id_talla
+INNER JOIN 
+    tb_marcas m ON p.id_marca = m.id_marca
+GROUP BY 
+    p.id_producto, p.nombre_producto, m.marca, t.nombre_talla
+ORDER BY 
+    total_existencias DESC
+    LIMIT 5;';
 
-
-        $params = array(
-            $this->id_marca,
-            $this->id_marca,
-            $this->id_talla,
-            $this->id_talla
-        );
-
-        return Database::getRows($sql, $params);
+return Database::getRows($sql);
     }
 
     public function DescuentosPRango()
