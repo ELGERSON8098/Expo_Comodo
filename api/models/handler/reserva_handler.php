@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla RESERVA.
@@ -131,10 +131,12 @@ class ReservaHandler
                     dr.precio_unitario
                 FROM
                     tb_detalles_reservas dr
-                INNER JOIN
-                    tb_reservas r ON dr.id_reserva = r.id_reserva
-                INNER JOIN
-                    tb_productos p ON dr.id_detalle_producto = p.id_producto
+                 INNER JOIN 
+                tb_reservas r ON dr.id_reserva = r.id_reserva
+                INNER JOIN tb_detalles_productos dp 
+                USING(id_detalle_producto)
+                INNER JOIN 
+                tb_productos p ON dp.id_producto = p.id_producto
                 WHERE dr.id_reserva = ?';
         $params = array($this->id_reserva);
         return Database::getRows($sql, $params);
@@ -283,7 +285,8 @@ class ReservaHandler
         return Database::getRows($sql);
     }
 
-    public function ventasPorCategoriaFecha($fechaInicio, $fechaFin) {
+    public function ventasPorCategoriaFecha($fechaInicio, $fechaFin)
+    {
         $sql = 'SELECT 
     c.nombre_categoria, 
     SUM(dr.cantidad * dr.precio_unitario) AS total_ventas
@@ -306,7 +309,8 @@ class ReservaHandler
         return Database::getRows($sql, $params);
     }
 
-    public function ventasPorMarcasFecha($fechaInicio, $fechaFin) {
+    public function ventasPorMarcasFecha($fechaInicio, $fechaFin)
+    {
         $sql = 'SELECT 
     m.marca AS nombre_marca, 
     r.fecha_reserva, 
@@ -330,5 +334,36 @@ class ReservaHandler
         $params = array($fechaInicio, $fechaFin);
         return Database::getRows($sql, $params);
     }
-     
+
+    //Funcion de la consulta para generar reporte
+
+    public function reportePedido()
+    {
+        $sql = 'SELECT
+            u.nombre AS NombreUsuario,
+            r.fecha_reserva AS FechaReserva,
+            dp.cantidad AS CantidadLibros,
+            dp.precio_unitario AS PrecioUnitario,
+            (dp.precio_unitario * dp.cantidad) AS Subtotal
+        FROM
+            tb_reservas r
+        JOIN
+            tb_usuarios u ON r.id_usuario = u.id_usuario
+        JOIN
+            tb_detalles_reservas dp ON r.id_reserva = dp.id_reserva
+        JOIN
+            tb_detalles_productos dp2 ON dp.id_detalle_producto = dp2.id_detalle_producto
+        JOIN
+            tb_productos p ON dp2.id_producto = p.id_producto
+        WHERE
+            r.estado_reserva = "Aceptado"
+        GROUP BY
+            u.nombre, p.nombre_producto, r.fecha_reserva, dp.precio_unitario
+        ORDER BY
+            u.nombre, p.nombre_producto
+        LIMIT 10;';
+    
+        return Database::getRows($sql);
+    }
+    
 }
