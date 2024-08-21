@@ -88,6 +88,9 @@ const fillTable = async (form = null) => {
                         <button type="button" class="btn btn-danger  me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_marca})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
+                        <button type="button" class="btn btn-warning me-2 mb-2 mb-sm-2" onclick="openReport(${row.id_marca})">
+                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                        </button>
                     </td>
                 </tr>
             `;
@@ -164,4 +167,136 @@ const openDelete = async (id) => {
             sweetAlert(2, DATA.error, false);
         }
     }
+}
+
+// Función para cargar las marcas disponibles como checkboxes
+async function cargarMarcas() {
+    const DATA = await fetchData(MARCA_API, 'readAll');
+    if (DATA.status) {
+        const marcasCheckboxes = document.getElementById('marcasCheckboxes');
+        marcasCheckboxes.innerHTML = ''; // Limpiar contenido existente
+        DATA.dataset.forEach(marca => {
+            marcasCheckboxes.innerHTML += `
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="${marca.marca}" id="marca${marca.id_marca}" name="marca">
+                    <label class="form-check-label" for="marca${marca.id_marca}">
+                        ${marca.marca}
+                    </label>
+                </div>
+            `;
+        });
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+}
+
+// Función para generar el gráfico
+async function graficoVentasPorMarcas() {
+    const fechaInicio = document.getElementById('fechaInicio').value;
+    const fechaFin = document.getElementById('fechaFin').value;
+    const selectedMarcas = Array.from(document.querySelectorAll('input[name="marca"]:checked')).map(el => el.value);
+
+    if (!fechaInicio || !fechaFin || selectedMarcas.length === 0) {
+        sweetAlert(3, 'Por favor, seleccione fechas y al menos una marca', null);
+        return;
+    }
+
+    const form = new FormData();
+    form.append('fechaInicio', fechaInicio);
+    form.append('fechaFin', fechaFin);
+    form.append('marcas', JSON.stringify(selectedMarcas));
+
+    const DATA = await fetchData(MARCA_API, 'ventasPorMarcasFecha', form);
+    if (DATA.status) {
+        const marcasData = selectedMarcas.map(marca => {
+            return {
+                label: marca,
+                data: DATA.dataset.filter(row => row.nombre_marca === marca).map(row => ({
+                    x: row.fecha_reserva,
+                    y: parseFloat(row.total_ventas)
+                })),
+                backgroundColor: getRandomColor(),
+                borderColor: getRandomColor(),
+                borderWidth: 1
+            };
+        });
+
+        const ctx = document.getElementById('chartVentasMarcas').getContext('2d');
+        if (window.ventasChart) {
+            window.ventasChart.destroy();
+        }
+        window.ventasChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: DATA.dataset.map(row => row.fecha_reserva),
+                datasets: marcasData
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        stacked: true
+                    },
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Ventas ($)'
+                        },
+                        stacked: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Ventas por marca'
+                    },
+                    legend: {
+                        display: true,
+                        position: 'top'
+                    }
+                }
+            }
+        });
+    } else {
+        sweetAlert(2, DATA.error, null);
+    }
+}
+
+
+// Función auxiliar para generar colores aleatorios
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+// Evento para cargar las marcas cuando se abre el modal
+document.getElementById('chartModal').addEventListener('show.bs.modal', cargarMarcas);
+
+// Asegúrate de que esto esté dentro de tu evento DOMContentLoaded existente
+document.addEventListener('DOMContentLoaded', () => {
+    // ... tu código existente ...
+
+    // Agregar evento al botón que abre el modal de la gráfica
+    document.querySelector('[data-bs-target="#chartModal"]').addEventListener('click', () => {
+        // Restablecer fechas y limpiar gráfica existente si la hay
+        document.getElementById('fechaInicio').value = '';
+        document.getElementById('fechaFin').value = '';
+        if (window.ventasChart) {
+            window.ventasChart.destroy();
+        }
+    });
+});
+
+const openReport = (id) => {
+    // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+    const PATH = new URL(`${SERVER_URL}reports/admin/marcas.php`);
+    // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
+    PATH.searchParams.append('idMarca', id);
+    // Se abre el reporte en una nueva pestaña.
+    window.open(PATH.href);
 }

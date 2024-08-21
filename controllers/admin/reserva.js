@@ -96,9 +96,9 @@ const fillTable = async (form = null) => {
                          <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_reserva})">
                          <i class="bi bi-eye-fill"></i>
                          </button>
-                         <button type="button" class="btn btn-info" onclick="openReportReservas(${row.id_reserva})">
-                         <i class="bi bi-cart-fill"></i> <!-- Ícono de carrito de compras -->
-                         </button>
+                          <button type="button" class="btn btn-warning me-2 mb-2 mb-sm-2" onclick="openReport(${row.id_reserva})">
+                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                        </button>
                     </td>
                 </tr>
             `;
@@ -419,73 +419,12 @@ async function graficoVentasPorCategoria() {
     }
 }
 
-async function graficoVentasPorMarcas() {
-    const fechaInicio = document.getElementById('fechaInicio').value;
-    const fechaFin = document.getElementById('fechaFin').value;
-    const selectedMarcas = Array.from(document.querySelectorAll('input[name="marca"]:checked')).map(el => el.value);
-
-    if (!fechaInicio || !fechaFin || selectedMarcas.length === 0) {
-        sweetAlert(3, 'Por favor, seleccione fechas y al menos una marca', null);
-        return;
-    }
-
-    const form = new FormData();
-    form.append('fechaInicio', fechaInicio);
-    form.append('fechaFin', fechaFin);
-    form.append('marcas', JSON.stringify(selectedMarcas));
-
-    const DATA = await fetchData(RESERVA_API, 'ventasPorMarcasEnRango', form);
-    if (DATA.status) {
-        const marcasData = selectedMarcas.map(marca => {
-            return {
-                label: marca,
-                data: DATA.dataset.filter(row => row.nombre_marca === marca).map(row => ({
-                    x: row.fecha_reserva,
-                    y: parseFloat(row.total_ventas)
-                })),
-                fill: false,
-                borderColor: getRandomColor(),
-                tension: 0.1
-            };
-        });
-
-        const ctx = document.getElementById('chartVentasMarcas').getContext('2d');
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                datasets: marcasData
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    x: {
-                        type: 'time',
-                        time: {
-                            unit: 'day'
-                        }
-                    },
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    } else {
-        sweetAlert(2, DATA.error, null);
-    }
-}
-
-function getRandomColor() {
-    const letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
-const openReportReservas = () => {
+const openReport = (id) => {
     // Se declara una constante tipo objeto con la ruta específica del reporte en el servidor.
+
     const PATH = new URL(`${SERVER_URL}reports/admin/reservas_reporte.php`);
+    // Se agrega un parámetro a la ruta con el valor del registro seleccionado.
+    PATH.searchParams.append('idReserva', id);
     // Se abre el reporte en una nueva pestaña.
     window.open(PATH.href);
 }

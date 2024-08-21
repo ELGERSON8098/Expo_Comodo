@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 /*
  *	Clase para manejar el comportamiento de los datos de la tabla PRODUCTO.
  */
@@ -222,6 +222,63 @@ ORDER BY
         return Database::getRows($sql, $params);
     }
 
+    public function productosMarca()
+    {
+        $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor, dp.existencias
+            FROM tb_productos p
+            INNER JOIN tb_marcas m ON p.id_marca = m.id_marca
+            INNER JOIN tb_detalles_productos dp ON p.id_producto = dp.id_producto
+            WHERE p.id_marca = ?
+            ORDER BY p.nombre_producto';
+        $params = array($this->id_marca);
+        return Database::getRows($sql, $params);
+    }
+
+    public function productosGenero()
+{
+    $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias
+            FROM tb_productos p
+            INNER JOIN tb_detalles_productos dp ON p.id_producto = dp.id_producto
+            INNER JOIN tb_generos_zapatos gz ON p.id_genero = gz.id_genero
+            WHERE gz.id_genero = ?
+            ORDER BY p.nombre_producto';
+    $params = array($this->id_genero);
+    return Database::getRows($sql, $params);
+}
+
+public function productosDescuento()
+{
+    $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor AS codigo_externo
+            FROM tb_productos p
+            INNER JOIN tb_descuentos d ON p.id_descuento = d.id_descuento
+            WHERE p.id_descuento = ?
+            ORDER BY p.nombre_producto';
+    $params = array($this->id_descuento);
+    return Database::getRows($sql, $params);
+}
+
+public function productosTalla()
+{
+    $sql = 'SELECT 
+    p.nombre_producto, 
+    p.codigo_interno, 
+    p.referencia_proveedor AS codigo_externo,
+    dp.existencias
+FROM 
+    tb_productos p
+INNER JOIN 
+    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+INNER JOIN 
+    tb_tallas t ON dp.id_talla = t.id_talla
+WHERE 
+    t.id_talla = ?
+ORDER BY 
+    p.nombre_producto';
+    $params = array($this->id_talla);
+    return Database::getRows($sql, $params);
+}
+
+
 
 
     /*
@@ -364,7 +421,7 @@ JOIN
 WHERE 
     p.id_descuento IS NOT NULL';
         return Database::getRows($sql);
-    } 
+    }
 
     public function cantidadProductosCategoria()
     {
@@ -386,7 +443,7 @@ WHERE
                 LIMIT 5';
         return Database::getRows($sql);
     }
-    
+
 
     public function descuentosMasUtilizados()
     {
@@ -398,48 +455,80 @@ WHERE
                 LIMIT 5';
         return Database::getRows($sql);
     }
-    
+
 
     public function marcaMasComprada()
     {
         $sql = 'SELECT m.marca, COUNT(p.id_producto) AS cantidad
-                FROM tb_productos p
-                INNER JOIN tb_marcas m ON p.id_marca = m.id_marca
-                INNER JOIN tb_detalles_reservas dr ON p.id_producto = dr.id_producto
-                INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva AND r.estado_reserva = "Aceptado"
-                GROUP BY m.marca
-                ORDER BY cantidad DESC
-                LIMIT 5';
+    FROM tb_productos p
+    INNER JOIN tb_marcas m ON p.id_marca = m.id_marca
+    INNER JOIN tb_detalles_reservas dr ON p.id_producto = dr.id_detalle_producto
+    INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva 
+    WHERE r.estado_reserva = "Aceptado"
+    GROUP BY m.marca
+    ORDER BY cantidad DESC
+    LIMIT 5;';
         return Database::getRows($sql);
     }
-    
+
     public function productosMasVendidosPorCategoria()
     {
         $sql = 'SELECT c.nombre_categoria, COUNT(p.id_producto) AS cantidad
-                FROM tb_productos p
-                INNER JOIN tb_detalles_reservas dr ON p.id_producto = dr.id_producto
-                INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva AND r.estado_reserva = "Aceptado"
-                INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
-                GROUP BY c.nombre_categoria
-                ORDER BY cantidad DESC
-                LIMIT 5';
+    FROM tb_productos p
+    INNER JOIN tb_detalles_reservas dr ON p.id_producto = dr.id_detalle_producto  
+    INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva
+    INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+    WHERE r.estado_reserva = "Aceptado"
+    GROUP BY c.nombre_categoria
+    ORDER BY cantidad DESC
+    LIMIT 5;';
         return Database::getRows($sql);
     }
 
 
 
     //Metodo para la grafica de distribucion de productos por genero (Automatica)
-    public function cantidadProductosGenero() {
+    public function cantidadProductosGenero()
+    {
         $sql = 'SELECT g.nombre_genero, COUNT(p.id_producto) AS cantidad
                 FROM tb_productos p
                 JOIN tb_generos_zapatos g ON p.id_genero = g.id_genero
-                GROUP BY g.nombre_genero';
+                GROUP BY g.nombre_genero
+                LIMIT 5';
+        return Database::getRows($sql);
+    }
+    //Metodo para grafica predictiva
+    public function ventasUltimosSeisMeses()
+    {
+        $sql = "SELECT 
+    CASE MONTH(r.fecha_reserva)
+        WHEN 1 THEN 'Enero'
+        WHEN 2 THEN 'Febrero'
+        WHEN 3 THEN 'Marzo'
+        WHEN 4 THEN 'Abril'
+        WHEN 5 THEN 'Mayo'
+        WHEN 6 THEN 'Junio'
+        WHEN 7 THEN 'Julio'
+        WHEN 8 THEN 'Agosto'
+        WHEN 9 THEN 'Septiembre'
+        WHEN 10 THEN 'Octubre'
+        WHEN 11 THEN 'Noviembre'
+        WHEN 12 THEN 'Diciembre'
+    END AS mes,
+    SUM(dr.cantidad * dr.precio_unitario) AS ventas_totales
+FROM tb_reservas r
+INNER JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+WHERE r.estado_reserva = 'Aceptado'
+  AND r.fecha_reserva >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+  AND r.fecha_reserva <= CURDATE()
+GROUP BY mes
+ORDER BY MONTH(r.fecha_reserva) ASC;";
         return Database::getRows($sql);
     }
 
     /*
-    *   Métodos para generar reportes .
-    */
+     *   Métodos para generar reportes .
+     */
     public function productosCategoria()
     {
         $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias, p.precio
@@ -451,5 +540,75 @@ WHERE
         $params = array($this->id_categoria);
         return Database::getRows($sql, $params);
     }
+    public function ventasDiariasPorCategoria()
+    {
+        $sql = 'SELECT c.nombre_categoria AS categoria, 
+           SUM(dr.cantidad * dr.precio_unitario) AS total_ventas
+    FROM tb_reservas r
+    INNER JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+    INNER JOIN tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+    INNER JOIN tb_productos p ON dp.id_producto = p.id_producto
+    INNER JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+    WHERE r.estado_reserva = "Aceptado"
+    GROUP BY c.id_categoria
+    ORDER BY total_ventas DESC';
+        return Database::getRows($sql);
+    }
+    
+    public function productosMasVendidosTop5()
+    {
+        $sql = 'SELECT p.nombre_producto, 
+        SUM(dr.cantidad) AS total_vendido
+    FROM tb_detalles_reservas dr
+    INNER JOIN tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+    INNER JOIN tb_productos p ON dp.id_producto = p.id_producto
+    INNER JOIN tb_reservas r ON dr.id_reserva = r.id_reserva
+    WHERE r.estado_reserva = "Aceptado"
+    GROUP BY p.id_producto, p.nombre_producto
+    ORDER BY total_vendido DESC
+    LIMIT 5;
+    ';
+        return Database::getRows($sql);
+    }
+
+    
+
+    public function InventarioMarcasyTallas()
+    {
+        $sql = 'SELECT 
+                    p.nombre_producto,
+                    m.marca AS nombre_marca,
+                    t.nombre_talla,
+                    SUM(dp.existencias) AS total_existencias
+                FROM 
+                    tb_productos p
+                INNER JOIN 
+                    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+                INNER JOIN 
+                    tb_tallas t ON dp.id_talla = t.id_talla
+                INNER JOIN 
+                    tb_marcas m ON p.id_marca = m.id_marca
+                WHERE 
+                    (? IS NULL OR m.id_marca = ?) 
+                    AND 
+                    (? IS NULL OR t.id_talla = ?)
+                GROUP BY 
+                    p.id_producto, p.nombre_producto, m.marca, t.nombre_talla
+                ORDER BY 
+                    total_existencias DESC';
+        
+        // Ajusta los parámetros según si son null o no
+        $params = array(
+            $this->id_marca, 
+            $this->id_marca,
+            $this->id_talla, 
+            $this->id_talla
+        );
+        
+        return Database::getRows($sql, $params);
+    }
+    
+
+
 }
 

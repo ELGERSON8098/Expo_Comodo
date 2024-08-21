@@ -281,6 +281,16 @@ class Validator
             return false;
         }
     }
+    public static function validateDateTime($value)
+    {
+        // Se dividen las partes de la fecha y se guardan en un arreglo con el siguiene orden: año, mes y día.
+        $date = explode('-', $value);
+        if (checkdate($date[1], $date[2], $date[0])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     /*
     *   Método para validar un valor de búsqueda.

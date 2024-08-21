@@ -56,31 +56,23 @@ class Report extends FPDF
     public function header()
     {
         // Se establece el logo.
-
         $this->image('../../images/ReporteComodo$.png', 0, 0, 215.9, 279.4);
         $this->image('../../images/logoComodos.png', 5, 3, 42);
-    
+
         // Establecer fuente y tamaño para el texto debajo de la imagen.
         $this->SetFont('Arial', 'B', 20);
         $this->SetTextColor(255, 255, 255);
         $this->Cell(0, -5, 'COMODO$', 0, 1, 'C'); // Agrega el texto
-    
-        // Se ubica el título.
-        $this->cell(20);
-        $this->setFont('Arial', 'B', 15);
-        $this->cell(166, 10, $this->encodeString($this->title), 0, 1, 'C');
-    
-        // Se ubica la fecha y hora del servidor.
-        $this->cell(8);
-        $this->setFont('Arial', 'B', 10); // Cambiado a negrita ('B')
-    
-        $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
-    
-        // Centrar la fecha y hora
-        $this->cell(170, 30, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C'); // Cambiado a negrita y centrado
-    
         // Se agrega un salto de línea para mostrar el contenido principal del documento.
-        $this->ln(10);
+        $this->ln(30);
+        // Se ubica la fecha y hora del servidor.
+        $this->setFont('Arial', 'B', 10); // Cambiado a negrita ('B')
+        $this->SetTextColor(0, 0, 0); // Establece el color del texto a negro
+        // Centrar la fecha y hora
+        $this->cell(0, 10, 'Fecha/Hora: ' . date('d-m-Y H:i:s'), 0, 1, 'C'); // Cambiado a negrita y centrado
+        // Se ubica el título.
+        $this->setFont('Arial', 'B', 15);
+        $this->cell(0, 5, $this->encodeString($this->title), 0, 1, 'C');
     }
 
     /*

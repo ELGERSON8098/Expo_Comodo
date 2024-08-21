@@ -199,10 +199,18 @@ footer a:hover {
 .chart-container {
     padding: 10px; /* Espacio interno opcional */
     background-color: rgba(255, 255, 255, 0.1); /* Fondo blanco semitransparente opcional */
-    height: 400px; /* Altura fija para todos los gráficos */
+    height: 500px; /* Altura fija para todos los gráficos */
 }
 canvas {
     max-width: 90%;
     max-height: 90%;
 }
 
+#chartVentasMarcas {
+    max-height: 400px; /* Limitar la altura máxima del gráfico */
+}
+
+.chart-large {
+    width: 600px; /* Ajusta el ancho según sea necesario */
+    height: 500px; /* Ajusta la altura según sea necesario */
+}

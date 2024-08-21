@@ -1,0 +1,89 @@
+<?
+// Se incluye la clase con las plantillas para generar reportes.
+require_once('../../helpers/report.php');
+
+// Se instancia la clase para crear el reporte.
+$pdf = new Report;
+
+if (isset($_GET['idReserva'])) {
+    require_once('../../models/data/reserva_data.php');
+    $reserva = new reservaData;
+
+    if (isset($_GET['idReserva']) && $reserva->setIdReserva($_GET['idReserva'])) {
+        if ($dataReservas = $reserva->readDetails()) {
+            // Encabezado del reporte
+            $pdf->startReport('Factura Electronica');
+            
+            // Obtener datos del primer registro
+            $firstRecord = $dataReservas[0];
+            $nombre_cliente = $pdf->encodeString($firstRecord['nombre']);
+            $correo_cliente = $pdf->encodeString($firstRecord['correo']);
+            $direccion_cliente = $pdf->encodeString($firstRecord['direccion']);
+            
+            // Título y datos del cliente
+            $pdf->SetFont('Times', 'B', 16);
+            $pdf->Cell(0, 10, 'Datos del cliente', 0, 1, 'C');
+            $pdf->SetFont('Times', '', 14);
+            $pdf->Cell(0, 10, 'Nombre: ' . $nombre_cliente, 0, 1, 'L');
+            $pdf->Cell(0, 10, 'Correo: ' . $correo_cliente, 0, 1, 'L');
+            $pdf->MultiCell(0, 10, 'Dirección: ' . $direccion_cliente, 0, 'L');
+            $pdf->Ln(10);
+            
+            // Configuración de la tabla
+            $header = array('DESCRIPCION', 'CANTIDAD', 'PRECIO', 'DESCUENTO');
+            $w = array(70, 30, 30, 30); // Anchos de las columnas
+            
+            // Posicionamiento y encabezados de la tabla
+            $pdf->SetFillColor(38, 15, 189);
+            $pdf->SetTextColor(255, 255, 255);
+            $pdf->SetFont('Times', 'B', 11);
+            $xStart = ($pdf->GetPageWidth() - array_sum($w)) / 2;
+            $pdf->SetX($xStart);
+            foreach ($header as $i => $col) {
+                $pdf->Cell($w[$i], 10, $col, 1, 0, 'C', 1);
+            }
+            $pdf->Ln();
+
+            // Datos de la tabla
+            $pdf->SetTextColor(0, 0, 0);
+            $pdf->SetFont('Times', '', 11);
+            $totalGeneral = 0;
+            foreach ($dataReservas as $row) {
+                $nombre_producto = $pdf->encodeString($row['nombre_producto']);
+                $cantidad = $row['cantidad'];
+                $precio_unitario = $row['precio_unitario'];
+                $valor_oferta = $row['valor_oferta'];
+                
+                $subtotal = $cantidad * $precio_unitario;
+                $descuento = ($valor_oferta > 0) ? $subtotal * ($valor_oferta / 100) : 0;
+                $totalProducto = $subtotal - $descuento;
+                $totalGeneral += $totalProducto;
+                
+                $pdf->SetX($xStart);
+                $pdf->Cell($w[0], 10, $nombre_producto, 'LR', 0, 'L');
+                $pdf->Cell($w[1], 10, $cantidad, 'LR', 0, 'C');
+                $pdf->Cell($w[2], 10, '$' . number_format($precio_unitario, 2, '.', ','), 'LR', 0, 'R');
+                $pdf->Cell($w[3], 10, $valor_oferta > 0 ? '$' . number_format($descuento, 2, '.', ',') : '-', 'LR', 0, 'R');
+                $pdf->Ln();
+            }
+
+            // Línea final y total general
+            $pdf->SetX($xStart);
+            $pdf->Cell(array_sum($w), 0, '', 'T');
+            $pdf->Ln();
+            $pdf->SetX($xStart);
+            $pdf->SetFont('Times', 'B', 12);
+            $pdf->Cell($w[0] + $w[1] + $w[2], 10, 'Total', 1, 0, 'C');
+            $pdf->Cell($w[3], 10, '$' . number_format($totalGeneral, 2, '.', ','), 1, 0, 'R');
+
+            // Salida del PDF
+            $pdf->Output();
+        } else {
+            echo 'No se encontraron datos.';
+        }
+    } else {
+        echo 'ID de reserva no válido.';
+    }
+} else {
+    echo 'No se especificó una reserva.';
+}

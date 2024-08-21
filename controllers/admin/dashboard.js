@@ -28,6 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     graficoPolarCategorias();
     graficoTortaGeneros();
     graficoTortaReservas();
+    graficaVentasPrediccion();
+    graficoBarrasCategoriasVentas();
+    top5ProductosMasVendidos();
+    graficoInventarioMarcasyTallas();
 });
 
 /*
@@ -180,3 +184,182 @@ const graficoTortaReservas = async () => {
         console.log(DATA.error);
     }
 }
+
+const graficaVentasPrediccion = async () => {
+    // Obtener los datos de ventas de los ultimos seis meses desde services
+    const DATA = await fetchData(PRODUCTO_API, 'ventasUltimosSeisMeses');
+    //Se verifica si los datos fueron obtenidos con éxito
+    if (DATA.status) {
+        let meses = []; //Arreglo para almacenar los nombres de los meses
+        let ventas = []; //Arreglo para almacenar las ventas correspondientes a cada mes
+
+        //Orden definido para los meses
+        const ordenMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+ 
+        // Ordenar los datos según el orden de los meses
+        DATA.dataset.sort((a, b) => ordenMeses.indexOf(a.mes) - ordenMeses.indexOf(b.mes));
+        //Se extrae del dataset y almacena los meses y las ventas
+        DATA.dataset.forEach(row => {
+            meses.push(row.mes); //Aqui se llama el campo según esta en la base o metódo
+            ventas.push(parseFloat(row.ventas_totales));
+        });
+ 
+        // Convertir los datos de ventas a un tensor
+        const xs = tf.tensor1d(ventas.map((_, i) => i)); //Tensor de indice de los meses
+        const ys = tf.tensor1d(ventas); //Tensor de valores de venta
+ 
+       //Se hace la  regresión lineal
+        const model = tf.sequential();
+        model.add(tf.layers.dense({units: 1, inputShape: [1]}));
+ 
+        model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
+ 
+        
+await model.fit(xs, ys, {epochs: 500});
+ 
+        // Hacer predicciones para los próximos 3 meses
+        const numMeses = ventas.length; //Número total de meses en los datos de venta
+        let predicciones = []; //Arreglo para almacenar las predicciones
+        // Realizar predicciones para los proximos 3 meses, las predicciones comienzan en la ventas del último mes
+        for (let i = numMeses; i < numMeses + 3; i++) {
+            const prediccion = model.predict(tf.tensor2d([i], [1, 1])); //Predecir ventas para el mes i
+            predicciones.push(prediccion.dataSync()[0]); //Se extrae el valor predicho y se añade al arreglo
+        }
+ 
+        // Añadir las predicciones a las ventas y los meses
+        predicciones.forEach((venta, i) => {
+            ventas.push(venta);//Añadir la predicción al arreglo de ventas
+            //Se calcula el indice del proximo mes y añadirlo al arreglo de meses
+            const ultimoMesIndex = ordenMeses.indexOf(meses[meses.length - 1]);
+            const nuevoMesIndex = (ultimoMesIndex + 1 + i) % 12;
+            meses.push(ordenMeses[nuevoMesIndex]);
+        });
+ 
+        // Crear la gráfica usando chart.js
+        const ctx = document.getElementById('chartVentas').getContext('2d');
+        new Chart(ctx, {
+            type: 'line', //Tipo de gráfica
+            data: {
+                labels: meses, //   Etiqueta para el x osea meses
+                datasets: [{
+                    label: 'Ventas reales', //   Etiqueta para la linea de ventas reales
+                    data: ventas.slice(0, -3), // Datos de ventas reales aquí se excluyen las predicciones
+                    borderColor: 'blue', //Color de la linea de las ventas reales
+                    fill: false //No se rellena debajo de la linea
+                }, {
+                    label: 'Ventas proyectadas', // Etiqueta para la linea de ventas proyectadas
+                    data: ventas.slice(-3), // Datos de ventas proyectadas aquí se excluyen las reales
+                    borderColor: 'red', //Color de la linea de las ventas proyectadas
+                    borderDash: [5, 5], //Linea punteada para diferenciar las proyecciones
+                    fill: false //No se rellena
+                }]
+            },
+            options: {
+                responsive: true, //Grafico responsivo
+                title: {
+                    display: true, //Mostrar el titulo de la grafica
+                    text: 'Ventas reales y proyectadas' //Texto del titulo
+                },
+                legend: {
+                    position: 'top',//Posicion de la leyenda en la parte superior
+                },
+                scales: {
+                    x: {
+                        display: true, //Mostrar el eje x
+                        title: {
+                            display: true, //Mostrar el titulo del eje x
+                            text: 'Mes' //Texto del titulo del eje x
+                        }
+                    },
+                    y: {
+                        display: true, //Mostar eje y
+                        title: {
+                            display: true, //Mostrar el titulo del eje y
+                            text: 'Ventas ($)' //Texto del titulo del eje y
+                        },
+                        beginAtZero: true //Empezar el eje y en 0
+                    }
+                }
+            }
+        });
+    } else {
+        console.log(DATA.error);
+    }
+
+}
+// Grafico automatico
+const graficoBarrasCategoriasVentas = async () => {
+    try {
+        // Reemplaza 'ventasDiariasPorCategoria' con la función PHP adecuada que no requiere parámetros
+        const DATA = await fetchData(PRODUCTO_API, 'ventasDiariasPorCategoria'); // Ajusta el nombre según tu función PHP
+        if (DATA.status) {
+            let categorias = [];
+            let ventas = [];
+            DATA.dataset.forEach(row => {
+                categorias.push(row.categoria); // Cambiado de 'fecha' a 'categoria'
+                ventas.push(row.total_ventas);
+            });
+
+            // Utiliza la función barGraph para generar el gráfico de barras
+            barGraph1('chart8', categorias, ventas, 'Ventas por Categoría', 'Ventas Totales por Categoría'); // Ajusta el título según corresponda
+        } else {
+            // Si hay un error, eliminar el gráfico existente y mostrar el mensaje de error
+            const chartElement = document.getElementById('chart8');
+            if (chartElement) {
+                chartElement.remove();
+            }
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        // Manejo de errores de la llamada fetch
+        console.error('Error al obtener los datos del gráfico:', error);
+    }
+}
+// se viene merge-Grafico automatico
+
+
+const top5ProductosMasVendidos = async () => {
+    try {
+        // Reemplaza 'productosMasVendidosTop5' con la función PHP adecuada que no requiere parámetros
+        const DATA = await fetchData(PRODUCTO_API, 'productosMasVendidosTop5'); // Ajusta el nombre según tu función PHP
+        if (DATA.status) {
+            let productos = [];
+            let ventas = [];
+            DATA.dataset.forEach(row => {
+                productos.push(row.nombre_producto); 
+                ventas.push(row.total_vendido);
+            });
+
+            // Utiliza la función barGraph para generar el gráfico de barras
+            barGraph2('chart9', productos, ventas, 'Ventas por Producto', 'Top 5 Productos Más Vendidos'); // Ajusta el título según corresponda
+        } else {
+            // Si hay un error, eliminar el gráfico existente y mostrar el mensaje de error
+            const chartElement = document.getElementById('chart9');
+            if (chartElement) {
+                chartElement.remove();
+            }
+            console.log(DATA.error);
+        }
+    } catch (error) {
+        // Manejo de errores de la llamada fetch
+        console.error('Error al obtener los datos del gráfico:', error);
+    }
+}
+
+const graficoInventarioMarcasyTallas = async () => {
+    const DATA = await fetchData(PRODUCTO_API, 'InventarioMarcasyTallas');
+    if (DATA.status) {
+        let tallas = [];
+        let cantidades = [];
+        DATA.dataset.forEach(row => {
+            tallas.push(row.talla); // Ajuste para capturar las tallas
+            cantidades.push(row.cantidad); // Ajuste para capturar la cantidad de productos
+        });
+        barGraph3('chart10', tallas, cantidades, 'Cantidad de productos en inventario', 'Inventario de productos por talla');
+    } else {
+        document.getElementById('chart10').remove();
+        console.log(DATA.error);
+    }
+};
+
+
