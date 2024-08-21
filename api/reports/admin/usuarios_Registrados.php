@@ -13,7 +13,7 @@ $pdf->startReport('');
 $pdf->SetTextColor(0, 0, 0); // Establece el color del texto a blanco
 $pdf->SetFont('Arial', '', 15);
 $pdf->SetY(45); // Ajusta el valor según sea necesario para subir el título
-$pdf->Cell(0, 3, $pdf->encodeString('Usuarios registrados'), 0, 1, 'C'); // Imprime el título en la posición ajustada
+$pdf->Cell(0, 14, $pdf->encodeString('Usuarios registrados'), 0, 1, 'C'); // Imprime el título en la posición ajustada
 
 $pdf->Ln(10); // Salto de línea para espacio
 
