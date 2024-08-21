@@ -407,7 +407,7 @@ const graficoPrediccionAgotamiento = async () => {
         });
         
         // Genera el gráfico de barras con los datos procesados
-        barGraph5('chart12', productos, diasParaAgotamiento, 'Días para agotamiento', 'Predicción de agotamiento de stock');
+        barGraph5('chart12', productos, diasParaAgotamiento, 'Días para agotamiento', '');
     } else {
         document.getElementById('chart12').remove(); // Remueve el gráfico si no hay datos disponibles
         console.log(DATA.error); // Muestra el error en la consola
