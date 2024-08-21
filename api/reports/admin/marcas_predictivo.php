@@ -30,10 +30,10 @@ function printTableHeader($pdf, $leftMargin) {
     $pdf->SetX($leftMargin);
     $pdf->Cell(25, 10, 'Producto', 1, 0, 'C', 1);
     $pdf->Cell(25, 10, 'Reservas', 1, 0, 'C', 1);
-    $pdf->Cell(25, 10, 'Mes Reserva', 1, 0, 'C', 1);
+    $pdf->Cell(25, 10, 'Mes reserva', 1, 0, 'C', 1);
     $pdf->Cell(25, 10, 'Ganancias', 1, 0, 'C', 1);
     $pdf->Cell(52, 10, 'Porcentaje de ventas en el mes', 1, 0, 'C', 1);
-    $pdf->Cell(52, 10, $pdf->encodeString('Predicción anual mismo mes'), 1, 1, 'C', 1);
+    $pdf->Cell(52, 10, $pdf->encodeString('Predicción anual de ventas'), 1, 1, 'C', 1);
 }
 
 // Imprime el encabezado de la tabla inicial
@@ -82,7 +82,7 @@ foreach ($marcas as $marca => $productos) {
         $pdf->Cell(25, 10, $producto['MesActual'], 1, 0, 'C');
         $pdf->Cell(25, 10, '$' . number_format($producto['TotalVentasMarca'], 2), 1, 0, 'R');
         $pdf->Cell(52, 10, number_format($producto['PorcentajeVentasMarca'], 2) . '%', 1, 0, 'R');
-        $pdf->Cell(52, 10, number_format($producto['PrediccionVentasSiguienteAno'], 2), 1, 1, 'R');
+        $pdf->Cell(52, 10, '$' .number_format($producto['PrediccionVentasSiguienteAno'], 2), 1, 1, 'R');
     }
 }
 
