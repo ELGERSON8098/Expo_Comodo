@@ -100,4 +100,18 @@ class CategoriaHandler
             ORDER BY c.nombre_categoria';
         return Database::getRows($sql);
     }
+    public function readTopProductos()
+    {
+        $sql = 'SELECT p.nombre_producto, SUM(dr.cantidad) AS total_vendido
+            FROM tb_detalles_reservas dr
+            INNER JOIN tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+            INNER JOIN tb_productos p ON dp.id_producto = p.id_producto
+            WHERE p.id_categoria = ?
+            GROUP BY p.nombre_producto
+            ORDER BY total_vendido DESC
+            LIMIT 5';
+        $params = array($this->id);
+        return Database::getRows($sql, $params);
+    }
+
 }

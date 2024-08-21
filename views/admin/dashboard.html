@@ -10,6 +10,17 @@
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
+    <style>
+        .chart-container-dashboard {
+            padding: 10px; /* Espacio interno opcional */
+            background-color: rgba(255, 255, 255, 0.1); /* Fondo blanco semitransparente opcional */
+            height: 500px; /* Altura fija para todos los gráficos */
+        }
+        canvas {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +31,7 @@
             <div class="row g-4">
                 <!-- Gráfico grande -->
                 <div class="col-12">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-header text-center">
                             <h5 class="card-title">Proyección de ventas</h5>
                         </div>
@@ -30,7 +41,7 @@
                     </div>
                 </div>
                   <div class="col-12">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-header text-center">
                             <h5 class="card-title">Predicción de agotamiento de stock</h5>
                         </div>
@@ -42,14 +53,14 @@
 
                 <!-- Gráficos pequeños -->
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart2"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart3"></canvas>
                         </div>
@@ -57,14 +68,14 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart4"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart5"></canvas>
                         </div>
@@ -72,14 +83,14 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart6"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart7"></canvas>
                         </div>
@@ -87,14 +98,14 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart8"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart9"></canvas>
                         </div>
@@ -102,14 +113,14 @@
                 </div>
 
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart10"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="card chart-container">
+                    <div class="card chart-container-dashboard">
                         <div class="card-body d-flex justify-content-center align-items-center">
                             <canvas id="chart11"></canvas>
                         </div>

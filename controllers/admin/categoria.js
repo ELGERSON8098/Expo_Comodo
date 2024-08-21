@@ -15,6 +15,7 @@ const SAVE_FORM = document.getElementById('saveForm'),
 IMAGEN_CATE = document.getElementById('nombreIMG');
 // Se establece el título de la página web.
 document.querySelector('title').textContent = 'Categoría';
+CHART_MODAL = new bootstrap.Modal('#chartModal');
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -114,6 +115,9 @@ const fillTable = async (form = null) => {
                         <button type="button" class="btn btn-danger  me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_categoria})">
                             <i class="bi bi-trash-fill"></i>
                         </button>
+                         <button type="button" class="btn btn-warning" onclick="openChart(${row.id_categoria})">
+                            <i class="bi bi-bar-chart-line-fill"></i>
+                        </button>
                     </td>
                 </tr>
             `;
@@ -192,5 +196,33 @@ const openDelete = async (id) => {
         } else {
             sweetAlert(2, DATA.error, false);
         }
+    }
+}
+
+const openChart = async (idCategoria) => {
+    // Se define una constante tipo objeto con los datos del registro seleccionado.
+    const FORM = new FormData();
+    FORM.append('idCategoria', idCategoria);
+    // Petición para obtener los datos del registro solicitado.
+    const DATA = await fetchData(CATEGORIA_API, 'readTopProductos', FORM);
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con el error.
+    if (DATA.status) {
+        // Se muestra la caja de diálogo con su título.
+        CHART_MODAL.show();
+        // Se declaran los arreglos para guardar los datos a graficar.
+        let productos = [];
+        let unidades = [];
+        // Se recorre el conjunto de registros fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se agregan los datos a los arreglos.
+            productos.push(row.nombre_producto);
+            unidades.push(row.total_vendido); // Asegúrate de que 'total_vendido' coincida con el alias de tu consulta SQL.
+        });
+        // Se agrega la etiqueta canvas al contenedor de la modal.
+        document.getElementById('chartContainer').innerHTML = `<canvas id="chart"></canvas>`;
+        // Llamada a la función para generar y mostrar un gráfico de barras. Se encuentra en el archivo components.js
+        barGraph('chart', productos, unidades, 'Cantidad de productos', 'Top 5 de productos con más unidades vendidas');
+    } else {
+        sweetAlert(4, DATA.error, true);
     }
 }

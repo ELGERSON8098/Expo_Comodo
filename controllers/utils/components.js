@@ -143,11 +143,13 @@ const fillSelect = async (filename, action, select, filter = undefined) => {
 *   Retorno: ninguno.
 */
 const barGraph = (canvas, xAxis, yAxis, legend, title) => {
+    // Se declara un arreglo para guardar códigos de colores en formato hexadecimal.
     let colors = [];
+    // Se generan códigos hexadecimales de 6 cifras de acuerdo con el número de datos a mostrar y se agregan al arreglo.
     xAxis.forEach(() => {
-        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
+        colors.push('#' + (Math.random().toString(16)).substring(2, 8));
     });
-
+    // Se crea una instancia para generar el gráfico con los datos recibidos.
     new Chart(document.getElementById(canvas), {
         type: 'bar',
         data: {
@@ -155,65 +157,23 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
             datasets: [{
                 label: legend,
                 data: yAxis,
-                backgroundColor: colors,
-                borderColor: '#ddd',
-                borderWidth: 1,
-                barThickness: 24,
-                maxBarThickness: 40,
-                minBarLength: 2
+                backgroundColor: colors
             }]
         },
         options: {
-            responsive: true,
             plugins: {
                 title: {
                     display: true,
-                    text: title,
-                    padding: {
-                        bottom: 20
-                    },
-                    color: '#333',
-                    font: {
-                        size: 18,
-                        weight: 'bold'
-                    }
+                    text: title
                 },
                 legend: {
                     display: false
                 }
-            },
-            scales: {
-                x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        color: '#666',
-                        font: {
-                            size: 14
-                        }
-                    }
-                },
-                y: {
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)',
-                        borderDash: [5, 5]
-                    },
-                    ticks: {
-                        color: '#666',
-                        font: {
-                            size: 14
-                        }
-                    }
-                }
-            },
-            animation: {
-                duration: 1200,
-                easing: 'easeInOutExpo'
             }
         }
     });
 }
+
 
 // Gráfico de Pastel
 const pieGraph = (canvas, legends, values, title) => {
