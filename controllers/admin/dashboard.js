@@ -32,6 +32,8 @@ document.addEventListener('DOMContentLoaded', () => {
     graficoBarrasCategoriasVentas();
     top5ProductosMasVendidos();
     graficoInventarioMarcasyTallas();
+    graficoDescuentosPorRangoPrecios();
+    graficoPrediccionAgotamiento();
 });
 
 /*
@@ -361,5 +363,60 @@ const graficoInventarioMarcasyTallas = async () => {
         console.log(DATA.error);
     }
 };
+
+const graficoDescuentosPorRangoPrecios = async () => {
+    // Define los parámetros para el fetchData, incluyendo el manejo de valores nulos
+    const params = { 
+        minPrecio: minPrecio !== null ? minPrecio : null, 
+        maxPrecio: maxPrecio !== null ? maxPrecio : null 
+    };
+    
+    // Realiza la solicitud a la API
+    const DATA = await fetchData(PRODUCTO_API, 'DescuentosPRango', params);
+    
+    if (DATA.status) {
+        let productos = [];
+        let descuentos = [];
+        
+        // Procesa los datos obtenidos
+        DATA.dataset.forEach(row => {
+            productos.push(row.nombre_producto); // Captura los nombres de los productos
+            descuentos.push(row.descuento); // Captura el valor del descuento aplicado
+        });
+        
+        // Genera el gráfico con los datos procesados
+        barGraph4('chart11', productos, descuentos, 'Descuento aplicado (%)', 'Descuentos aplicados a productos');
+    } else {
+        document.getElementById('chart11').remove();
+        console.log(DATA.error);
+    }
+};
+
+const graficoPrediccionAgotamiento = async () => {
+    // Realiza la solicitud a la API para obtener los datos de la predicción de agotamiento de stock
+    const DATA = await fetchData(PRODUCTO_API, 'PrediccionAgotamientoStock');
+    
+    if (DATA.status) {
+        let productos = [];
+        let diasParaAgotamiento = [];
+        
+        // Procesa los datos obtenidos del dataset
+        DATA.dataset.forEach(row => {
+            productos.push(row.nombre_producto); // Captura los nombres de los productos
+            diasParaAgotamiento.push(row.dias_para_agotamiento); // Captura los días para el agotamiento del stock
+        });
+        
+        // Genera el gráfico de barras con los datos procesados
+        barGraph5('chart12', productos, diasParaAgotamiento, 'Días para agotamiento', 'Predicción de agotamiento de stock');
+    } else {
+        document.getElementById('chart12').remove(); // Remueve el gráfico si no hay datos disponibles
+        console.log(DATA.error); // Muestra el error en la consola
+    }
+};
+
+
+
+
+
 
 

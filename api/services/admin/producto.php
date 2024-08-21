@@ -326,6 +326,30 @@ if (isset($_GET['action'])) {
                             }
                             break;
 
+                            case 'DescuentosPRango':
+                                // Llamada a la función que obtiene las ventas diarias por categoría
+                                if ($result['dataset'] = $producto->DescuentosPRango()) {
+                                    // Si la función devuelve datos, establecer el estado y mensaje
+                                    $result['status'] = 1;
+                                    $result['message'] = 'Datos obtenidos correctamente';
+                                } else {
+                                    // Si la función no devuelve datos, establecer el error
+                                    $result['error'] = 'No se pudieron obtener los datos';
+                                }
+                                break;
+                                case 'PrediccionAgotamientoStock':
+                                    // Llamada a la función que obtiene las ventas diarias por categoría
+                                    if ($result['dataset'] = $producto->PrediccionAgotamientoStock()) {
+                                        // Si la función devuelve datos, establecer el estado y mensaje
+                                        $result['status'] = 1;
+                                        $result['message'] = 'Datos obtenidos correctamente';
+                                    } else {
+                                        // Si la función no devuelve datos, establecer el error
+                                        $result['error'] = 'No se pudieron obtener los datos';
+                                    }
+                                    break;
+    
+
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }

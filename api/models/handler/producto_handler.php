@@ -26,6 +26,10 @@ class ProductoHandler
     protected $id_color = null;
     protected $descripcion = null;
 
+    protected $precio_minimo = null;
+
+    protected $precio_maximo = null;
+
     protected $id_detalle_producto = null;
 
     // Constante para establecer la ruta de las imágenes.
@@ -597,18 +601,73 @@ ORDER BY MONTH(r.fecha_reserva) ASC;";
                 ORDER BY 
                     total_existencias DESC';
         
-        // Ajusta los parámetros según si son null o no
-        $params = array(
-            $this->id_marca, 
-            $this->id_marca,
-            $this->id_talla, 
-            $this->id_talla
+        
+        $params = array($this->id_marca, $this->id_marca, $this->id_talla, $this->id_talla
         );
         
         return Database::getRows($sql, $params);
     }
     
+    public function DescuentosPRango()
+{
+    $sql = 'SELECT 
+                d.nombre_descuento,
+                p.nombre_producto,
+                p.precio,
+                d.valor AS descuento,
+                (p.precio - (p.precio * d.valor / 100)) AS precio_final
+            FROM 
+                tb_productos p
+            INNER JOIN 
+                tb_descuentos d ON p.id_descuento = d.id_descuento
+            WHERE 
+                (? IS NULL OR p.precio >= ?) 
+                AND 
+                (? IS NULL OR p.precio <= ?)
+            ORDER BY 
+                precio_final ASC';
 
+    $params = array($this->precio_minimo, $this->precio_minimo, $this->precio_maximo, $this->precio_maximo);
+
+    return Database::getRows($sql, $params);
+}
+
+public function PrediccionAgotamientoStock()
+{
+    $sql = 'SELECT 
+                p.nombre_producto,
+                dp.existencias,
+                IFNULL(AVG(v.cantidad_vendida), 0) AS ventas_diarias_promedio,
+                CASE 
+                    WHEN IFNULL(AVG(v.cantidad_vendida), 0) = 0 THEN "Stock no se agotará"
+                    ELSE ROUND(dp.existencias / AVG(v.cantidad_vendida), 2)
+                END AS dias_para_agotamiento
+            FROM 
+                tb_productos p
+            INNER JOIN 
+                tb_detalles_productos dp ON p.id_producto = dp.id_producto
+            LEFT JOIN 
+                (SELECT 
+                    id_detalle_producto, 
+                    SUM(cantidad) AS cantidad_vendida,
+                    DATEDIFF(CURDATE(), MIN(fecha_reserva)) AS dias_venta
+                FROM 
+                    tb_detalles_reservas dr
+                INNER JOIN 
+                    tb_reservas r ON dr.id_reserva = r.id_reserva
+                WHERE 
+                    r.estado_reserva = "Aceptado"
+                GROUP BY 
+                    id_detalle_producto) v ON dp.id_detalle_producto = v.id_detalle_producto
+            GROUP BY 
+                p.id_producto, p.nombre_producto, dp.existencias
+            ORDER BY 
+                dias_para_agotamiento ASC';
+    
+    return Database::getRows($sql);
+}
+
+    
 
 }
 
