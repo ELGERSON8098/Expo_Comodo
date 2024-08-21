@@ -662,7 +662,8 @@ public function PrediccionAgotamientoStock()
             GROUP BY 
                 p.id_producto, p.nombre_producto, dp.existencias
             ORDER BY 
-                dias_para_agotamiento ASC';
+                dias_para_agotamiento ASC
+                LIMIT 6';
     
     return Database::getRows($sql);
 }
