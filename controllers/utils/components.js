@@ -164,15 +164,19 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
             plugins: {
                 title: {
                     display: true,
-                    text: title
+                    text: title,
+                    font: {
+                        weight: 'bold' // Establece el texto del título en negrita.
+                    }
                 },
                 legend: {
-                    display: false
+                    display: true
                 }
             }
         }
     });
 }
+
 
 
 // Gráfico de Pastel
