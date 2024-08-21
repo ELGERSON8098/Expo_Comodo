@@ -96,9 +96,7 @@ const fillTable = async (form = null) => {
                          <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_reserva})">
                          <i class="bi bi-eye-fill"></i>
                          </button>
-                          <button type="button" class="btn btn-warning me-2 mb-2 mb-sm-2" onclick="openReport(${row.id_reserva})">
-                            <i class="bi bi-file-earmark-pdf-fill"></i>
-                        </button>
+                          
                     </td>
                 </tr>
             `;
