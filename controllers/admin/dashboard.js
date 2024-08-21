@@ -302,7 +302,7 @@ const graficoBarrasCategoriasVentas = async () => {
             });
 
             // Utiliza la función barGraph para generar el gráfico de barras
-            barGraph1('chart8', categorias, ventas, 'Ventas por Categoría', 'Ventas Totales por Categoría'); // Ajusta el título según corresponda
+            barGraph1('chart8', categorias, ventas, 'Ventas por categoría', 'Ventas totales por categoría'); // Ajusta el título según corresponda
         } else {
             // Si hay un error, eliminar el gráfico existente y mostrar el mensaje de error
             const chartElement = document.getElementById('chart8');
@@ -332,7 +332,7 @@ const top5ProductosMasVendidos = async () => {
             });
 
             // Utiliza la función barGraph para generar el gráfico de barras
-            barGraph2('chart9', productos, ventas, 'Ventas por Producto', 'Top 5 Productos Más Vendidos'); // Ajusta el título según corresponda
+            barGraph2('chart9', productos, ventas, 'Ventas por producto', 'Top 5 productos más vendidos'); // Ajusta el título según corresponda
         } else {
             // Si hay un error, eliminar el gráfico existente y mostrar el mensaje de error
             const chartElement = document.getElementById('chart9');
