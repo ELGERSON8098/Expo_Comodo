@@ -61,7 +61,14 @@
                 </button>
             </div>
         </div>
-
+          <!-- Botón para abrir el modal de selección de marcas -->
+          <div class="row mb-3">
+            <div class="col text-end">
+                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#descuentoModal">
+                    <i class="bi bi-bar-chart-fill"></i> Grafica de descuentos
+                </button>
+            </div>
+        </div>
         <!-- Tabla para mostrar los registros existentes -->
         <table class="table table-hover">
             <!-- Encabezado de la tabla -->
@@ -124,10 +131,47 @@
                 </div>
             </div>
         </div>
+        <!-- Modal -->
+        <div class="modal fade" id="descuentoModal" tabindex="-1" aria-labelledby="descuentoModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="descuentoModalLabel">Descuentos por rango de precios</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Formulario para seleccionar el rango de precios -->
+                        <form id="rangoPrecioForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label for="precioMin">Precio Mínimo</label>
+                                    <input type="number" class="form-control" id="precioMin" name="precioMin" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="precioMax">Precio Máximo</label>
+                                    <input type="number" class="form-control" id="precioMax" name="precioMax" required>
+                                </div>
+                            </div>
+                            <br>
+                            <button type="button" class="btn btn-success" onclick="generarGraficoDescuentos()">Generar
+                                Gráfico</button>
+                        </form>
+                        <hr>
+                        <!-- Contenedor para el gráfico -->
+                        <canvas id="chartDescuentos"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </main>
     <!-- Bootstrap JS -->
+     
     <!-- Llamada al framework y librería de mensajes -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js -->
+    <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
     <!-- Controlador para el administrador -->
     <script src="../../controllers/utils/admin.js"></script>

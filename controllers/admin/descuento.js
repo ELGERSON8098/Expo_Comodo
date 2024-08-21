@@ -180,3 +180,83 @@ const openReport = (id) => {
     // Se abre el reporte en una nueva pestaña.
     window.open(PATH.href);
 }
+
+// Función para generar el gráfico de descuentos por rango de precios
+async function generarGraficoDescuentos() {
+    const precioMin = document.getElementById('precioMin').value;
+    const precioMax = document.getElementById('precioMax').value;
+
+    if (!precioMin || !precioMax) {
+        sweetAlert(3, 'Por favor, ingrese ambos valores de precio', null);
+        return;
+    }
+
+    const form = new FormData();
+    form.append('precioMin', precioMin);
+    form.append('precioMax', precioMax);
+
+    const DATA = await fetchData(DESCUENTO_API, 'descuentosPorRangoPrecio', form);
+    if (DATA.status) {
+        const descuentosData = DATA.dataset.map(row => ({
+            x: parseFloat(row.precio),
+            y: parseFloat(row.valor)
+        }));
+
+        const ctx = document.getElementById('chartDescuentos').getContext('2d');
+        if (window.descuentosChart) {
+            window.descuentosChart.destroy();
+        }
+        window.descuentosChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Descuentos por Rango de Precios',
+                    data: descuentosData,
+                    backgroundColor: getRandomColor(),
+                    borderColor: getRandomColor(),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Precio ($)'
+                        },
+                        beginAtZero: true
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Descuento (%)'
+                        },
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Descuentos aplicados por rango de precios'
+                    },
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    } else {
+        sweetAlert(2, DATA.error, null);
+    }
+}
+
+// Función auxiliar para generar colores aleatorios
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}

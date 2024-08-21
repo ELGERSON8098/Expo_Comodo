@@ -74,4 +74,21 @@ class descuentoHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function descuentosPorRangoPrecio($precioMin, $precioMax) {
+        $sql = 'SELECT 
+                    p.nombre_producto, 
+                    p.precio, 
+                    d.valor 
+                FROM 
+                    tb_productos p
+                INNER JOIN 
+                    tb_descuentos d ON p.id_descuento = d.id_descuento
+                WHERE 
+                    p.precio BETWEEN ? AND ?';
+        
+        $params = array($precioMin, $precioMax);
+        return Database::getRows($sql, $params);
+    }    
+    
 }
