@@ -17,6 +17,7 @@ class UsuariosHandler
     protected $telefono = null;
     protected $dui = null;
     protected $direccion = null;
+    protected $estadocliente = null;
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
@@ -35,7 +36,7 @@ class UsuariosHandler
     //Llamar los datos de la base de datos 
     public function readAll()
     {
-        $sql = 'SELECT id_usuario, nombre, usuario, correo, telefono, dui_cliente
+        $sql = 'SELECT id_usuario, nombre, usuario, correo, telefono, dui_cliente, estado_cliente
                 FROM tb_usuarios
                 ORDER BY nombre ASC;';
         return Database::getRows($sql);
@@ -43,7 +44,7 @@ class UsuariosHandler
 
     public function readOne()
     {
-        $sql = 'SELECT id_usuario, nombre, usuario, correo, dui_cliente, direccion_cliente, telefono
+        $sql = 'SELECT id_usuario, nombre, usuario, correo, dui_cliente, direccion_cliente, telefono, estado_cliente
                 FROM tb_usuarios
                 WHERE id_usuario = ?';
         $params = array($this->id);
@@ -52,10 +53,12 @@ class UsuariosHandler
 
     public function updateRow()
     {
-        $sql = 'UPDATE tb_usuarios
-                SET nombre = ?, usuario = ?, correo = ?, clave = ?, telefono = ?, dui_cliente = ?, direccion_cliente = ?
-                WHERE id_usuario = ?';
-        $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->telefono, $this->dui, $this->direccion, $this->id);
+        $sql = 'UPDATE tb_usuarios 
+        SET estado_cliente = ?
+        WHERE id_usuario = ?';
+        $params = array(
+            $this->estadocliente,
+            $this->id);
         return Database::executeRow($sql, $params);
     }
 

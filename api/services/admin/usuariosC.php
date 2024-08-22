@@ -41,24 +41,20 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Cliente inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$usuariosC->setNombre($_POST['nombreUsuarioC']) or
-                    !$usuariosC->setAlias($_POST['aliasUsuarioC']) or
-                    !$usuariosC->setCorreo($_POST['correoUsuarioC']) or
-                    !$usuariosC->setDic($_POST['DirecC']) or
-                    !$usuariosC->setTelefono($_POST['TelUsuarioC']) or
-                    !$usuariosC->setDUI($_POST['duiUsuarioC'])
-                ) {
-                    $result['error'] = $usuariosC->getDataError();
-                } elseif ($usuariosC->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Cliente modificado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar al cliente.';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                    if (
+                        !$usuariosC->setId($_POST['idusuarioC'])or
+                        !$usuariosC->setEstado(isset($_POST['EstadoCliente']) ? 1 : 0)
+                    ) {
+                        $result['error'] = $usuariosC->getDataError();
+                    } elseif ($usuariosC->updateRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Cliente modificado correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar al cliente';
+                    }
+                    break;
             case 'deleteRow':
                 if (
                     !$usuariosC->setId($_POST['idusuarioC'])

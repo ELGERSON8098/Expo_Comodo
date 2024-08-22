@@ -91,6 +91,17 @@ class UsuariosData extends UsuariosHandler
         $this->dui = $value;
         return true;
     }
+
+    public function setEstado($value)
+    {
+        if (Validator::validateBoolean($value)) {
+            $this->estadocliente = $value;
+            return true;
+        } else {
+            $this->data_error = 'Estado incorrecto';
+            return false;
+        }
+    }
     
 
     public function setTelefono($value)

@@ -21,6 +21,7 @@ const CORREO_USUARIO = document.getElementById('correoUsuarioC');
 const TEL_USUARIO = document.getElementById('Telefono');
 const DIRECCION_USUARIO = document.getElementById('DirecC');
 const DUI_USUARIO = document.getElementById('duiUsuarioC');
+ESTADO_CLIENTE = document.getElementById('EstadoCliente');
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
@@ -83,6 +84,7 @@ const fillTable = async (form = null) => {
         if (DATA.status) {
             // Se recorre el conjunto de registros fila por fila.
             DATA.dataset.forEach(row => {
+                (parseInt(row.estado_cliente)) ? icon = 'bi bi-eye-fill' : icon = 'bi bi-eye-slash-fill';
                 // Se crean y concatenan las filas de la tabla con los datos de cada registro.
                 TABLE_BODY.innerHTML += `
                     <tr>
@@ -91,6 +93,7 @@ const fillTable = async (form = null) => {
                         <td>${row.correo}</td>
                         <td>${row.telefono}</td>
                         <td>${row.dui_cliente}</td>
+                        <td><i class="${icon}"></i></td>   
                         <td>
                             <button type="button" class="btn btn-info  me-2 mb-2 mb-sm-2" onclick="openView(${row.id_usuario})">
                                 <i class="bi bi-eye-fill"></i>
@@ -200,8 +203,9 @@ const openView = async (id) => {
             ALIAS_USUARIO.value = ROW.usuario;
             CORREO_USUARIO.value = ROW.correo;
             TEL_USUARIO.value = ROW.telefono;
-            DIRECCION_USUARIO.value = ROW.direccion_cliente;
             DUI_USUARIO.value = ROW.dui_cliente;
+            DIRECCION_USUARIO.value = ROW.direccion_cliente;
+            ESTADO_CLIENTE.checked = parseInt(ROW.estado_cliente);
 
             // Actualizar el mapa con la dirección del usuario al abrir el modal
             updateMap(DIRECCION_USUARIO.value);
