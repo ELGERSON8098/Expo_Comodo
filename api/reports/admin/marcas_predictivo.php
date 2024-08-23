@@ -33,7 +33,7 @@ function printTableHeader($pdf, $leftMargin) {
     $pdf->Cell(25, 10, 'Mes reserva', 1, 0, 'C', 1);
     $pdf->Cell(25, 10, 'Ganancias', 1, 0, 'C', 1);
     $pdf->Cell(52, 10, 'Porcentaje de ventas en el mes', 1, 0, 'C', 1);
-    $pdf->Cell(52, 10, $pdf->encodeString('Predicción anual de ventas'), 1, 1, 'C', 1);
+    $pdf->Cell(54, 10, $pdf->encodeString('Predicción para el siguiente mes'), 1, 1, 'C', 1);
 }
 
 // Imprime el encabezado de la tabla inicial
@@ -73,7 +73,7 @@ foreach ($marcas as $marca => $productos) {
         $pdf->SetTextColor(0, 0, 0); // Color del texto
         $pdf->SetFont('Times', 'B', 12);
         $pdf->SetX($leftMargin); // Ajusta la posición X para la fila de la marca
-        $pdf->Cell(204, 10, 'Nombre de la marca: ' . $marca, 1, 1, 'C', 1);
+        $pdf->Cell(206, 10, 'Nombre de la marca: ' . $marca, 1, 1, 'C', 1);
         
         // Restablece el color de fondo y el color del texto para las filas siguientes
         $pdf->SetFillColor(255, 255, 255); // Fondo blanco para las filas de productos
@@ -93,7 +93,7 @@ foreach ($marcas as $marca => $productos) {
             $pdf->Cell(25, 10, $producto['MesActual'], 1, 0, 'C');
             $pdf->Cell(25, 10, '$' . number_format($producto['TotalVentasMarca'], 2), 1, 0, 'R');
             $pdf->Cell(52, 10, number_format($producto['PorcentajeVentasMarca'], 2) . '%', 1, 0, 'R');
-            $pdf->Cell(52, 10, '$' .number_format($producto['PrediccionVentasSiguienteAno'], 2), 1, 1, 'R');
+            $pdf->Cell(54, 10, '$' .number_format($producto['PrediccionVentasSiguienteMes'], 2), 1, 1, 'R');
         }
     }
 }
