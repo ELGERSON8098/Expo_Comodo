@@ -17,7 +17,6 @@ $pdf->Cell(0, 0, $pdf->encodeString('Productos por categoría'), 0, 1, 'C'); // 
 
 $pdf->Ln(10); // Primer salto de línea
 
-$pdf->Ln(10); // Primer salto de línea
 
 $categoria = new CategoriaData;
 
