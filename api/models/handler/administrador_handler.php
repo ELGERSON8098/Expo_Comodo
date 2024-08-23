@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 /*
  *  Clase para manejar el comportamiento de los datos de la tabla administrador.
  */
@@ -185,5 +185,22 @@ WHERE
                 WHERE id_administrador = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    public function obtenerAdministradores()
+    {
+        $sql = 'SELECT 
+                a.usuario_administrador AS usuario,
+                a.correo_administrador AS correo,
+                n.nombre_nivel AS nivel_usuario
+            FROM 
+                tb_admins a
+            JOIN 
+                tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
+            ORDER BY 
+                a.usuario_administrador ASC;';
+
+        // Ejecuta la consulta y devuelve los resultados
+        return Database::getRows($sql); // Llama a la función getRows de la clase Database para ejecutar la consulta
     }
 }
