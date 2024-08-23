@@ -28,9 +28,9 @@ function printTableHeader($pdf)
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(40, 10, 'Nombre del usuario', 1, 0, 'C', 1);
     $pdf->Cell(50, 10, 'Correo', 1, 0, 'C', 1);
-    $pdf->Cell(40, 10, 'Dui', 1, 0, 'C', 1);
+    $pdf->Cell(35, 10, 'Dui', 1, 0, 'C', 1);
     $pdf->Cell(30, 10, 'Estado', 1, 0, 'C', 1);
-    $pdf->Cell(40, 10, 'Telefono', 1, 1, 'C', 1);
+    $pdf->Cell(30, 10, 'Telefono', 1, 1, 'C', 1);
 }
 
 // Obtener todos los usuarios
@@ -60,16 +60,16 @@ if ($dataClientes = $usuario->usuariosRegistrados()) {
         $pdf->Cell(50, 10, $pdf->encodeString($rowClientes['correo']), 1, 0, 'L');
 
         // Imprimir DUI
-        $pdf->Cell(40, 10, $pdf->encodeString($rowClientes['dui_cliente']), 1, 0, 'L');
+        $pdf->Cell(35, 10, $pdf->encodeString($rowClientes['dui_cliente']), 1, 0, 'L');
         
         // Imprimir DUI
         $pdf->Cell(30, 10, $pdf->encodeString($rowClientes['estado_cliente']), 1, 0, 'L');
 
         // Imprimir teléfono
-        $pdf->Cell(40, 10, $pdf->encodeString($rowClientes['telefono']), 1, 1, 'L');
+        $pdf->Cell(30, 10, $pdf->encodeString($rowClientes['telefono']), 1, 1, 'L');
 
         // Asegurarse de que la posición Y no se sobreponga con el final de la página
-        if ($pdf->GetY() > 250) {
+        if ($pdf->GetY() > 220) {
             $pdf->AddPage(); // Agrega una nueva página si es necesario
             printTableHeader($pdf); // Imprimir el encabezado de la tabla nuevamente
         }
