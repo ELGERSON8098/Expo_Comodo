@@ -30,10 +30,11 @@ function printTableHeader($pdf) {
     $pdf->SetTextColor(255, 255, 255);
     $pdf->SetFillColor(7, 81, 161);
     $pdf->SetFont('Times', 'B', 11);
+    $pdf->Cell(60, 10, 'Nombre del producto', 1, 0, 'C', 1);
     $pdf->Cell(50, 10, 'Fecha Reserva', 1, 0, 'C', 1);
-    $pdf->Cell(50, 10, 'Cantidad', 1, 0, 'C', 1);
-    $pdf->Cell(50, 10, 'Precio Unitario', 1, 0, 'C', 1);
-    $pdf->Cell(40, 10, 'Subtotal', 1, 1, 'C', 1);
+    $pdf->Cell(30, 10, 'Cantidad', 1, 0, 'C', 1);
+    $pdf->Cell(30, 10, 'Precio Unitario', 1, 0, 'C', 1);
+    $pdf->Cell(20, 10, 'Subtotal', 1, 1, 'C', 1);
 }
 
 printTableHeader($pdf);
@@ -68,10 +69,23 @@ if ($pedidos && count($pedidos) > 0) {
                 }
 
                 $pdf->SetTextColor(0, 0, 0);
-                $pdf->Cell(50, 10, $pedido['FechaReserva'], 1);
-                $pdf->Cell(50, 10, $pedido['CantidadLibros'], 1, 0, 'C');
-                $pdf->Cell(50, 10, number_format($pedido['PrecioUnitario'], 2), 1, 0, 'R');
-                $pdf->Cell(40, 10, number_format($pedido['Subtotal'], 2), 1, 1, 'R');
+                
+                // Cambiar Cell a MultiCell para el nombre del producto
+                $yStart = $pdf->GetY();
+                $pdf->MultiCell(60, 10, $pedido['Producto'], 1, 'L');
+                $multiCellHeightTitulo = $pdf->GetY() - $yStart; // Obtener la altura ocupada por el nombre del producto
+
+                // Ajustar la posición X para las celdas siguientes
+                $pdf->SetXY($pdf->GetX() + 60, $yStart); // Ajustar la posición X después de MultiCell
+
+                // Imprimir los otros campos usando la misma altura que el nombre del producto
+                $pdf->Cell(50, $multiCellHeightTitulo, $pedido['FechaReserva'], 1);
+                $pdf->Cell(30, $multiCellHeightTitulo, $pedido['CantidadLibros'], 1, 0, 'C');
+                $pdf->Cell(30, $multiCellHeightTitulo, number_format($pedido['PrecioUnitario'], 2), 1, 0, 'R');
+                $pdf->Cell(20, $multiCellHeightTitulo, number_format($pedido['Subtotal'], 2), 1, 1, 'R');
+
+                // Ajustar la posición Y para la siguiente fila
+                $pdf->SetY($yStart + $multiCellHeightTitulo);
             }
         }
 

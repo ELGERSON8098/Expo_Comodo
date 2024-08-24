@@ -344,6 +344,7 @@ class ReservaHandler
     {
         $sql = 'SELECT
     u.id_usuario,
+    p.nombre_producto AS Producto,
     u.nombre AS NombreUsuario,
     r.fecha_reserva AS FechaReserva,
     dr.cantidad AS CantidadLibros,
@@ -352,9 +353,13 @@ class ReservaHandler
 FROM
     tb_reservas r
 JOIN
-    tb_usuarios u ON r.id_usuario = u.id_usuario
+    tb_usuarios u ON r.id_usuario = u.id_usuario  
 JOIN
     tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+JOIN
+    tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+JOIN
+    tb_productos p ON dp.id_producto = p.id_producto
 WHERE
     r.estado_reserva = "Aceptado"
 ORDER BY
