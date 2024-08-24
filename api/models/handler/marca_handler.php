@@ -45,7 +45,7 @@ class marcaHandler
 
     public function ReportePredictivo()
     {
-        // Consulta SQL
+        // SQL Query
         $sql = '
         WITH VentasMensuales AS (
             SELECT 
@@ -71,7 +71,7 @@ class marcaHandler
                         LEFT JOIN tb_productos p2 ON dr2.id_detalle_producto = p2.id_producto
                         LEFT JOIN tb_descuentos d2 ON p2.id_descuento = d2.id_descuento
                         WHERE r2.estado_reserva = "Aceptado"
-                          AND DATE_FORMAT(r2.fecha_reserva, "%Y-%m") = DATE_FORMAT(r.fecha_reserva, "%Y-%m")
+                        AND DATE_FORMAT(r2.fecha_reserva, "%Y-%m") = DATE_FORMAT(r.fecha_reserva, "%Y-%m")
                     ), 2
                 ) AS PorcentajeVentasMarca
             FROM 
@@ -91,7 +91,7 @@ class marcaHandler
             GROUP BY 
                 m.marca, p.nombre_producto, DATE_FORMAT(r.fecha_reserva, "%Y-%m")
         ),
-    
+        
         VentasAnteriores AS (
             SELECT 
                 NombreMarca,
@@ -102,7 +102,7 @@ class marcaHandler
             GROUP BY 
                 NombreMarca, NombreProducto
         ),
-    
+        
         VentasActuales AS (
             SELECT 
                 v1.NombreMarca,
@@ -115,7 +115,7 @@ class marcaHandler
             FROM 
                 VentasMensuales v1
         ),
-    
+        
         VentasPronosticadas AS (
             SELECT
                 va.NombreMarca,
@@ -136,7 +136,7 @@ class marcaHandler
                 ON va.NombreMarca = va_prev.NombreMarca
                 AND va.NombreProducto = va_prev.NombreProducto
         )
-    
+        
         SELECT 
             vp.NombreMarca,
             vp.NombreProducto,
@@ -144,16 +144,44 @@ class marcaHandler
             vp.CantidadReservada,
             vp.TotalVentasMarca,
             vp.PorcentajeVentasMarca,
-            FORMAT(vp.PrediccionVentasSiguienteMes, 2) AS PrediccionVentasSiguienteMes
+            FORMAT(vp.PrediccionVentasSiguienteMes, 2) AS PrediccionVentasSiguienteMes,
+            CASE 
+                WHEN vp.TotalVentasMarca = 0 THEN NULL
+                ELSE
+                    CASE 
+                        WHEN vp.PrediccionVentasSiguienteMes > vp.TotalVentasMarca THEN
+                            CONCAT(
+                                "Aumento estimado de ", 
+                                FORMAT(
+                                    LEAST(
+                                        (vp.PrediccionVentasSiguienteMes - vp.TotalVentasMarca) / vp.TotalVentasMarca * 100, 
+                                        100
+                                    ), 2
+                                ), 
+                                "% para el siguiente mes"
+                            )
+                        ELSE
+                            CONCAT(
+                                "Reducción estimada de ", 
+                                FORMAT(
+                                    LEAST(
+                                        (vp.TotalVentasMarca - vp.PrediccionVentasSiguienteMes) / vp.TotalVentasMarca * 100, 
+                                        100
+                                    ), 2
+                                ), 
+                                "% para el siguiente mes"
+                            )
+                    END
+            END AS PorcentajeYMensaje
         FROM 
             VentasPronosticadas vp
         ORDER BY 
-            vp.MesActual ASC, vp.NombreMarca ASC, vp.NombreProducto ASC
-        ';
-    
-        // Ejecutar la consulta
+            vp.MesActual ASC, vp.NombreMarca ASC, vp.NombreProducto ASC';
+        
+        // Execute the query
         return Database::getRows($sql);
     }
+    
     
     public function readOne()
     {
