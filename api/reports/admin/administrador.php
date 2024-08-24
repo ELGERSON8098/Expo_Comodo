@@ -25,7 +25,7 @@ function printTableHeader($pdf) {
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(70, 10, 'Nombre usuario', 1, 0, 'C', 1);
     $pdf->Cell(60, 10, $pdf->encodeString('Correo'), 1, 0, 'C', 1);
-    $pdf->Cell(40, 10, 'Nivel', 1, 1, 'C', 1);
+    $pdf->Cell(60, 10, 'Nivel', 1, 1, 'C', 1);
 }
 
 if ($dataAdmin = $admin->obtenerAdministradores()) {
@@ -54,7 +54,7 @@ if ($dataAdmin = $admin->obtenerAdministradores()) {
         $pdf->Cell(60, $multiCellHeightTitulo, $rowAdmin['correo'], 1, 0, 'C');
 
         $pdf->SetXY($xStart + 130, $yStart);
-        $pdf->Cell(40, $multiCellHeightTitulo, $rowAdmin['nivel_usuario'], 1, 1, 'C');
+        $pdf->Cell(60, $multiCellHeightTitulo, $rowAdmin['nivel_usuario'], 1, 1, 'C');
 
         $pdf->SetY($yStart + $multiCellHeightTitulo);
     }
