@@ -121,9 +121,10 @@ function printTableOne($pdf, $data, $leftMargin, $tableTopY) {
 function printTableTwo($pdf, $data, $leftMargin, $tableTopY) {
     // Define los encabezados de la tabla
     $columnHeaders = [
-        ['name' => 'Producto', 'width' => 65],
+        ['name' => 'Producto', 'width' => 62],
         ['name' => 'Porcentaje de ventas en el mes', 'width' => 52],
-        ['name' => 'Predicción para el siguiente mes', 'width' => 54]
+        ['name' => 'Predicción para el siguiente mes', 'width' => 54],
+        ['name' => 'Conclusión', 'width' => 54]
     ];
 
     // Imprime el encabezado de la tabla
@@ -177,9 +178,10 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY) {
                 }
 
                 $pdf->SetX($leftMargin); // Ajusta la posición X para las filas de productos
-                $pdf->Cell(65, 10, $pdf->encodeString($producto['NombreProducto']), 1);
+                $pdf->Cell(50, 10, $pdf->encodeString($producto['NombreProducto']), 1);
                 $pdf->Cell(52, 10, number_format($producto['PorcentajeVentasMarca'], 2) . '%', 1, 0, 'R');
-                $pdf->Cell(54, 10, '$' . number_format($producto['PrediccionVentasSiguienteMes'], 2), 1, 1, 'R');
+                $pdf->Cell(54, 10, '$' . number_format($producto['PrediccionVentasSiguienteMes'], 2), 1, 0, 'R');
+                $pdf->Cell(54, 10, $pdf->encodeString($producto['PorcentajeYMensaje']), 1, 1, 'R');
             }
         }
     }
