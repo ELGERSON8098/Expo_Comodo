@@ -601,29 +601,7 @@ ORDER BY
         return Database::getRows($sql);
     }
 
-    public function DescuentosPRango()
-    {
-        $sql = 'SELECT 
-                d.nombre_descuento,
-                p.nombre_producto,
-                p.precio,
-                d.valor AS descuento,
-                (p.precio - (p.precio * d.valor / 100)) AS precio_final
-            FROM 
-                tb_productos p
-            INNER JOIN 
-                tb_descuentos d ON p.id_descuento = d.id_descuento
-            WHERE 
-                (? IS NULL OR p.precio >= ?) 
-                AND 
-                (? IS NULL OR p.precio <= ?)
-            ORDER BY 
-                precio_final ASC';
-
-        $params = array($this->precio_minimo, $this->precio_minimo, $this->precio_maximo, $this->precio_maximo);
-
-        return Database::getRows($sql, $params);
-    }
+   
     public function PredictivoProductosCategoria()
     {
         $sql = 'WITH VentasMensuales AS (

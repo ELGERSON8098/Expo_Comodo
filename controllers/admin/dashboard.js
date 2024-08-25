@@ -133,7 +133,7 @@ const graficoPolarCategorias = async () => {
             categorias.push(row.nombre_categoria);
             cantidades.push(row.cantidad);
         });
-        polarGraph('chart5', categorias, cantidades, 'Cantidad de productos vendidos', 'Productos más vendidos por categoría');
+        polarGraph('chart5', categorias, cantidades, 'Cantidad de productos vendidos por categoría', 'Productos más vendidos por categoría');
     } else {
         document.getElementById('chart5').remove();
         console.log(DATA.error);
