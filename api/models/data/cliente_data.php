@@ -16,6 +16,7 @@ class ClienteData extends ClienteHandler
     */
     public function setId($value)
     {
+         // Valida si el valor es un número natural (positivo y entero)
         if (Validator::validateNaturalNumber($value)) {
             $this->id = $value;
             return true;
@@ -24,7 +25,7 @@ class ClienteData extends ClienteHandler
             return false;
         }
     }
-
+    // Método para asignar el alias del cliente.
     public function setAlias($value, $min = 6, $max = 25)
     {
         if (!Validator::validateAlphanumeric($value)) {
@@ -38,7 +39,7 @@ class ClienteData extends ClienteHandler
             return false;
         }
     }
-
+    // Método para asignar el nombre del cliente.
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -53,6 +54,7 @@ class ClienteData extends ClienteHandler
         }
     }
 
+    // Método para asignar la dirección del cliente.
     public function setDirec($value, $min = 2, $max = 1000)
     {
         if (!Validator::validateString($value)) {
@@ -67,7 +69,7 @@ class ClienteData extends ClienteHandler
         }
     }
 
-
+    // Método para asignar el correo del cliente y verificar su unicidad.
     public function setCorreo($value, $min = 8, $max = 100)
     {
         if (!Validator::validateEmail($value)) {
@@ -84,7 +86,7 @@ class ClienteData extends ClienteHandler
             return true;
         }
     }
-
+    // Método alternativo para asignar el correo del cliente sin verificar unicidad.
     public function setCorreos($value, $min = 8, $max = 100)
     {
         if (!Validator::validateEmail($value)) {
@@ -98,7 +100,7 @@ class ClienteData extends ClienteHandler
             return true;
         }
     }
-
+     // Método para asignar el teléfono del cliente y verificar su unicidad.
     public function setTelefono($value)
     {
         // Verificar si el valor del teléfono es una cadena.
@@ -126,7 +128,7 @@ class ClienteData extends ClienteHandler
             return false;
         }
     }
-
+    // Método alternativo para asignar el teléfono del cliente sin verificar unicidad.
     public function setTelefonos($value)
     {
         // Verificar si el valor del teléfono es una cadena.
@@ -144,7 +146,7 @@ class ClienteData extends ClienteHandler
         }
     }
     
-
+    // Método para asignar el DUI del cliente y verificar su unicidad.
     public function setDui($value)
     {
         $checkSql = 'SELECT COUNT(*) as count FROM tb_usuarios WHERE dui_cliente = ?';
@@ -164,6 +166,7 @@ class ClienteData extends ClienteHandler
             return false;
         }
     }
+    // Método para asignar la clave del cliente.
     public function setClave($value)
     {
         if (Validator::validatePassword($value)) {
@@ -174,7 +177,7 @@ class ClienteData extends ClienteHandler
             return false;
         }
     }
-
+    // Método para asignar el estado del cliente.
     public function setEstado($value)
     {
         if (Validator::validateBoolean($value)) {

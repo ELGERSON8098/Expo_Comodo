@@ -25,7 +25,7 @@ class descuentoData extends descuentoHandler
             return false;
         }
     }
-
+         // Método para asignar el nombre del descuento.
     public function setNombre($value, $min = 2, $max = 50)
     {
         // Verificar si el nombre ya existe en la base de datos, excluyendo el registro actual
@@ -43,6 +43,7 @@ class descuentoData extends descuentoHandler
             $this->data_error = 'El nombre del descuento ya existe';
             return false;
         }
+          // Valida si el nombre es alfabético.
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre del descuento debe ser un valor alfabético';
             return false;
@@ -54,10 +55,8 @@ class descuentoData extends descuentoHandler
             return false;
         }
     }
-    
 
-
-
+    // Método para asignar el valor del descuento.
     public function setvalor($value, $min = 1, $max = 200)
     {
         if (Validator::validateMoney($value)) {
@@ -69,9 +68,10 @@ class descuentoData extends descuentoHandler
         }
     }
 
-
+    // Método para asignar la descripción del descuento.
     public function setDesc($value, $min = 2, $max = 50)
     {
+        // Valida si la descripción contiene solo letras, números y ciertos caracteres especiales permitidos.
         if (!preg_match('/^[a-zA-Z0-9\s\-áéíóúÁÉÍÓÚñÑ.,;:()¿?¡!&%$€£@#]*$/', $value)) {
             $this->data_error = 'La descripción debe contener solo letras, números y algunos caracteres especiales';
             return false;

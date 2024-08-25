@@ -14,6 +14,8 @@ class AdministradorData extends AdministradorHandler
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+
+     // Método para asignar el ID del administrador.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -39,7 +41,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
-
+    // Método para asignar el nivel del administrador.
     public function setNivel($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -51,7 +53,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
     
-
+     // Método para asignar el correo del administrador.
     public function setCorreo($value, $min = 8, $max = 100) {
         if (!Validator::validateEmail($value)) {
             $this->data_error = 'El correo no es válido';
@@ -65,6 +67,7 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
+    // Método para asignar el alias del administrador.
     public function setAlias($value, $min = 6, $max = 25) {
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El usuario debe ser un valor alfanumérico';
@@ -77,7 +80,7 @@ class AdministradorData extends AdministradorHandler
             return false;
         }
     }
-
+     // Método para asignar y verificar la unicidad del correo.
     public function setCorreos($value, $min = 8, $max = 100) {
          // Verificar si el nombre ya existe en la base de datos, excluyendo el registro actual
          if ($this->id) {
@@ -89,7 +92,7 @@ class AdministradorData extends AdministradorHandler
         }
     
         $checkResult = Database::getRow($checkSql, $checkParams);
-    
+        // Si el correo ya existe, establece un error.
         if ($checkResult['count'] > 0) {
             $this->data_error = 'El correo ya existe';
             return false;
@@ -105,7 +108,7 @@ class AdministradorData extends AdministradorHandler
             return false;
         }
     }
-
+    
     public function setAlia($value, $min = 6, $max = 25) {
          // Verificar si el nombre ya existe en la base de datos, excluyendo el registro actual
          if ($this->id) {
@@ -115,7 +118,7 @@ class AdministradorData extends AdministradorHandler
             $checkSql = 'SELECT COUNT(*) as count FROM tb_admins WHERE usuario_administrador = ?';
             $checkParams = array($value);
         }
-    
+     // Si el alias ya existe, establece un error.
         $checkResult = Database::getRow($checkSql, $checkParams);
         if ($checkResult['count'] > 0) {
             $this->data_error = 'El usuario ya existe';

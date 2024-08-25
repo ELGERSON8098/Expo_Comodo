@@ -27,9 +27,6 @@ class CategoriaData extends CategoriaHandler
             return false;
         }
     }
-
-    
-
     public function setNombre($value, $min = 2, $max = 50)
     {
 
@@ -42,7 +39,7 @@ class CategoriaData extends CategoriaHandler
             $this->data_error = 'La categoria ya existe';
             return false;
         }
-
+        // Valida si el nombre es alfabético
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre debe ser un valor alfabético';
             return false;
@@ -54,7 +51,7 @@ class CategoriaData extends CategoriaHandler
             return false;
         }
     }
-
+    // Método para asignar la imagen de la categoría.
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 1000)) {
@@ -71,7 +68,7 @@ class CategoriaData extends CategoriaHandler
             return true;
         }
     }
-
+    // Método para establecer el nombre del archivo de imagen desde la base de datos.
     public function setFilename()
     {
         if ($data = $this->readFilename()) {

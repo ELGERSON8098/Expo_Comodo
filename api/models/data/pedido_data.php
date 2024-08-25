@@ -14,6 +14,8 @@ class PedidoData extends PedidoHandler
     /*
     *   Métodos para validar y establecer los datos.
     */
+
+     // Método para validar y asignar el identificador del pedido.
     public function setIdPedido($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -24,7 +26,7 @@ class PedidoData extends PedidoHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el identificador de la reserva.
     public function setIdReserva($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -35,7 +37,7 @@ class PedidoData extends PedidoHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el identificador del detalle del pedido.
     public function setIdDetalle($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -46,7 +48,7 @@ class PedidoData extends PedidoHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el identificador del cliente.
     public function setCliente($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -57,7 +59,7 @@ class PedidoData extends PedidoHandler
             return false;
         }
     }
-
+     // Método para validar y asignar el identificador del producto.
     public function setProducto($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -68,7 +70,7 @@ class PedidoData extends PedidoHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el identificador del detalle del producto.
     public function setDetalleProducto($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -79,7 +81,7 @@ class PedidoData extends PedidoHandler
             return false;
         }
     }
-
+    // Método para validar y asignar la cantidad de productos.
     public function setCantidad($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -96,7 +98,7 @@ class PedidoData extends PedidoHandler
     {
         return $this->data_error;
     }
-
+    // Método para validar y asignar el precio del producto.
     public function setPrecio($value)
     {
         if (Validator::validateMoney($value)) {

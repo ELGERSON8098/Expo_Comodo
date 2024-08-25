@@ -17,6 +17,7 @@ class ProductoData extends ProductoHandler
     /*
      *   Métodos para validar y establecer los datos.
      */
+     // Método para validar y asignar el identificador del producto.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -27,7 +28,7 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-
+     // Método para validar y asignar el identificador del detalle del producto.
     public function setIdDetalle($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -38,6 +39,8 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
+
+    // Método para validar y asignar el nombre del producto.
     public function setNombre($value, $min = 2, $max = 50)
     {
         // Verificar si el nombre del producto ya existe en la base de datos, excluyendo el registro actual
@@ -63,7 +66,7 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-    
+    // Método para validar y asignar el código interno del producto
     public function setCodigo_Interno($value, $min = 2, $max = 50)
     {
         // Verificar si el codigo interno del producto ya existe en la base de datos, excluyendo el registro actual
@@ -76,7 +79,7 @@ class ProductoData extends ProductoHandler
             $this->data_error = 'El codigo interno del producto ya existe';
             return false;
         }
-    
+        // Validar que el código interno sea alfanumérico.
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El codigo interno del producto debe ser un valor alfanumérico';
             return false;
@@ -88,7 +91,7 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-    
+    // Método para validar y asignar la referencia del proveedor.
     public function setReferenciaProveedor($value, $min = 2, $max = 50)
     {
         // Verificar si la referencia del proveedor ya existe en la base de datos, excluyendo el registro actual
@@ -101,7 +104,7 @@ class ProductoData extends ProductoHandler
             $this->data_error = 'La referencia del proveedor ya existe';
             return false;
         }
-    
+        // Validar que la referencia del proveedor sea alfanumérica.
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'La referencia del proveedor debe ser un valor alfanumérico';
             return false;
@@ -113,7 +116,8 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-    
+    // Método para validar y asignar el precio del producto.
+
     public function setPrecio($value)
     {
         // Valida que el precio sea un número válido.
@@ -125,7 +129,7 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-
+    // Método para validar y asignar la imagen del producto.
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 1000)) {
@@ -142,6 +146,7 @@ class ProductoData extends ProductoHandler
             return true;
         }
     }
+    // Método para validar y asignar el identificador de la marca del producto.
     public function setMarca($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -153,6 +158,7 @@ class ProductoData extends ProductoHandler
         }
     }
 
+     // Método para validar y asignar el identificador del género del producto.
     public function setGenero($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -164,6 +170,7 @@ class ProductoData extends ProductoHandler
         }
     }
 
+    // Método para validar y asignar el identificador de la categoría del producto
     public function setCategoria($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -174,7 +181,7 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el identificador del material del producto.
     public function setMaterial($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -185,7 +192,7 @@ class ProductoData extends ProductoHandler
             return true;
         }
     }
-
+     // Método para validar y asignar el identificador del descuento del producto (si aplica).
     public function setDescuento($value)
     {
         if ($value !== null && !Validator::validateNaturalNumber($value)) {
@@ -195,7 +202,7 @@ class ProductoData extends ProductoHandler
         $this->id_descuento = $value;
         return true;
     }
-
+    // Método para validar y asignar la descripción del producto.
     public function setDescripcion($value, $min = 2, $max = 250)
     {
         if (!Validator::validateString($value)) {
@@ -210,6 +217,7 @@ class ProductoData extends ProductoHandler
         }
     }
 
+    // Método para validar y asignar la cantidad de existencias del producto.
     public function setExistencias($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -221,6 +229,7 @@ class ProductoData extends ProductoHandler
         }
     }
 
+    // Método para validar y asignar el identificador de la talla del producto.
     public function setTalla($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -231,7 +240,8 @@ class ProductoData extends ProductoHandler
             return false;
         }
     }
-
+    
+    // Método para validar y asignar el identificador del color del producto.
     public function setColor($value)
     {
         if (Validator::validateNaturalNumber($value)) {
