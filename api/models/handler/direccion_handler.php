@@ -26,7 +26,7 @@ class direccion_handler
         $params = array($value, $value);
         return Database::getRows($sql, $params);
     }
-
+    //Crea una nueva dirección en la base de datos.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_admins(nombre_administrador, correo_administrador, usuario_administrador, clave_administrador)
@@ -34,7 +34,7 @@ class direccion_handler
         $params = array($this->nombre, $this->correo, $this->alias, $this->clave);
         return Database::executeRow($sql, $params);
     }
-
+    // Lee todas las direcciones de la base de datos.
     public function readAll()
     {
         $sql = 'SELECT departamento, municipio, distrito from tb_distritos
@@ -42,7 +42,7 @@ class direccion_handler
         INNER JOIN tb_departamentos USING (id_departamento)';
         return Database::getRows($sql);
     }
-    
+    //Lee los detalles de una dirección específica por ID.
     public function readOne()
     {
         $sql = 'SELECT departamento, municipio, distrito from tb_distritos
@@ -52,8 +52,7 @@ class direccion_handler
         return Database::getRow($sql, $params);
     }
     
-    
-
+    //Actualiza la información de una dirección específica.
     public function updateRow() 
     {
         $sql = 'UPDATE tb_distritos AS d
@@ -64,7 +63,7 @@ class direccion_handler
         return Database::executeRow($sql, $params);
     }
     
-
+    //Elimina una dirección específica por ID.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_admins

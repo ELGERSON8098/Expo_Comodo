@@ -35,6 +35,7 @@ class ProductoHandler
     // Constante para establecer la ruta de las imágenes.
     const RUTA_IMAGEN = '../../images/productos/';
 
+    // Método para crear un nuevo producto en la base de datos.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_productos(nombre_producto, codigo_interno, referencia_proveedor, precio, id_marca, id_genero, id_categoria, id_material, id_descuento, imagen)
@@ -43,6 +44,7 @@ class ProductoHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Método para leer todos los productos con detalles relacionados.
     public function readAll()
     {
         $sql = 'SELECT
@@ -80,6 +82,7 @@ class ProductoHandler
         return Database::getRows($sql);
     }
 
+    // Método para leer productos filtrados por categoría.
     public function readProductosCategoria()
     {
         $sql = 'SELECT 
@@ -135,7 +138,7 @@ ORDER BY
         return Database::getRows($sql, $params);
     }
 
-
+    // Método para leer un producto específico por su ID.
     public function readOne()
     {
         $sql = 'SELECT
@@ -226,6 +229,7 @@ ORDER BY
         return Database::getRows($sql, $params);
     }
 
+    // Método para leer productos por marca.
     public function productosMarca()
     {
         $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor, dp.existencias
@@ -238,6 +242,7 @@ ORDER BY
         return Database::getRows($sql, $params);
     }
 
+    // Método para leer productos por género.
     public function productosGenero()
     {
         $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias
@@ -250,6 +255,7 @@ ORDER BY
         return Database::getRows($sql, $params);
     }
 
+         // Método para leer productos con descuento.
     public function productosDescuento()
     {
         $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor AS codigo_externo
@@ -261,6 +267,7 @@ ORDER BY
         return Database::getRows($sql, $params);
     }
 
+    // Método para leer productos por talla.
     public function productosTalla()
     {
         $sql = 'SELECT 
@@ -288,6 +295,8 @@ ORDER BY
     /*
      * Método para leer el nombre de archivo de la imagen de un libro.
      */
+
+    // Método para obtener la imagen del producto.
     public function readFilename()
     {
         $sql = 'SELECT imagen FROM tb_productos WHERE id_producto = ?';
@@ -295,6 +304,7 @@ ORDER BY
         return Database::getRow($sql, $params);
     }
 
+      // Método para actualizar un producto.   
     public function updateRow()
     {
         $sql = 'UPDATE tb_productos
@@ -308,7 +318,7 @@ ORDER BY
     /*
      * Método SCRUD para detalles de productos
      */
-
+    // Métodos para manejar detalles del producto.
     public function createDetail()
     {
         $sql = 'INSERT INTO tb_detalles_productos(id_producto, id_talla, existencias, id_color, descripcion)
@@ -344,7 +354,7 @@ ORDER BY
 
 
     // Dentro de producto_data.php
-
+    // Métodos para obtener reportes y estadísticas de productos.
     public function readDetails()
     {
         $sql = 'SELECT 

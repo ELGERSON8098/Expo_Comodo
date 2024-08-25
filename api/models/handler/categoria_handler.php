@@ -23,6 +23,7 @@ class CategoriaHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Busca categorías en la base de datos por nombre.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -33,9 +34,7 @@ class CategoriaHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-    
-  
-    
+    //Crea una nueva categoría en la base de datos.
     public function createRow()
     {
     $sql = 'INSERT INTO tb_categorias(nombre_categoria, imagen)
@@ -43,7 +42,7 @@ class CategoriaHandler
     $params = array($this->nombre, $this->imagen);
     return Database::executeRow($sql, $params);
     }
-
+    //Lee todas las categorías de la base de datos.
     public function readAll()
     {
         $sql = 'SELECT id_categoria, nombre_categoria, imagen
@@ -51,7 +50,7 @@ class CategoriaHandler
                 ORDER BY nombre_categoria';
         return Database::getRows($sql);
     }
-
+    //Lee los detalles de una categoría específica por ID.
     public function readOne()
     {
         $sql = 'SELECT id_categoria, nombre_categoria, imagen
@@ -60,7 +59,7 @@ class CategoriaHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
-
+    //Lee el nombre del archivo de imagen de una categoría específica por ID.
     public function readFilename()
     {
         $sql = 'SELECT imagen
@@ -70,7 +69,7 @@ class CategoriaHandler
         return Database::getRow($sql, $params);
     }
     
-
+    //Actualiza la información de una categoría específica
     public function updateRow()
     {
         $sql = 'UPDATE tb_categorias
@@ -79,8 +78,8 @@ class CategoriaHandler
         $params = array($this->imagen, $this->nombre, $this->id);
         return Database::executeRow($sql, $params);
     }
-    
 
+    //Elimina una categoría específica por ID
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_categorias
@@ -89,6 +88,7 @@ class CategoriaHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Lee todas las categorías que tienen productos asociados.
     public function readAllCategorias()
     {
         $sql = 'SELECT c.id_categoria, c.nombre_categoria, c.imagen
@@ -100,6 +100,7 @@ class CategoriaHandler
             ORDER BY c.nombre_categoria';
         return Database::getRows($sql);
     }
+    // Lee los productos más vendidos de una categoría específica.
     public function readTopProductos()
     {
         $sql = 'SELECT p.nombre_producto, SUM(dr.cantidad) AS total_vendido

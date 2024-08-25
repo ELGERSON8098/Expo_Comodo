@@ -18,6 +18,7 @@ class descuentoHandler
      *  Métodos para gestionar la cuenta del administrador.
      */
 
+     //Busca descuentos en la base de datos por nombre.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -29,6 +30,7 @@ class descuentoHandler
         return Database::getRows($sql, $params);
     }
 
+    //Crea un nuevo descuento en la base de datos
     public function createRow()
     {
         $sql = 'INSERT INTO tb_descuentos(nombre_descuento, descripcion, valor)
@@ -47,7 +49,7 @@ class descuentoHandler
         return Database::getRows($sql);
     }
 
-
+    //Lee los detalles de un descuento específico por ID.
     public function readOne()
     {
         $sql = 'SELECT id_descuento, nombre_descuento, descripcion, valor
@@ -56,7 +58,7 @@ class descuentoHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
-
+    //Actualiza la información de un descuento específico
     public function updateRow()
     {
         $sql = 'UPDATE tb_descuentos
@@ -66,7 +68,7 @@ class descuentoHandler
         return Database::executeRow($sql, $params);
     }
 
-
+    //Elimina un descuento específico por ID.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_descuentos
@@ -74,7 +76,7 @@ class descuentoHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-
+    //Obtiene descuentos aplicables a productos dentro de un rango de precios.
     public function descuentosPorRangoPrecio($precioMin, $precioMax) {
         $sql = 'SELECT 
                     p.nombre_producto, 

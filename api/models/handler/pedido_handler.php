@@ -189,10 +189,6 @@ WHERE
         return Database::getRows($sql, $params);
     }
 
-
-    
-
-
     public function getExistencias($idDetalle)
     {
         $sql = 'SELECT dp.existencias 
@@ -278,11 +274,7 @@ WHERE
         $params = array($_SESSION['idUsuario']);
         return Database::getRows($sql, $params);
     }
-
-
-
-
-
+     // Método para leer un detalle de pedido específico.
     public function readOne()
     {
         $sql = 'SELECT
@@ -309,6 +301,8 @@ WHERE
         $params = array($this->id_detalle);
         return Database::getRow($sql, $params);
     }
+
+    // Método para obtener la cantidad actual de un detalle específico.
     public function getCantidadActual($idDetalle)
     {
         $sql = 'SELECT cantidad 
@@ -320,7 +314,8 @@ WHERE
 
         return $result ? $result['cantidad'] : 0; // Retorna la cantidad actual o 0 si no se encuentra
     }
-
+    
+    // Método para actualizar la cantidad de un detalle de pedido.
     public function updateDetail()
     {
         // Primero, obtenemos las existencias actuales del producto
