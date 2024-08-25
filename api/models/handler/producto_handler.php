@@ -598,7 +598,7 @@ ORDER BY
     total_existencias DESC
     LIMIT 5;';
 
-return Database::getRows($sql);
+        return Database::getRows($sql);
     }
 
     public function DescuentosPRango()
@@ -623,6 +623,59 @@ return Database::getRows($sql);
         $params = array($this->precio_minimo, $this->precio_minimo, $this->precio_maximo, $this->precio_maximo);
 
         return Database::getRows($sql, $params);
+    }
+    public function PredictivoProductosCategoria()
+    {
+        $sql = 'WITH VentasMensuales AS (
+        SELECT 
+        c.id_categoria,
+        c.nombre_categoria,
+        SUM(dr.cantidad) AS total_vendido,
+        MONTH(r.fecha_reserva) AS mes,
+        YEAR(r.fecha_reserva) AS año
+    FROM 
+        tb_reservas r
+    JOIN 
+        tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+    JOIN 
+        tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+    JOIN 
+        tb_productos p ON dp.id_producto = p.id_producto
+    JOIN 
+        tb_categorias c ON p.id_categoria = c.id_categoria
+    GROUP BY 
+        año, mes, c.nombre_categoria
+),
+
+PromedioMensual AS (
+    SELECT 
+        id_categoria,
+        nombre_categoria,
+        AVG(total_vendido) AS promedio_mensual
+    FROM 
+        VentasMensuales
+    GROUP BY 
+        nombre_categoria
+)
+
+SELECT 
+	 pm.id_categoria,
+    pm.nombre_categoria,
+    pm.promedio_mensual,
+    MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) AS mes_proyectado,
+    YEAR(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) AS año_proyectado,
+    pm.promedio_mensual AS ventas_proyectadas
+FROM 
+    PromedioMensual pm
+JOIN 
+    (SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
+     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 
+     UNION ALL SELECT 10 UNION ALL SELECT 11) AS months ON n < 12
+ORDER BY 
+    año_proyectado, n;';
+
+
+        return Database::getRows($sql);
     }
 
     public function PrediccionAgotamientoStock()
@@ -660,8 +713,4 @@ return Database::getRows($sql);
 
         return Database::getRows($sql);
     }
-
-
-
 }
-
