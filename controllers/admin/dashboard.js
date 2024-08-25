@@ -70,7 +70,7 @@ const graficoPastelCategorias = async () => {
             categorias.push(row.nombre_categoria);
             porcentajes.push(row.porcentaje);
         });
-        pieGraph('chart2', categorias, porcentajes, 'Porcentaje de productos por categoría');
+        pieGraph('chart2', categorias, porcentajes, 'Cantidad de productos por categoría');
     } else {
         document.getElementById('chart2').remove();
         console.log(DATA.error);
