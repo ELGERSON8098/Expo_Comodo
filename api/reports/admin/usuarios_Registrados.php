@@ -24,7 +24,7 @@ $usuario = new UsuariosData;
 function printTableHeader($pdf)
 {
     $pdf->SetTextColor(225, 225, 225);
-    $pdf->SetFillColor(27, 88, 169);
+    $pdf->SetFillColor(38, 15, 189); 
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(40, 10, 'Nombre del usuario', 1, 0, 'C', 1);
     $pdf->Cell(50, 10, 'Correo', 1, 0, 'C', 1);

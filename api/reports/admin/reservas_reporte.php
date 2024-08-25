@@ -28,7 +28,7 @@ $pdf->Ln(10); // Primer salto de línea
 // Función para imprimir el encabezado de la tabla
 function printTableHeader($pdf) {
     $pdf->SetTextColor(255, 255, 255);
-    $pdf->SetFillColor(7, 81, 161);
+    $pdf->SetFillColor(38, 15, 189); 
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(60, 10, 'Nombre del producto', 1, 0, 'C', 1);
     $pdf->Cell(50, 10, 'Fecha Reserva', 1, 0, 'C', 1);

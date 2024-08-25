@@ -21,7 +21,7 @@ $pdf->Ln(10); // Primer salto de línea
 function printTableHeader($pdf)
 {
     $pdf->SetTextColor(255, 255, 255);
-    $pdf->SetFillColor(7, 81, 161);
+    $pdf->SetFillColor(38, 15, 189); 
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(40, 10, 'Nombre de la categoria', 1, 0, 'C', 1);
     $pdf->Cell(40, 10, $pdf->encodeString('Promedio mensual'), 1, 0, 'C', 1);

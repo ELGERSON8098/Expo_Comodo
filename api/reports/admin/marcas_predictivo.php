@@ -29,7 +29,7 @@ $pdf->Ln(10); // Primer salto de línea
 function printTableHeader($pdf, $leftMargin, $columnHeaders)
 {
     $pdf->SetTextColor(255, 255, 255);
-    $pdf->SetFillColor(7, 81, 161);
+    $pdf->SetFillColor(38, 15, 189); 
     $pdf->SetFont('Times', 'B', 11);
 
     $pdf->SetX($leftMargin);

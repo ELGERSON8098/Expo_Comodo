@@ -31,7 +31,7 @@ if (isset($_GET['idDescuento'])) {
             // Se verifica si existen registros para mostrar, de lo contrario se imprime un mensaje.
             if ($dataProductos = $producto->productosDescuento()) {
                 // Establecer el color de fondo para las celdas de encabezado
-                $pdf->SetFillColor(38, 15, 189);
+                $pdf->SetFillColor(38, 15, 189); 
                 $pdf->SetTextColor(255, 255, 255); // Blanco para el texto de los encabezados
                 $pdf->SetFont('Times', 'B', 11);
         
