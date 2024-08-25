@@ -158,7 +158,7 @@ class marcaHandler
                                         100
                                     ), 2
                                 ), 
-                                "% para el siguiente mes"
+                                "%"
                             )
                         ELSE
                             CONCAT(
@@ -169,7 +169,7 @@ class marcaHandler
                                         100
                                     ), 2
                                 ), 
-                                "% para el siguiente mes"
+                                "%"
                             )
                     END
             END AS PorcentajeYMensaje

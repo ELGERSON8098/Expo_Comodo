@@ -122,12 +122,15 @@ function printTableOne($pdf, $data, $leftMargin, $tableTopY)
 // Función para imprimir la tabla de ventas actuales (con el mismo diseño que la primera)
 function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
 {
-    // Define los encabezados de la tabla
+    // Ajuste del margen izquierdo para mover la tabla hacia la izquierda
+    $leftMargin = 5; // Ajusta este valor según cuánto deseas mover la tabla a la izquierda
+
+    // Define los encabezados de la tabla con anchos fijos
     $columnHeaders = [
-        ['name' => 'Producto', 'width' => 60],
-        ['name' => 'Ventas en el mes', 'width' => 30],
-        ['name' => 'Predicción', 'width' => 30],
-        ['name' => 'Conclusión', 'width' => 83]
+        ['name' => 'Producto', 'width' => 65],
+        ['name' => 'Porcentaje mes actual', 'width' => 38],
+        ['name' => 'Predicción de ganancias', 'width' => 42],
+        ['name' => 'Conclusión', 'width' => 60] // Ancho ajustado para la celda 'Conclusión'
     ];
 
     // Imprime el encabezado de la tabla
@@ -150,16 +153,16 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
         if ($pdf->GetY() > 220) { // Ajusta el valor según el tamaño de la página
             $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
             $pdf->SetY($tableTopY); // Ajusta la posición Y para la nueva página
-            printTableHeader($pdf,$columnHeaders); // Reimprime el encabezado de la tabla
+            printTableHeader($pdf, $leftMargin, $columnHeaders); // Reimprime el encabezado de la tabla
         }
-       
 
         if (empty($productos)) {
             // Si no hay productos para esta marca, muestra el mensaje correspondiente
             $pdf->SetFillColor(255, 255, 255); // Fondo blanco
             $pdf->SetTextColor(0, 0, 0); // Texto negro
             $pdf->SetFont('Times', '', 10);
-            $pdf->Cell(200, 10, 'La marca ' . $marca . ' no contiene ninguna reserva actualmente', 1, 1, 'C');
+            $pdf->SetX($leftMargin); // Ajusta la posición X para el mensaje de "no hay datos"
+            $pdf->Cell(array_sum(array_column($columnHeaders, 'width')), 10, 'La marca ' . $marca . ' no contiene ninguna reserva actualmente', 1, 1, 'C');
         } else {
             $foundData = true; // Hay datos para al menos una marca
             // Marca como fila
@@ -167,7 +170,7 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
             $pdf->SetTextColor(0, 0, 0); // Color del texto
             $pdf->SetFont('Times', 'B', 12);
             $pdf->SetX($leftMargin); // Ajusta la posición X para la fila de la marca
-            $pdf->Cell(200, 10, 'Nombre de la marca: ' . $marca, 1, 1, 'C', 1);
+            $pdf->Cell(array_sum(array_column($columnHeaders, 'width')), 10, 'Nombre de la marca: ' . $marca, 1, 1, 'C', 1);
 
             // Restablece el color de fondo y el color del texto para las filas siguientes
             $pdf->SetFillColor(255, 255, 255); // Fondo blanco para las filas de productos
@@ -176,41 +179,18 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
 
             foreach ($productos as $producto) {
                 // Verifica si se necesita una nueva página
-                if ($pdf->GetY() > 250) { // Ajusta el valor según el tamaño de la página
-                    $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
-                    printTableHeader($pdf, $columnHeaders); // Reimprime el encabezado de la tabla
+                if ($pdf->GetY() + 10 > 250) { // Ajusta el valor según el tamaño de la página
+                    $pdf->AddPage(); // Agrega una nueva página si es necesario
+                    printTableHeader($pdf, $leftMargin, $columnHeaders); // Reimprime el encabezado de la tabla
                 }
 
-
-                $yStart = $pdf->GetY();
-                $xStart = $pdf->GetX();
-
-                $pdf->SetTextColor(0, 0, 0);
-
-                // Ajusta el ancho de las celdas según tus necesidades
-                $anchoNombreProducto = 60;
-                $anchoPorcentajeVentasMarca = 30;
-                $anchoPrediccionVentas = 30;
-                $anchoPorcentajeYMensaje = 75;
-
-                // Imprimir el nombre del producto
-                $pdf->MultiCell($anchoNombreProducto, 10, $pdf->encodeString($producto['NombreProducto']), 1, 'L');
-                $multiCellHeightTitulo = $pdf->GetY() - $yStart;
-
-                // Ajustar la posición X para las siguientes celdas
-                $pdf->SetXY($xStart + $anchoNombreProducto, $yStart);
-
-                // Imprimir el porcentaje de ventas de la marca
-                $pdf->Cell($anchoPorcentajeVentasMarca, $multiCellHeightTitulo, $producto['PorcentajeVentasMarca'], 1, 0, 'C');
-
-                // Imprimir la predicción de ventas para el siguiente mes
-                $pdf->Cell($anchoPrediccionVentas, $multiCellHeightTitulo, $producto['PrediccionVentasSiguienteMes'], 1, 0, 'C');
-
-                // Imprimir el porcentaje y mensaje
-                $pdf->Cell($anchoPorcentajeYMensaje, $multiCellHeightTitulo,  $pdf->encodeString($producto['PorcentajeYMensaje']), 1, 1, 'C');
-
-                // Actualizar la posición Y para la siguiente fila
-                $pdf->SetY($yStart + $multiCellHeightTitulo);
+                $pdf->SetX($leftMargin); // Ajusta la posición X para las filas de productos
+                
+                // Imprimir las celdas con ancho fijo
+                $pdf->Cell($columnHeaders[0]['width'], 10, $pdf->encodeString($producto['NombreProducto']), 1);
+                $pdf->Cell($columnHeaders[1]['width'], 10, number_format($producto['PorcentajeVentasMarca'], 2) . '%', 1, 0, 'R');
+                $pdf->Cell($columnHeaders[2]['width'], 10, '$' . number_format($producto['PrediccionVentasSiguienteMes'], 2), 1, 0, 'R');
+                $pdf->Cell($columnHeaders[3]['width'], 10, $pdf->encodeString($producto['PorcentajeYMensaje']), 1, 1);
             }
         }
     }
@@ -223,6 +203,8 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
         $pdf->Cell(190, 10, 'No hay datos disponibles para el reporte', 1, 1, 'C');
     }
 }
+
+
 
 // Imprime la primera tabla
 printTableOne($pdf, $ventasPredictivas, $leftMargin, $tableTopY);
