@@ -13,7 +13,7 @@ $pdf->startReport('');
 $pdf->SetTextColor(0, 0, 0); // Establece el color del texto a negro
 $pdf->SetFont('Arial', 'B', 15);
 $pdf->SetY(54); // Ajusta el valor según sea necesario para subir el título
-$pdf->Cell(0, 0, $pdf->encodeString('Productos por categoría Predictivo'), 0, 1, 'C'); // Imprime el título en la posición ajustada
+$pdf->Cell(0, 0, $pdf->encodeString('Proyección de ventas mensuales por categoría'), 0, 1, 'C'); // Imprime el título en la posición ajustada
 
 $pdf->Ln(10); // Primer salto de línea
 
@@ -42,7 +42,7 @@ if ($dataProductos = $productos->PredictivoProductosCategoria()) {
             $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
             // Reimprime el título y el encabezado de la tabla
             $pdf->SetFont('Arial', '', 15);
-            $pdf->Cell(0, 10, $pdf->encodeString('Productos por categoría'), 0, 1, 'C');
+            $pdf->Cell(0, 10, $pdf->encodeString('Proyección de ventas mensuales por categoría'), 0, 1, 'C');
             $pdf->Ln(10); // Salto de línea
             printTableHeader($pdf);
         }
