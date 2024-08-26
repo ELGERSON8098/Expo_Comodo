@@ -31,9 +31,9 @@ function printTableHeader($pdf) {
     $pdf->SetFillColor(38, 15, 189); 
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(60, 10, 'Nombre del producto', 1, 0, 'C', 1);
-    $pdf->Cell(50, 10, 'Fecha Reserva', 1, 0, 'C', 1);
+    $pdf->Cell(50, 10, 'Fecha de reserva', 1, 0, 'C', 1);
     $pdf->Cell(30, 10, 'Cantidad', 1, 0, 'C', 1);
-    $pdf->Cell(30, 10, 'Precio Unitario', 1, 0, 'C', 1);
+    $pdf->Cell(30, 10, 'Precio unitario', 1, 0, 'C', 1);
     $pdf->Cell(20, 10, 'Subtotal', 1, 1, 'C', 1);
 }
 
