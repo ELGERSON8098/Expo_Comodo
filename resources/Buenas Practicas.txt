@@ -1,0 +1,21 @@
+5 buenas practicas para js
+
+-Usar const y let en lugar de var
+-Seguir un estilo de código consistente
+-Manejar errores de manera adecuada por ejemplo el try y catch
+-Documentar el código
+-Optimiza tu código
+
+5 Buenas practicas para html
+-Mantén la estructura del documento ordenada
+-Utiliza atributos alt en imágenes
+-Usa etiquetas semánticas (header, footer, nav,)
+-Optimizar el uso de CSS y JavaScript
+-Haz uso de comentarios en HTML
+
+5 Buenas practicas para php
+-Implementa sesiones de manera segura
+-Optimiza el rendimiento
+-Documenta tu código
+-Usa el control de errores (Try catch)
+-Evitar hacer SQL inyección

@@ -24,6 +24,8 @@ class ClienteHandler
     /*
      *   Métodos para gestionar la cuenta del cliente.
      */
+
+     // Verifica las credenciales del usuario (correo y contraseña).
     public function checkUser($correo, $password)
     {
         $sql = 'SELECT id_usuario, usuario, clave, estado_cliente, usuario
@@ -42,7 +44,7 @@ class ClienteHandler
         }
     }
 
-
+    //Verifica el estado del cliente (activo o inactivo).
     public function checkStatus()
     {
         if ($this->estado) {
@@ -53,7 +55,7 @@ class ClienteHandler
             return false;
         }
     }
-
+    //Cambia la contraseña del usuario.
     public function changePassword()
     {
         $sql = 'UPDATE tb_usuarios
@@ -62,7 +64,7 @@ class ClienteHandler
         $params = array($this->clave, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
-
+    //Verifica si la contraseña proporcionada coincide con la almacenada en la base de datos.
     public function checkPassword($password)
     {
         $sql = 'SELECT clave
@@ -76,7 +78,7 @@ class ClienteHandler
             return false;
         }
     }
-
+    //Cambia el estado del cliente (activo/inactivo).
     public function changeStatus()
     {
         $sql = 'UPDATE cliente
@@ -89,6 +91,7 @@ class ClienteHandler
     /*
      *   Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Busca clientes en la base de datos por apellido, nombre o correo.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -99,7 +102,7 @@ class ClienteHandler
         $params = array($value, $value, $value);
         return Database::getRows($sql, $params);
     }
-
+    //Crea un nuevo usuario en la base de datos.
     public function createUsuario()
     {
         $sql = 'INSERT INTO tb_usuarios (nombre, usuario, correo, clave, direccion_cliente, telefono, dui_cliente)
@@ -107,7 +110,7 @@ class ClienteHandler
         $params = array($this->nombre, $this->alias, $this->correo, $this->clave, $this->direccion, $this->telefono, $this->dui);
         return Database::executeRow($sql, $params);
     }
-
+    //Lee todos los usuarios de la base de datos
     public function readAll()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo
@@ -116,6 +119,7 @@ class ClienteHandler
         return Database::getRows($sql);
     }
 
+    //Lee los detalles de un usuario específico por ID.
     public function readOne()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo, clave
@@ -125,7 +129,7 @@ class ClienteHandler
         return Database::getRow($sql, $params);
     }
 
-
+    //Lee el perfil del usuario actualmente en sesión.
     public function readProfile()
     {
         $sql = 'SELECT id_usuario, nombre, usuario, correo, direccion_cliente, clave, estado_cliente, telefono
@@ -134,7 +138,7 @@ class ClienteHandler
         $params = array($_SESSION['idUsuario']);
         return Database::getRow($sql, $params);
     }
-
+    //Actualiza la información del perfil del usuario actualmente en sesión.
     public function editProfileS()
     {
         $sql = 'UPDATE tb_usuarios
@@ -143,7 +147,7 @@ class ClienteHandler
         $params = array($this->nombre, $this->alias, $this->correo, $this->telefono, $this->direccion, $_SESSION['idUsuario']);
         return Database::executeRow($sql, $params);
     }
-
+    // Actualiza la información de un cliente específico.
     public function updateRow()
     {
         $sql = 'UPDATE cliente
@@ -152,7 +156,7 @@ class ClienteHandler
         $params = array($this->nombre, $this->apellido, $this->dui, $this->estado, $this->telefono, $this->nacimiento, $this->direccion, $this->id);
         return Database::executeRow($sql, $params);
     }
-
+    //Elimina un cliente específico por ID.
     public function deleteRow()
     {
         $sql = 'DELETE FROM cliente
@@ -160,7 +164,7 @@ class ClienteHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-
+    //Verifica si un correo electrónico ya existe en la base de datos.
     public function checkDuplicate($value)
     {
         // Consulta para verificar si el correo electrónico ya existe en la base de datos.
@@ -171,7 +175,7 @@ class ClienteHandler
         return Database::getRow($sql, $params);
     }
 
-
+    // Genera un PIN de recuperación y lo almacena en la base de datos.
     public function generarPinRecuperacion()
     {
         $pin = sprintf("%06d", mt_rand(1, 999999)); // Genera un PIN de 6 dígitos
@@ -188,7 +192,7 @@ class ClienteHandler
         }
         return false;
     }
-
+    //Verifica el PIN de recuperación ingresado por el usuario.
     public function verificarPinRecuperacion($pin)
     {
         $sql = "SELECT id_usuario FROM tb_usuarios 
@@ -205,14 +209,14 @@ class ClienteHandler
         }
         return false;
     }
-
+    //Resetea el PIN de recuperación para un usuario específico.
     public function resetearPin()
     {
         $sql = "UPDATE tb_usuarios SET recovery_pin = NULL, pin_expiry = NULL WHERE id_usuario = ?";
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-
+    // Cambia la contraseña de un usuario usando su ID y el nuevo PIN.
     public function cambiarClaveConPin($id_usuario, $nuevaClave)
     {
         $sql = 'UPDATE tb_usuarios SET clave = ? WHERE id_usuario = ?';

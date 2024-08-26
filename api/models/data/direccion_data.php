@@ -24,7 +24,7 @@ class direccionData extends direccion_handler
             return false;
         }
     }
-
+      // Método para asignar el nombre de la dirección.
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -38,9 +38,10 @@ class direccionData extends direccion_handler
             return false;
         }
     }
-
+     // Método para asignar el apellido.
     public function setApellido($value, $min = 2, $max = 50)
     {
+        // Valida si el apellido es alfabético.
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El apellido debe ser un valor alfabético';
             return false;
@@ -52,9 +53,10 @@ class direccionData extends direccion_handler
             return false;
         }
     }
-
+    // Método para asignar el correo.
     public function setCorreo($value, $min = 8, $max = 100)
     {
+        // Valida si el correo tiene un formato válido.
         if (!Validator::validateEmail($value)) {
             $this->data_error = 'El correo no es válido';
             return false;
@@ -66,9 +68,10 @@ class direccionData extends direccion_handler
             return false;
         }
     }
-
+    // Método para asignar el alias.
     public function setAlias($value, $min = 6, $max = 25)
     {
+         // Valida si el alias es alfanumérico.
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El alias debe ser un valor alfanumérico';
             return false;
@@ -81,8 +84,10 @@ class direccionData extends direccion_handler
         }
     }
 
+    // Método para asignar la clave (contraseña).
     public function setClave($value)
     {
+         // Valida si la clave cumple con las reglas de seguridad.
         if (Validator::validatePassword($value)) {
             $this->clave = password_hash($value, PASSWORD_DEFAULT);
             return true;
@@ -91,9 +96,10 @@ class direccionData extends direccion_handler
             return false;
         }
     }
-
+    // Método para asignar el DUI.
     public function setDUI($value)
     {
+        // Valida si el formato del DUI es correcto.
         if (!Validator::validateDUI($value)) {
             $this->data_error = 'El DUI debe tener el formato #########';
             return false;
@@ -105,9 +111,10 @@ class direccionData extends direccion_handler
             return true;
         }
     }
-
+      // Método para asignar el teléfono.
     public function setTelefono($value)
     {
+        // Valida si el formato del teléfono es correcto.
         if (Validator::validatePhone($value)) {
             $this->telefono = $value;
             return true;
@@ -116,9 +123,10 @@ class direccionData extends direccion_handler
             return false;
         }
     }
-
+    // Método para asignar la cantidad.
     public function setCantidad($value)
     {
+        // Valida si la cantidad es un número natural (positivo y entero).
         if (Validator::validateNaturalNumber($value)) {
             $this->cantidad = $value;
             return true;
@@ -127,9 +135,6 @@ class direccionData extends direccion_handler
             return false;
         }
     }
-
-
-
     // Método para obtener el error de los datos.
     public function getDataError()
     {

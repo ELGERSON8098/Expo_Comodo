@@ -15,6 +15,7 @@ class marcaHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    // Busca marcas en la base de datos por nombre.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -25,7 +26,7 @@ class marcaHandler
         $params = array($value);
         return Database::getRows($sql, $params);
     }
-
+    //Crea una nueva marca en la base de datos.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_marcas(marca)
@@ -42,7 +43,7 @@ class marcaHandler
             ORDER BY marca ASC';
         return Database::getRows($sql);
     }
-
+    //Genera un reporte predictivo de ventas por marca.
     public function ReportePredictivo()
     {
         // SQL Query
@@ -158,7 +159,7 @@ class marcaHandler
                                         100
                                     ), 2
                                 ), 
-                                "% para el siguiente mes"
+                                "%"
                             )
                         ELSE
                             CONCAT(
@@ -169,7 +170,7 @@ class marcaHandler
                                         100
                                     ), 2
                                 ), 
-                                "% para el siguiente mes"
+                                "%"
                             )
                     END
             END AS PorcentajeYMensaje
@@ -182,7 +183,7 @@ class marcaHandler
         return Database::getRows($sql);
     }
     
-    
+    //Lee los detalles de una marca específica por ID.
     public function readOne()
     {
         $sql = 'SELECT id_marca, marca
@@ -191,7 +192,7 @@ class marcaHandler
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
-
+    //Actualiza la información de una marca específica.
     public function updateRow()
     {
         $sql = 'UPDATE tb_marcas
@@ -201,7 +202,7 @@ class marcaHandler
         return Database::executeRow($sql, $params);
     }
 
-
+    //Elimina una marca específica por ID.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_marcas
@@ -209,6 +210,7 @@ class marcaHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+   // Obtiene ventas por marcas dentro de un rango de fechas.
     public function ventasPorMarcasFecha($fechaInicio, $fechaFin) {
         $sql = 'SELECT 
     m.marca AS nombre_marca, 

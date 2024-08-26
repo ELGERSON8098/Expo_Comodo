@@ -70,7 +70,7 @@ const graficoPastelCategorias = async () => {
             categorias.push(row.nombre_categoria);
             porcentajes.push(row.porcentaje);
         });
-        pieGraph('chart2', categorias, porcentajes, 'Porcentaje de productos por categoría');
+        pieGraph('chart2', categorias, porcentajes, 'Cantidad de productos por categoría');
     } else {
         document.getElementById('chart2').remove();
         console.log(DATA.error);
@@ -133,7 +133,7 @@ const graficoPolarCategorias = async () => {
             categorias.push(row.nombre_categoria);
             cantidades.push(row.cantidad);
         });
-        polarGraph('chart5', categorias, cantidades, 'Cantidad de productos vendidos', 'Productos más vendidos por categoría');
+        polarGraph('chart5', categorias, cantidades, 'Cantidad de productos vendidos por categoría', 'Productos más vendidos por categoría');
     } else {
         document.getElementById('chart5').remove();
         console.log(DATA.error);

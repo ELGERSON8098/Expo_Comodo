@@ -20,6 +20,7 @@ class AdministradorHandler
     /*
      *  Métodos para gestionar la cuenta del administrador.
      */
+    //Verifica las credenciales del administrador
     public function checkUser($username, $password)
     {
         $sql = 'SELECT id_administrador, usuario_administrador, clave_administrador
@@ -36,7 +37,7 @@ class AdministradorHandler
             return false;
         }
     }
-
+    //Verifica si la contraseña proporcionada coincide con la almacenada en la base de datos
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_administrador
@@ -51,7 +52,7 @@ class AdministradorHandler
             return false;
         }
     }
-
+    //Cambia la contraseña del administrador actual.
     public function changePassword()
     {
         $sql = 'UPDATE tb_admins
@@ -60,7 +61,7 @@ class AdministradorHandler
         $params = array($this->clave, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
-
+    //Lee el perfil del administrador actual.
     public function readProfile()
     {
         $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, usuario_administrador
@@ -69,7 +70,7 @@ class AdministradorHandler
         $params = array($_SESSION['idAdministrador']);
         return Database::getRow($sql, $params);
     }
-
+    //Edita el perfil del administrador actual.
     public function editProfile()
     {
         $sql = 'UPDATE tb_admins
@@ -82,6 +83,7 @@ class AdministradorHandler
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
+    //Busca administradores en la base de datos por nombre.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -94,7 +96,7 @@ class AdministradorHandler
         return Database::getRows($sql, $params);
     }
 
-
+    //Crea un nuevo administrador en la base de datos.
     public function createRow()
     {
         // Insertar el administrador con el nivel de usuario correspondiente
@@ -103,7 +105,7 @@ class AdministradorHandler
         $params = array($this->nombre, $this->alias, $this->correo, $this->clave, 1); // ID de nivel de usuario = 1
         return Database::executeRow($sql, $params);
     }
-
+    //Crea un nuevo administrador con un nivel de usuario específico.
     public function createTrabajadores()
     {
 
@@ -115,17 +117,17 @@ class AdministradorHandler
         return Database::executeRow($sql, $params);
     }
 
-
+    // Lee todos los administradores con niveles de usuario específicos (2 y 3).
     public function readAllS()
     {
         $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
-FROM tb_admins a
-JOIN tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
-WHERE a.id_nivel_usuario IN (2, 3)
-ORDER BY a.nombre_administrador';
+        FROM tb_admins a
+        JOIN tb_niveles_usuarios n ON a.id_nivel_usuario = n.id_nivel_usuario
+        WHERE a.id_nivel_usuario IN (2, 3)
+        ORDER BY a.nombre_administrador';
         return Database::getRows($sql);
     }
-
+    //Lee todos los administradores.
     public function readAll()
     {
         $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, usuario_administrador
@@ -134,7 +136,7 @@ ORDER BY a.nombre_administrador';
         return Database::getRows($sql);
     }
 
-
+    //Lee todos los niveles de usuario.
     public function readAllNivelesUsuarios()
     {
         $sql = 'SELECT 
@@ -147,10 +149,7 @@ ORDER BY a.nombre_administrador';
 
         return Database::getRows($sql);
     }
-
-
-
-
+    //Lee los detalles de un administrador específico por ID.
     public function readOne()
     {
         $sql = 'SELECT 
@@ -169,7 +168,7 @@ WHERE
         $params = array($this->id);
         return Database::getRow($sql, $params);
     }
-
+    //Actualiza la información de un administrador específico.
     public function updateRow()
     {
         $sql = 'UPDATE tb_admins
@@ -178,7 +177,7 @@ WHERE
         $params = array($this->nombre, $this->correo, $this->alias, $this->id_nivel_usuario, $this->id);
         return Database::executeRow($sql, $params);
     }
-
+    //Elimina un administrador específico por ID.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_admins
@@ -186,7 +185,7 @@ WHERE
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
-
+    //Obtiene una lista de todos los administradores con su nombre de usuario, correo y nivel de usuario.
     public function obtenerAdministradores()
     {
         $sql = 'SELECT 

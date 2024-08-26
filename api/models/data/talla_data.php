@@ -14,6 +14,7 @@ class tallaData extends tallaHandler
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+     // Método para validar y asignar el identificador de la talla.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -24,7 +25,8 @@ class tallaData extends tallaHandler
             return false;
         }
     }
-    
+     
+    // Método para validar y asignar el nombre de la talla.
     public function setNombre($value, $min = 1, $max = 3)
     {
          // Verificar si la talla ya existe en la base de datos
@@ -36,7 +38,7 @@ class tallaData extends tallaHandler
              $this->data_error = 'La talla ya existe';
              return false;
          }
-
+         // Valida que el nombre de la talla sea un número positivo
          if (Validator::validateMoney($value)) {
             $this->nombre = $value;
             return true;

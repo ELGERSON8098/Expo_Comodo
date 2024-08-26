@@ -18,6 +18,7 @@ class reservaData extends ReservaHandler
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+    // Método para validar y asignar el identificador de la reserva.
     public function setIdReserva($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -28,6 +29,7 @@ class reservaData extends ReservaHandler
             return false;
         }
     }
+    // Método para validar y asignar el identificador del usuario asociado a la reserva.
     public function setIdUsuario($value)
     {
         // Valida que el identificador de usuario sea un número natural.
@@ -72,6 +74,7 @@ class reservaData extends ReservaHandler
         }
     }*/
 
+    // Método para validar y asignar el estado de la reserva
     public function setEstado($value)
     {
         // Valida que el estado sea uno de los permitidos.
@@ -83,7 +86,7 @@ class reservaData extends ReservaHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el identificador del detalle de la reserva.
     public function setIdDetalle($value)
     {
         // Valida que el identificador del detalle sea un número natural.

@@ -24,7 +24,7 @@ class marcaData extends marcaHandler
             return false;
         }
     }
-
+     // Método para validar y asignar el nombre de la marca.
     public function setNombre($value, $min = 2, $max = 50)
     {
         // Verificar si la marca ya existe en la base de datos

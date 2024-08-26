@@ -14,6 +14,8 @@ class UsuariosData extends UsuariosHandler
     /*
      *  Métodos para validar y asignar valores de los atributos.
      */
+
+      // Método para validar y asignar el identificador del usuario.
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
@@ -24,7 +26,7 @@ class UsuariosData extends UsuariosHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el nombre del usuario.
     public function setNombre($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic($value)) {
@@ -38,7 +40,7 @@ class UsuariosData extends UsuariosHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el correo del usuario.
     public function setCorreo($value, $min = 8, $max = 100)
     {
         if (!Validator::validateEmail($value)) {
@@ -52,7 +54,7 @@ class UsuariosData extends UsuariosHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el alias del usuario.
     public function setAlias($value, $min = 6, $max = 25)
     {
         if (!Validator::validateAlphanumeric($value)) {
@@ -67,6 +69,7 @@ class UsuariosData extends UsuariosHandler
         }
     }
 
+    // Método para validar y asignar la dirección del usuario.
     public function setDic($value, $min = 6, $max = 5000)
     {
         if (!Validator::validateAlphanumeric($value)) {
@@ -80,7 +83,7 @@ class UsuariosData extends UsuariosHandler
             return false;
         }
     }
-
+    // Método para validar y asignar el DUI del usuario.
     public function setDUI($value)
     {
         if (!Validator::validateDUI($value)) {
@@ -91,7 +94,7 @@ class UsuariosData extends UsuariosHandler
         $this->dui = $value;
         return true;
     }
-
+    // Método para validar y asignar el estado del usuario.
     public function setEstado($value)
     {
         if (Validator::validateBoolean($value)) {
@@ -103,7 +106,7 @@ class UsuariosData extends UsuariosHandler
         }
     }
     
-
+    // Método para validar y asignar el teléfono del usuario.
     public function setTelefono($value)
     {
         // Eliminar todos los caracteres no numéricos del número de teléfono

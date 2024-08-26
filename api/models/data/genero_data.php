@@ -17,8 +17,11 @@ class GeneroData extends GeneroHandler
     /*
      *  Métodos para validar y establecer los datos.
      */
+
+     // Método para validar y asignar el identificador del género.
     public function setId($value)
     {
+        // Se valida que el valor sea un número natural (entero positivo).
         if (Validator::validateNaturalNumber($value)) {
             $this->id_genero = $value;
             return true;
@@ -28,6 +31,7 @@ class GeneroData extends GeneroHandler
         }
     }
 
+    // Método para validar y asignar el nombre del género.
     public function setNombre($value, $min = 2, $max = 50)
     {
 
@@ -40,7 +44,7 @@ class GeneroData extends GeneroHandler
             $this->data_error = 'El género  ya existe';
             return false;
         }
-
+        // Se valida que el nombre contenga solo caracteres alfabéticos.
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre debe ser un valor alfabético';
             return false;
@@ -53,11 +57,14 @@ class GeneroData extends GeneroHandler
         }
     }
 
+    // Método para validar y asignar la imagen del género.
     public function setImagen($file, $filename = null)
     {
         if (Validator::validateImageFile($file, 1000)) {
+             // Se asigna el nombre del archivo generado por el validador.
             $this->imagen = Validator::getFilename();
             return true;
+            // Se guarda un mensaje de error si la validación del archivo falla.
         } elseif (Validator::getFileError()) {
             $this->data_error = Validator::getFileError();
             return false;
@@ -70,9 +77,10 @@ class GeneroData extends GeneroHandler
         }
     }
 
-
+    // Método para leer y establecer el nombre del archivo desde la base de datos.
     public function setFilename()
     {
+          // Se intenta leer el nombre del archivo del género desde la base de datos.
         if ($data = $this->readFilename()) {
             $this->filename = $data['imagen_genero'];
             return true;
@@ -81,7 +89,6 @@ class GeneroData extends GeneroHandler
             return false;
         }
     }
-
     /*
      *  Métodos para obtener el valor de los atributos adicionales.
      */
