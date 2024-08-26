@@ -107,7 +107,7 @@ if ($dataProductos = $productos->PredictivoProductosCategoria()) {
 
         $pdf->SetXY($xStart + 40, $yStart);
 
-        $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['promedio_mensual'], 1, 0, 'C');
+        $pdf->Cell(40, $multiCellHeightTitulo, round($rowProductos['promedio_mensual'],2), 1, 0, 'C');
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['mes_proyectado'], 1, 0, 'C');
         $pdf->Cell(20, $multiCellHeightTitulo, $rowProductos['año_proyectado'], 1, 0, 'C');
         $pdf->Cell(50, $multiCellHeightTitulo, round($rowProductos['ventas_proyectadas'],2), 1, 1, 'C');
