@@ -633,7 +633,7 @@ ORDER BY
     public function PredictivoProductosCategoria()
     {
         $sql = 'WITH VentasMensuales AS (
-        SELECT 
+    SELECT 
         c.id_categoria,
         c.nombre_categoria,
         SUM(dr.cantidad) AS total_vendido,
@@ -661,11 +661,11 @@ PromedioMensual AS (
     FROM 
         VentasMensuales
     GROUP BY 
-        nombre_categoria
+        id_categoria, nombre_categoria
 )
 
 SELECT 
-	 pm.id_categoria,
+    pm.id_categoria,
     pm.nombre_categoria,
     pm.promedio_mensual,
     CASE
@@ -681,9 +681,9 @@ SELECT
         WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "October" THEN "Octubre"
         WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "November" THEN "Noviembre"
         WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "December" THEN "Diciembre"
-        END AS mes_proyectado,
+    END AS mes_proyectado,
     YEAR(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) AS año_proyectado,
-    pm.promedio_mensual AS ventas_proyectadas
+    (pm.promedio_mensual / NULLIF((SELECT SUM(promedio_mensual) FROM PromedioMensual), 0) * 100) AS ventas_proyectadas
 FROM 
     PromedioMensual pm
 JOIN 
