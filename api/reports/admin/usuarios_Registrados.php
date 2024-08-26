@@ -11,7 +11,7 @@ $tableTopY = 40; // Posición inicial de la tabla en la primera página
 
 $pdf->startReport('');
 $pdf->SetTextColor(0, 0, 0); // Establece el color del texto a negro
-$pdf->SetFont('Arial', '', 15);
+$pdf->SetFont('Arial', 'B', 15);
 $pdf->SetY(45); // Ajusta el valor según sea necesario para subir el título
 $pdf->Cell(0, 14, $pdf->encodeString('Listado de usuarios registrados'), 0, 1, 'C'); // Imprime el título en la posición ajustada
 
@@ -28,9 +28,9 @@ function printTableHeader($pdf)
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(40, 10, 'Nombre del usuario', 1, 0, 'C', 1);
     $pdf->Cell(50, 10, 'Correo', 1, 0, 'C', 1);
-    $pdf->Cell(35, 10, 'Dui', 1, 0, 'C', 1);
+    $pdf->Cell(35, 10, 'DUI', 1, 0, 'C', 1);
     $pdf->Cell(30, 10, 'Estado', 1, 0, 'C', 1);
-    $pdf->Cell(30, 10, 'Telefono', 1, 1, 'C', 1);
+    $pdf->Cell(30, 10, $pdf->encodeString('Teléfono'), 1, 1, 'C', 1);
 }
 
 // Obtener todos los usuarios
@@ -40,7 +40,7 @@ if ($dataClientes = $usuario->usuariosRegistrados()) {
     foreach ($dataClientes as $rowClientes) {
         // Verifica si se necesita una nueva página
         if ($pdf->GetY() > 250) { // Ajusta el valor según el tamaño de la página
-            $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
+            $pdf->AddPage(); // Agrega una nueva página si es necesario
             // Reimprime el título y el encabezado de la tabla
             $pdf->SetFont('Arial', '', 15);
             $pdf->Cell(0, 10, $pdf->encodeString('Listado de usuarios registrados'), 0, 1, 'C');
@@ -70,7 +70,7 @@ if ($dataClientes = $usuario->usuariosRegistrados()) {
 
         // Asegurarse de que la posición Y no se sobreponga con el final de la página
         if ($pdf->GetY() > 220) {
-            $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
+            $pdf->AddPage(); // Agrega una nueva página si es necesario
             printTableHeader($pdf); // Imprimir el encabezado de la tabla nuevamente
         }
     }

@@ -290,7 +290,6 @@ ORDER BY
     {
         $sql = 'SELECT 
     p.nombre_producto,
-    p.talla,
     p.codigo_interno, 
     p.referencia_proveedor AS codigo_externo,
     dp.existencias
