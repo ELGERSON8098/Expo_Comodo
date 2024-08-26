@@ -63,7 +63,7 @@ if ($pedidos && count($pedidos) > 0) {
         foreach ($pedidos as $pedido) {
             if ($pedido['id_usuario'] == $usuarioId) {
                 if ($pdf->GetY() > 250) {
-                    $pdf->AddPage();
+                    $pdf->AddPage('p', 'letter');
                     $pdf->Ln(10);
                     printTableHeader($pdf);
                 }
