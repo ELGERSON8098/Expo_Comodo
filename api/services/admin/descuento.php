@@ -85,10 +85,21 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-            case 'descuentosPorRangoPrecio':
+                case 'descuentosPorRangoPrecio':
                 $_POST = Validator::validateForm($_POST);
                 $precioMin = $_POST['precioMin'];
                 $precioMax = $_POST['precioMax'];
+            
+                // Validar los precios
+                if (!$descuento->setPrecioMin($precioMin)) {
+                    $result['error'] = $descuento->getDataError();
+                    break;
+                }
+                if (!$descuento->setPrecioMax($precioMax)) {
+                    $result['error'] = $descuento->getDataError();
+                    break;
+                }
+            
                 if ($result['dataset'] = $descuento->descuentosPorRangoPrecio($precioMin, $precioMax)) {
                     $result['status'] = 1;
                     $result['message'] = 'Datos obtenidos correctamente';

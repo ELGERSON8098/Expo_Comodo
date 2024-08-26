@@ -191,10 +191,23 @@ async function generarGraficoDescuentos() {
         return;
     }
 
+    // Validar que los precios sean números positivos
+    if (isNaN(precioMin) || isNaN(precioMax) || precioMin < 0 || precioMax < 0) {
+        sweetAlert(3, 'Los precios deben ser números positivos', null);
+        return;
+    }
+
+    // Validar que el precio máximo sea mayor que el precio mínimo
+    if (parseFloat(precioMax) <= parseFloat(precioMin)) {
+        sweetAlert(3, 'El precio máximo debe ser mayor que el precio mínimo', null);
+        return;
+    }
+
     const form = new FormData();
     form.append('precioMin', precioMin);
     form.append('precioMax', precioMax);
 
+    
     const DATA = await fetchData(DESCUENTO_API, 'descuentosPorRangoPrecio', form);
     if (DATA.status) {
         const descuentosData = DATA.dataset.map(row => ({

@@ -25,7 +25,7 @@ class descuentoData extends descuentoHandler
             return false;
         }
     }
-         // Método para asignar el nombre del descuento.
+    // Método para asignar el nombre del descuento.
     public function setNombre($value, $min = 2, $max = 50)
     {
         // Verificar si el nombre ya existe en la base de datos, excluyendo el registro actual
@@ -36,14 +36,14 @@ class descuentoData extends descuentoHandler
             $checkSql = 'SELECT COUNT(*) as count FROM tb_descuentos WHERE nombre_descuento = ?';
             $checkParams = array($value);
         }
-    
+
         $checkResult = Database::getRow($checkSql, $checkParams);
-    
+
         if ($checkResult['count'] > 0) {
             $this->data_error = 'El nombre del descuento ya existe';
             return false;
         }
-          // Valida si el nombre es alfabético.
+        // Valida si el nombre es alfabético.
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre del descuento debe ser un valor alfabético';
             return false;
@@ -80,6 +80,28 @@ class descuentoData extends descuentoHandler
             return true;
         } else {
             $this->data_error = 'La descripción debe tener una longitud entre ' . $min . ' y ' . $max;
+            return false;
+        }
+    }
+
+    public function setPrecioMin($value)
+    {
+        if (is_numeric($value) && $value >= 0) {
+            $this->precioMin = $value;
+            return true;
+        } else {
+            $this->data_error = 'El precio mínimo debe ser un número no negativo.';
+            return false;
+        }
+    }
+
+    public function setPrecioMax($value)
+    {
+        if (is_numeric($value) && $value > $this->precioMin) {
+            $this->precioMax = $value;
+            return true;
+        } else {
+            $this->data_error = 'El precio máximo debe ser un número mayor que el precio mínimo.';
             return false;
         }
     }
