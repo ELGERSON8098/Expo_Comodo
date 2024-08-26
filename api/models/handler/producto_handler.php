@@ -720,4 +720,33 @@ ORDER BY
 
         return Database::getRows($sql);
     }
+    public function PrediccionCate()
+    {
+        $sql = 'SELECT 
+    c.nombre_categoria,
+    SUM(dr.cantidad) AS total_vendido,
+    MONTHNAME(r.fecha_reserva) AS mes,
+    YEAR(r.fecha_reserva) AS anio,
+    (SUM(dr.cantidad) / NULLIF((SELECT SUM(dr2.cantidad) 
+                                  FROM tb_reservas r2
+                                  JOIN tb_detalles_reservas dr2 ON r2.id_reserva = dr2.id_reserva
+                                  WHERE MONTH(r2.fecha_reserva) = MONTH(r.fecha_reserva) 
+                                  AND YEAR(r2.fecha_reserva) = YEAR(r.fecha_reserva)), 0) * 100) AS porcentaje_ventas
+FROM 
+    tb_reservas r
+JOIN 
+    tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+JOIN 
+    tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+JOIN 
+    tb_productos p ON dp.id_producto = p.id_producto
+JOIN 
+    tb_categorias c ON p.id_categoria = c.id_categoria
+GROUP BY 
+    anio, mes, c.nombre_categoria
+ORDER BY 
+    anio DESC, MONTH(r.fecha_reserva) DESC, total_vendido DESC;';
+
+        return Database::getRows($sql);
+    }
 }
