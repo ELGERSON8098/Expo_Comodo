@@ -356,7 +356,7 @@ const graficoInventarioMarcasyTallas = async () => {
             productos.push(`${row.nombre_producto} (${row.nombre_talla})`); // Captura el nombre del producto junto con la talla
             cantidades.push(row.total_existencias); // Captura la cantidad de productos
         });
-        barGraph('chart10', productos, cantidades, 'Cantidad de productos en inventario', 'Top 5 productos con mayor cantidad de existencias por marca y talla');
+        barGraph5('chart10', productos, cantidades, 'Cantidad de productos en inventario', 'Top 5 productos con mayor cantidad de existencias por marca y talla');
     } else {
         document.getElementById('chart10').remove();
         console.log(DATA.error);

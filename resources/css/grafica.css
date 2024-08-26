@@ -1,0 +1,13 @@
+.chart-container-dashboard {
+    padding: 10px;
+    /* Espacio interno opcional */
+    background-color: rgba(255, 255, 255, 0.1);
+    /* Fondo blanco semitransparente opcional */
+    height: 500px;
+    /* Altura fija para todos los gráficos */
+}
+
+canvas {
+    max-width: 90%;
+    max-height: 90%;
+}
