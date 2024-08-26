@@ -58,7 +58,7 @@ if ($dataProductos = $productos->PrediccionCate()) {
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['total_vendido'], 1, 0, 'C');
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['mes'], 1, 0, 'C');
         $pdf->Cell(20, $multiCellHeightTitulo, $rowProductos['anio'], 1, 0, 'C');
-        $pdf->Cell(50, $multiCellHeightTitulo, $rowProductos['porcentaje_ventas'], 1, 1, 'C');
+        $pdf->Cell(50, $multiCellHeightTitulo, round($rowProductos['porcentaje_ventas'], 2), 1, 1, 'C');
 
         $pdf->SetY($yStart + $multiCellHeightTitulo);
     }
@@ -110,7 +110,7 @@ if ($dataProductos = $productos->PredictivoProductosCategoria()) {
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['promedio_mensual'], 1, 0, 'C');
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['mes_proyectado'], 1, 0, 'C');
         $pdf->Cell(20, $multiCellHeightTitulo, $rowProductos['año_proyectado'], 1, 0, 'C');
-        $pdf->Cell(50, $multiCellHeightTitulo, $rowProductos['ventas_proyectadas'], 1, 1, 'C');
+        $pdf->Cell(50, $multiCellHeightTitulo, round($rowProductos['ventas_proyectadas'],2), 1, 1, 'C');
 
         $pdf->SetY($yStart + $multiCellHeightTitulo);
     }
