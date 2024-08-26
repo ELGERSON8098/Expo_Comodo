@@ -2,7 +2,7 @@
 
 -Usar const y let en lugar de var
 -Seguir un estilo de código consistente
--Manejar errores de manera adecuada por ejemplo el try y catch
+-Manejar errores de manera adecuada por ejemplo el (try y catch)
 -Documentar el código
 -Optimiza tu código
 
@@ -19,3 +19,10 @@
 -Documenta tu código
 -Usa el control de errores (Try catch)
 -Evitar hacer SQL inyección
+
+Estandares de programacion
+-Comentarios y Documentación
+-Control de Versiones
+-Manejo de Errores (Try y catch)
+-Optimización del Rendimiento
+-Consistencia en el Estilo de Código
