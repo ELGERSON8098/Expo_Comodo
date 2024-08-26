@@ -54,6 +54,10 @@
                 <button type="button" class="btn btn-primary  me-2 mb-2 mb-sm-0" onclick="openCreate()">
                     <i class="bi bi-plus-square-fill"></i>
                 </button>
+                
+                <button type="button" class="btn btn-primary" onclick="openReportPredictivo()">
+                    <i class="bi bi-file-earmark-pdf-fill"></i>
+                </button>
             </div>
         </div>
 
@@ -100,8 +104,8 @@
             </thead>
             <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
-        </table>
 
+        </table>
         <!-- Modal para guardar un registro -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">

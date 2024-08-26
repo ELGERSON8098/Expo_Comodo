@@ -30,7 +30,7 @@ function printTableHeader($pdf)
     $pdf->Cell(50, 10, 'Correo', 1, 0, 'C', 1);
     $pdf->Cell(35, 10, 'Dui', 1, 0, 'C', 1);
     $pdf->Cell(30, 10, 'Estado', 1, 0, 'C', 1);
-    $pdf->Cell(30, 10, 'Telefono', 1, 1, 'C', 1);
+    $pdf->Cell(30, 10, $pdf->encodeString('Télefono'), 1, 1, 'C', 1);
 }
 
 // Obtener todos los usuarios
