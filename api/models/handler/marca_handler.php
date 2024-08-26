@@ -12,6 +12,10 @@ class marcaHandler
     protected $id = null;
     protected $nombre = null;
 
+    
+    protected $fecha_inicio = null;
+    protected $fecha_fin = null;
+
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
      */
@@ -211,7 +215,7 @@ class marcaHandler
         return Database::executeRow($sql, $params);
     }
    // Obtiene ventas por marcas dentro de un rango de fechas.
-    public function ventasPorMarcasFecha($fechaInicio, $fechaFin) {
+    public function ventasPorMarcasFecha($fecha_inicio, $fecha_fin) {
         $sql = 'SELECT 
     m.marca AS nombre_marca, 
     r.fecha_reserva, 
@@ -233,7 +237,7 @@ class marcaHandler
     ORDER BY 
     r.fecha_reserva ASC
     LIMIT 5;';
-        $params = array($fechaInicio, $fechaFin);
+        $params = array($fecha_inicio, $fecha_fin);
         return Database::getRows($sql, $params);
     }
 }

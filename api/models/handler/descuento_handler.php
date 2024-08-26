@@ -14,6 +14,9 @@ class descuentoHandler
     protected $descripcion = null;
     protected $valor = null;
 
+    protected $precioMax = null;
+    protected $precioMin = null;
+
     /*
      *  Métodos para gestionar la cuenta del administrador.
      */

@@ -380,6 +380,12 @@ async function graficoVentasPorCategoria() {
         return;
     }
 
+    // Validar que la fecha de fin no sea anterior a la fecha de inicio
+    if (new Date(fechaFin) < new Date(fechaInicio)) {
+        sweetAlert(3, 'La fecha de fin no puede ser anterior a la fecha de inicio', null);
+        return;
+    }
+
     const form = new FormData();
     form.append('fechaInicio', fechaInicio);
     form.append('fechaFin', fechaFin);

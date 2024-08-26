@@ -81,9 +81,27 @@ if (isset($_GET['action'])) {
 
             case 'ventasPorMarcasFecha':
                 $_POST = Validator::validateForm($_POST);
-                $fechaInicio = $_POST['fechaInicio'];
-                $fechaFin = $_POST['fechaFin'];
-                if ($result['dataset'] = $marca->ventasPorMarcasFecha($fechaInicio, $fechaFin)) {
+                $fecha_inicio = $_POST['fechaInicio'];
+                $fecha_fin = $_POST['fechaFin'];
+                $marcas = json_decode($_POST['marcas'], true);
+
+                // Validar las fechas
+                if (!$marca->setFechaInicio($fecha_inicio)) {
+                    $result['error'] = $marca->getDataError();
+                    break;
+                }
+                if (!$marca->setFechaFin($fecha_fin)) {
+                    $result['error'] = $marca->getDataError();
+                    break;
+                }
+
+                // Validar que se hayan seleccionado marcas
+                if (empty($marcas)) {
+                    $result['error'] = 'Debe seleccionar al menos una marca';
+                    break;
+                }
+
+                if ($result['dataset'] = $marca->ventasPorMarcasFecha($fecha_inicio, $fecha_fin, $marcas)) {
                     $result['status'] = 1;
                     $result['message'] = 'Datos obtenidos correctamente';
                 } else {

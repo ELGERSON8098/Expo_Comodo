@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase del modelo.
-require_once ('../../models/data/reserva_data.php');
+require_once('../../models/data/reserva_data.php');
 //fillSelect(RESERVA_API, 'getEstados', 'estadoPedido', ROW.estado);
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -236,19 +236,28 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No se pudieron obtener los datos';
                 }
                 break;
-                case 'ventasPorCategoriaEnRango':
-                    $_POST = Validator::validateForm($_POST);
-                    $fechaInicio = $_POST['fechaInicio'];
-                    $fechaFin = $_POST['fechaFin'];
-    
-                    if ($result['dataset'] = $reserva->ventasPorCategoriaFecha($fechaInicio, $fechaFin)) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Datos obtenidos correctamente';
-                    } else {
-                        $result['error'] = 'No se pudieron obtener los datos';
-                    }
+            case 'ventasPorCategoriaEnRango':
+                $_POST = Validator::validateForm($_POST);
+                $fecha_inicio = $_POST['fechaInicio'];
+                $fecha_fin = $_POST['fechaFin'];
+
+                // Validar las fechas
+                if (!$reserva->setFechaInicio($fecha_inicio)) {
+                    $result['error'] = $reserva->getDataError();
                     break;
-            
+                }
+                if (!$reserva->setFechaFin($fecha_fin)) {
+                    $result['error'] = $reserva->getDataError();
+                    break;
+                }
+
+                if ($result['dataset'] = $reserva->ventasPorCategoriaFecha($fecha_inicio, $fecha_fin)) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Datos obtenidos correctamente';
+                } else {
+                    $result['error'] = 'No se pudieron obtener los datos';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
