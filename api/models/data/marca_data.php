@@ -50,6 +50,39 @@ class marcaData extends marcaHandler
         }
     }
     
+    
+
+    public function setFechaInicio($value)
+    {
+        if (Validator::validateDate($value)) {
+            $this->fecha_inicio = $value;
+            return true;
+        } else {
+            $this->data_error = 'El formato de la fecha de inicio es incorrecto.';
+            return false;
+        }
+    }
+
+    public function setFechaFin($value)
+    {
+        if (Validator::validateDate($value)) {
+            if ($this->fecha_inicio !== null) {
+                if ($value >= $this->fecha_inicio) {
+                    $this->fecha_fin = $value;
+                    return true;
+                } else {
+                    $this->data_error = 'La fecha de fin no puede ser anterior a la fecha de inicio.';
+                    return false;
+                }
+            } else {
+                $this->data_error = 'La fecha de inicio debe ser asignada antes de validar la fecha de fin.';
+                return false;
+            }
+        } else {
+            $this->data_error = 'El formato de la fecha de fin es incorrecto.';
+            return false;
+        }
+    }
 
 
     // Método para obtener el error de los datos.
