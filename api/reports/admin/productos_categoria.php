@@ -96,4 +96,3 @@ if ($dataCategoria = $categoria->readAll()) {
 }
 
 $pdf->output('I', 'categorias.pdf');
-?>

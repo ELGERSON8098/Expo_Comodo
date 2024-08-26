@@ -122,4 +122,3 @@ if ($dataProductos = $productos->PredictivoProductosCategoria()) {
 
 
 $pdf->output('I', 'categoriasPredictivas.pdf');
-?>
