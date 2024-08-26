@@ -668,7 +668,20 @@ SELECT
 	 pm.id_categoria,
     pm.nombre_categoria,
     pm.promedio_mensual,
-    MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) AS mes_proyectado,
+    CASE
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "January" THEN "Enero"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "February" THEN "Febrero"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "March" THEN "Marzo"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "April" THEN "Abril"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "May" THEN "Mayo"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "June" THEN "Junio"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "July" THEN "Julio"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "August" THEN "Agosto"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "September" THEN "Septiembre"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "October" THEN "Octubre"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "November" THEN "Noviembre"
+        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "December" THEN "Diciembre"
+        END AS mes_proyectado,
     YEAR(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) AS año_proyectado,
     pm.promedio_mensual AS ventas_proyectadas
 FROM 
