@@ -49,7 +49,7 @@ if (isset($_GET['idMarca'])) {
                 foreach ($dataProductos as $rowProducto) {
                     // Verifica si se necesita una nueva página
                     if ($pdf->GetY() > 250) {
-                        $pdf->AddPage();
+                        $pdf->AddPage('p', 'letter');
                         $pdf->Ln(10);
                         // Reimprimir encabezado
                         $pdf->SetFillColor(38, 15, 189);

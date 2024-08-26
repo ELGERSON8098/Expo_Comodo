@@ -27,7 +27,7 @@ function printTableHeader($pdf)
     $pdf->Cell(40, 10, $pdf->encodeString('Promedio mensual'), 1, 0, 'C', 1);
     $pdf->Cell(40, 10, 'Mes', 1, 0, 'C', 1);
     $pdf->Cell(20, 10,  $pdf->encodeString('Año'), 1, 0, 'C', 1);
-    $pdf->Cell(40, 10, 'Porcentaje de ventas (%)', 1, 1, 'C', 1);
+    $pdf->Cell(50, 10, 'Porcentaje de ventas (%)', 1, 1, 'C', 1);
 }
 
 $productos = new ProductoData;
@@ -59,7 +59,7 @@ if ($dataProductos = $productos->PredictivoProductosCategoria()) {
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['promedio_mensual'], 1, 0, 'C');
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['mes_proyectado'], 1, 0, 'C');
         $pdf->Cell(20, $multiCellHeightTitulo, $rowProductos['año_proyectado'], 1, 0, 'C');
-        $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['ventas_proyectadas'], 1, 1, 'C');
+        $pdf->Cell(50, $multiCellHeightTitulo, $rowProductos['ventas_proyectadas'], 1, 1, 'C');
 
         $pdf->SetY($yStart + $multiCellHeightTitulo);
     }
