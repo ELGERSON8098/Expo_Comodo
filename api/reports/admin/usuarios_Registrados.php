@@ -13,7 +13,7 @@ $pdf->startReport('');
 $pdf->SetTextColor(0, 0, 0); // Establece el color del texto a negro
 $pdf->SetFont('Arial', '', 15);
 $pdf->SetY(45); // Ajusta el valor según sea necesario para subir el título
-$pdf->Cell(0, 14, $pdf->encodeString('Usuarios registrados'), 0, 1, 'C'); // Imprime el título en la posición ajustada
+$pdf->Cell(0, 14, $pdf->encodeString('Listado de usuarios registrados'), 0, 1, 'C'); // Imprime el título en la posición ajustada
 
 $pdf->Ln(10); // Salto de línea para espacio
 
@@ -43,7 +43,7 @@ if ($dataClientes = $usuario->usuariosRegistrados()) {
             $pdf->AddPage(); // Agrega una nueva página si es necesario
             // Reimprime el título y el encabezado de la tabla
             $pdf->SetFont('Arial', '', 15);
-            $pdf->Cell(0, 10, $pdf->encodeString('Usuarios registrados'), 0, 1, 'C');
+            $pdf->Cell(0, 10, $pdf->encodeString('Listado de usuarios registrados'), 0, 1, 'C');
             $pdf->Ln(10); // Salto de línea
             printTableHeader($pdf); // Imprimir el encabezado de la tabla nuevamente
         }
@@ -83,4 +83,3 @@ if ($dataClientes = $usuario->usuariosRegistrados()) {
 
 // Generar el PDF
 $pdf->output('I', 'Usuario.pdf');
-?>

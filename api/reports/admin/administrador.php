@@ -12,7 +12,7 @@ $pdf->startReport('');
 $pdf->SetTextColor(0, 0, 0); // Establece el color del texto a negro
 $pdf->SetFont('Arial', 'B', 15);
 $pdf->SetY(54); // Ajusta el valor según sea necesario para subir el título
-$pdf->Cell(0, 0, $pdf->encodeString('Administradores'), 0, 1, 'C'); // Imprime el título en la posición ajustada
+$pdf->Cell(0, 0, $pdf->encodeString('Listado de administradores'), 0, 1, 'C'); // Imprime el título en la posición ajustada
 
 $pdf->Ln(10); // Primer salto de línea
 
@@ -23,7 +23,7 @@ function printTableHeader($pdf) {
     $pdf->SetTextColor(255, 255, 255);
     $pdf->SetFillColor(38, 15, 189); // Color de fondo
     $pdf->SetFont('Times', 'B', 11);
-    $pdf->Cell(70, 10, 'Nombre usuario', 1, 0, 'C', 1);
+    $pdf->Cell(70, 10, 'Nombre del usuario', 1, 0, 'C', 1);
     $pdf->Cell(60, 10, $pdf->encodeString('Correo'), 1, 0, 'C', 1);
     $pdf->Cell(60, 10, 'Nivel', 1, 1, 'C', 1);
 }
@@ -37,7 +37,7 @@ if ($dataAdmin = $admin->obtenerAdministradores()) {
             $pdf->AddPage(); // Agrega una nueva página si es necesario
             // Reimprime el título y el encabezado de la tabla
             $pdf->SetFont('Arial', 'B', 15);
-            $pdf->Cell(0, 0, $pdf->encodeString('Administradores'), 0, 1, 'C');
+            $pdf->Cell(0, 0, $pdf->encodeString('Listado de administradores'), 0, 1, 'C');
             $pdf->Ln(10); // Salto de línea
             printTableHeader($pdf);
         }
@@ -65,4 +65,3 @@ if ($dataAdmin = $admin->obtenerAdministradores()) {
 }
 
 $pdf->output('I', 'Administradores.pdf');
-?>
