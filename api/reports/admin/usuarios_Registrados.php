@@ -28,9 +28,9 @@ function printTableHeader($pdf)
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(40, 10, 'Nombre del usuario', 1, 0, 'C', 1);
     $pdf->Cell(50, 10, 'Correo', 1, 0, 'C', 1);
-    $pdf->Cell(35, 10, 'Dui', 1, 0, 'C', 1);
+    $pdf->Cell(35, 10, 'DUI', 1, 0, 'C', 1);
     $pdf->Cell(30, 10, 'Estado', 1, 0, 'C', 1);
-    $pdf->Cell(30, 10, $pdf->encodeString('Télefono'), 1, 1, 'C', 1);
+    $pdf->Cell(30, 10, $pdf->encodeString('Teléfono'), 1, 1, 'C', 1);
 }
 
 // Obtener todos los usuarios
