@@ -19,8 +19,8 @@ class ReservaHandler
     protected $precio_unitario = null;
     protected $id_detalle_reserva = null;
 
-    protected $fechaInicio = null;
-    protected $fechaFin = null;
+    protected $fecha_inicio = null;
+    protected $fecha_fin = null;
 
     // Constante para establecer la ruta de las imágenes (si aplica).
     const RUTA_IMAGEN = '../../images/productos/';
@@ -288,7 +288,7 @@ class ReservaHandler
         return Database::getRows($sql);
     }
 
-    public function ventasPorCategoriaFecha($fechaInicio, $fechaFin)
+    public function ventasPorCategoriaFecha($fecha_inicio, $fecha_fin)
     {
         $sql = 'SELECT 
     c.nombre_categoria, 
@@ -308,11 +308,11 @@ class ReservaHandler
     GROUP BY 
     c.nombre_categoria
     LIMIT 5;';
-        $params = array($fechaInicio, $fechaFin);
+        $params = array($fecha_inicio, $fecha_fin);
         return Database::getRows($sql, $params);
     }
 
-    public function ventasPorMarcasFecha($fechaInicio, $fechaFin)
+    public function ventasPorMarcasFecha($fecha_inicio, $fecha_fin)
     {
         $sql = 'SELECT 
     m.marca AS nombre_marca, 
@@ -334,7 +334,7 @@ class ReservaHandler
     m.marca, r.fecha_reserva
     ORDER BY 
     r.fecha_reserva ASC;';
-        $params = array($fechaInicio, $fechaFin);
+        $params = array($fecha_inicio, $fecha_fin);
         return Database::getRows($sql, $params);
     }
 
