@@ -18,7 +18,7 @@ if (isset($_GET['idDescuento'])) {
         // Se verifica si la marca existe, de lo contrario se muestra un mensaje.
         if ($rowDescuento = $descuento->readOne()) {
             // Se inicia el reporte con el encabezado del documento.
-            $pdf->startReport('Productos que contienen el descuento: ' .  $pdf->encodeString($rowDescuento['nombre_descuento']));
+            $pdf->StartReport('Productos del descuento: ' . $rowDescuento['nombre_descuento']);
         
             // Establecer color de fondo y texto para encabezados
             $pdf->SetFillColor(38, 15, 189); // Color de fondo
