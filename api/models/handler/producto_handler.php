@@ -245,15 +245,33 @@ ORDER BY
     // Método para leer productos por género.
     public function productosGenero()
     {
-        $sql = 'SELECT p.nombre_producto, p.codigo_interno, dp.existencias
-            FROM tb_productos p
-            INNER JOIN tb_detalles_productos dp ON p.id_producto = dp.id_producto
-            INNER JOIN tb_generos_zapatos gz ON p.id_genero = gz.id_genero
-            WHERE gz.id_genero = ?
-            ORDER BY p.nombre_producto';
+        // Consulta SQL actualizada con los nuevos campos
+        $sql = 'SELECT 
+                    p.nombre_producto, 
+                    p.codigo_interno, 
+                    dp.existencias,
+                    t.nombre_talla,           -- Nombre de la talla
+                    p.referencia_proveedor          -- Código externo
+                FROM 
+                    tb_productos p
+                INNER JOIN 
+                    tb_detalles_productos dp ON p.id_producto = dp.id_producto
+                INNER JOIN 
+                    tb_generos_zapatos gz ON p.id_genero = gz.id_genero
+                INNER JOIN 
+                    tb_tallas t ON dp.id_talla = t.id_talla
+                WHERE 
+                    gz.id_genero = ?
+                ORDER BY 
+                    p.nombre_producto';
+        
+        // Parámetro para la consulta
         $params = array($this->id_genero);
+        
+        // Ejecutar la consulta y devolver los resultados
         return Database::getRows($sql, $params);
     }
+    
 
          // Método para leer productos con descuento.
     public function productosDescuento()
