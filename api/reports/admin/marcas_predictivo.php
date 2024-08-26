@@ -97,7 +97,7 @@ function printTableOne($pdf, $data, $leftMargin, $tableTopY)
             foreach ($productos as $producto) {
                 // Verifica si se necesita una nueva página
                 if ($pdf->GetY() + 10 > 250) { // Ajusta el valor según el tamaño de la página
-                    $pdf->AddPage(); // Agrega una nueva página si es necesario
+                    $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
                     printTableHeader($pdf, $leftMargin, $columnHeaders); // Reimprime el encabezado de la tabla
                 }
 
@@ -180,7 +180,7 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
             foreach ($productos as $producto) {
                 // Verifica si se necesita una nueva página
                 if ($pdf->GetY() + 10 > 250) { // Ajusta el valor según el tamaño de la página
-                    $pdf->AddPage(); // Agrega una nueva página si es necesario
+                    $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
                     printTableHeader($pdf, $leftMargin, $columnHeaders); // Reimprime el encabezado de la tabla
                 }
 

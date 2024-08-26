@@ -34,7 +34,7 @@ if ($dataAdmin = $admin->obtenerAdministradores()) {
     foreach ($dataAdmin as $rowAdmin) {
         // Verifica si se necesita una nueva página
         if ($pdf->GetY() > 250) { // Ajusta el valor según el tamaño de la página
-            $pdf->AddPage(); // Agrega una nueva página si es necesario
+            $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
             // Reimprime el título y el encabezado de la tabla
             $pdf->SetFont('Arial', 'B', 15);
             $pdf->Cell(0, 0, $pdf->encodeString('Administradores'), 0, 1, 'C');
