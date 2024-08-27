@@ -58,7 +58,8 @@ class UsuariosHandler
         WHERE id_usuario = ?';
         $params = array(
             $this->estadocliente,
-            $this->id);
+            $this->id
+        );
         return Database::executeRow($sql, $params);
     }
 
@@ -74,8 +75,8 @@ class UsuariosHandler
     //Funcion de la consulta para generar reporte
 
     public function usuariosRegistrados()
-{
-    $sql = 'SELECT usuario, correo, dui_cliente, telefono,
+    {
+        $sql = 'SELECT usuario, correo, dui_cliente, telefono,
                    CASE
                        WHEN estado_cliente = 1 THEN "Activo"
                        ELSE "Inactivo"
@@ -83,7 +84,7 @@ class UsuariosHandler
             FROM tb_usuarios
             ORDER BY usuario ASC;'; // Filtra los usuarios según el estado proporcionado
 
-    // Ejecuta la consulta y devuelve los resultados
-    return Database::getRows($sql); // Llama a la función getRows de la clase Database para ejecutar la consulta
-}
+        // Ejecuta la consulta y devuelve los resultados
+        return Database::getRows($sql); // Llama a la función getRows de la clase Database para ejecutar la consulta
+    }
 }

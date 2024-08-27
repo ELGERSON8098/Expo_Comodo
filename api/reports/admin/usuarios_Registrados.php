@@ -5,81 +5,119 @@ require_once('../../models/data/usuariosC_data.php');
 
 $pdf = new Report;
 
-// Definir el margen adicional para las páginas posteriores
-$marginBottom = 30; // Ajusta este valor según tus necesidades
-$tableTopY = 40; // Posición inicial de la tabla en la primera página
+$pdf->startReport('Usuarios registrados activos e inactivos');
 
-$pdf->startReport('');
-$pdf->SetTextColor(0, 0, 0); // Establece el color del texto a negro
-$pdf->SetFont('Arial', 'B', 15);
-$pdf->SetY(45); // Ajusta el valor según sea necesario para subir el título
-$pdf->Cell(0, 14, $pdf->encodeString('Listado de usuarios registrados'), 0, 1, 'C'); // Imprime el título en la posición ajustada
-
-$pdf->Ln(10); // Salto de línea para espacio
-
-// Crear una instancia del modelo de usuarios
 $usuario = new UsuariosData;
 
-// Función para imprimir el encabezado de la tabla
-function printTableHeader($pdf)
-{
-    $pdf->SetTextColor(225, 225, 225);
-    $pdf->SetFillColor(38, 15, 189); 
-    $pdf->SetFont('Times', 'B', 11);
-    $pdf->Cell(40, 10, 'Nombre del usuario', 1, 0, 'C', 1);
-    $pdf->Cell(50, 10, 'Correo', 1, 0, 'C', 1);
-    $pdf->Cell(35, 10, 'DUI', 1, 0, 'C', 1);
-    $pdf->Cell(30, 10, 'Estado', 1, 0, 'C', 1);
-    $pdf->Cell(30, 10, $pdf->encodeString('Teléfono'), 1, 1, 'C', 1);
-}
+$pdf->Ln(10); // Primer salto de línea
 
 // Obtener todos los usuarios
-if ($dataClientes = $usuario->usuariosRegistrados()) {
-    printTableHeader($pdf); // Imprimir el encabezado de la tabla
+$dataUsuario = $usuario->usuariosRegistrados();
 
-    foreach ($dataClientes as $rowClientes) {
-        // Verifica si se necesita una nueva página
-        if ($pdf->GetY() > 250) { // Ajusta el valor según el tamaño de la página
-            $pdf->AddPage(); // Agrega una nueva página si es necesario
-            // Reimprime el título y el encabezado de la tabla
-            $pdf->SetFont('Arial', '', 15);
-            $pdf->Cell(0, 10, $pdf->encodeString('Listado de usuarios registrados'), 0, 1, 'C');
-            $pdf->Ln(10); // Salto de línea
-            printTableHeader($pdf); // Imprimir el encabezado de la tabla nuevamente
+if ($dataUsuario) {
+    $pdf->SetFillColor(27, 88, 169);
+    $pdf->SetFont('Times', 'B', 11);
+    $pdf->Cell(40, 10, 'Nombre usuario', 1, 0, 'C', 1);
+    $pdf->Cell(50, 10, $pdf->encodeString('Correo'), 1, 0, 'C', 1);
+    $pdf->Cell(30, 10, $pdf->encodeString('Dui'), 1, 0, 'C', 1);
+    $pdf->Cell(40, 10, $pdf->encodeString('Telefono'), 1, 0, 'C', 1);
+    $pdf->Cell(30, 10, 'Estado', 1, 1, 'C', 1);
+
+    // Usar un array para agrupar usuarios por estado
+    $usuariosActivos = [];
+    $usuariosInactivos = [];
+
+    // Agrupar usuarios por estado
+    foreach ($dataUsuario as $rowUsuario) {
+        if ($rowUsuario['estado_cliente'] === "Activo") {
+            $usuariosActivos[] = $rowUsuario;
+        } else {
+            $usuariosInactivos[] = $rowUsuario;
         }
+    }
 
-        // Guardar posición Y actual
-        $yStart = $pdf->GetY();
-        $xStart = $pdf->GetX();
+    // Imprimir usuarios activos
+    if (!empty($usuariosActivos)) {
+        $pdf->SetFont('Times', 'B', 11);
+        $pdf->Cell(190, 10, 'Estado: Activos', 1, 1, 'C', 1);
+        foreach ($usuariosActivos as $rowUser) {
+            $yStart = $pdf->GetY();
+            $xStart = $pdf->GetX();
 
-        // Imprimir nombre de usuario
-        $pdf->SetTextColor(0, 0, 0); // Establecer color del texto a negro
-        $pdf->Cell(40, 10, $pdf->encodeString($rowClientes['usuario']), 1, 0, 'L');
+            // Imprimir nombre de usuario
+            $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['usuario']), 1, 'L');
+            $multiCellHeightNombre = $pdf->GetY() - $yStart;
 
-        // Imprimir correo de usuario
-        $pdf->Cell(50, 10, $pdf->encodeString($rowClientes['correo']), 1, 0, 'L');
+            $pdf->SetXY($xStart + 40, $yStart);
 
-        // Imprimir DUI
-        $pdf->Cell(35, 10, $pdf->encodeString($rowClientes['dui_cliente']), 1, 0, 'L');
-        
-        // Imprimir DUI
-        $pdf->Cell(30, 10, $pdf->encodeString($rowClientes['estado_cliente']), 1, 0, 'L');
+            // Imprimir correo de usuario
+            $pdf->MultiCell(50, 10, $pdf->encodeString($rowUser['correo']), 1, 'L');
+            $multiCellHeightCorreo = $pdf->GetY() - $yStart;
 
-        // Imprimir teléfono
-        $pdf->Cell(30, 10, $pdf->encodeString($rowClientes['telefono']), 1, 1, 'L');
+            $pdf->SetXY($xStart + 90, $yStart); // Ajustar posición X para DUI
 
-        // Asegurarse de que la posición Y no se sobreponga con el final de la página
-        if ($pdf->GetY() > 220) {
-            $pdf->AddPage(); // Agrega una nueva página si es necesario
-            printTableHeader($pdf); // Imprimir el encabezado de la tabla nuevamente
+            // Imprimir DUI
+            $pdf->MultiCell(30, 10, $pdf->encodeString($rowUser['dui_cliente']), 1, 'L');
+            $multiCellHeightDui = $pdf->GetY() - $yStart;
+
+            $pdf->SetXY($xStart + 120, $yStart); // Ajustar posición X para Teléfono
+
+            // Imprimir Teléfono
+            $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['telefono']), 1, 'L');
+            $multiCellHeightTelefono = $pdf->GetY() - $yStart;
+
+            $pdf->SetXY($xStart + 160, $yStart); // Ajustar posición X para Estado
+
+            // Imprimir estado
+            $pdf->Cell(30, max($multiCellHeightNombre, $multiCellHeightCorreo, $multiCellHeightDui, $multiCellHeightTelefono), 'Activos', 1, 1, 'C');
+
+            // Ajustar la posición Y para la siguiente fila
+            $pdf->SetY($yStart + max($multiCellHeightNombre, $multiCellHeightCorreo, $multiCellHeightDui, $multiCellHeightTelefono));
+        }
+    }
+
+    // Imprimir usuarios inactivos
+    if (!empty($usuariosInactivos)) {
+        $pdf->SetFont('Times', 'B', 11);
+        $pdf->Cell(190, 10, 'Estado: Inactivos', 1, 1, 'C', 1);
+        foreach ($usuariosInactivos as $rowUser) {
+            $yStart = $pdf->GetY();
+            $xStart = $pdf->GetX();
+
+            // Imprimir nombre de usuario
+            $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['usuario']), 1, 'L');
+            $multiCellHeightNombre = $pdf->GetY() - $yStart;
+
+            $pdf->SetXY($xStart + 40, $yStart);
+
+            // Imprimir correo de usuario
+            $pdf->MultiCell(50, 10, $pdf->encodeString($rowUser['correo']), 1, 'L');
+            $multiCellHeightCorreo = $pdf->GetY() - $yStart;
+
+            $pdf->SetXY($xStart + 90, $yStart); // Ajustar posición X para DUI
+
+            // Imprimir DUI
+            $pdf->MultiCell(30, 10, $pdf->encodeString($rowUser['dui_cliente']), 1, 'L');
+            $multiCellHeightDui = $pdf->GetY() - $yStart;
+
+            $pdf->SetXY($xStart + 120, $yStart); // Ajustar posición X para Teléfono
+
+            // Imprimir Teléfono
+            $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['telefono']), 1, 'L');
+            $multiCellHeightTelefono = $pdf->GetY() - $yStart;
+
+            $pdf->SetXY($xStart + 160, $yStart); // Ajustar posición X para Estado
+
+            // Imprimir estado
+            $pdf->Cell(30, max($multiCellHeightNombre, $multiCellHeightCorreo, $multiCellHeightDui, $multiCellHeightTelefono), 'Inactivos', 1, 1, 'C');
+
+            // Ajustar la posición Y para la siguiente fila
+            $pdf->SetY($yStart + max($multiCellHeightNombre, $multiCellHeightCorreo, $multiCellHeightDui, $multiCellHeightTelefono));
         }
     }
 } else {
-    // Mensaje si no hay usuarios para mostrar
     $pdf->SetFont('Arial', '', 10);
-    $pdf->SetTextColor(0, 0, 0); // Establecer color del texto a negro
     $pdf->Cell(190, 10, 'No hay usuarios para mostrar', 1, 1, 'C');
 }
 
-// Generar el PDF
 $pdf->output('I', 'Usuario.pdf');
