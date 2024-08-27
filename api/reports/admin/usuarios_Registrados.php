@@ -17,11 +17,11 @@ $dataUsuario = $usuario->usuariosRegistrados();
 if ($dataUsuario) {
     $pdf->SetFillColor(27, 88, 169);
     $pdf->SetFont('Times', 'B', 11);
-    $pdf->Cell(40, 10, 'Nombre usuario', 1, 0, 'C', 1);
-    $pdf->Cell(50, 10, $pdf->encodeString('Correo'), 1, 0, 'C', 1);
-    $pdf->Cell(30, 10, $pdf->encodeString('Dui'), 1, 0, 'C', 1);
-    $pdf->Cell(40, 10, $pdf->encodeString('Telefono'), 1, 0, 'C', 1);
-    $pdf->Cell(30, 10, 'Estado', 1, 1, 'C', 1);
+    $pdf->Cell(50, 10, 'Nombre usuario', 1, 0, 'C', 1);
+    $pdf->Cell(60, 10, $pdf->encodeString('Correo'), 1, 0, 'C', 1);
+    $pdf->Cell(40, 10, $pdf->encodeString('Dui'), 1, 0, 'C', 1);
+    $pdf->Cell(40, 10, $pdf->encodeString('Telefono'), 1, 1, 'C', 1);
+
 
     // Usar un array para agrupar usuarios por estado
     $usuariosActivos = [];
@@ -45,22 +45,22 @@ if ($dataUsuario) {
             $xStart = $pdf->GetX();
 
             // Imprimir nombre de usuario
-            $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['usuario']), 1, 'L');
+            $pdf->MultiCell(50, 10, $pdf->encodeString($rowUser['usuario']), 1, 'L');
             $multiCellHeightNombre = $pdf->GetY() - $yStart;
 
-            $pdf->SetXY($xStart + 40, $yStart);
+            $pdf->SetXY($xStart + 50, $yStart);
 
             // Imprimir correo de usuario
-            $pdf->MultiCell(50, 10, $pdf->encodeString($rowUser['correo']), 1, 'L');
+            $pdf->MultiCell(60, 10, $pdf->encodeString($rowUser['correo']), 1, 'L');
             $multiCellHeightCorreo = $pdf->GetY() - $yStart;
 
-            $pdf->SetXY($xStart + 90, $yStart); // Ajustar posición X para DUI
+            $pdf->SetXY($xStart + 110, $yStart); // Ajustar posición X para DUI
 
             // Imprimir DUI
-            $pdf->MultiCell(30, 10, $pdf->encodeString($rowUser['dui_cliente']), 1, 'L');
+            $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['dui_cliente']), 1, 'L');
             $multiCellHeightDui = $pdf->GetY() - $yStart;
 
-            $pdf->SetXY($xStart + 120, $yStart); // Ajustar posición X para Teléfono
+            $pdf->SetXY($xStart + 150, $yStart); // Ajustar posición X para Teléfono
 
             // Imprimir Teléfono
             $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['telefono']), 1, 'L');
@@ -68,9 +68,7 @@ if ($dataUsuario) {
 
             $pdf->SetXY($xStart + 160, $yStart); // Ajustar posición X para Estado
 
-            // Imprimir estado
-            $pdf->Cell(30, max($multiCellHeightNombre, $multiCellHeightCorreo, $multiCellHeightDui, $multiCellHeightTelefono), 'Activos', 1, 1, 'C');
-
+          
             // Ajustar la posición Y para la siguiente fila
             $pdf->SetY($yStart + max($multiCellHeightNombre, $multiCellHeightCorreo, $multiCellHeightDui, $multiCellHeightTelefono));
         }
@@ -84,32 +82,29 @@ if ($dataUsuario) {
             $yStart = $pdf->GetY();
             $xStart = $pdf->GetX();
 
-            // Imprimir nombre de usuario
-            $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['usuario']), 1, 'L');
-            $multiCellHeightNombre = $pdf->GetY() - $yStart;
+           // Imprimir nombre de usuario
+           $pdf->MultiCell(50, 10, $pdf->encodeString($rowUser['usuario']), 1, 'L');
+           $multiCellHeightNombre = $pdf->GetY() - $yStart;
 
-            $pdf->SetXY($xStart + 40, $yStart);
+           $pdf->SetXY($xStart + 50, $yStart);
 
-            // Imprimir correo de usuario
-            $pdf->MultiCell(50, 10, $pdf->encodeString($rowUser['correo']), 1, 'L');
-            $multiCellHeightCorreo = $pdf->GetY() - $yStart;
+           // Imprimir correo de usuario
+           $pdf->MultiCell(60, 10, $pdf->encodeString($rowUser['correo']), 1, 'L');
+           $multiCellHeightCorreo = $pdf->GetY() - $yStart;
 
-            $pdf->SetXY($xStart + 90, $yStart); // Ajustar posición X para DUI
+           $pdf->SetXY($xStart + 110, $yStart); // Ajustar posición X para DUI
 
-            // Imprimir DUI
-            $pdf->MultiCell(30, 10, $pdf->encodeString($rowUser['dui_cliente']), 1, 'L');
-            $multiCellHeightDui = $pdf->GetY() - $yStart;
+           // Imprimir DUI
+           $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['dui_cliente']), 1, 'L');
+           $multiCellHeightDui = $pdf->GetY() - $yStart;
 
-            $pdf->SetXY($xStart + 120, $yStart); // Ajustar posición X para Teléfono
+           $pdf->SetXY($xStart + 150, $yStart); // Ajustar posición X para Teléfono
 
-            // Imprimir Teléfono
-            $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['telefono']), 1, 'L');
-            $multiCellHeightTelefono = $pdf->GetY() - $yStart;
+           // Imprimir Teléfono
+           $pdf->MultiCell(40, 10, $pdf->encodeString($rowUser['telefono']), 1, 'L');
+           $multiCellHeightTelefono = $pdf->GetY() - $yStart;
 
-            $pdf->SetXY($xStart + 160, $yStart); // Ajustar posición X para Estado
-
-            // Imprimir estado
-            $pdf->Cell(30, max($multiCellHeightNombre, $multiCellHeightCorreo, $multiCellHeightDui, $multiCellHeightTelefono), 'Inactivos', 1, 1, 'C');
+           $pdf->SetXY($xStart + 160, $yStart); // Ajustar posición X para Estado
 
             // Ajustar la posición Y para la siguiente fila
             $pdf->SetY($yStart + max($multiCellHeightNombre, $multiCellHeightCorreo, $multiCellHeightDui, $multiCellHeightTelefono));
