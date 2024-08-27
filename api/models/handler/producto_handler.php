@@ -264,16 +264,16 @@ ORDER BY
                     gz.id_genero = ?
                 ORDER BY 
                     p.nombre_producto';
-        
+
         // Parámetro para la consulta
         $params = array($this->id_genero);
-        
+
         // Ejecutar la consulta y devolver los resultados
         return Database::getRows($sql, $params);
     }
-    
 
-         // Método para leer productos con descuento.
+
+    // Método para leer productos con descuento.
     public function productosDescuento()
     {
         $sql = 'SELECT p.nombre_producto, p.codigo_interno, p.referencia_proveedor AS codigo_externo
@@ -322,7 +322,7 @@ ORDER BY
         return Database::getRow($sql, $params);
     }
 
-      // Método para actualizar un producto.   
+    // Método para actualizar un producto.   
     public function updateRow()
     {
         $sql = 'UPDATE tb_productos
@@ -523,10 +523,12 @@ WHERE
     public function cantidadProductosGenero()
     {
         $sql = 'SELECT g.nombre_genero, COUNT(p.id_producto) AS cantidad
-                FROM tb_productos p
-                JOIN tb_generos_zapatos g ON p.id_genero = g.id_genero
-                GROUP BY g.nombre_genero
-                LIMIT 5';
+        FROM tb_productos p
+        JOIN tb_generos_zapatos g ON p.id_genero = g.id_genero
+        GROUP BY g.nombre_genero
+        ORDER BY cantidad DESC
+        LIMIT 5
+        ';
         return Database::getRows($sql);
     }
     //Metodo para grafica predictiva
@@ -629,7 +631,7 @@ ORDER BY
         return Database::getRows($sql);
     }
 
-   
+
     public function PredictivoProductosCategoria()
     {
         $sql = 'WITH VentasMensuales AS (

@@ -205,7 +205,6 @@ VALUES
 SELECT * FROM tb_detalles_reservas;
 
 
-
 -- Inserta reservas y detalles de reservas para los últimos 6 meses
 INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva)
 VALUES 
@@ -234,7 +233,7 @@ VALUES
 (29, 19, 1, 189.99, 9),
 (30, 20, 3, 39.99, 10);
 
---Ejecutar uno por uno a partir de acá
+
 -- Inserta reservas y detalles de reservas para los próximos 3 meses
 INSERT INTO tb_reservas (id_reserva, id_usuario, fecha_reserva, estado_reserva)
 VALUES 
@@ -253,3 +252,4 @@ VALUES
 (35, 25, 2, 79.99, 4),
 (36, 26, 1, 59.99, 5),
 (37, 27, 1, 99.99, 6);
+

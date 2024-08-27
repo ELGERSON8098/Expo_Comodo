@@ -100,4 +100,3 @@ if ($pedidos && count($pedidos) > 0) {
 }
 
 $pdf->output('I', 'pedidos_aceptados.pdf');
-?>

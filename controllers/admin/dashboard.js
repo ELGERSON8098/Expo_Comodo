@@ -70,7 +70,7 @@ const graficoPastelCategorias = async () => {
             categorias.push(row.nombre_categoria);
             porcentajes.push(row.porcentaje);
         });
-        pieGraph('chart2', categorias, porcentajes, 'Cantidad de productos por categoría');
+        pieGraph('chart2', categorias, porcentajes, 'Categorías con mayor porcentaje de productos');
     } else {
         document.getElementById('chart2').remove();
         console.log(DATA.error);
@@ -112,7 +112,7 @@ const graficoRadarCategorias = async () => {
             marcas.push(row.marca);
             cantidades.push(row.cantidad);
         });
-        radarGraph('chart4', marcas, cantidades, 'Cantidad de productos vendidos', 'Marca más comprada');
+        radarGraph('chart4', marcas, cantidades, 'Cantidad de productos vendidos', 'Marcas más comprada');
     } else {
         document.getElementById('chart4').remove();
         console.log(DATA.error);
@@ -156,7 +156,7 @@ const graficoTortaGeneros = async () => {
         });
         
         // Llamada a la función para generar y mostrar un gráfico de torta.
-        pieGraph('chart6', generos, cantidades, 'Distribución de productos por género');
+        pieGraph('chart6', generos, cantidades, 'Top 5 géneros con mayor cantidad de productos');
     } else {
         document.getElementById('chart6').remove();
         console.log(DATA.error);
@@ -356,7 +356,7 @@ const graficoInventarioMarcasyTallas = async () => {
             productos.push(`${row.nombre_producto} (${row.nombre_talla})`); // Captura el nombre del producto junto con la talla
             cantidades.push(row.total_existencias); // Captura la cantidad de productos
         });
-        barGraph('chart10', productos, cantidades, 'Cantidad de productos en inventario', 'Inventario de productos por talla');
+        barGraph5('chart10', productos, cantidades, 'Cantidad de productos en inventario', 'Top 5 productos con mayor cantidad de existencias por marca y talla');
     } else {
         document.getElementById('chart10').remove();
         console.log(DATA.error);

@@ -73,7 +73,7 @@ if (isset($_GET['idGenero'])) {
                 // No hay productos para mostrar
                 $pdf->SetFont('Arial', '', 10);
                 $pdf->SetTextColor(0, 0, 0);
-                $pdf->Cell(190, 10, 'No hay productos para el género', 1, 1, 'C');
+                $pdf->Cell(190, 10, $pdf->encodeString('No hay productos para el género'), 1, 1, 'C');
             }
         
             // Se llama implícitamente al método footer() y se envía el documento al navegador web.
