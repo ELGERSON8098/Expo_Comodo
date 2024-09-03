@@ -31,11 +31,11 @@
         <h3 id="mainTitle"></h3>
         <div class="row">
             <!-- Formulario de búsqueda -->
-            <form class="col-sm-12 col-md-6" id="searchForm">
+            <form class="col-sm-12 col-md-6" id="searchForm" autocomplete="off">
                 <div class="row">
                     <div class="col-6">
                         <input type="search" class="form-control" name="search"
-                            placeholder="Buscar por nombre de categoría" required>
+                            placeholder="Buscar por nombre de categoría" required autocomplete="off">
                     </div>
                     <div class="col-6">
                         <button type="submit" class="btn btn-success">
@@ -116,7 +116,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <!-- Formulario para guardar un registro -->
-                    <form id="saveForm">
+                    <form id="saveForm" autocomplete="off">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para el ID -->
                             <input type="hidden" id="idCategoria" name="idCategoria">
@@ -127,7 +127,7 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreCategoria" class="form-label">Nombre de la categoría</label>
                                 <input id="nombreCategoria" type="text" name="nombreCategoria" class="form-control"
-                                    required>
+                                    required autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">
