@@ -158,9 +158,15 @@
                     </div>
                     <div class="mb-3">
                         <label for="claveAdministrador" class="form-label">Contraseña</label>
-                        <input id="claveAdministrador" type="password" name="claveAdministrador" class="form-control"
-                            required>
+                        <input id="claveAdministrador" type="password" name="claveAdministrador" class="form-control" required>
+                        <!-- Barra de fortaleza de contraseña -->
+                        <div class="progress mt-2">
+                            <div id="passwordStrength" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                                aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        <small id="passwordFeedback" class="form-text text-muted"></small>
                     </div>
+                    
                     <div class="mb-3">
                         <label for="confirmarClave" class="form-label">Confirmar contraseña</label>
                         <input id="confirmarClave" type="password" name="confirmarClave" class="form-control" required>
@@ -177,6 +183,7 @@
 
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="../../resources/js/contraseña.js"></script>
     <script type="text/javascript" src="../../controllers/utils/components.js"></script>
     <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
     <script type="text/javascript" src="../../controllers/admin/index.js"></script>
