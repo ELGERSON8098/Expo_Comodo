@@ -1,90 +1,184 @@
 <!DOCTYPE html>
-<!-- Declaración del idioma para el documento -->
 <html lang="es">
 
 <head>
-    <!-- Título del documento -->
-    <title></title>
-    <!-- Metadatos de la página web -->
+    <title>Sistema de Login</title>
     <meta charset="utf-8">
-    <!-- Compatibilidad con Internet Explorer -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- IMPORTACIÓN DE RECURSOS EXTERNOS -->
-    <!-- Llamada al icono de la página web -->
     <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
-    <!-- Llamada a las hojas de estilos del framework e iconos -->
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
+    <style>
+        /* Estilos generales */
+        body {
+            background-color: #E6E6FA;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: #E6E6FA;
+            display: flex;
+            flex-direction: column;
+            /* Cambia a columna por defecto para dispositivos más pequeños */
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px;
+        }
+
+        .login-form-container {
+            flex: 1;
+            padding: 30px;
+            background-color: #ffffff;
+        }
+
+        .login-image {
+            flex: 1;
+            background: linear-gradient(45deg, #6c63ff, #9370DB);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-image img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        h3 {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: #6c63ff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #5a52d5;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        #loginForm,
+        #signupForm {
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .d-none {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Media queries para tamaños de pantalla más grandes */
+        @media (min-width: 768px) {
+            .login-container {
+                flex-direction: row;
+                /* Cambia a fila para pantallas medianas en adelante */
+                max-width: 800px;
+            }
+
+            .login-form-container {
+                padding: 50px;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .login-container {
+                max-width: 1000px;
+            }
+
+            .login-form-container {
+                padding: 70px;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <!-- Contenido principal del documento -->
     <main>
-        <!-- Título del contenido principal -->
-        <h3 id="mainTitle"></h3>
-        <!-- Imagen del usuario -->
-        <img src="../../resources/img/user.png" class="mx-auto d-block" width="200">
-        <!-- Formulario para iniciar sesión -->
-        <form class="d-none" id="loginForm">
-            <div class="row g-3">
-                <div class="col-sm-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-                    <label for="alias" class="form-label">Usuario</label>
-                    <input id="alias" type="text" name="alias" class="form-control" required>
-                </div>
-                <div class="col-sm-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-                    <label for="clave" class="form-label">Contraseña</label>
-                    <input id="clave" type="password" name="clave" class="form-control" required>
-                </div>
-                <div class="text-center">
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-send"></i> Enviar</button>
-                </div>
-            </div>
-        </form>
-        <!-- Formulario para crear el primer administrador -->
-        <form class="d-none" id="signupForm">
-            <div class="row g-3">
-                <div class="col-sm-12 col-md-6">
-                    <label for="nombreAdministrador" class="form-label">Nombre</label>
-                    <input id="nombreAdministrador" type="text" name="nombreAdministrador" class="form-control"
-                        required>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <label for="aliasAdministrador" class="form-label">Usuario</label>
-                    <input id="aliasAdministrador" type="text" name="aliasAdministrador" class="form-control" required>
-                </div>
+        <div class="login-container">
+            <div class="login-form-container">
+                <h3 id="mainTitle">Bienvenido a Comodo$</h3>
 
-                <div class="col-sm-12 col-md-6">
-                    <label for="correoAdministrador" class="form-label">Correo</label>
-                    <input id="correoAdministrador" type="email" name="correoAdministrador" class="form-control"
-                        required>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <label for="claveAdministrador" class="form-label">Contraseña</label>
-                    <input id="claveAdministrador" type="password" name="claveAdministrador" class="form-control"
-                        required>
-                </div>
-                <div class="col-sm-12 col-md-6">
-                    <label for="confirmarClave" class="form-label">Confirmar contraseña</label>
-                    <input id="confirmarClave" type="password" name="confirmarClave" class="form-control" required>
-                </div>
-                <div class="text-center">
-                    <button type="reset" class="btn btn-secondary"><i class="bi bi-x-square"></i> Cancelar</button>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
-                </div>
+                <!-- Formulario de inicio de sesión -->
+                <form class="d-none" id="loginForm">
+                    <div class="mb-3">
+                        <label for="alias" class="form-label">Usuario</label>
+                        <input id="alias" type="text" name="alias" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="clave" class="form-label">Contraseña</label>
+                        <input id="clave" type="password" name="clave" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                </form>
+
+                <!-- Formulario de registro (inicialmente oculto) -->
+                <form class="d-none" id="signupForm">
+                    <div class="mb-3">
+                        <label for="nombreAdministrador" class="form-label">Nombre</label>
+                        <input id="nombreAdministrador" type="text" name="nombreAdministrador" class="form-control"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="aliasAdministrador" class="form-label">Usuario</label>
+                        <input id="aliasAdministrador" type="text" name="aliasAdministrador" class="form-control"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="correoAdministrador" class="form-label">Correo</label>
+                        <input id="correoAdministrador" type="email" name="correoAdministrador" class="form-control"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="claveAdministrador" class="form-label">Contraseña</label>
+                        <input id="claveAdministrador" type="password" name="claveAdministrador" class="form-control"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="confirmarClave" class="form-label">Confirmar contraseña</label>
+                        <input id="confirmarClave" type="password" name="confirmarClave" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
             </div>
-        </form>
+            <div class="login-image">
+                <img src="../../resources/img/image-removebg-preview (5).png" alt="Login Illustration">
+            </div>
+        </div>
+
     </main>
-    <!-- IMPORTACIÓN DE ARCHIVOS JAVASCRIPT -->
-    <!-- Llamada al framework y librería de mensajes -->
+
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-    <!-- Llamada al controlador general de la aplicación -->
     <script type="text/javascript" src="../../controllers/utils/components.js"></script>
-    <!-- Llamada al controlador del sitio privado -->
     <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
-    <!-- Llamada al controlador de la página web -->
     <script type="text/javascript" src="../../controllers/admin/index.js"></script>
 </body>
 
