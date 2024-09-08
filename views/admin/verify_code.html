@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Código</title>
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+    <style>
+        body {
+            background-color: #E6E6FA;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .verify-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+        }
+        .verify-form {
+            flex: 1;
+            padding-right: 40px;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-control {
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+        }
+        .btn-primary {
+            background-color: #6c63ff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #5a52d5;
+        }
+        .form-label {
+            font-weight: bold;
+            color: #555;
+        }
+        .verification-image {
+            max-width: 300px;
+            animation: bounce 2s ease infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+        .code-input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .code-input {
+            width: 50px;
+            height: 60px;
+            font-size: 24px;
+            text-align: center;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin: 0 5px;
+        }
+        .code-input:focus {
+            border-color: #6c63ff;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="verify-container">
+        <div class="verify-form">
+            <h2>Verificar código</h2>
+            <form id="verifyCodeForm">
+                <div class="mb-3" style="display: none;">
+                    <label for="correo" class="form-label">Correo electrónico</label>
+                    <input id="correo" type="email" name="correo" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="codigo" class="form-label">Código de verificación</label>
+                    <div class="code-input-container">
+                        <input type="text" class="code-input" maxlength="1" autofocus>
+                        <input type="text" class="code-input" maxlength="1">
+                        <input type="text" class="code-input" maxlength="1">
+                        <input type="text" class="code-input" maxlength="1">
+                        <input type="text" class="code-input" maxlength="1">
+                        <input type="text" class="code-input" maxlength="1">
+                    </div>
+                    <input id="codigo" type="hidden" name="codigo" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Verificar código</button>
+            </form>
+        </div>
+        <img src="../../resources/img/recuperación.png" alt="Verification Code" class="verification-image">
+    </div>
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/admin/verify_code.js"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Código de Recuperación</title>
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+    <style>
+        body {
+            background-color: #E6E6FA;
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .reset-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            align-items: center;
+        }
+
+        .reset-form {
+            flex: 1;
+            padding-right: 40px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            padding: 10px 15px;
+            margin-bottom: 15px;
+        }
+
+        .btn-primary {
+            background-color: #6c63ff;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            width: 100%;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn-primary:hover {
+            background-color: #5a52d5;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .recovery-image {
+            max-width: 300px;
+            animation: bounce 2s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateX(20px);
+            }
+            60% {
+                transform: translateX(10px);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="reset-container">
+        <div class="reset-form">
+            <h2>Solicitar código de recuperación</h2>
+            <form id="resetRequestForm">
+                <div class="mb-3">
+                    <label for="resetEmail" class="form-label">Correo electrónico</label>
+                    <input id="resetEmail" type="email" name="correo" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Solicitar código de verificación</button>
+            </form>
+        </div>
+        <img src="../../resources/img/recuperación.png" alt="Recovery Code" class="recovery-image">
+    </div>
+
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/admin/request_reset.js"></script>
+</body>
+
+</html>

@@ -137,6 +137,11 @@
                         <input id="clave" type="password" name="clave" class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                    <br><br>
+                    <!-- Enlace para la recuperación de contraseña -->
+                    <div class="mb-3">
+                        <a href="request_reset.html" class="text-decoration-none">¿Has olvidado tu contraseña?</a>
+                    </div>
                 </form>
 
                 <!-- Formulario de registro (inicialmente oculto) -->
@@ -158,15 +163,16 @@
                     </div>
                     <div class="mb-3">
                         <label for="claveAdministrador" class="form-label">Contraseña</label>
-                        <input id="claveAdministrador" type="password" name="claveAdministrador" class="form-control" required>
+                        <input id="claveAdministrador" type="password" name="claveAdministrador" class="form-control"
+                            required>
                         <!-- Barra de fortaleza de contraseña -->
                         <div class="progress mt-2">
-                            <div id="passwordStrength" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
-                                aria-valuemin="0" aria-valuemax="100"></div>
+                            <div id="passwordStrength" class="progress-bar" role="progressbar" style="width: 0%;"
+                                aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                         <small id="passwordFeedback" class="form-text text-muted"></small>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="confirmarClave" class="form-label">Confirmar contraseña</label>
                         <input id="confirmarClave" type="password" name="confirmarClave" class="form-control" required>

@@ -9,6 +9,7 @@ class AdministradorHandler
     protected $correo = null;
     protected $alias = null;
     protected $clave = null;
+    protected $reset_code = null;
     protected $id_nivel_usuario = 1;
 
     public function checkUser($username, $password)
@@ -219,4 +220,40 @@ WHERE
                 a.usuario_administrador ASC;';
         return Database::getRows($sql);
     }
+
+    public function checkEmail()
+    {
+        $sql = 'SELECT id_administrador FROM tb_admins WHERE correo_administrador = ?';
+        $params = array($this->correo);
+        return Database::getRow($sql, $params) ? true : false;
+    }
+
+    public function setResetCode($codigo)
+    {
+        $sql = 'UPDATE tb_admins SET reset_code = ?, reset_code_expiry = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE correo_administrador = ?';
+        $params = array($codigo, $this->correo);
+        return Database::executeRow($sql, $params);
+    }
+
+    public function verifyResetCode()
+    {
+        $sql = 'SELECT id_administrador FROM tb_admins WHERE correo_administrador = ? AND reset_code = ? AND reset_code_expiry > NOW()';
+        $params = array($this->correo, $this->reset_code);
+        return Database::getRow($sql, $params) ? true : false;
+    }
+
+    public function resetPassword()
+    {
+        // SQL para actualizar la contraseña, eliminar el código de restablecimiento y su caducidad.
+        $sql = 'UPDATE tb_admins 
+                SET clave_administrador = ?, reset_code = NULL, reset_code_expiry = NULL 
+                WHERE correo_administrador = ? AND reset_code = ? AND reset_code_expiry > NOW()';
+    
+        // Parámetros que se pasan a la consulta.
+        $params = array($this->clave, $this->correo, $this->reset_code);
+        
+        // Ejecutamos la consulta y retornamos el resultado.
+        return Database::executeRow($sql, $params);
+    }
+    
 }
