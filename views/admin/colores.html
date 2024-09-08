@@ -31,11 +31,11 @@
         <h3 id="mainTitle"></h3>
         <div class="row">
             <!-- Formulario de búsqueda -->
-            <form class="col-sm-12 col-md-6" id="searchForm">
+            <form class="col-sm-12 col-md-6" id="searchForm" autocomplete="off">
                 <div class="row">
                     <div class="col-6">
                         <input type="search" class="form-control" name="search"
-                            placeholder="Buscar por nombre de color..." required>
+                            placeholder="Buscar por nombre de color..." required autocomplete="off">
                     </div>
                     <div class="col-6">
                         <button type="submit" class="btn btn-success">
@@ -112,13 +112,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <!-- Formulario para guardar un registro -->
-                    <form id="saveForm">
+                    <form id="saveForm" autocomplete="off">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para el ID -->
                             <input type="number" class="d-none" id="idColor" name="idColor">
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreColor" class="form-label">Nombre del color</label>
-                                <input id="nombreColor" type="text" name="nombreColor" class="form-control" required>
+                                <input id="nombreColor" type="text" name="nombreColor" class="form-control" required autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">

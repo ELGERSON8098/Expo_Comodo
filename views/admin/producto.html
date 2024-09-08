@@ -32,11 +32,11 @@
         <h3 id="mainTitle"></h3>
         <!-- Formulario de búsqueda -->
         <div class="row">
-            <form class="col-sm-12 col-md-6" id="searchForm">
+            <form class="col-sm-12 col-md-6" id="searchForm" autocomplete="off">
                 <div class="row">
                     <div class="col-6">
                         <input type="search" class="form-control" name="search"
-                            placeholder="Buscar por nombre del producto o código interno..." required>
+                            placeholder="Buscar por nombre del producto o código interno..." required autocomplete="off">
                     </div>
                     <div class="col-6">
                         <button type="submit" class="btn btn-success">
@@ -58,7 +58,6 @@
                 <button type="button" class="btn btn-primary" onclick="openReportCategoria()">
                     <i class="bi bi-file-earmark-pdf-fill"></i>
                 </button>
-                
             </div>
         </div>
 
@@ -82,7 +81,6 @@
                     <th>Acciones</th>
                 </tr>
             </thead>
-            
 
             <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
@@ -98,60 +96,60 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <!-- Formulario para guardar un nuevo producto -->
-                    <form id="saveForm">
+                    <form id="saveForm" autocomplete="off">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para el ID del producto -->
-                            <input type="number" class="d-none" id="idProducto" name="idProducto">
+                            <input type="number" class="d-none" id="idProducto" name="idProducto" autocomplete="off">
                             <!-- Campo para la imagen del producto -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="imagen" class="form-label">Imagen del producto</label>
-                                <input id="imagen" type="file" name="imagen" class="form-control">
+                                <input id="imagen" type="file" name="imagen" class="form-control" autocomplete="off">
                             </div>
                             <!-- Campos para los datos del producto -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreProducto" class="form-label">Nombre del producto</label>
                                 <input id="nombreProducto" type="text" name="nombreProducto" class="form-control"
-                                    required>
+                                    required autocomplete="off">
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="codigoInterno" class="form-label">Código interno</label>
                                 <input id="codigoInterno" type="text" name="codigoInterno" class="form-control"
-                                    required>
+                                    required autocomplete="off">
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="referenciaPro" class="form-label">Código Proveedor</label>
                                 <input id="referenciaPro" type="text" name="referenciaPro" class="form-control"
-                                    required>
+                                    required autocomplete="off">
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="precioProducto" class="form-label">Precio</label>
                                 <input id="precioProducto" type="number" name="precioProducto" class="form-control"
-                                    required>
+                                    required autocomplete="off">
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreMarca" class="form-label">Marca</label>
-                                <select id="nombreMarca" name="nombreMarca" class="form-control" required>
+                                <select id="nombreMarca" name="nombreMarca" class="form-control" required autocomplete="off">
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombre_genero" class="form-label">Género</label>
-                                <select id="nombre_genero" name="nombre_genero" class="form-control" required>
+                                <select id="nombre_genero" name="nombre_genero" class="form-control" required autocomplete="off">
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreCategoria" class="form-label">Categoría</label>
-                                <select id="nombreCategoria" name="nombreCategoria" class="form-control" required>
+                                <select id="nombreCategoria" name="nombreCategoria" class="form-control" required autocomplete="off">
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreMaterial" class="form-label">Material</label>
-                                <select id="nombreMaterial" name="nombreMaterial" class="form-control" required>
+                                <select id="nombreMaterial" name="nombreMaterial" class="form-control" required autocomplete="off">
                                 </select>
                             </div>
 
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreDescuento" class="form-label">Descuento</label>
-                                <select id="nombreDescuento" name="nombreDescuento" class="form-control">
+                                <select id="nombreDescuento" name="nombreDescuento" class="form-control" autocomplete="off">
                                 </select>
                             </div>
                         </div>
@@ -191,47 +189,48 @@
                         <br><br><br>
                         <h5 class="modal-title" id="modalDetailTitle">Agregar Detalle de Producto</h5>
                         <!-- Formulario para agregar nuevos detalles -->
-                        <form id="saveDetailForm">
+                        <form id="saveDetailForm" autocomplete="off">
                             <!-- Campo oculto para el ID del producto -->
-                            <input type="number" class="d-none" id="idProductoDetalle" name="idProductoDetalle">
-                            <input type="number" class="d-none" id="idDetalle" name="idDetalle">
-                            <div class="mb-3">
-                                <label for="nombreTalla" class="form-label">Talla</label>
-                                <select id="nombreTalla" name="nombreTalla" class="form-select" required></select>
+                            <input type="number" class="d-none" id="idProductoDetalle" name="idProducto" autocomplete="off">
+                            <!-- Campos para los detalles del producto -->
+                            <div class="row g-3">
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="nombreColor" class="form-label">Color</label>
+                                    <select id="nombreColor" name="nombreColor" class="form-control" required autocomplete="off">
+                                    </select>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="descripcion" class="form-label">Descripción</label>
+                                    <input id="descripcion" type="text" name="descripcion" class="form-control" required
+                                        autocomplete="off">
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="idTalla" class="form-label">Talla</label>
+                                    <select id="idTalla" name="idTalla" class="form-control" required autocomplete="off">
+                                    </select>
+                                </div>
+                                <div class="col-sm-12 col-md-6">
+                                    <label for="existencias" class="form-label">Existencias</label>
+                                    <input id="existencias" type="number" name="existencias" class="form-control" required
+                                        autocomplete="off">
+                                </div>
                             </div>
-                            <div class="mb-3">
-                                <label for="existencias" class="form-label">Existencias</label>
-                                <input type="number" id="existencias" name="existencias" class="form-control" required>
+                            <br>
+                            <div class="modal-footer">
+                                <!-- Botón para guardar los detalles -->
+                                <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
-                            <div class="mb-3">
-                                <label for="nombreColor" class="form-label">Color</label>
-                                <select id="nombreColor" name="nombreColor" class="form-select" required></select>
-                            </div>
-                            <div class="mb-3">
-                                <label for="descripcion" class="form-label">Descripción</label>
-                                <textarea id="descripcion" name="descripcion" class="form-control" rows="3"
-                                    required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Guardar detalle</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
-
-
-
     </main>
-    <!-- Bootstrap JavaScript -->
-    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert JavaScript -->
-    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-
-    <!-- Controladores JavaScript -->
-    <script src="../../controllers/utils/components.js"></script>
-    <script src="../../controllers/utils/admin.js"></script>
-    <script src="../../controllers/admin/producto.js"></script>
+    <!-- Script de Bootstrap -->
+    <script src="../../app/helpers/components.js"></script>
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script src="../../app/controllers/dashboard/public/categorias.js"></script>
 </body>
 
 </html>

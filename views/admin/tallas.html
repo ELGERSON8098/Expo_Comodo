@@ -31,10 +31,10 @@
         <h3 id="mainTitle"></h3>
         <div class="row">
             <!-- Formulario de búsqueda -->
-            <form class="col-sm-12 col-md-6" id="searchForm">
+            <form class="col-sm-12 col-md-6" id="searchForm" autocomplete="off">
                 <div class="row">
                     <div class="col-6">
-                        <input type="search" class="form-control" name="search" placeholder="Buscar por talla" required>
+                        <input type="search" class="form-control" name="search" placeholder="Buscar por talla" required autocomplete="off">
                     </div>
                     <div class="col-6">
                         <button type="submit" class="btn btn-success">
@@ -93,7 +93,6 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th></th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -111,14 +110,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <!-- Formulario para guardar una talla -->
-                    <form id="saveForm">
+                    <form id="saveForm" autocomplete="off">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para el ID de la talla -->
-                            <input type="number" class="d-none" id="idTalla" name="idTalla">
+                            <input type="number" class="d-none" id="idTalla" name="idTalla" autocomplete="off">
                             <!-- Campo para ingresar el nombre de la talla -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreTalla" class="form-label">Talla de zapatos</label>
-                                <input id="nombreTalla" type="number" name="nombreTalla" class="form-control" step="0.01" required>
+                                <input id="nombreTalla" type="number" name="nombreTalla" class="form-control" step="0.01" required autocomplete="off">
                             </div>
                         </div>
                         <div class="modal-footer">
