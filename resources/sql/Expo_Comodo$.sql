@@ -155,6 +155,10 @@ ALTER TABLE tb_usuarios
 ADD COLUMN recovery_pin VARCHAR(10) NULL,
 ADD COLUMN pin_expiry DATETIME NULL;
 
+ALTER TABLE tb_admins
+ADD COLUMN intentos_fallidos INT UNSIGNED DEFAULT 0 NOT NULL,
+ADD COLUMN bloqueo_hasta DATETIME NULL;
+
 INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
 (1, 'administrador'),
