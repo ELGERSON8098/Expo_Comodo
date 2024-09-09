@@ -7,5 +7,4 @@ date_default_timezone_set('America/El_Salvador');
 define('SERVER', 'localhost');
 define('DATABASE', 'expo_comodos');
 define('USERNAME', 'expo_comodos');
-define('PASSWORD', '12345678');
-?>
+define('PASSWORD', '');
