@@ -159,6 +159,12 @@ ALTER TABLE tb_admins
 ADD COLUMN intentos_fallidos INT UNSIGNED DEFAULT 0 NOT NULL,
 ADD COLUMN bloqueo_hasta DATETIME NULL;
 
+ALTER TABLE tb_admins
+ADD COLUMN reset_code VARCHAR(6) DEFAULT NULL,
+ADD COLUMN reset_code_expiry DATETIME DEFAULT NULL;
+
+ALTER TABLE tb_admins ADD COLUMN totp_secret VARCHAR(32);
+ALTER TABLE tb_admins ADD COLUMN totp_enabled BOOLEAN DEFAULT FALSE;
 INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
 (1, 'administrador'),
