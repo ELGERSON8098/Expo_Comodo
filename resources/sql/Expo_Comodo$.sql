@@ -165,6 +165,9 @@ ADD COLUMN reset_code_expiry DATETIME DEFAULT NULL;
 
 ALTER TABLE tb_admins ADD COLUMN totp_secret VARCHAR(32);
 ALTER TABLE tb_admins ADD COLUMN totp_enabled BOOLEAN DEFAULT FALSE;
+
+ALTER TABLE tb_usuarios ADD COLUMN ultima_actividad TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
 INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
 (1, 'administrador'),

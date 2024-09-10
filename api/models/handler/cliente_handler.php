@@ -223,4 +223,27 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Nuevo método para actualizar la última actividad del usuario
+    public function updateLastActivity($userId)
+    {
+        $sql = 'UPDATE tb_usuarios SET ultima_actividad = NOW() WHERE id_usuario = ?';
+        $params = array($userId);
+        return Database::executeRow($sql, $params);
+    }
+
+    // Nuevo método para verificar si la sesión ha expirado
+    public function checkSessionExpiration($userId)
+    {
+        $sql = 'SELECT TIMESTAMPDIFF(MINUTE, ultima_actividad, NOW()) as inactive_time
+                FROM tb_usuarios
+                WHERE id_usuario = ?';
+        $params = array($userId);
+        $result = Database::getRow($sql, $params);
+        
+        if ($result && $result['inactive_time'] > 5) {
+            return true; // La sesión ha expirado
+        }
+        return false; // La sesión aún es válida
+    }
+
 }
