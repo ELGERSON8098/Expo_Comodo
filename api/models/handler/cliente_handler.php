@@ -223,7 +223,9 @@ class ClienteHandler
         return Database::executeRow($sql, $params);
     }
 
-    // Nuevo método para actualizar la última actividad del usuario
+
+
+    // Nuevo método para actualizar la última actividad del usuario.
     public function updateLastActivity($userId)
     {
         $sql = 'UPDATE tb_usuarios SET ultima_actividad = NOW() WHERE id_usuario = ?';
