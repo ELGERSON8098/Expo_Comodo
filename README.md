@@ -1,4 +1,4 @@
-# 🌟 Comodos 🌟
+# Comodos 
 
 ## 📜 Descripción del proyecto
 

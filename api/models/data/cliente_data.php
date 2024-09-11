@@ -105,7 +105,7 @@ class ClienteData extends ClienteHandler
     {
         // Verificar si el valor del teléfono es una cadena.
         if (!is_string($value)) {
-            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)###-####';
+            $this->data_error = 'El teléfono debe tener el formato (2, 6, 7)####-####';
             return false;
         }
     

@@ -1,5 +1,5 @@
 <?php
-// Se incluye la clase del modelo.
+// Se incluye la clase del modelo y se importan los archivos necesarios.
 require_once ('../../models/data/cliente_data.php');
 require_once ('../../services/admin/mail_config.php');
 
@@ -14,6 +14,10 @@ if (isset($_GET['action'])) {
     // Se verifica si existe una sesión iniciada como cliente para realizar las acciones correspondientes.
     if (isset($_SESSION['idUsuario'])) {
         $result['session'] = 1;
+
+        // Si la sesión no ha expirado, actualizamos la última actividad
+        $cliente->updateLastActivity($_SESSION['idUsuario']);
+
         // Se compara la acción a realizar cuando un cliente ha iniciado sesión.
         switch ($_GET['action']) {
             case 'getUser':
@@ -66,15 +70,30 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-
-            case 'logOut':
-                if (session_destroy()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Sesión eliminada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al cerrar la sesión';
-                }
-                break;
+                case 'checkSession':
+                    // Verificamos si la sesión ha expirado
+        if ($cliente->checkSessionExpiration($_SESSION['idUsuario'])) {
+            // La sesión ha expirado, forzamos el cierre de sesión
+            session_destroy();
+            $result['session'] = 0;
+            $result['error'] = 'La sesión ha expirado por inactividad';
+            echo json_encode($result);
+            exit;
+        } else {
+            // La sesión no ha expirado
+            $result['session'] = 1;
+            $result['error'] = '';
+        }
+                    break;
+    
+                case 'logOut':
+                    if (session_destroy()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Sesión cerrada correctamente';
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al cerrar la sesión';
+                    }
+                    break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
@@ -248,3 +267,4 @@ if (isset($_GET['action'])) {
 } else {
     print (json_encode('Recurso no disponible'));
 }
+

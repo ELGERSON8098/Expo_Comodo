@@ -155,6 +155,19 @@ ALTER TABLE tb_usuarios
 ADD COLUMN recovery_pin VARCHAR(10) NULL,
 ADD COLUMN pin_expiry DATETIME NULL;
 
+ALTER TABLE tb_admins
+ADD COLUMN intentos_fallidos INT UNSIGNED DEFAULT 0 NOT NULL,
+ADD COLUMN bloqueo_hasta DATETIME NULL;
+
+ALTER TABLE tb_admins
+ADD COLUMN reset_code VARCHAR(6) DEFAULT NULL,
+ADD COLUMN reset_code_expiry DATETIME DEFAULT NULL;
+
+ALTER TABLE tb_admins ADD COLUMN totp_secret VARCHAR(32);
+ALTER TABLE tb_admins ADD COLUMN totp_enabled BOOLEAN DEFAULT FALSE;
+
+ALTER TABLE tb_usuarios ADD COLUMN ultima_actividad TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+
 INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
 (1, 'administrador'),

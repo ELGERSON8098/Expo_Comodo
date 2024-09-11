@@ -176,21 +176,20 @@ class ClienteHandler
     }
 
     // Genera un PIN de recuperación y lo almacena en la base de datos.
-    public function generarPinRecuperacion()
+     public function generarPinRecuperacion()
     {
         $pin = sprintf("%06d", mt_rand(1, 999999)); // Genera un PIN de 6 dígitos
-        $expiry = date('Y-m-d H:i:s', strtotime('+30 minutes')); // 30 minutos desde ahora
 
-        $sql = "UPDATE tb_usuarios SET recovery_pin = ?, pin_expiry = ? WHERE correo = ?";
-        $params = array($pin, $expiry, $this->correo);
+        $sql = "UPDATE tb_usuarios SET recovery_pin = ?, pin_expiry = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE correo = ?";
+        $params = array($pin, $this->correo);
 
         if (Database::executeRow($sql, $params)) {
             return $pin; // Retorna el PIN para enviarlo al usuario
         } else {
             // Manejo de errores
             error_log("Error al generar el PIN de recuperación para el correo: " . $this->correo);
+            return false;
         }
-        return false;
     }
     //Verifica el PIN de recuperación ingresado por el usuario.
     public function verificarPinRecuperacion($pin)
@@ -222,6 +221,31 @@ class ClienteHandler
         $sql = 'UPDATE tb_usuarios SET clave = ? WHERE id_usuario = ?';
         $params = array(password_hash($nuevaClave, PASSWORD_DEFAULT), $id_usuario);
         return Database::executeRow($sql, $params);
+    }
+
+
+
+    // Nuevo método para actualizar la última actividad del usuario.
+    public function updateLastActivity($userId)
+    {
+        $sql = 'UPDATE tb_usuarios SET ultima_actividad = NOW() WHERE id_usuario = ?';
+        $params = array($userId);
+        return Database::executeRow($sql, $params);
+    }
+
+    // Nuevo método para verificar si la sesión ha expirado
+    public function checkSessionExpiration($userId)
+    {
+        $sql = 'SELECT TIMESTAMPDIFF(MINUTE, ultima_actividad, NOW()) as inactive_time
+                FROM tb_usuarios
+                WHERE id_usuario = ?';
+        $params = array($userId);
+        $result = Database::getRow($sql, $params);
+        
+        if ($result && $result['inactive_time'] > 5) {
+            return true; // La sesión ha expirado
+        }
+        return false; // La sesión aún es válida
     }
 
 }

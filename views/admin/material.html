@@ -31,12 +31,11 @@
         <h3 id="mainTitle"></h3>
         <!-- Formulario de búsqueda -->
         <div class="row">
-            <form class="col-sm-12 col-md-6" id="searchForm">
+            <form class="col-sm-12 col-md-6" id="searchForm" autocomplete="off">
                 <div class="row">
                     <div class="col-6">
                         <!-- Campo de búsqueda -->
-                        <input type="search" class="form-control" name="search"
-                            placeholder="Buscar por nombre de material" required>
+                        <input type="search" class="form-control" name="search" placeholder="Buscar por nombre de material" required autocomplete="off">
                     </div>
                     <div class="col-6">
                         <!-- Botón de búsqueda -->
@@ -54,7 +53,7 @@
             <br>
             <!-- Botón para añadir nuevo registro -->
             <div class="col-12 col-sm-auto ms-auto">
-                <button type="button" class="btn btn-primary  me-2 mb-2 mb-sm-0" onclick="openCreate()">
+                <button type="button" class="btn btn-primary me-2 mb-2 mb-sm-0" onclick="openCreate()">
                     <i class="bi bi-plus-square-fill"></i>
                 </button>
             </div>
@@ -89,7 +88,6 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th></th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -98,8 +96,7 @@
         </table>
 
         <!-- Componente Modal para guardar un registro -->
-        <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -109,15 +106,14 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <!-- Formulario dentro del modal -->
-                    <form id="saveForm">
+                    <form id="saveForm" autocomplete="off">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
-                            <input type="number" class="d-none" id="idMaterial" name="idMaterial">
+                            <input type="number" class="d-none" id="idMaterial" name="idMaterial" autocomplete="off">
                             <!-- Campo para ingresar nombre de la marca -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreMaterial" class="form-label">Nombre del material</label>
-                                <input id="nombreMaterial" type="text" name="nombreMaterial" class="form-control"
-                                    required>
+                                <input id="nombreMaterial" type="text" name="nombreMaterial" class="form-control" required autocomplete="off">
                             </div>
                         </div>
                         <!-- Botón de guardar dentro del modal -->

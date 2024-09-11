@@ -1,7 +1,7 @@
 <?php
 // Se incluye la clase del modelo.
-require_once ('../../models/data/administrador_data.php');
-require_once ('../../services/admin/mail_config.php');
+require_once('../../models/data/administrador_data.php');
+require_once('../../services/admin/mail_config.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -288,11 +288,114 @@ if (isset($_GET['action'])) {
                 break;
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
-                if ($administrador->checkUser($_POST['alias'], $_POST['clave'])) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Autenticación correcta';
+
+                // Obtener el alias y clave
+                $alias = $_POST['alias'];
+                $clave = $_POST['clave'];
+
+                // Verificar si el usuario está bloqueado
+                $checkBlockSql = 'SELECT intentos_fallidos, bloqueo_hasta FROM tb_admins WHERE usuario_administrador = ?';
+                $checkBlockParams = array($alias);
+                $blockData = Database::getRow($checkBlockSql, $checkBlockParams);
+
+                if ($blockData) {
+                    if ($blockData['bloqueo_hasta'] && new DateTime() < new DateTime($blockData['bloqueo_hasta'])) {
+                        $result['error'] = 'Cuenta bloqueada. Intenta de nuevo después de ' . (new DateTime($blockData['bloqueo_hasta']))->diff(new DateTime())->format('%H:%I:%S') . ' horas.';
+                        break;
+                    }
+
+                    // Verificar las credenciales del usuario
+                    if ($administrador->checkUser($alias, $clave)) {
+                        // Resetear intentos fallidos y bloqueo
+                        $updateSql = 'UPDATE tb_admins SET intentos_fallidos = 0, bloqueo_hasta = NULL WHERE usuario_administrador = ?';
+                        Database::executeRow($updateSql, array($alias));
+
+                        $result['status'] = 1;
+                        $result['message'] = 'Autenticación correcta';
+                    } else {
+                        // Incrementar intentos fallidos
+                        $newAttempts = $blockData['intentos_fallidos'] + 1;
+
+                        if ($newAttempts >= 3) {
+                            $bloqueoHasta = (new DateTime())->modify('+24 hours')->format('Y-m-d H:i:s');
+                            $updateSql = 'UPDATE tb_admins SET intentos_fallidos = ?, bloqueo_hasta = ? WHERE usuario_administrador = ?';
+                            Database::executeRow($updateSql, array($newAttempts, $bloqueoHasta, $alias));
+
+                            $result['error'] = 'Cuenta bloqueada por 24 horas debido a múltiples intentos fallidos. Intenta de nuevo después de 24 horas.';
+                        } else {
+                            $updateSql = 'UPDATE tb_admins SET intentos_fallidos = ? WHERE usuario_administrador = ?';
+                            Database::executeRow($updateSql, array($newAttempts, $alias));
+
+                            $result['error'] = 'Credenciales incorrectas. Intentos fallidos: ' . $newAttempts . '/3';
+                        }
+                    }
                 } else {
-                    $result['error'] = 'Credenciales incorrectas';
+                    $result['error'] = 'El usuario no existe';
+                }
+                break;
+            case 'requestPasswordReset':
+                $_POST = Validator::validateForm($_POST);
+                if (!$administrador->setCorreo($_POST['correo'])) {
+                    $result['error'] = 'Correo inválido';
+                } elseif ($administrador->checkEmail()) {
+                    // Generar código de verificación
+                    $codigo = sprintf("%06d", mt_rand(1, 999999));
+                    if ($administrador->setResetCode($codigo)) {
+                        $email = $_POST['correo'];
+                        $subject = "Código de recuperación de contraseña - Comodo$";
+                        $body = "
+                <p>Has solicitado restablecer tu contraseña.</p>
+                <p>Tu código de verificación es: <strong>{$codigo}</strong></p>
+                <p>Introduce este código en la aplicación para crear una nueva contraseña.</p>
+                <p>Si no has solicitado este cambio, puedes ignorar este correo.</p>
+                <p>El equipo de Comodo$</p>
+            ";
+                        $emailResult = sendEmail($email, $subject, $body);
+                        if ($emailResult === true) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Se ha enviado un código de verificación a tu correo electrónico.';
+                        } else {
+                            $result['error'] = 'No se pudo enviar el correo de recuperación.';
+                        }
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al generar el código de recuperación.';
+                    }
+                } else {
+                    $result['error'] = 'No existe una cuenta asociada a este correo.';
+                }
+                break;
+
+                case 'verifyResetCode':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    if (!$administrador->setCorreo($_POST['correo'])) {
+                        $result['error'] = 'Correo inválido';
+                    } elseif (!$administrador->setResetCodeForVerification($_POST['codigo'])) {
+                        $result['error'] = 'Código inválido';
+                    } elseif ($administrador->verifyResetCode()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Código verificado correctamente';
+                    } else {
+                        $result['error'] = 'Código de verificación incorrecto o expirado';
+                    }
+                    break;
+
+
+            case 'resetPassword':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$administrador->setCorreo($_POST['correo']) or
+                    !$administrador->setResetCodeForVerification($_POST['codigo']) or
+                    !$administrador->setClave($_POST['nuevaClave'])
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($_POST['nuevaClave'] != $_POST['confirmarClave']) {
+                    $result['error'] = 'Las contraseñas no coinciden';
+                } elseif ($administrador->resetPassword()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Contraseña restablecida correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al restablecer la contraseña';
                 }
                 break;
             default:

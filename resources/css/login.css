@@ -1,0 +1,177 @@
+ /* Estilos generales */
+ body {
+    background-color: #E6E6FA;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.login-form-container {
+    flex: 1;
+    padding: 30px;
+    background-color: #ffffff;
+}
+
+.login-image {
+    flex: 1;
+    background: linear-gradient(45deg, #6c63ff, #9370DB);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 200px;
+}
+
+.login-image img {
+    max-width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+h3 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-control {
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.btn-primary {
+    background-color: #6c63ff;
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    width: 100%;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #5a52d5;
+}
+
+.form-label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+#loginForm,
+#signupForm {
+    transition: opacity 0.3s ease-in-out;
+}
+
+.d-none {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Estilos responsivos */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+
+    .login-container {
+        border-radius: 0;
+    }
+
+    .login-form-container {
+        padding: 20px;
+    }
+
+    h3 {
+        font-size: 20px;
+    }
+
+    .btn-primary {
+        font-size: 14px;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .login-container {
+        max-width: 90%;
+    }
+}
+
+@media (min-width: 768px) {
+    .login-container {
+        flex-direction: row;
+        max-width: 90%;
+    }
+
+    .login-form-container,
+    .login-image {
+        flex: 1;
+    }
+
+    .login-form-container {
+        padding: 40px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .login-container {
+        max-width: 1000px;
+    }
+
+    .login-form-container {
+        padding: 50px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .login-form-container {
+        padding: 60px;
+    }
+}
+
+/* Ajustes para la barra de progreso de la contraseña */
+.progress {
+    height: 10px;
+    margin-top: 10px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+#passwordFeedback {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+}

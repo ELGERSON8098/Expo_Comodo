@@ -32,13 +32,12 @@
         <!-- Contenedor de la fila -->
         <div class="row">
             <!-- Formulario de búsqueda -->
-            <form class="col-sm-12 col-md-6" id="searchForm">
+            <form class="col-sm-12 col-md-6" id="searchForm" autocomplete="off">
                 <div class="row">
                     <div class="col-6">
                         <!-- Campo de búsqueda -->
                         <input type="search" class="form-control" name="search"
-                            placeholder="Buscar por nombre de descuento" required>
-
+                            placeholder="Buscar por nombre de descuento" required autocomplete="off">
                     </div>
                     <div class="col-6">
                         <!-- Botón de búsqueda -->
@@ -101,7 +100,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <!-- Formulario dentro del modal -->
-                    <form id="saveForm">
+                    <form id="saveForm" autocomplete="off">
                         <div class="modal-body row g-3">
                             <!-- Campo oculto para asignar el id del registro al momento de modificar -->
                             <input type="number" class="d-none" id="idDescuento" name="idDescuento">
@@ -109,18 +108,18 @@
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreDescuento" class="form-label">Nombre del descuento</label>
                                 <input id="nombreDescuento" type="text" name="nombreDescuento" class="form-control"
-                                    required>
+                                    required autocomplete="off">
                             </div>
                             <!-- Descripción del descuento -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreDesc" class="form-label">Descripción</label>
-                                <input id="nombreDesc" type="text" name="nombreDesc" class="form-control" required>
+                                <input id="nombreDesc" type="text" name="nombreDesc" class="form-control" required autocomplete="off">
                             </div>
                             <!-- Valor del descuento -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="ValorM" class="form-label">Valor</label>
                                 <input id="ValorM" type="number" name="ValorM" class="form-control" step="0.01"
-                                    required>
+                                    required autocomplete="off">
                             </div>
                         </div>
                         <!-- Botón de guardar dentro del modal -->
@@ -142,15 +141,15 @@
                     </div>
                     <div class="modal-body">
                         <!-- Formulario para seleccionar el rango de precios -->
-                        <form id="rangoPrecioForm">
+                        <form id="rangoPrecioForm" autocomplete="off">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="precioMin">Precio Mínimo</label>
-                                    <input type="number" class="form-control" id="precioMin" name="precioMin" required>
+                                    <input type="number" class="form-control" id="precioMin" name="precioMin" required autocomplete="off">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="precioMax">Precio Máximo</label>
-                                    <input type="number" class="form-control" id="precioMax" name="precioMax" required>
+                                    <input type="number" class="form-control" id="precioMax" name="precioMax" required autocomplete="off">
                                 </div>
                             </div>
                             <br>
@@ -167,8 +166,6 @@
 
     </main>
     <!-- Bootstrap JS -->
-     
-    <!-- Llamada al framework y librería de mensajes -->
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <!-- Chart.js -->
     <script type="text/javascript" src="../../resources/js/chart.umd.min.js"></script>

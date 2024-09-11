@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Código</title>
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+    <link type="text/css" rel="stylesheet" href="../../resources/css/recuperacion.css">
+</head>
+<body>
+    <div class="verify-container">
+        <div class="verify-form">
+            <h2>Verificar código</h2>
+            <form id="verifyCodeForm">
+                <div class="mb-3" style="display: none;">
+                    <label for="correo" class="form-label">Correo electrónico</label>
+                    <input id="correo" type="email" name="correo" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="codigo" class="form-label">Código de verificación</label>
+                    <div class="code-input-container">
+                        <input type="text" class="code-input" maxlength="1" autofocus>
+                        <input type="text" class="code-input" maxlength="1">
+                        <input type="text" class="code-input" maxlength="1">
+                        <input type="text" class="code-input" maxlength="1">
+                        <input type="text" class="code-input" maxlength="1">
+                        <input type="text" class="code-input" maxlength="1">
+                    </div>
+                    <input id="codigo" type="hidden" name="codigo" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Verificar código</button>
+            </form>
+        </div>
+        <img src="../../resources/img/recuperación.png" alt="Verification Code" class="verification-image">
+    </div>
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/admin/verify_code.js"></script>
+</body>
+</html>

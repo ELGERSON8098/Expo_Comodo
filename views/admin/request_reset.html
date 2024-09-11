@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Código de Recuperación</title>
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
+    <link type="text/css" rel="stylesheet" href="../../resources/css/recuperacion.css">
+</head>
+
+<body>
+    <div class="reset-container">
+        <div class="reset-form">
+            <h2>Solicitar código de recuperación</h2>
+            <form id="resetRequestForm">
+                <div class="mb-3">
+                    <label for="resetEmail" class="form-label">Correo electrónico</label>
+                    <input id="resetEmail" type="email" name="correo" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Solicitar código de verificación</button>
+            </form>
+        </div>
+        <img src="../../resources/img/recuperación.png" alt="Recovery Code" class="recovery-image">
+    </div>
+
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/admin/request_reset.js"></script>
+</body>
+
+</html>

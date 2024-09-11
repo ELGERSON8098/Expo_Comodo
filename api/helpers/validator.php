@@ -222,19 +222,41 @@ class Validator
     *   Parámetros: $value (dato a validar).
     *   Retorno: booleano (true si el valor es correcto o false en caso contrario).
     */
-    public static function validatePassword($value)
-    {
-        // Se verifica la longitud mínima.
-        if (strlen($value) < 8) {
-            self::$password_error = 'La contraseña es menor a 8 caracteres';
-            return false;
-        } elseif (strlen($value) <= 72) {
-            return true;
-        } else {
-            self::$password_error = 'La contraseña es mayor a 72 caracteres';
-            return false;
-        }
-    }
+   public static function validatePassword($value, $user_data = [])
+   {
+       // Verifica la longitud mínima y máxima.
+       if (strlen($value) < 8) {
+           self::$password_error = 'La contraseña es menor a 8 caracteres';
+           return false;
+       } elseif (strlen($value) > 72) {
+           self::$password_error = 'La contraseña es mayor a 72 caracteres';
+           return false;
+       }
+   
+       // Verifica que no tenga espacios en blanco.
+       if (preg_match('/\s/', $value)) {
+           self::$password_error = 'La contraseña no debe contener espacios en blanco';
+           return false;
+       }
+   
+       // Verifica que contenga al menos una letra, un número y un carácter especial.
+       if (!preg_match('/[A-Za-z]/', $value) || !preg_match('/\d/', $value) || !preg_match('/[\W_]/', $value)) {
+           self::$password_error = 'La contraseña debe incluir al menos una letra, un número y un carácter especial';
+           return false;
+       }
+   
+       // Verifica que no contenga datos del usuario.
+       foreach ($user_data as $data) {
+           if (stripos($value, $data) !== false) {
+               self::$password_error = 'La contraseña no debe contener datos del usuario';
+               return false;
+           }
+       }
+   
+       // Si pasa todas las validaciones, la contraseña es válida.
+       return true;
+   }
+   
 
     /*
     *   Método para validar el formato del DUI (Documento Único de Identidad).
