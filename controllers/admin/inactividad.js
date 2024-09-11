@@ -1,4 +1,4 @@
-let n = 300; // Tiempo de inactividad en segundos
+let n = 300;  // Tiempo de inactividad en segundos
 const l = document.getElementById("number"); // Elemento para mostrar el contador
 
 const startSessionTimer = () => {
@@ -7,14 +7,14 @@ const startSessionTimer = () => {
         l.innerText = Math.ceil(n / 60) + " min"; // Mostrar el tiempo en minutos
         n--;
 
-        // Si el contador llega a 0, cerrar sesión
+        // Si el  contador llega a 0, cerrar sesión
         if (n < 0) {
             logOut2(); // Llamar a la función de cierre de sesión
             clearInterval(id); // Detener el contador
         }
     }, 1000); // Actualizar cada segundo
 
-    // Reiniciar el contador al mover el ratón
+    // Reiniciar  el contador al mover el ratón
     document.onmousemove = function() {
         n = 300; // Reiniciar el contador a 10 segundos
     };
@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const logOut2 = async () => {
-    // Mostrar una alerta personalizada
+    // Mostrar una alerta personalizada 
     const alertMessage = document.createElement('div');
     alertMessage.innerText = 'Tu sesión ha expirado por motivos de inactividad';
     alertMessage.style.position = 'fixed';
@@ -50,7 +50,7 @@ const logOut2 = async () => {
         } else {
             alert(DATA.exception);
         }
-        // Remover la alerta del DOM
+        // Remover  la alerta del DOM
         document.body.removeChild(alertMessage);
     }, 3000); // Cambia 3000 por el tiempo que desees que dure la alerta (en milisegundos)
 }
