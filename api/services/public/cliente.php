@@ -15,7 +15,7 @@ if (isset($_GET['action'])) {
     if (isset($_SESSION['idUsuario'])) {
         $result['session'] = 1;
         
-        // Verificamos si la sesión ha expirado
+         // Verificamos si la sesión ha expirado
         if ($cliente->checkSessionExpiration($_SESSION['idUsuario'])) {
             // La sesión ha expirado, forzamos el cierre de sesión
             session_destroy();
@@ -23,6 +23,10 @@ if (isset($_GET['action'])) {
             $result['error'] = 'La sesión ha expirado por inactividad';
             echo json_encode($result);
             exit;
+        } else {
+            // La sesión no ha expirado
+            $result['session'] = 1;
+            $result['error'] = '';
         }
 
         // Si la sesión no ha expirado, actualizamos la última actividad
