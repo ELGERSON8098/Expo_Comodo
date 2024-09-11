@@ -14,20 +14,6 @@ if (isset($_GET['action'])) {
     // Se verifica si existe una sesión iniciada como cliente para realizar las acciones correspondientes.
     if (isset($_SESSION['idUsuario'])) {
         $result['session'] = 1;
-        
-         // Verificamos si la sesión ha expirado
-        if ($cliente->checkSessionExpiration($_SESSION['idUsuario'])) {
-            // La sesión ha expirado, forzamos el cierre de sesión
-            session_destroy();
-            $result['session'] = 0;
-            $result['error'] = 'La sesión ha expirado por inactividad';
-            echo json_encode($result);
-            exit;
-        } else {
-            // La sesión no ha expirado
-            $result['session'] = 1;
-            $result['error'] = '';
-        }
 
         // Si la sesión no ha expirado, actualizamos la última actividad
         $cliente->updateLastActivity($_SESSION['idUsuario']);
@@ -85,7 +71,20 @@ if (isset($_GET['action'])) {
                 break;
 
                 case 'checkSession':
-                    $result['status'] = 1; // La sesión sigue activa
+                $_POST = Validator::validateForm($_POST)
+                    // Verificamos si la sesión ha expirado
+        if ($cliente->checkSessionExpiration($_SESSION['idUsuario'])) {
+            // La sesión ha expirado, forzamos el cierre de sesión
+            session_destroy();
+            $result['session'] = 0;
+            $result['error'] = 'La sesión ha expirado por inactividad';
+            echo json_encode($result);
+            exit;
+        } else {
+            // La sesión no ha expirado
+            $result['session'] = 1;
+            $result['error'] = '';
+        }
                     break;
     
                 case 'logOut':
