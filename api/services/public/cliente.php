@@ -71,7 +71,7 @@ if (isset($_GET['action'])) {
                 break;
 
                 case 'checkSession':
-                $_POST = Validator::validateForm($_POST)
+                $_POST = Validator::validateForm($_POST);
                     // Verificamos si la sesión ha expirado
         if ($cliente->checkSessionExpiration($_SESSION['idUsuario'])) {
             // La sesión ha expirado, forzamos el cierre de sesión
