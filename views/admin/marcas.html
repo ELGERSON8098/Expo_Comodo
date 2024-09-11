@@ -26,6 +26,12 @@
 <body>
    
     <main>
+        <div class="alert alert-danger position-absolute d-inline-flex p-2" role="alert">
+            <p>La sesión expirará en:&nbsp</p>
+            <div id="number" class="text-danger"></div>
+        </div>
+          <br>
+        <br><br>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
         <!-- Formulario de búsqueda -->
@@ -190,6 +196,8 @@
     <script src="../../controllers/utils/admin.js"></script>
     <!-- Controlador específico para marcas -->
     <script src="../../controllers/admin/marca.js"></script>
+    
+    <script type="text/javascript" src="../../controllers/admin/inactividad.js"></script>
 
 </body>
 

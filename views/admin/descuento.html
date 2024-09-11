@@ -27,6 +27,12 @@
     <!-- Margen superior -->
     <div class="my-5"></div>
     <main>
+        <div class="alert alert-danger position-absolute d-inline-flex p-2" role="alert">
+            <p>La sesión expirará en:&nbsp</p>
+            <div id="number" class="text-danger"></div>
+        </div>
+          <br>
+        <br><br>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
         <!-- Contenedor de la fila -->
@@ -176,6 +182,8 @@
     <script src="../../controllers/utils/components.js"></script>
     <!-- Controlador específico para los descuentos -->
     <script src="../../controllers/admin/descuento.js"></script>
+    
+    <script type="text/javascript" src="../../controllers/admin/inactividad.js"></script>
 
 </body>
 

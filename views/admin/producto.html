@@ -28,6 +28,12 @@
     <div class="my-5"></div>
     <!-- Contenido principal -->
     <main>
+        <div class="alert alert-danger position-absolute d-inline-flex p-2" role="alert">
+            <p>La sesión expirará en:&nbsp</p>
+            <div id="number" class="text-danger"></div>
+        </div>
+          <br>
+        <br><br>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
         <!-- Formulario de búsqueda -->
@@ -235,6 +241,8 @@
        <script src="../../controllers/utils/components.js"></script>
        <script src="../../controllers/utils/admin.js"></script>
        <script src="../../controllers/admin/producto.js"></script>
+       
+    <script type="text/javascript" src="../../controllers/admin/inactividad.js"></script>
 </body>
 
 </html>
