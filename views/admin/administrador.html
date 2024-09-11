@@ -27,6 +27,12 @@
     <!-- Espacio vertical -->
     <br>
     <main>
+        <div class="alert alert-danger position-absolute d-inline-flex p-2" role="alert">
+            <p>La sesión expirará en:&nbsp</p>
+            <div id="number" class="text-danger"></div>
+        </div>
+          <br>
+        <br><br>
         <!-- Título del contenido principal -->
         <h3 id="mainTitle"></h3>
         <div class="row">
@@ -142,6 +148,8 @@
     <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
     <!-- Controlador de la página web -->
     <script type="text/javascript" src="../../controllers/admin/administrador.js"></script>
+    
+    <script type="text/javascript" src="../../controllers/admin/inactividad.js"></script>
 </body>
 
 </html>
