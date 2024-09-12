@@ -1,6 +1,6 @@
 <?php
 // Se incluye la clase para trabajar con la base de datos.
-require_once ('../../helpers/database.php');
+require_once('../../helpers/database.php');
 /*
  *	Clase para manejar el comportamiento de los datos de la tabla CLIENTE.
  */
@@ -25,7 +25,7 @@ class ClienteHandler
      *   Métodos para gestionar la cuenta del cliente.
      */
 
-     // Verifica las credenciales del usuario (correo y contraseña).
+    // Verifica las credenciales del usuario (correo y contraseña).
     public function checkUser($correo, $password)
     {
         $sql = 'SELECT id_usuario, usuario, clave, estado_cliente, usuario
@@ -176,7 +176,7 @@ class ClienteHandler
     }
 
     // Genera un PIN de recuperación y lo almacena en la base de datos.
-     public function generarPinRecuperacion()
+    public function generarPinRecuperacion()
     {
         $pin = sprintf("%06d", mt_rand(1, 999999)); // Genera un PIN de 6 dígitos
 
@@ -226,26 +226,33 @@ class ClienteHandler
 
 
     // Nuevo método para actualizar la última actividad del usuario.
-    public function updateLastActivity($userId)
+    public function updateLastActivity()
     {
-        $sql = 'UPDATE tb_usuarios SET ultima_actividad = NOW() WHERE id_usuario = ?';
-        $params = array($userId);
-        return Database::executeRow($sql, $params);
+        // Asegúrate de que la sesión esté iniciada
+        if (isset($_SESSION['idUsuario'])) {
+            $sql = 'UPDATE tb_usuarios SET ultima_actividad = NOW() WHERE id_usuario = ?';
+            $params = array($_SESSION['idUsuario']); // Usar el id de la sesión
+            return Database::executeRow($sql, $params);
+        }
+        return false; // Manejar el caso donde la sesión no está iniciada
     }
-
     // Nuevo método para verificar si la sesión ha expirado
-    public function checkSessionExpiration($userId)
+    public function checkSessionExpiration()
     {
-        $sql = 'SELECT TIMESTAMPDIFF(MINUTE, ultima_actividad, NOW()) as inactive_time
+        // Asegúrate de que la sesión esté iniciada
+        if (isset($_SESSION['idUsuario'])) {
+            $sql = 'SELECT TIMESTAMPDIFF(MINUTE, ultima_actividad, NOW()) as inactive_time
                 FROM tb_usuarios
                 WHERE id_usuario = ?';
-        $params = array($userId);
-        $result = Database::getRow($sql, $params);
-        
-        if ($result && $result['inactive_time'] > 5) {
-            return true; // La sesión ha expirado
+            $params = array($_SESSION['idUsuario']); // Usar el id de la sesión
+            $result = Database::getRow($sql, $params);
+
+            if ($result && $result['inactive_time'] > 1) {
+                return true; // La sesión ha expirado
+            }
+            return false; // La sesión aún es válida
         }
-        return false; // La sesión aún es válida
+        return false; // Manejar el caso donde la sesión no está iniciada
     }
 
 }

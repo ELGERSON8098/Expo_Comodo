@@ -1,7 +1,7 @@
 <?php
 // Se incluye la clase del modelo y se importan los archivos necesarios.
-require_once ('../../models/data/cliente_data.php');
-require_once ('../../services/admin/mail_config.php');
+require_once('../../models/data/cliente_data.php');
+require_once('../../services/admin/mail_config.php');
 
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
@@ -35,24 +35,24 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al leer el perfil';
                 }
                 break;
-                case 'editProfile':
-                    $_POST = Validator::validateForm($_POST);
-                    if (
-                        !$cliente->setNombre($_POST['nombre']) or
-                        !$cliente->setCorreos($_POST['correo']) or
-                        !$cliente->setAlias($_POST['username']) or
-                        !$cliente->setTelefonos($_POST['telefono']) or
-                        !$cliente->setDirec($_POST['direccion'])
-                    ) {
-                        $result['error'] = $cliente->getDataError();
-                    } elseif ($cliente->editProfileS()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Perfil modificado correctamente';
-                        $_SESSION['aliaCliente'] = $_POST['username'];
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al modificar el perfil';
-                    }
-                    break;
+            case 'editProfile':
+                $_POST = Validator::validateForm($_POST);
+                if (
+                    !$cliente->setNombre($_POST['nombre']) or
+                    !$cliente->setCorreos($_POST['correo']) or
+                    !$cliente->setAlias($_POST['username']) or
+                    !$cliente->setTelefonos($_POST['telefono']) or
+                    !$cliente->setDirec($_POST['direccion'])
+                ) {
+                    $result['error'] = $cliente->getDataError();
+                } elseif ($cliente->editProfileS()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Perfil modificado correctamente';
+                    $_SESSION['aliaCliente'] = $_POST['username'];
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el perfil';
+                }
+                break;
 
             case 'changePassword':
                 $_POST = Validator::validateForm($_POST);
@@ -70,30 +70,29 @@ if (isset($_GET['action'])) {
                 }
                 break;
 
-                case 'checkSession':
-                    // Verificamos si la sesión ha expirado
-        if ($cliente->checkSessionExpiration($_SESSION['idUsuario'])) {
-            // La sesión ha expirado, forzamos el cierre de sesión
-            session_destroy();
-            $result['session'] = 0;
-            $result['error'] = 'La sesión ha expirado por inactividad';
-            echo json_encode($result);
-            exit;
-        } else {
-            // La sesión no ha expirado
-            $result['session'] = 1;
-            $result['error'] = '';
-        }
-                    break;
-    
-                case 'logOut':
-                    if (session_destroy()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Sesión cerrada correctamente';
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al cerrar la sesión';
-                    }
-                    break;
+            case 'checkSession':
+                // Verificamos si la sesión ha expirado
+                if ($cliente->checkSessionExpiration()) { // Llamada sin parámetros
+                    // La sesión ha expirado, forzamos el cierre de sesión
+                    session_destroy();
+                    $result['status'] = 1;
+                    $result['error'] = 'La sesión ha expirado por inactividad';
+                    exit;
+                } else {
+                    // La sesión no ha expirado
+                    $result['status'] = 1;
+                    $result['error'] = '';
+                }
+                break;
+
+            case 'logOut':
+                if (session_destroy()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Sesión cerrada correctamente';
+                } else {
+                    $result['error'] = 'Ocurrió un problema al cerrar la sesión';
+                }
+                break;
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
@@ -178,7 +177,7 @@ if (isset($_GET['action'])) {
 
 
             //Metodos para recuperación de contraseña en movil
-           case 'solicitarPinRecuperacion':
+            case 'solicitarPinRecuperacion':
                 $_POST = Validator::validateForm($_POST);
                 if (!isset($_POST['correo'])) {
                     $result['error'] = 'Falta el correo electrónico';
