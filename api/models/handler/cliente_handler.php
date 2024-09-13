@@ -225,34 +225,40 @@ class ClienteHandler
 
 
 
-    // Nuevo método para actualizar la última actividad del usuario.
     public function updateLastActivity()
     {
-        // Asegúrate de que la sesión esté iniciada
         if (isset($_SESSION['idUsuario'])) {
             $sql = 'UPDATE tb_usuarios SET ultima_actividad = NOW() WHERE id_usuario = ?';
-            $params = array($_SESSION['idUsuario']); // Usar el id de la sesión
-            return Database::executeRow($sql, $params);
+            $params = array($_SESSION['idUsuario']);
+            try {
+                return Database::executeRow($sql, $params);
+            } catch (Exception $e) {
+                error_log("Error al actualizar la última actividad: " . $e->getMessage());
+                return false;
+            }
         }
-        return false; // Manejar el caso donde la sesión no está iniciada
+        return false;
     }
-    // Nuevo método para verificar si la sesión ha expirado
-    public function checkSessionExpiration()
+
+    public function checkSessionExpiration($timeout = 2)
     {
-        // Asegúrate de que la sesión esté iniciada
         if (isset($_SESSION['idUsuario'])) {
             $sql = 'SELECT TIMESTAMPDIFF(MINUTE, ultima_actividad, NOW()) as inactive_time
-                FROM tb_usuarios
-                WHERE id_usuario = ?';
-            $params = array($_SESSION['idUsuario']); // Usar el id de la sesión
-            $result = Database::getRow($sql, $params);
-
-            if ($result && $result['inactive_time'] > 1) {
-                return true; // La sesión ha expirado
+            FROM tb_usuarios
+            WHERE id_usuario = ?';
+            $params = array($_SESSION['idUsuario']);
+            try {
+                $result = Database::getRow($sql, $params);
+                if ($result && $result['inactive_time'] > $timeout) {
+                    return true; // La sesión ha expirado
+                }
+                return false; // La sesión aún es válida
+            } catch (Exception $e) {
+                error_log("Error al verificar la expiración de la sesión: " . $e->getMessage());
+                return true; // En caso de error, asumimos que la sesión ha expirado por seguridad
             }
-            return false; // La sesión aún es válida
         }
-        return false; // Manejar el caso donde la sesión no está iniciada
+        return true; // Si no hay sesión, consideramos que ha expirado
     }
 
 }
