@@ -168,6 +168,12 @@ ALTER TABLE tb_admins ADD COLUMN totp_enabled BOOLEAN DEFAULT FALSE;
 
 ALTER TABLE tb_usuarios ADD COLUMN ultima_actividad TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 
+
+ALTER TABLE tb_admins 
+ADD COLUMN codigo_2fa VARCHAR(6), 
+ADD COLUMN expiracion_2fa DATETIME;
+
+
 INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
 (1, 'administrador'),
