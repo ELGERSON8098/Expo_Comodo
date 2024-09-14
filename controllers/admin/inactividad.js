@@ -7,16 +7,16 @@ const startSessionTimer = () => {
         l.innerText = Math.ceil(n / 60) + " min"; // Mostrar el tiempo en minutos
         n--;
 
-        // Si el  contador llega a 0, cerrar sesión
+        // Si el contador llega a 0, cerrar sesión
         if (n < 0) {
             logOut2(); // Llamar a la función de cierre de sesión
             clearInterval(id); // Detener el contador
         }
     }, 1000); // Actualizar cada segundo
 
-    // Reiniciar  el contador al mover el ratón
+    // Reiniciar el contador al mover el ratón
     document.onmousemove = function() {
-        n = 300; // Reiniciar el contador a 10 segundos
+        n = 300; // Reiniciar el contador a 5 minutos
     };
 };
 
@@ -26,19 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const logOut2 = async () => {
-    // Mostrar una alerta personalizada 
+    // Crear y mostrar la alerta personalizada
     const alertMessage = document.createElement('div');
+    alertMessage.className = 'alert-message';
     alertMessage.innerText = 'Tu sesión ha expirado por motivos de inactividad';
-    alertMessage.style.position = 'fixed';
-    alertMessage.style.top = '50%';
-    alertMessage.style.left = '50%';
-    alertMessage.style.transform = 'translate(-50%, -50%)';
-    alertMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-    alertMessage.style.color = 'white';
-    alertMessage.style.padding = '80px';
-    alertMessage.style.borderRadius = '5px';
-    alertMessage.style.zIndex = '1000';
     document.body.appendChild(alertMessage);
+
+    // Mostrar la alerta
+    alertMessage.classList.add('show');
 
     // Esperar 3 segundos antes de cerrar sesión
     setTimeout(async () => {
@@ -50,7 +45,10 @@ const logOut2 = async () => {
         } else {
             alert(DATA.exception);
         }
-        // Remover  la alerta del DOM
-        document.body.removeChild(alertMessage);
+        // Remover la alerta del DOM
+        alertMessage.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(alertMessage);
+        }, 500); // Tiempo para la transición de opacidad
     }, 3000); // Cambia 3000 por el tiempo que desees que dure la alerta (en milisegundos)
-}
+};

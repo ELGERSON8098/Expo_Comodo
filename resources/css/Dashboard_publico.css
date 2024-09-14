@@ -11,6 +11,41 @@ body {
     font-family: var(--sm-font);
 
 }
+.alert {
+    position: fixed;
+    top: 20px;
+    right: 30px;
+    background-color: rgb(255, 255, 255, 0); /* Fondo transparente */
+    color: rgb(0, 0, 0); /* Color del texto */
+    border: none; /* Eliminar bordes */
+    border-radius: 0; /* Quitar bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    z-index: 1000; /* Inicialmente oculto */
+}
+
+.alert-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    text-align: center;
+    font-size: 16px;
+    max-width: 90%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.alert-message.show {
+    opacity: 1;
+}
+
+
 
 #map {
     height: 300px;

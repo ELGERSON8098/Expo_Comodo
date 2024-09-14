@@ -6,9 +6,16 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
+    <link type="image/png" rel="icon" href="../../resources/img/LogoComods.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Bootstrap CSS -->
+    <link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
+    <!-- CSS personalizado -->
+    <link rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/grafica.css">
 </head>
 
@@ -16,12 +23,9 @@
     
     <main>
         
-        <div class="alert alert-danger position-absolute d-inline-flex p-2" role="alert">
-            <p>La sesión expirará en:&nbsp</p>
-            <div id="number" class="text-danger"></div>
+        <div class="alert alert-danger" id="session-alert" role="alert">
+            <p>La sesión expirará en: <span id="number" class="text-danger"></span></p>
         </div>
-          <br>
-        <br><br>
         <h3 id="mainTitle"></h3>
         <div class="container">
             <div class="row g-4">
