@@ -1,8 +1,3 @@
-/*
-*   Controlador de uso general en las páginas web del sitio privado.
-*   Sirve para manejar la plantilla del encabezado y pie del documento.
-*/
-
 // Constante para completar la ruta de la API.
 const USER_API = 'services/admin/administrador.php';
 // Constante para establecer el elemento del contenido principal.
@@ -25,99 +20,100 @@ const loadTemplate = async () => {
     if (DATA.session) {
         // Se comprueba si existe un alias definido para el usuario, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
-            // Generar el contenido del header según el nivel de usuario
+            // Generar el contenido del sidebar según el nivel de usuario
             let navOptions = '';
             if (DATA.user_level == 1) {
                 navOptions = `
-                    <li class="nav-item px-2 py-2 dropdown">
-                        <a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Productos
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-                            <li><a class="dropdown-item" href="../admin/producto.html">Productos</a></li>
-                            <li><a class="dropdown-item" href="../admin/categoria.html">Categorías</a></li>
-                            <li><a class="dropdown-item" href="../admin/genero.html">Género</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="../admin/colores.html">Colores</a></li>
-                            <li><a class="dropdown-item" href="../admin/marcas.html">Marcas</a></li>
-                            <li><a class="dropdown-item" href="../admin/tallas.html">Tallas</a></li>
-                            <li><a class="dropdown-item" href="../admin/material.html">Materiales</a></li>
+                    <li><a href="../admin/dashboard.html"><i class="fas fa-home"></i>Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-box"></i>Productos</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../admin/producto.html">Productos</a></li>
+                            <li><a href="../admin/categoria.html">Categorías</a></li>
+                            <li><a href="../admin/genero.html">Género</a></li>
+                            <li><a href="../admin/colores.html">Colores</a></li>
+                            <li><a href="../admin/marcas.html">Marcas</a></li>
+                            <li><a href="../admin/tallas.html">Tallas</a></li>
+                            <li><a href="../admin/material.html">Materiales</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/descuento.html">Descuentos</a>
-                    </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/usuariosc.html">Clientes</a>
-                    </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/reserva.html">Reservas</a>
-                    </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/administrador.html">Administradores</a>
-                    </li>
+                    <li><a href="../admin/descuento.html"><i class="fas fa-percent"></i>Descuentos</a></li>
+                    <li><a href="../admin/usuariosc.html"><i class="fas fa-users"></i>Clientes</a></li>
+                    <li><a href="../admin/reserva.html"><i class="fas fa-calendar-alt"></i>Reservas</a></li>
+                    <li><a href="../admin/administrador.html"><i class="fas fa-user-shield"></i>Administradores</a></li>
                 `;
             } else if (DATA.user_level == 2) {
                 navOptions = `
-                    <li class="nav-item px-2 py-2 dropdown">
-                        <a class="nav-link text-uppercase text-dark dropdown-toggle" href="#" id="productosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Productos
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="productosDropdown">
-                            <li><a class="dropdown-item" href="../admin/producto.html">Productos</a></li>
-                            <li><a class="dropdown-item" href="../admin/categoria.html">Categorías</a></li>
-                            <li><a class="dropdown-item" href="../admin/genero.html">Género</a></li>
-                            <li class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="../admin/colores.html">Colores</a></li>
-                            <li><a class="dropdown-item" href="../admin/marcas.html">Marcas</a></li>
-                            <li><a class="dropdown-item" href="../admin/tallas.html">Tallas</a></li>
+                    <li><a href="../admin/dashboard.html"><i class="fas fa-home"></i>Dashboard</a></li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-box"></i>Productos</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="../admin/producto.html">Productos</a></li>
+                            <li><a href="../admin/categoria.html">Categorías</a></li>
+                            <li><a href="../admin/genero.html">Género</a></li>
+                            <li><a href="../admin/colores.html">Colores</a></li>
+                            <li><a href="../admin/marcas.html">Marcas</a></li>
+                            <li><a href="../admin/tallas.html">Tallas</a></li>
                         </ul>
                     </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/descuento.html">Descuentos</a>
-                    </li>
+                    <li><a href="../admin/descuento.html"><i class="fas fa-percent"></i>Descuentos</a></li>
                 `;
             } else if (DATA.user_level == 3) {
                 navOptions = `
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/usuariosc.html">Clientes</a>
-                    </li>
-                    <li class="nav-item px-2 py-2">
-                        <a class="nav-link text-uppercase text-dark" href="../admin/reserva.html">Reservas</a>
-                    </li>
+                    <li><a href="../admin/dashboard.html"><i class="fas fa-home"></i>Dashboard</a></li>
+                    <li><a href="../admin/usuariosc.html"><i class="fas fa-users"></i>Clientes</a></li>
+                    <li><a href="../admin/reserva.html"><i class="fas fa-calendar-alt"></i>Reservas</a></li>
                 `;
             }
-            // Se agrega el encabezado de la página web antes del contenido principal.
-            MAIN.insertAdjacentHTML('beforebegin', `
-                <header>
-                    <nav class="navbar navbar-expand-lg navbar-light bg-white py-4 fixed-top">
-                        <div class="container">
-                            <a class="navbar-brand d-flex justify-content-between align-items-center order-lg-0" href="../admin/dashboard.html">
-                                <img src="../../resources/img/LogoComods.png" class="logo img-fluid" alt="site icon">
-                            </a>
+
+            const sidebarHTML = `
+                    <div class="sidebar">
+                        <div class="user-info">
+                            <div class="user-avatar">?</div>
+                            <div class="user-details">
+                                <h2>${DATA.username}</h2>
+                                <p>Active</p>
+                            </div>
                         </div>
-                        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="collapse navbar-collapse order-lg-1" id="navMenu">
-                            <ul class="navbar-nav mx-auto text-center">
+                        <nav>
+                            <ul>
                                 ${navOptions}
-                                <li class="nav-item px-2 py-2 dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Cuenta: <b>${DATA.username}</b></a>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="perfil.html">Editar perfil</a></li>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="#" onclick="logOut()">Cerrar sesión</a></li>
-                                    </ul>
-                                </li>
                             </ul>
+                        </nav>
+                        <div class="logout">
+                            <a href="#" onclick="logOut()"><i class="fas fa-sign-out-alt"></i>Cerrar sesión</a>
                         </div>
-                    </nav>
-                </header>
-                <br>
-            `);
-            // Se agrega el pie de la página web después del contenido principal.
-            MAIN.insertAdjacentHTML('afterend', ``);
+                    </div>
+                `;
+
+            // Insertar el sidebar antes del contenido principal
+            MAIN.insertAdjacentHTML('beforebegin', sidebarHTML);
+
+            // Ajustar el estilo del contenido principal
+            MAIN.style.marginLeft = '260px'; // Ancho del sidebar + un poco de espacio
+            MAIN.style.transition = 'margin-left 0.3s';
+
+            // Agregar event listeners para los dropdowns después de insertar el sidebar
+            const dropdowns = document.querySelectorAll('.dropdown-toggle');
+            dropdowns.forEach(dropdown => {
+                dropdown.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation(); // Evita que el evento se propague
+                    const dropdownContainer = dropdown.closest('.dropdown');
+                    dropdownContainer.classList.toggle('active');
+                });
+            });
+
+            const sidebarToggle = document.createElement('button');
+            sidebarToggle.classList.add('sidebar-toggle');
+            sidebarToggle.innerHTML = '☰';
+            document.body.appendChild(sidebarToggle);
+
+            const sidebarElement = document.querySelector('.sidebar');
+            sidebarToggle.addEventListener('click', function () {
+                sidebarElement.classList.toggle('active');
+            });
+
         } else {
             sweetAlert(3, DATA.error, false, 'index.html');
         }
@@ -125,8 +121,7 @@ const loadTemplate = async () => {
         // Se comprueba si la página web es la principal, de lo contrario se direcciona a iniciar sesión.
         if (location.pathname.endsWith('index.html')) {
             // Se agrega el pie de la página web después del contenido principal.
-            MAIN.insertAdjacentHTML('afterend', `
-           `);
+            MAIN.insertAdjacentHTML('afterend', ``);
         } else {
             location.href = 'index.html';
         }

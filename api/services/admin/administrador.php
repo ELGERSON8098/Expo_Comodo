@@ -293,36 +293,39 @@ if (isset($_GET['action'])) {
 
 
             case 'logIn':
-                // Validar los datos del formulario
                 $_POST = Validator::validateForm($_POST);
                 $alias = $_POST['alias'];
                 $clave = $_POST['clave'];
+                $omit2FA = isset($_POST['omit2FA']) && $_POST['omit2FA'] == '1';
 
-                // Verificar los intentos fallidos y el estado de bloqueo
                 $checkBlockSql = 'SELECT intentos_fallidos, bloqueo_hasta FROM tb_admins WHERE usuario_administrador = ?';
                 $checkBlockParams = array($alias);
                 $blockData = Database::getRow($checkBlockSql, $checkBlockParams);
 
                 if ($blockData) {
-                    // Verificar si la cuenta está bloqueada
                     if ($blockData['bloqueo_hasta'] && new DateTime() < new DateTime($blockData['bloqueo_hasta'])) {
                         $result['error'] = 'Cuenta bloqueada. Intenta de nuevo después de ' . (new DateTime($blockData['bloqueo_hasta']))->diff(new DateTime())->format('%H:%I:%S') . ' horas.';
                     } else {
-                        // Intentar iniciar sesión
                         $loginResult = $administrador->checkUser($alias, $clave);
-
-                        // Asegurarse de que $loginResult no sea false antes de acceder a sus valores
                         if (is_array($loginResult) && $loginResult['status']) {
-                            // Inicio de sesión exitoso, enviar el código 2FA al correo
-                            $email = $administrador->getEmailById($loginResult['id_administrador']);
-                            $subject = "Código de verificación 2FA - Comodo$";
-                            $body = "Tu código de verificación es: {$loginResult['codigo2FA']}";
-                            sendEmail($email, $subject, $body);
+                            if ($omit2FA || !$administrador->isTwoFactorEnabled($loginResult['id_administrador'])) {
+                                // Si se omite o no se requiere 2FA, iniciar sesión directamente
+                                $_SESSION['idAdministrador'] = $loginResult['id_administrador'];
+                                $_SESSION['aliasAdministrador'] = $administrador->getAliasById($loginResult['id_administrador']);
+                                $result['status'] = 1;
+                                $result['message'] = 'Inicio de sesión exitoso. Bienvenido.';
+                            } else {
+                                // Enviar código 2FA y solicitar verificación
+                                $email = $administrador->getEmailById($loginResult['id_administrador']);
+                                $subject = "Código de verificación 2FA - Comodo$";
+                                $body = "Tu código de verificación es: {$loginResult['codigo2FA']}";
+                                sendEmail($email, $subject, $body);
 
-                            // Devolver el estado exitoso
-                            $result['status'] = 1;
-                            $result['message'] = 'Primer paso de autenticación correcto. Se ha enviado un código a tu correo.';
-                            $result['id_administrador'] = $loginResult['id_administrador'];
+                                $result['status'] = 1;
+                                $result['message'] = 'Primer paso de autenticación correcto. Se ha enviado un código a tu correo.';
+                                $result['id_administrador'] = $loginResult['id_administrador'];
+                                $result['twoFactorRequired'] = true;
+                            }
                         } else if ($loginResult === false) {
                             // Credenciales incorrectas, incrementar intentos fallidos
                             $newAttempts = $blockData['intentos_fallidos'] + 1;

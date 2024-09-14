@@ -29,6 +29,11 @@
                         <label for="clave" class="form-label">Contraseña</label>
                         <input id="clave" type="password" name="clave" class="form-control" required>
                     </div>
+                    <!-- Checkbox para omitir 2FA -->
+                    <div class="mb-3">
+                        <input id="omit2FA" type="checkbox" name="omit2FA">
+                        <label for="omit2FA">Omitir verificación 2FA</label>
+                    </div>
                     <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                     <br><br>
                     <!-- Enlace para la recuperación de contraseña -->
@@ -36,8 +41,8 @@
                         <a href="request_reset.html" class="text-decoration-none">¿Has olvidado tu contraseña?</a>
                     </div>
                 </form>
-                 <!-- Nuevo formulario para 2FA -->
-                 <form class="d-none" id="twoFactorForm">
+                <!-- Nuevo formulario para 2FA -->
+                <form class="d-none" id="twoFactorForm">
                     <div class="mb-3">
                         <label for="codigo2FA" class="form-label">Código de verificación</label>
                         <input id="codigo2FA" type="text" name="codigo2FA" class="form-control" required>
