@@ -270,7 +270,11 @@ if (isset($_GET['action'])) {
                 break;
             case 'signUp':
                 $_POST = Validator::validateForm($_POST);
-                if (
+
+                // Verifica si ya existe un administrador
+                if ($administrador->checkIfAnyUserExists()['COUNT(*)'] > 0) {
+                    $result['error'] = 'Ya existe un administrador registrado. No se pueden agregar más.';
+                } elseif (
                     !$administrador->setNombre($_POST['nombreAdministrador']) or
                     !$administrador->setCorreo($_POST['correoAdministrador']) or
                     !$administrador->setAlias($_POST['aliasAdministrador']) or
@@ -286,6 +290,8 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar el administrador';
                 }
                 break;
+
+
             case 'logIn':
                 // Validar los datos del formulario
                 $_POST = Validator::validateForm($_POST);

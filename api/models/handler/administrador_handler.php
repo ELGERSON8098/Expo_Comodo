@@ -124,6 +124,13 @@ class AdministradorHandler
         $params = array($this->nombre, $this->alias, $this->correo, $this->clave, 1);
         return Database::executeRow($sql, $params);
     }
+
+    public function checkIfAnyUserExists()
+    {
+        $sql = 'SELECT COUNT(*) FROM tb_admins';
+        return Database::getRow($sql); // Retorna el número de administradores registrados
+    }
+
     public function adminExists()
     {
         $sql = 'SELECT COUNT(*) FROM tb_admins WHERE id_nivel_usuario = 1';
