@@ -18,7 +18,7 @@ class CategoriaHandler
     protected $imagen = null;
 
     // Constante para establecer la ruta de las imágenes.
-    const RUTA_IMAGEN = '../Expo_Comodo/api/images';
+    const RUTA_IMAGEN = '../../images/categorias/';
 
     /*
      *  Métodos para realizar las operaciones SCRUD (search, create, read, update, and delete).
