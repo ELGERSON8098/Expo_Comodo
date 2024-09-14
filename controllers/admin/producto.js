@@ -219,6 +219,7 @@ SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
     // Se verifica la acción a realizar (actualizar o crear un detalle)
     const action = SAVE_DETAIL_FORM.idDetalle.value ? 'updateDetail' : 'createDetail';
 
+
     // Constante tipo objeto con los datos del formulario
     const FORM = new FormData(SAVE_DETAIL_FORM);
 
