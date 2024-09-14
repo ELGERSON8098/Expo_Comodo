@@ -40,6 +40,7 @@ class AdministradorHandler
             // Contraseña incorrecta
             $this->incrementarIntentos($data['id_administrador'], $data['intentos_fallidos']);
             return false;
+        }
     }
         
     public function isTwoFactorEnabled($idAdministrador) {
