@@ -287,43 +287,58 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'logIn':
+                // Validar los datos del formulario
                 $_POST = Validator::validateForm($_POST);
                 $alias = $_POST['alias'];
                 $clave = $_POST['clave'];
 
+                // Verificar los intentos fallidos y el estado de bloqueo
                 $checkBlockSql = 'SELECT intentos_fallidos, bloqueo_hasta FROM tb_admins WHERE usuario_administrador = ?';
                 $checkBlockParams = array($alias);
                 $blockData = Database::getRow($checkBlockSql, $checkBlockParams);
 
                 if ($blockData) {
+                    // Verificar si la cuenta está bloqueada
                     if ($blockData['bloqueo_hasta'] && new DateTime() < new DateTime($blockData['bloqueo_hasta'])) {
                         $result['error'] = 'Cuenta bloqueada. Intenta de nuevo después de ' . (new DateTime($blockData['bloqueo_hasta']))->diff(new DateTime())->format('%H:%I:%S') . ' horas.';
                     } else {
+                        // Intentar iniciar sesión
                         $loginResult = $administrador->checkUser($alias, $clave);
-                        if ($loginResult['status']) {
+
+                        // Asegurarse de que $loginResult no sea false antes de acceder a sus valores
+                        if (is_array($loginResult) && $loginResult['status']) {
+                            // Inicio de sesión exitoso, enviar el código 2FA al correo
                             $email = $administrador->getEmailById($loginResult['id_administrador']);
                             $subject = "Código de verificación 2FA - Comodo$";
                             $body = "Tu código de verificación es: {$loginResult['codigo2FA']}";
                             sendEmail($email, $subject, $body);
 
+                            // Devolver el estado exitoso
                             $result['status'] = 1;
                             $result['message'] = 'Primer paso de autenticación correcto. Se ha enviado un código a tu correo.';
                             $result['id_administrador'] = $loginResult['id_administrador'];
-                        } else {
+                        } else if ($loginResult === false) {
+                            // Credenciales incorrectas, incrementar intentos fallidos
                             $newAttempts = $blockData['intentos_fallidos'] + 1;
                             if ($newAttempts >= 3) {
+                                // Bloquear la cuenta por 24 horas si los intentos superan el límite
                                 $bloqueoHasta = (new DateTime())->modify('+24 hours')->format('Y-m-d H:i:s');
                                 $updateSql = 'UPDATE tb_admins SET intentos_fallidos = ?, bloqueo_hasta = ? WHERE usuario_administrador = ?';
                                 Database::executeRow($updateSql, array($newAttempts, $bloqueoHasta, $alias));
                                 $result['error'] = 'Cuenta bloqueada por 24 horas debido a múltiples intentos fallidos.';
                             } else {
+                                // Actualizar intentos fallidos
                                 $updateSql = 'UPDATE tb_admins SET intentos_fallidos = ? WHERE usuario_administrador = ?';
                                 Database::executeRow($updateSql, array($newAttempts, $alias));
                                 $result['error'] = 'Credenciales incorrectas. Intentos fallidos: ' . $newAttempts . '/3';
                             }
+                        } else {
+                            // Manejar cualquier otro estado inesperado
+                            $result['error'] = 'Error inesperado durante el inicio de sesión.';
                         }
                     }
                 } else {
+                    // El usuario no existe
                     $result['error'] = 'El usuario no existe';
                 }
                 break;

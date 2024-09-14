@@ -176,17 +176,21 @@ class ClienteHandler
     }
 
     // Genera un PIN de recuperación y lo almacena en la base de datos.
-    private function generar2FACode($id_administrador)
+    public function generarPinRecuperacion()
     {
-        $codigo = sprintf("%06d", mt_rand(1, 999999));
+        $pin = sprintf("%06d", mt_rand(1, 999999)); // Genera un PIN de 6 dígitos
 
-        $sql = "UPDATE tb_admins SET codigo_2fa = ?, expiracion_2fa = DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id_administrador = ?";
-        $params = array($codigo, $id_administrador);
-        Database::executeRow($sql, $params);
+        $sql = "UPDATE tb_usuarios SET recovery_pin = ?, pin_expiry = DATE_ADD(NOW(), INTERVAL 15 MINUTE) WHERE correo = ?";
+        $params = array($pin, $this->correo);
 
-        return $codigo;
+        if (Database::executeRow($sql, $params)) {
+            return $pin; // Retorna el PIN para enviarlo al usuario
+        } else {
+            // Manejo de errores
+            error_log("Error al generar el PIN de recuperación para el correo: " . $this->correo);
+            return false;
+        }
     }
-
     //Verifica el PIN de recuperación ingresado por el usuario.
     public function verificarPinRecuperacion($pin)
     {

@@ -257,10 +257,9 @@ WHERE
     private function generar2FACode($id_administrador)
     {
         $codigo = sprintf("%06d", mt_rand(1, 999999));
-        $expiracion = date('Y-m-d H:i:s', strtotime('+5 minutes'));
 
-        $sql = 'UPDATE tb_admins SET codigo_2fa = ?, expiracion_2fa = ? WHERE id_administrador = ?';
-        $params = array($codigo, $expiracion, $id_administrador);
+        $sql = "UPDATE tb_admins SET codigo_2fa = ?, expiracion_2fa = DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id_administrador = ?";
+        $params = array($codigo, $id_administrador);
         Database::executeRow($sql, $params);
 
         return $codigo;
