@@ -36,6 +36,14 @@
                         <a href="request_reset.html" class="text-decoration-none">¿Has olvidado tu contraseña?</a>
                     </div>
                 </form>
+                 <!-- Nuevo formulario para 2FA -->
+                 <form class="d-none" id="twoFactorForm">
+                    <div class="mb-3">
+                        <label for="codigo2FA" class="form-label">Código de verificación</label>
+                        <input id="codigo2FA" type="text" name="codigo2FA" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Verificar</button>
+                </form>
 
                 <!-- Formulario de registro (inicialmente oculto) -->
                 <form class="d-none" id="signupForm">

@@ -30,13 +30,12 @@ class AdministradorHandler
             return 'bloqueado'; // Usuario está bloqueado
         }
 
-        // Verificamos la contraseña
         if (password_verify($password, $data['clave_administrador'])) {
             // Inicio de sesión exitoso
-            $this->resetIntentos($data['id_administrador']); // Reseteamos los intentos fallidos
-            $_SESSION['idAdministrador'] = $data['id_administrador'];
-            $_SESSION['aliasAdministrador'] = $data['usuario_administrador'];
-            return true;
+            $this->resetIntentos($data['id_administrador']);
+            // Generar y almacenar código 2FA
+            $codigo2FA = $this->generar2FACode($data['id_administrador']);
+            return ['status' => true, 'id_administrador' => $data['id_administrador'], 'codigo2FA' => $codigo2FA];
         } else {
             // Contraseña incorrecta
             $this->incrementarIntentos($data['id_administrador'], $data['intentos_fallidos']);
@@ -248,12 +247,53 @@ WHERE
         $sql = 'UPDATE tb_admins 
                 SET clave_administrador = ?, reset_code = NULL, reset_code_expiry = NULL 
                 WHERE correo_administrador = ? AND reset_code = ? AND reset_code_expiry > NOW()';
-    
+
         // Parámetros que se pasan a la consulta.
         $params = array($this->clave, $this->correo, $this->reset_code);
-        
+
         // Ejecutamos la consulta y retornamos el resultado.
         return Database::executeRow($sql, $params);
     }
-    
+    private function generar2FACode($id_administrador)
+    {
+        $codigo = sprintf("%06d", mt_rand(1, 999999));
+        $expiracion = date('Y-m-d H:i:s', strtotime('+5 minutes'));
+
+        $sql = 'UPDATE tb_admins SET codigo_2fa = ?, expiracion_2fa = ? WHERE id_administrador = ?';
+        $params = array($codigo, $expiracion, $id_administrador);
+        Database::executeRow($sql, $params);
+
+        return $codigo;
+    }
+
+    public function verify2FACode($id_administrador, $codigo)
+    {
+        $sql = 'SELECT codigo_2fa, expiracion_2fa FROM tb_admins WHERE id_administrador = ?';
+        $params = array($id_administrador);
+        $data = Database::getRow($sql, $params);
+
+        if ($data && $data['codigo_2fa'] == $codigo && new DateTime() < new DateTime($data['expiracion_2fa'])) {
+            $sql = 'UPDATE tb_admins SET codigo_2fa = NULL, expiracion_2fa = NULL WHERE id_administrador = ?';
+            Database::executeRow($sql, array($id_administrador));
+            return true;
+        }
+        return false;
+    }
+
+
+    public function getEmailById($id_administrador)
+    {
+        $sql = 'SELECT correo_administrador FROM tb_admins WHERE id_administrador = ?';
+        $params = array($id_administrador);
+        $data = Database::getRow($sql, $params);
+        return $data ? $data['correo_administrador'] : null;
+    }
+
+    public function getAliasById($id_administrador)
+    {
+        $sql = 'SELECT usuario_administrador FROM tb_admins WHERE id_administrador = ?';
+        $params = array($id_administrador);
+        $data = Database::getRow($sql, $params);
+        return $data ? $data['usuario_administrador'] : null;
+    }
 }

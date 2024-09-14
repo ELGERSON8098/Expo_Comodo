@@ -16,6 +16,9 @@ function sendEmail($to, $subject, $body) {
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587; // Puerto SMTP
 
+        // Codificación para tildes y ñ
+        $mail->CharSet = 'UTF-8';
+
         // Destinatarios
         $mail->setFrom('comodos.esa@gmail.com', 'Comodo$ El Salvador');
         $mail->addAddress($to);
