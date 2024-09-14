@@ -40,7 +40,16 @@ class AdministradorHandler
             // Contraseña incorrecta
             $this->incrementarIntentos($data['id_administrador'], $data['intentos_fallidos']);
             return false;
-        }
+    }
+        
+    public function isTwoFactorEnabled($idAdministrador) {
+        // Consulta para verificar el estado del 2FA del administrador
+        $sql = 'SELECT two_factor_enabled FROM tb_admins WHERE id_administrador = ?';
+        $params = array($idAdministrador);
+        $result = Database::getRow($sql, $params);
+        
+        // Retorna true si el 2FA está habilitado, false en caso contrario
+        return $result && $result['two_factor_enabled'] == 1;
     }
 
     private function incrementarIntentos($id_administrador, $intentos_fallidos)
