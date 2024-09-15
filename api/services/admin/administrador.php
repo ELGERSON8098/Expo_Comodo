@@ -290,67 +290,53 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar el administrador';
                 }
                 break;
-
-
             case 'logIn':
                 $_POST = Validator::validateForm($_POST);
                 $alias = $_POST['alias'];
                 $clave = $_POST['clave'];
                 $omit2FA = isset($_POST['omit2FA']) && $_POST['omit2FA'] == '1';
 
-                $checkBlockSql = 'SELECT intentos_fallidos, bloqueo_hasta FROM tb_admins WHERE usuario_administrador = ?';
-                $checkBlockParams = array($alias);
-                $blockData = Database::getRow($checkBlockSql, $checkBlockParams);
+                $loginResult = $administrador->checkUser($alias, $clave);
 
-                if ($blockData) {
-                    if ($blockData['bloqueo_hasta'] && new DateTime() < new DateTime($blockData['bloqueo_hasta'])) {
-                        $result['error'] = 'Cuenta bloqueada. Intenta de nuevo después de ' . (new DateTime($blockData['bloqueo_hasta']))->diff(new DateTime())->format('%H:%I:%S') . ' horas.';
+                if ($loginResult === false) {
+                    // Usuario o contraseña incorrectos
+                    $blockData = $administrador->getBlockDataByAlias($alias); // Asegúrate de inicializar blockData correctamente
+                    $newAttempts = $blockData['intentos_fallidos'];
+                    if ($newAttempts >= 3) {
+                        $bloqueoHasta = (new DateTime())->modify('+24 hours')->format('Y-m-d H:i:s');
+                        $updateSql = 'UPDATE tb_admins SET intentos_fallidos = ?, bloqueo_hasta = ? WHERE usuario_administrador = ?';
+                        Database::executeRow($updateSql, array($newAttempts, $bloqueoHasta, $alias));
+                        $result['error'] = 'Cuenta bloqueada por 24 horas debido a múltiples intentos fallidos.';
                     } else {
-                        $loginResult = $administrador->checkUser($alias, $clave);
-                        if (is_array($loginResult) && $loginResult['status']) {
-                            if ($omit2FA || !$administrador->isTwoFactorEnabled($loginResult['id_administrador'])) {
-                                // Si se omite o no se requiere 2FA, iniciar sesión directamente
-                                $_SESSION['idAdministrador'] = $loginResult['id_administrador'];
-                                $_SESSION['aliasAdministrador'] = $administrador->getAliasById($loginResult['id_administrador']);
-                                $result['status'] = 1;
-                                $result['message'] = 'Inicio de sesión exitoso. Bienvenido.';
-                            } else {
-                                // Enviar código 2FA y solicitar verificación
-                                $email = $administrador->getEmailById($loginResult['id_administrador']);
-                                $subject = "Código de verificación 2FA - Comodo$";
-                                $body = "Tu código de verificación es: {$loginResult['codigo2FA']}";
-                                sendEmail($email, $subject, $body);
-
-                                $result['status'] = 1;
-                                $result['message'] = 'Primer paso de autenticación correcto. Se ha enviado un código a tu correo.';
-                                $result['id_administrador'] = $loginResult['id_administrador'];
-                                $result['twoFactorRequired'] = true;
-                            }
-                        } else if ($loginResult === false) {
-                            // Credenciales incorrectas, incrementar intentos fallidos
-                            $newAttempts = $blockData['intentos_fallidos'] + 1;
-                            if ($newAttempts >= 3) {
-                                // Bloquear la cuenta por 24 horas si los intentos superan el límite
-                                $bloqueoHasta = (new DateTime())->modify('+24 hours')->format('Y-m-d H:i:s');
-                                $updateSql = 'UPDATE tb_admins SET intentos_fallidos = ?, bloqueo_hasta = ? WHERE usuario_administrador = ?';
-                                Database::executeRow($updateSql, array($newAttempts, $bloqueoHasta, $alias));
-                                $result['error'] = 'Cuenta bloqueada por 24 horas debido a múltiples intentos fallidos.';
-                            } else {
-                                // Actualizar intentos fallidos
-                                $updateSql = 'UPDATE tb_admins SET intentos_fallidos = ? WHERE usuario_administrador = ?';
-                                Database::executeRow($updateSql, array($newAttempts, $alias));
-                                $result['error'] = 'Credenciales incorrectas. Intentos fallidos: ' . $newAttempts . '/3';
-                            }
+                        $updateSql = 'UPDATE tb_admins SET intentos_fallidos = ? WHERE usuario_administrador = ?';
+                        Database::executeRow($updateSql, array($newAttempts, $alias));
+                        $result['error'] = 'Credenciales incorrectas. Intentos fallidos: ' . $newAttempts . '/3';
+                    }
+                } else if (is_array($loginResult) && $loginResult['status']) {
+                    if ($omit2FA) {
+                        $_SESSION['idAdministrador'] = $loginResult['id_administrador'];
+                        $_SESSION['aliasAdministrador'] = $administrador->getAliasById($loginResult['id_administrador']);
+                        $result['status'] = 1;
+                        $result['message'] = 'Inicio de sesión exitoso. Bienvenido.';
+                    } else {
+                        $email = $administrador->getEmailById($loginResult['id_administrador']);
+                        $subject = "Código de verificación 2FA - Comodo$";
+                        $body = "Tu código de verificación es: {$loginResult['codigo2FA']}";
+                        if (sendEmail($email, $subject, $body)) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Primer paso de autenticación correcto. Se ha enviado un código a tu correo.';
+                            $result['id_administrador'] = $loginResult['id_administrador'];
+                            $result['twoFactorRequired'] = true;
                         } else {
-                            // Manejar cualquier otro estado inesperado
-                            $result['error'] = 'Error inesperado durante el inicio de sesión.';
+                            $result['error'] = 'Error al enviar el código de verificación. Inténtalo de nuevo.';
                         }
                     }
                 } else {
-                    // El usuario no existe
+                    // Caso inesperado o usuario no existe
                     $result['error'] = 'El usuario no existe';
                 }
                 break;
+
 
             case 'verify2FA':
                 $_POST = Validator::validateForm($_POST);

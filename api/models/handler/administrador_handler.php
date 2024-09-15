@@ -42,15 +42,23 @@ class AdministradorHandler
             return false;
         }
     }
-        
-    public function isTwoFactorEnabled($idAdministrador) {
-        // Consulta para verificar el estado del 2FA del administrador
+
+    public function isTwoFactorEnabled($idAdministrador)
+    {
         $sql = 'SELECT two_factor_enabled FROM tb_admins WHERE id_administrador = ?';
         $params = array($idAdministrador);
         $result = Database::getRow($sql, $params);
-        
-        // Retorna true si el 2FA está habilitado, false en caso contrario
+
         return $result && $result['two_factor_enabled'] == 1;
+    }
+
+    public function getBlockDataByAlias($alias)
+    {
+        $sql = 'SELECT id_administrador, intentos_fallidos, bloqueo_hasta
+            FROM tb_admins
+            WHERE usuario_administrador = ?';
+        $params = array($alias);
+        return Database::getRow($sql, $params);
     }
 
     private function incrementarIntentos($id_administrador, $intentos_fallidos)

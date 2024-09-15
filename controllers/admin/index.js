@@ -46,20 +46,17 @@ SIGNUP_FORM.addEventListener('submit', async (event) => {
 
 const TWO_FACTOR_FORM = document.getElementById('twoFactorForm');
 let currentAdminId = null;
-// Método del evento para cuando se envía el formulario de inicio de sesión.
-// Método del evento para cuando se envía el formulario de inicio de sesión.
 // Método del evento para cuando se envía el formulario de inicio de sesión
 LOGIN_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
     const FORM = new FormData(LOGIN_FORM);
-    // Comprobar si el usuario ha marcado "Omitir verificación 2FA"
     const omit2FA = document.getElementById('omit2FA').checked;
     FORM.append('omit2FA', omit2FA ? '1' : '0');
     
     const DATA = await fetchData(USER_API, 'logIn', FORM);
     if (DATA.status) {
-        if (omit2FA || !DATA.twoFactorRequired) {
-            // Si se omite 2FA o no es necesario, redirigir al dashboard
+        if (!DATA.twoFactorRequired) {
+            // Si no se requiere 2FA (se ha omitido), redirigir al dashboard
             sweetAlert(1, DATA.message, true, 'dashboard.html');
         } else {
             // Mostrar el formulario de verificación 2FA
@@ -72,8 +69,6 @@ LOGIN_FORM.addEventListener('submit', async (event) => {
         sweetAlert(2, DATA.error, false);
     }
 });
-
-
 // Nuevo método para manejar la verificación del código 2FA
 TWO_FACTOR_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
