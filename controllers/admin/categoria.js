@@ -1,3 +1,4 @@
+
 // Constantes para completar las rutas de la API.
 const CATEGORIA_API = 'services/admin/categoria.php';
 // Constante para establecer el formulario de buscar.
