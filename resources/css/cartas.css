@@ -126,3 +126,10 @@
         width: 100%; /* Tarjetas ocupan el 30% del ancho */
     }
 }
+
+/* Pantallas grandes (escritorio) */
+@media (min-width: 1024px) {
+    .card {
+        width: 100%; /* Tarjetas ocupan el 30% del ancho */
+    }
+}
