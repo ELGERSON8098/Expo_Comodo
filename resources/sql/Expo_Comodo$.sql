@@ -21,6 +21,7 @@ CREATE TABLE tb_usuarios (
   CONSTRAINT uc_dui_cliente UNIQUE (dui_cliente)
 );
 
+
 CREATE TABLE tb_niveles_usuarios (
   id_nivel_usuario INT UNSIGNED AUTO_INCREMENT NOT NULL,
   nombre_nivel VARCHAR (50) NOT NULL,
@@ -39,6 +40,7 @@ CREATE TABLE tb_admins (
   CONSTRAINT uc_usuario_administrador UNIQUE (usuario_administrador),
   CONSTRAINT uc_correo_administrador UNIQUE (correo_administrador)
 );
+
 
 CREATE TABLE tb_generos_zapatos (
   id_genero INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -157,6 +159,7 @@ ADD COLUMN pin_expiry DATETIME NULL;
 
 ALTER TABLE tb_admins
 ADD COLUMN intentos_fallidos INT UNSIGNED DEFAULT 0 NOT NULL,
+ADD COLUMN fecha_clave DATETIME NULL DEFAULT NOW(),
 ADD COLUMN bloqueo_hasta DATETIME NULL;
 
 ALTER TABLE tb_admins
@@ -181,6 +184,5 @@ VALUES
 (3, 'vendedoras');
 
 SELECT * FROM tb_niveles_usuarios
-
 
 
