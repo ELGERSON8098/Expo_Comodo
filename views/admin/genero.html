@@ -16,6 +16,7 @@
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
+    <link rel="stylesheet" href="../../resources/css/cartas.css">
 </head>
 
 <body>
@@ -53,40 +54,14 @@
             </div>
         </div>
 
-        <!-- Tabla para mostrar los registros existentes -->
-        <table class="table table-hover">
-            <!-- Encabezado de la tabla para mostrar la cantidad de registros y los títulos de las columnas -->
-            <thead>
-                <tr>
-                    <td colspan="4" id="rowsFound"></td>
-                </tr>
-                <tr>
-                    <th>IMAGEN</th>
-                    <th>NOMBRE</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>ACCIONES</th>
-                </tr>
-            </thead>
-            <!-- Cuerpo de la tabla para mostrar un registro por fila -->
-            <tbody id="tableBody"></tbody>
-        </table>
+        <!-- Cantidad de registros encontrados -->
+        <div class="header-container">
+            <h1 id="rowsFound">Resultados Encontrados</h1>
+        </div>
+        <!-- Títulos de las columnas -->
+        <div id="cardContainer" class="mt-4">
+
+        </div>
 
         <!-- Componente Modal para guardar un registro -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"

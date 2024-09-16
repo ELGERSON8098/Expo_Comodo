@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
+    <link rel="stylesheet" href="../../resources/css/cartas.css">
 </head>
 
 <body>
@@ -39,7 +40,8 @@
                 <div class="row">
                     <div class="col-6">
                         <input type="search" class="form-control" name="search"
-                            placeholder="Buscar por nombre del producto o código interno..." required autocomplete="off">
+                            placeholder="Buscar por nombre del producto o código interno..." required
+                            autocomplete="off">
                     </div>
                     <div class="col-6">
                         <button type="submit" class="btn btn-success">
@@ -63,31 +65,14 @@
                 </button>
             </div>
         </div>
-
-        <!-- Tabla para mostrar los registros de productos -->
-        <table class="table table-hover">
-            <!-- Encabezado de la tabla -->
-            <thead>
-                <tr>
-                    <!-- Cantidad de registros encontrados -->
-                    <td colspan="5" id="rowsFound"></td>
-                </tr>
-                <!-- Títulos de las columnas -->
-                <tr>
-                    <th>Imagen</th>
-                    <th>Producto</th>
-                    <th>Código interno</th>
-                    <th>Referencia del proveedor</th>
-                    <th>Precio</th>
-                    <th></th>
-                    <th></th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-
-            <!-- Cuerpo de la tabla -->
-            <tbody id="tableBody"></tbody>
-        </table>
+        <!-- Cantidad de registros encontrados -->
+        <div class="header-container">
+            <h1 id="rowsFound">Resultados Encontrados</h1>
+        </div>
+        <!-- Títulos de las columnas -->
+        <div id="cardContainer" class="mt-4">
+            
+        </div>
 
         <!-- Modal para guardar un nuevo producto -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -116,13 +101,13 @@
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="codigoInterno" class="form-label">Código interno</label>
-                                <input id="codigoInterno" type="text" name="codigoInterno" class="form-control"
-                                    required autocomplete="off">
+                                <input id="codigoInterno" type="text" name="codigoInterno" class="form-control" required
+                                    autocomplete="off">
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="referenciaPro" class="form-label">Código Proveedor</label>
-                                <input id="referenciaPro" type="text" name="referenciaPro" class="form-control"
-                                    required autocomplete="off">
+                                <input id="referenciaPro" type="text" name="referenciaPro" class="form-control" required
+                                    autocomplete="off">
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="precioProducto" class="form-label">Precio</label>
@@ -131,28 +116,33 @@
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreMarca" class="form-label">Marca</label>
-                                <select id="nombreMarca" name="nombreMarca" class="form-control" required autocomplete="off">
+                                <select id="nombreMarca" name="nombreMarca" class="form-control" required
+                                    autocomplete="off">
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombre_genero" class="form-label">Género</label>
-                                <select id="nombre_genero" name="nombre_genero" class="form-control" required autocomplete="off">
+                                <select id="nombre_genero" name="nombre_genero" class="form-control" required
+                                    autocomplete="off">
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreCategoria" class="form-label">Categoría</label>
-                                <select id="nombreCategoria" name="nombreCategoria" class="form-control" required autocomplete="off">
+                                <select id="nombreCategoria" name="nombreCategoria" class="form-control" required
+                                    autocomplete="off">
                                 </select>
                             </div>
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreMaterial" class="form-label">Material</label>
-                                <select id="nombreMaterial" name="nombreMaterial" class="form-control" required autocomplete="off">
+                                <select id="nombreMaterial" name="nombreMaterial" class="form-control" required
+                                    autocomplete="off">
                                 </select>
                             </div>
 
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreDescuento" class="form-label">Descuento</label>
-                                <select id="nombreDescuento" name="nombreDescuento" class="form-control" autocomplete="off">
+                                <select id="nombreDescuento" name="nombreDescuento" class="form-control"
+                                    autocomplete="off">
                                 </select>
                             </div>
                         </div>
@@ -220,15 +210,15 @@
             </div>
         </div>
     </main>
-       <!-- Bootstrap JavaScript -->
-       <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
-       <!-- SweetAlert JavaScript -->
-       <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
-       <!-- Controladores JavaScript -->
-       <script src="../../controllers/utils/components.js"></script>
-       <script src="../../controllers/utils/admin.js"></script>
-       <script src="../../controllers/admin/producto.js"></script>
-       
+    <!-- Bootstrap JavaScript -->
+    <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert JavaScript -->
+    <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
+    <!-- Controladores JavaScript -->
+    <script src="../../controllers/utils/components.js"></script>
+    <script src="../../controllers/utils/admin.js"></script>
+    <script src="../../controllers/admin/producto.js"></script>
+
     <script type="text/javascript" src="../../controllers/admin/inactividad.js"></script>
 </body>
 

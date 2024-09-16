@@ -2,8 +2,8 @@
 const USER_API = 'services/admin/administrador.php';
 // Constante para establecer el elemento del contenido principal.
 const MAIN = document.querySelector('main');
-MAIN.style.paddingTop = '75px';
-MAIN.style.paddingBottom = '100px';
+MAIN.style.paddingTop = '45px';
+MAIN.style.paddingBottom = '35px';
 MAIN.classList.add('login-container');
 // Constante para establecer el elemento del título principal.
 const MAIN_TITLE = document.getElementById('mainTitle');
@@ -67,31 +67,47 @@ const loadTemplate = async () => {
             }
 
             const sidebarHTML = `
-                    <div class="sidebar">
-                        <div class="user-info">
-                            <div class="user-avatar">?</div>
-                            <div class="user-details">
-                                <h2>${DATA.username}</h2>
-                                <p>Active</p>
-                            </div>
-                        </div>
-                        <nav>
-                            <ul>
-                                ${navOptions}
-                            </ul>
-                        </nav>
-                        <div class="logout">
-                            <a href="#" onclick="logOut()"><i class="fas fa-sign-out-alt"></i>Cerrar sesión</a>
+                <div class="sidebar">
+                    <div class="user-info">
+                        <div class="user-avatar">?</div>
+                        <div class="user-details">
+                            <h2><a href="../admin/perfil.html">${DATA.username}</a></h2>
+                            <p>Activo</p>
                         </div>
                     </div>
-                `;
+                    <nav>
+                        <ul>
+                            ${navOptions}
+                        </ul>
+                    </nav>
+                    <div class="logout">
+                        <a href="#" onclick="logOut()"><i class="fas fa-sign-out-alt"></i>Cerrar sesión</a>
+                    </div>
+                </div>
+            `;
 
-            // Insertar el sidebar antes del contenido principal
-            MAIN.insertAdjacentHTML('beforebegin', sidebarHTML);
+            // Verificar si el sidebar ya existe
+            let existingSidebar = document.querySelector('.sidebar');
+            if (existingSidebar) {
+                // Si existe, actualizamos su contenido
+                existingSidebar.innerHTML = sidebarHTML;
+            } else {
+                // Si no existe, lo insertamos antes del contenido principal
+                MAIN.insertAdjacentHTML('beforebegin', sidebarHTML);
+            }
 
             // Ajustar el estilo del contenido principal
-            MAIN.style.marginLeft = '260px'; // Ancho del sidebar + un poco de espacio
-            MAIN.style.transition = 'margin-left 0.3s';
+            function adjustMainContent() {
+                if (window.innerWidth > 768) {
+                    MAIN.style.marginLeft = '260px'; // Ancho del sidebar + un poco de espacio
+                } else {
+                    MAIN.style.marginLeft = '0';
+                }
+            }
+
+            // Llamar a la función inicialmente y agregar un event listener para redimensionar
+            adjustMainContent();
+            window.addEventListener('resize', adjustMainContent);
 
             // Agregar event listeners para los dropdowns después de insertar el sidebar
             const dropdowns = document.querySelectorAll('.dropdown-toggle');
@@ -104,15 +120,18 @@ const loadTemplate = async () => {
                 });
             });
 
-            const sidebarToggle = document.createElement('button');
-            sidebarToggle.classList.add('sidebar-toggle');
-            sidebarToggle.innerHTML = '☰';
-            document.body.appendChild(sidebarToggle);
+            // Crear y agregar el botón de toggle del sidebar solo si no existe
+            if (!document.querySelector('.sidebar-toggle')) {
+                const sidebarToggle = document.createElement('button');
+                sidebarToggle.classList.add('sidebar-toggle');
+                sidebarToggle.innerHTML = '☰';
+                document.body.appendChild(sidebarToggle);
 
-            const sidebarElement = document.querySelector('.sidebar');
-            sidebarToggle.addEventListener('click', function () {
-                sidebarElement.classList.toggle('active');
-            });
+                const sidebarElement = document.querySelector('.sidebar');
+                sidebarToggle.addEventListener('click', function () {
+                    sidebarElement.classList.toggle('active');
+                });
+            }
 
         } else {
             sweetAlert(3, DATA.error, false, 'index.html');

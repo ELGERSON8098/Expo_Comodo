@@ -64,37 +64,52 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 *   Retorno: ninguno.
 */
 const fillTable = async (form = null) => {
-    // Se inicializa el contenido de la tabla.
+    // Se inicializa el contenido del contenedor de tarjetas.
     ROWS_FOUND.textContent = '';
-    TABLE_BODY.innerHTML = '';
+    const cardContainer = document.getElementById('cardContainer');
+    cardContainer.innerHTML = '';
+
     // Se verifica la acción a realizar.
-    (form) ? action = 'searchRows' : action = 'readAll';
+    const action = form ? 'searchRows' : 'readAll';
+
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(GENERO_API, action, form);
+
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        // Se recorre el conjunto de registros fila por fila.
-        DATA.dataset.forEach(row => {
-            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-            TABLE_BODY.innerHTML += `
-                <tr>
-                    <td><img src="${SERVER_URL}images/generos/${row.imagen_genero}" height="50"></td>
-                    <td>${row.nombre_genero}</td>
-                    <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td> <td></td>
-                    <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_genero})">
-                            <i class="bi bi-pencil-fill"></i>
+        // Se crea un contenedor para las tarjetas
+        const row = document.createElement('div');
+        row.className = 'row g-4';
+
+        // Se recorre el conjunto de registros (dataset) para crear una tarjeta por cada registro.
+        DATA.dataset.forEach(genero => {
+            // Se crea la tarjeta para cada registro
+            const card = document.createElement('div');
+            card.className = 'col-md-4 col-lg-3';
+            card.innerHTML = `
+                <div class="card h-100">
+                    <img src="${SERVER_URL}images/generos/${genero.imagen_genero}" class="card-img-top" alt="${genero.nombre_genero}" height="200">
+                    <div class="card-body">
+                        <h5 class="card-title">${genero.nombre_genero}</h5>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-info btn-sm" onclick="openUpdate(${genero.id_genero})">
+                            <i class="bi bi-pencil-fill"></i> Editar
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_genero})">
-                            <i class="bi bi-trash-fill"></i>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="openDelete(${genero.id_genero})">
+                            <i class="bi bi-trash-fill"></i> Eliminar
                         </button>
-                        <button type="button" class="btn btn-warning me-2 mb-2 mb-sm-2" onclick="openReport(${row.id_genero})">
-                            <i class="bi bi-file-earmark-pdf-fill"></i>
+                        <button type="button" class="btn btn-warning btn-sm" onclick="openReport(${genero.id_genero})">
+                            <i class="bi bi-file-earmark-pdf-fill"></i> Reporte
                         </button>
-                    </td>
-                </tr>
+                    </div>
+                </div>
             `;
+            row.appendChild(card);
         });
+
+        cardContainer.appendChild(row);
+
         // Se muestra un mensaje de acuerdo con el resultado.
         ROWS_FOUND.textContent = DATA.message;
     } else {

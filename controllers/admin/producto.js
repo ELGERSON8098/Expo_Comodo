@@ -79,42 +79,57 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 *   Retorno: ninguno.
 */
 const fillTable = async (form = null) => {
-    // Se inicializa el contenido de la tabla.
+    // Se inicializa el contenido del contenedor de tarjetas.
     ROWS_FOUND.textContent = '';
-    TABLE_BODY.innerHTML = '';
+    const cardContainer = document.getElementById('cardContainer');
+    cardContainer.innerHTML = '';
+
     // Se verifica la acción a realizar.
-    // searchRows es un metodo para buscar productos.
-    (form) ? action = 'searchRows' : action = 'readAll';
+    const action = form ? 'searchRows' : 'readAll';
+
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(PRODUCTO_API, action, form);
+
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-        DATA.dataset.forEach(row => {
-            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-            TABLE_BODY.innerHTML += `
-                <tr>
-                    <td><img src="${SERVER_URL}images/productos/${row.imagen}" height="50"></td>
-                    <td>${row.nombre_producto}</td>
-                    <td>${row.codigo_interno}</td>
-                    <td>${row.referencia_proveedor}</td>
-                    <td>${row.precio}</td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_producto})">
-                            <i class="bi bi-pencil-fill"></i>
+        // Se crea un contenedor para las tarjetas
+        const row = document.createElement('div');
+        row.className = 'row g-4';
+
+        // Se recorre el conjunto de registros (dataset) para crear una tarjeta por cada producto.
+        DATA.dataset.forEach(product => {
+            // Se crea la tarjeta para cada producto
+            const card = document.createElement('div');
+            card.className = 'col-md-4 col-lg-3';
+            card.innerHTML = `
+                <div class="card h-100">
+                    <img src="${SERVER_URL}images/productos/${product.imagen}" class="card-img-top" alt="${product.nombre_producto}">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.nombre_producto}</h5>
+                        <p class="card-text">Código: ${product.codigo_interno}</p>
+                        <p class="card-text">Ref. Proveedor: ${product.referencia_proveedor}</p>
+                        <p class="card-text">Precio: $${product.precio}</p>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-info btn-sm" onclick="openUpdate(${product.id_producto})">
+                            <i class="bi bi-pencil-fill"></i> Editar
                         </button>
-                        <button type="button" class="btn btn-danger" onclick="openDelete(${row.id_producto})">
-                            <i class="bi bi-trash-fill"></i>
+                        <br><br>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="openDelete(${product.id_producto})">
+                            <i class="bi bi-trash-fill"></i> Eliminar
                         </button>
-                         <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_producto})">
-                         <i class="bi bi-clipboard-plus-fill"></i>
-                         </button>
-                    </td>
-                </tr>
+                          <br>   <br>
+                        <button type="button" class="btn btn-primary btn-sm" onclick="openCreateDetail(${product.id_producto})">
+                            <i class="bi bi-clipboard-plus-fill"></i> Detalles
+                        </button>
+                    </div>
+                </div>
             `;
+            row.appendChild(card);
         });
+
+        cardContainer.appendChild(row);
+
         // Se muestra un mensaje de acuerdo con el resultado.
         ROWS_FOUND.textContent = DATA.message;
     } else {

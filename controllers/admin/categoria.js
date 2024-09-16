@@ -67,61 +67,52 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 *   Retorno: ninguno.
 */
 const fillTable = async (form = null) => {
-    // Se inicializa el contenido de la tabla.
+    // Se inicializa el contenido del contenedor de tarjetas.
     ROWS_FOUND.textContent = '';
-    TABLE_BODY.innerHTML = '';
+    const cardContainer = document.getElementById('cardContainer');
+    cardContainer.innerHTML = '';
+
     // Se verifica la acción a realizar.
-    (form) ? action = 'searchRows' : action = 'readAll';
+    const action = form ? 'searchRows' : 'readAll';
+
     // Petición para obtener los registros disponibles.
     const DATA = await fetchData(CATEGORIA_API, action, form);
+
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        // Se recorre el conjunto de registros fila por fila.
-        DATA.dataset.forEach(row => {
-            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-            TABLE_BODY.innerHTML += `
-                <tr>
-                    <td><img src="${SERVER_URL}images/categorias/${row.imagen}" height="50"></td>
-                    <td>${row.nombre_categoria}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <button type="button" class="btn btn-info  me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_categoria})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger  me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_categoria})">
-                            <i class="bi bi-trash-fill"></i>
-                        </button>
-                         <button type="button" class="btn btn-warning" onclick="openChart(${row.id_categoria})">
-                            <i class="bi bi-bar-chart-line-fill"></i>
-                        </button>
-                    </td>
-                </tr>
-            `;
+        // Se crea un contenedor para las tarjetas
+        const row = document.createElement('div');
+        row.className = 'row g-4';
+
+        // Se recorre el conjunto de registros (dataset) para crear una tarjeta por cada registro.
+        DATA.dataset.forEach(category => {
+            // Se crea la tarjeta para cada registro
+            const card = document.createElement('div');
+            card.className = 'col-md-4 col-lg-3';
+            card.innerHTML = `
+              <div class="card h-100">
+                  <img src="${SERVER_URL}images/categorias/${category.imagen}" class="card-img-top" alt="${category.nombre_categoria}" height="200">
+                  <div class="card-body">
+                      <h5 class="card-title">${category.nombre_categoria}</h5>
+                  </div>
+                  <div class="card-footer">
+                      <button type="button" class="btn btn-info btn-sm" onclick="openUpdate(${category.id_categoria})">
+                          <i class="bi bi-pencil-fill"></i> Editar
+                      </button>
+                      <button type="button" class="btn btn-danger btn-sm" onclick="openDelete(${category.id_categoria})">
+                          <i class="bi bi-trash-fill"></i> Eliminar
+                      </button>
+                      <button type="button" class="btn btn-warning btn-sm" onclick="openChart(${category.id_categoria})">
+                          <i class="bi bi-bar-chart-line-fill"></i> Ver Gráfico
+                      </button>
+                  </div>
+              </div>
+          `;
+            row.appendChild(card);
         });
+
+        cardContainer.appendChild(row);
+
         // Se muestra un mensaje de acuerdo con el resultado.
         ROWS_FOUND.textContent = DATA.message;
     } else {
