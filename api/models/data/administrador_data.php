@@ -160,11 +160,15 @@ class AdministradorData extends AdministradorHandler
         }
     }
 
-
-
     // Método para obtener el error de los datos.
     public function getDataError()
     {
         return $this->data_error;
+    }
+
+    // Método para obtener el error de los datos.
+    public function getCondicion()
+    {
+        return $this->condicion;
     }
 }

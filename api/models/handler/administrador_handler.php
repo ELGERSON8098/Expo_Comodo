@@ -11,11 +11,13 @@ class AdministradorHandler
     protected $clave = null;
     protected $reset_code = null;
     protected $id_nivel_usuario = 1;
+    protected $condicion = null;
 
     public function checkUser($username, $password)
     {
         // Primero, obtenemos los detalles del usuario.
-        $sql = 'SELECT id_administrador, usuario_administrador, clave_administrador, intentos_fallidos, bloqueo_hasta
+        $sql = 'SELECT id_administrador, usuario_administrador, clave_administrador, 
+                intentos_fallidos, bloqueo_hasta, DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS
                 FROM tb_admins
                 WHERE usuario_administrador = ?';
         $params = array($username);
@@ -28,6 +30,10 @@ class AdministradorHandler
         // Verificamos si el usuario está bloqueado
         if ($data['bloqueo_hasta'] && new DateTime() < new DateTime($data['bloqueo_hasta'])) {
             return 'bloqueado'; // Usuario está bloqueado
+        }
+
+        if($data['DIAS'] > 90){
+            return  $this->condicion = 'clave';
         }
 
         if (password_verify($password, $data['clave_administrador'])) {

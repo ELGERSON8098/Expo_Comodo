@@ -298,7 +298,9 @@ if (isset($_GET['action'])) {
 
                 $loginResult = $administrador->checkUser($alias, $clave);
 
-                if ($loginResult === false) {
+                if($administrador->getCondicion() == "clave"){
+                    $result['error'] = 'Ya pasaron 90 dias de la ultima vez que cambiaste tu clave';
+                } else if ($loginResult === false) {
                     // Usuario o contraseña incorrectos
                     $blockData = $administrador->getBlockDataByAlias($alias); // Asegúrate de inicializar blockData correctamente
                     $newAttempts = $blockData['intentos_fallidos'];

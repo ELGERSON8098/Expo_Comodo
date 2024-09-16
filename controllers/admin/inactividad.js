@@ -1,10 +1,15 @@
-let n = 300;  // Tiempo de inactividad en segundos
+let n = 300;  // Tiempo de inactividad en segundos (5 minutos)
 const l = document.getElementById("number"); // Elemento para mostrar el contador
 
 const startSessionTimer = () => {
     const id = window.setInterval(function() {
-        // Mostrar el tiempo restante en el contador
-        l.innerText = Math.ceil(n / 60) + " min"; // Mostrar el tiempo en minutos
+        // Calcular los minutos y segundos restantes
+        const minutes = Math.floor(n / 60);
+        const seconds = n % 60;
+
+        // Mostrar el tiempo restante en el contador en formato "MM:SS"
+        l.innerText = `${minutes} min ${seconds} sec`; 
+
         n--;
 
         // Si el contador llega a 0, cerrar sesión
@@ -16,7 +21,7 @@ const startSessionTimer = () => {
 
     // Reiniciar el contador al mover el ratón
     document.onmousemove = function() {
-        n = 300; // Reiniciar el contador a 5 minutos
+        n = 300; // Reiniciar el contador a 5 minutos (300 segundos)
     };
 };
 
@@ -51,4 +56,4 @@ const logOut2 = async () => {
             document.body.removeChild(alertMessage);
         }, 500); // Tiempo para la transición de opacidad
     }, 3000); // Cambia 3000 por el tiempo que desees que dure la alerta (en milisegundos)
-};
+}
