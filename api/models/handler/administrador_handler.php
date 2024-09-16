@@ -276,7 +276,7 @@ WHERE
     {
         // SQL para actualizar la contraseña, eliminar el código de restablecimiento y su caducidad.
         $sql = 'UPDATE tb_admins 
-                SET clave_administrador = ?, reset_code = NULL, reset_code_expiry = NULL 
+                SET clave_administrador = ?, reset_code = NULL, reset_code_expiry = NULL, fecha_clave = NOW()
                 WHERE correo_administrador = ? AND reset_code = ? AND reset_code_expiry > NOW()';
 
         // Parámetros que se pasan a la consulta.

@@ -66,7 +66,11 @@ LOGIN_FORM.addEventListener('submit', async (event) => {
             currentAdminId = DATA.id_administrador;
         }
     } else {
-        sweetAlert(2, DATA.error, false);
+        if(DATA.error == "Ya pasaron 90 dias de la ultima vez que cambiaste tu clave"){
+            sweetAlert(2, DATA.error, false, 'request_reset.html');
+        }else{
+            sweetAlert(2, DATA.error, false);
+        }
     }
 });
 // Nuevo método para manejar la verificación del código 2FA
