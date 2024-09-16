@@ -1,0 +1,127 @@
+/* Estilo general para el contenedor de las tarjetas */
+#cardContainer {
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+}
+
+/* Estilo para cada tarjeta */
+.card {
+    width: 300px; /* Ancho por defecto */
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background-color: #fff;
+    overflow: hidden;
+}
+
+/* Estilo para la imagen de la tarjeta */
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Estilo para el cuerpo de la tarjeta */
+.card-body {
+    padding: 20px;
+}
+
+/* Estilo para el título de la tarjeta */
+.card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* Estilo para el texto de la tarjeta */
+.card-text {
+    font-size: 1rem;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Estilo para los botones en el pie de la tarjeta */
+.card-footer .btn {
+    margin: 0 20px; /* Aumentar el margen entre botones */
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none; /* Sin borde */
+    background-color: #5a52d5; /* Color de fondo */
+    color: white; /* Color del texto */
+    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Transiciones suaves */
+}
+
+/* Efecto hover para los botones */
+.card-footer .btn:hover {
+    background-color: #4a42b5; /* Color más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Desplazamiento hacia arriba */
+}
+
+/* Efecto de enfoque para accesibilidad */
+.card-footer .btn:focus {
+    outline: none; /* Quitar el contorno predeterminado */
+    box-shadow: 0 0 0 3px rgba(90, 82, 213, 0.5); /* Sombra de enfoque */
+}
+
+/* Transición para el efecto hover */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.header-container {
+    text-align: center;
+    margin: 30px 0;
+}
+
+#rowsFound {
+    font-size: 1.2rem;
+    color: #5a52d5;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 3px solid #5a52d5;
+    padding-bottom: 15px;
+    transition: color 0.3s ease;
+}
+
+#rowsFound:hover {
+    color: #8c7fec;
+}
+
+/* Media Queries para Responsividad */
+
+/* Pantallas pequeñas (móviles) */
+@media (max-width: 576px) {
+    .card {
+        width: 100%; /* Tarjetas ocupan todo el ancho */
+    }
+    .card-footer .btn {
+        margin: 10px 0; /* Margen vertical entre botones */
+        width: 100%; /* Botones ocupan todo el ancho */
+        padding: 12px; /* Aumentar el padding para mejor usabilidad */
+    }
+}
+
+/* Pantallas medianas (tabletas) */
+@media (min-width: 577px) and (max-width: 768px) {
+    .card {
+        width: 150%; /* Tarjetas ocupan el 100% del ancho */
+    }
+}
+
+/* Pantallas grandes (escritorio) */
+@media (min-width: 769px) {
+    .card {
+        width: 100%; /* Tarjetas ocupan el 30% del ancho */
+    }
+}

@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
     <!-- CSS personalizado -->
     <link rel="stylesheet" href="../../resources/css/Dashboard_publico.css">
+    <link rel="stylesheet" href="../../resources/css/cartas.css">
 </head>
 
 <body>
@@ -58,58 +59,21 @@
                 <button type="button" class="btn btn-primary  me-2 mb-2 mb-sm-0" onclick="openCreate()">
                     <i class="bi bi-plus-square-fill"></i>
                 </button>
-                
+
                 <button type="button" class="btn btn-primary" onclick="openReportPredictivo()">
                     <i class="bi bi-file-earmark-pdf-fill"></i>
                 </button>
             </div>
         </div>
+        </div>
+        <!-- Cantidad de registros encontrados -->
+        <div class="header-container">
+            <h1 id="rowsFound">Resultados Encontrados</h1>
+        </div>
+        <!-- Títulos de las columnas -->
+        <div id="cardContainer" class="mt-4">
 
-        <!-- Tabla para mostrar los registros existentes -->
-        <table class="table table-hover">
-            <!-- Encabezado de la tabla -->
-            <thead>
-                <tr>
-                    <!-- Cantidad de registros encontrados -->
-                    <td colspan="28" id="rowsFound"></td>
-                </tr>
-                <!-- Títulos de las columnas -->
-                <tr>
-                    <th>Imagen</th>
-                    <th>Categoría</th>
-                    <!-- Añadir más títulos de columnas según sea necesario -->
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <!-- Cuerpo de la tabla -->
-            <tbody id="tableBody"></tbody>
-
-        </table>
+        </div>
         <!-- Modal para guardar un registro -->
         <div class="modal fade" id="saveModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="modalTitle" aria-hidden="true">
@@ -171,7 +135,7 @@
     <script src="../../controllers/utils/components.js"></script>
     <!-- Controlador específico de esta página -->
     <script src="../../controllers/admin/categoria.js"></script>
-    
+
     <script type="text/javascript" src="../../controllers/admin/inactividad.js"></script>
 
 </body>
