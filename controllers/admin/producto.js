@@ -1,3 +1,4 @@
+
 // Constantes para completar las rutas de la API.
 const MATERIAL_API = 'services/admin/materiales.php'; // Ruta para la API de materiales
 const MARCA_API = 'services/admin/marca.php'; // Ruta para la API de marcas

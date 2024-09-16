@@ -1,3 +1,4 @@
+
 // Constante para completar la ruta de la API.
 const GENERO_API = 'services/admin/genero.php';
 // Constante para establecer el formulario de buscar.
