@@ -6,6 +6,11 @@
     --color: #a80505;
     --color2: #f8f66e;
 }
+.user-details a {
+    text-decoration: none; /* Quitar subrayado */
+    color: inherit; /* Mantener el color del texto normal */
+}
+
 
 body {
     font-family: var(--sm-font);
@@ -439,6 +444,7 @@ footer a:hover {
     cursor: pointer;
 }
 
+
 @media screen and (max-width: 576px) {
     .sidebar-toggle {
         display: block;
@@ -451,4 +457,32 @@ footer a:hover {
     .sidebar.active {
         left: 0;
     }
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        margin-left: 0; /* Establece el margen izquierdo a 0 */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+}
+
+.sidebar {
+  /* ... otros estilos ... */
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar nav {
+  flex-grow: 1;
+}
+
+.logout {
+  margin-top: auto;
 }
