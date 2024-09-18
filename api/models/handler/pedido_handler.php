@@ -70,26 +70,40 @@ class PedidoHandler
         }
     }
 
-
     public function createDetail()
     {
+        // Obtener la cantidad total en el carrito para este producto
+        $cantidadEnCarrito = $this->getCantidadEnCarrito($this->producto);
+    
         // Validar existencias
-        if (!$this->validateStock($this->producto, $this->cantidad)) {
+        if (!$this->validateStock($this->producto, $this->cantidad + $cantidadEnCarrito)) {
             return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
         }
-
+    
         // Si la validación es exitosa, proceder a insertar
         $sql = 'INSERT INTO tb_detalles_reservas (id_detalle_producto, precio_unitario, cantidad, id_reserva)
             VALUES (?, (SELECT precio FROM tb_productos INNER JOIN tb_detalles_productos USING(id_producto) WHERE id_detalle_producto = ?), ?, ?)';
-
+    
         $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
-
+    
         // Ejecutar la inserción
         if (Database::executeRow($sql, $params)) {
             return json_encode(['status' => true, 'message' => 'Producto agregado al carrito con éxito.']);
         } else {
             return json_encode(['status' => false, 'message' => 'No se pudo agregar el producto al carrito.']);
         }
+    }
+    
+    // Función para obtener la cantidad actual en el carrito para un producto específico
+    private function getCantidadEnCarrito($productoId)
+    {
+        // Aquí deberías implementar la lógica para recuperar la cantidad de este producto en el carrito
+        // Por ejemplo, podrías hacer una consulta a la base de datos para contar cuántos hay en tb_detalles_reservas
+        $sql = 'SELECT SUM(cantidad) FROM tb_detalles_reservas WHERE id_detalle_producto = ? AND id_reserva = ?';
+        $params = array($productoId, $_SESSION['idReserva']);
+        
+        // Ejecutar la consulta y devolver el resultado
+        return Database::getRow($sql, $params)[0] ?? 0; // Devuelve 0 si no hay resultados
     }
 
     public function validateStock($idDetalleProducto, $cantidadSolicitada)
