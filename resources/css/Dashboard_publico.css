@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Kaisei+Tokumin:wght@400;500;700&family=Poppins:wght@300;400;500&display=swap');
 
 :root {
@@ -245,6 +246,9 @@ footer a:hover {
     width: 600px; /* Ajusta el ancho según sea necesario */
     height: 500px; /* Ajusta la altura según sea necesario */
 }
+
+
+
 
 /* Estilos base */
 .sidebar {

@@ -1,3 +1,4 @@
+
 // Constantes para completar las rutas de la API.
 const MATERIAL_API = 'services/admin/materiales.php'; // Ruta para la API de materiales
 const MARCA_API = 'services/admin/marca.php'; // Ruta para la API de marcas
@@ -100,7 +101,7 @@ const fillTable = async (form = null) => {
         DATA.dataset.forEach(product => {
             // Se crea la tarjeta para cada producto
             const card = document.createElement('div');
-            card.className = 'col-md-4 col-lg-3';
+            card.className = 'col-md-4 col-lg-4';
             card.innerHTML = `
                 <div class="card h-100">
                     <img src="${SERVER_URL}images/productos/${product.imagen}" class="card-img-top" alt="${product.nombre_producto}">

@@ -1,4 +1,5 @@
-/* Estilo general para el contenedor de las tarjetas */
+
+/* Estilo general para el contenedor de las tarjetas holaa prueba*/
 #cardContainer {
     padding: 30px;
     display: flex;
@@ -115,13 +116,13 @@
 /* Pantallas medianas (tabletas) */
 @media (min-width: 577px) and (max-width: 768px) {
     .card {
-        width: 150%; /* Tarjetas ocupan el 100% del ancho */
+        width: 100%; /* Tarjetas ocupan todo el ancho */
     }
 }
 
 /* Pantallas grandes (escritorio) */
 @media (min-width: 769px) {
     .card {
-        width: 100%; /* Tarjetas ocupan el 30% del ancho */
+        width: 300px; /* Tarjetas ocupan el 30% del ancho */
     }
 }

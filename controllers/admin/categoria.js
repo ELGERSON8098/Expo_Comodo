@@ -1,3 +1,4 @@
+
 // Constantes para completar las rutas de la API.
 const CATEGORIA_API = 'services/admin/categoria.php';
 // Constante para establecer el formulario de buscar.
@@ -88,7 +89,7 @@ const fillTable = async (form = null) => {
         DATA.dataset.forEach(category => {
             // Se crea la tarjeta para cada registro
             const card = document.createElement('div');
-            card.className = 'col-md-4 col-lg-3';
+            card.className = 'col-md-4 col-lg-4';
             card.innerHTML = `
               <div class="card h-100">
                   <img src="${SERVER_URL}images/categorias/${category.imagen}" class="card-img-top" alt="${category.nombre_categoria}" height="200">
