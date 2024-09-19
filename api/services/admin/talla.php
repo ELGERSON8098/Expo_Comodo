@@ -68,18 +68,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar la talla';
                 }
                 break;
-            case 'deleteRow':
-                if (
-                    !$talla->setid($_POST['idTalla'])
-                ) {
-                    $result['error'] = $talla->getDataError();
-                } elseif ($talla->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Talla eliminado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la talla';
-                }
-                break;
+                case 'deleteRow':
+                    if (!$talla->setId($_POST['idTalla'])) {
+                        $result['error'] = $talla->getDataError();
+                    } else {
+                        // Obtener el nombre de la talla antes de eliminarla
+                        $tallaNombre = $talla->getNombreTalla();
+                
+                        if ($talla->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre de la talla eliminada en el mensaje
+                            $result['message'] = 'Talla "' . $tallaNombre . '" eliminada correctamente';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar la talla';
+                        }
+                    }
+                    break;
             
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.

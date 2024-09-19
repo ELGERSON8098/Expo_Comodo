@@ -66,18 +66,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar la marca.';
                 }
                 break;
-            case 'deleteRow':
-                if (
-                    !$marca->setid($_POST['idMarca'])
-                ) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($marca->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Marca eliminada correctamente.';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la marca.';
-                }
-                break;
+                case 'deleteRow':
+                    if (!$marca->setId($_POST['idMarca'])) {
+                        $result['error'] = $marca->getDataError();
+                    } else {
+                        // Obtener el nombre de la marca antes de eliminarla
+                        $marcaNombre = $marca->getNombreMarca();
+                
+                        if ($marca->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre de la marca eliminada en el mensaje
+                            $result['message'] = 'Marca "' . $marcaNombre . '" eliminada correctamente.';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar la marca.';
+                        }
+                    }
+                    break;
 
             case 'ventasPorMarcasFecha':
                 $_POST = Validator::validateForm($_POST);

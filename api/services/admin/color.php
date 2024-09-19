@@ -67,18 +67,24 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el color';
                 }
                 break;
-            case 'deleteRow':
-                if (
-                    !$color->setid($_POST['idColor'])
-                ) {
-                    $result['error'] = $color->getDataError();
-                } elseif ($color->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Color eliminado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el color';
-                }
-                break;
+                case 'deleteRow':
+                    // Establecer el ID del color a eliminar
+                    if (!$color->setId($_POST['idColor'])) {
+                        $result['error'] = $color->getDataError();
+                    } else {
+                        // Obtener el nombre del color antes de eliminarlo
+                        $colorNombre = $color->getNombreColor();
+                
+                        if ($color->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre del color eliminado en el mensaje
+                            $result['message'] = 'Color "' . $colorNombre . '" eliminado correctamente';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar el color';
+                        }
+                    }
+                    break;
+                
             
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.

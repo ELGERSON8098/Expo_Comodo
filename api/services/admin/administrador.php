@@ -171,18 +171,23 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el trabajador';
                 }
                 break;
-            case 'deleteRow':
-                if (
-                    !$administrador->setid($_POST['idAdmin'])
-                ) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Administrador eliminado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el administrador';
-                }
-                break;
+                case 'deleteRow':
+                    // Establecer el ID del administrador
+                    if (!$administrador->setId($_POST['idAdmin'])) {
+                        $result['error'] = $administrador->getDataError();
+                    } else {
+                        // Obtener el nombre del administrador antes de eliminarlo
+                        $adminNombre = $administrador->getNombreAdministrador();
+                
+                        if ($administrador->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre del administrador eliminado en el mensaje
+                            $result['message'] = 'Administrador "' . $adminNombre . '" eliminado correctamente';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar el administrador';
+                        }
+                    }
+                    break;
             case 'getUser':
                 if (isset($_SESSION['aliasAdministrador'])) {
                     // Inicia la conexión a la base de datos.

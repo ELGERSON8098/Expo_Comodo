@@ -78,4 +78,19 @@ class colorHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function getNombreColor() {
+        // Consulta para obtener el nombre basado en el ID
+        $sql = 'SELECT color FROM tb_colores WHERE id_color = ?';
+        $params = array($this->id);
+
+        // Ejecutar la consulta (asumiendo que tienes un método executeRow() para ejecutar SQL)
+        if ($data = Database::getRow($sql, $params)) {
+            // Asignar el nombre a la propiedad de la clase
+            $this->nombre = $data['color'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra el color
+        }
+    }
 }

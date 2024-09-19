@@ -88,6 +88,19 @@ class CategoriaHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function getNombreCategoria() {
+        $sql = 'SELECT nombre_categoria FROM tb_categorias WHERE id_categoria = ?';
+        $params = array($this->id);
+
+        // Ejecutar la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            $this->nombre = $data['nombre_categoria'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra la categoría
+        }
+    }
+
     // Lee todas las categorías que tienen productos asociados.
     public function readAllCategorias()
     {

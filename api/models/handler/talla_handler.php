@@ -76,4 +76,17 @@ class tallaHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function getNombreTalla() {
+        $sql = 'SELECT nombre_talla FROM tb_tallas WHERE id_talla = ?';
+        $params = array($this->id);
+
+        // Ejecutar la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            $this->nombre = $data['nombre_talla'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra la talla
+        }
+    }
+
 }

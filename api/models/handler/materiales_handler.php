@@ -66,4 +66,17 @@ class materialHandler
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
+    public function getNombreMaterial() {
+        $sql = 'SELECT nombre FROM tb_materiales WHERE id_material = ?';
+        $params = array($this->id);
+
+        // Ejecutar la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            $this->nombre = $data['nombre'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra el material
+        }
+    }
 }

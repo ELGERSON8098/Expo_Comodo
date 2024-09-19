@@ -236,6 +236,19 @@ WHERE
         return Database::executeRow($sql, $params);
     }
 
+    public function getNombreAdministrador() {
+        $sql = 'SELECT nombre_administrador FROM tb_admins WHERE id_administrador = ?';
+        $params = array($this->id);
+
+        // Ejecutar la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            $this->nombre = $data['nombre_administrador'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra el administrador
+        }
+    }
+
     public function obtenerAdministradores()
     {
         $sql = 'SELECT 

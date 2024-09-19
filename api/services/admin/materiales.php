@@ -64,19 +64,22 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el material.';
                 }
                 break;
-            case 'deleteRow':
-                if (
-                    !$material->setid($_POST['idMaterial'])
-                ) {
-                    $result['error'] = $material->getDataError();
-                } elseif ($material->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Material eliminado correctamente.';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el material.';
-                }
-                break;
-
+                case 'deleteRow':
+                    if (!$material->setId($_POST['idMaterial'])) {
+                        $result['error'] = $material->getDataError();
+                    } else {
+                        // Obtener el nombre del material antes de eliminarlo
+                        $materialNombre = $material->getNombreMaterial();
+                
+                        if ($material->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre del material eliminado en el mensaje
+                            $result['message'] = 'Material "' . $materialNombre . '" eliminado correctamente.';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar el material.';
+                        }
+                    }
+                    break;
         }
         // Se obtiene la excepción del servidor de base de datos por si ocurrió un problema.
         $result['exception'] = Database::getException();

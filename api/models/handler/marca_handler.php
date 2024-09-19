@@ -206,6 +206,19 @@ class marcaHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function getNombreMarca() {
+        $sql = 'SELECT marca FROM tb_marcas WHERE id_marca = ?';
+        $params = array($this->id);
+
+        // Ejecutar la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            $this->nombre = $data['marca'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra la marca
+        }
+    }
+
     //Elimina una marca específica por ID.
     public function deleteRow()
     {

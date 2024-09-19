@@ -71,6 +71,21 @@ class descuentoHandler
         return Database::executeRow($sql, $params);
     }
 
+    public function getNombreDescuento() {
+        // Consulta para obtener el nombre basado en el ID
+        $sql = 'SELECT nombre_descuento FROM tb_descuentos WHERE id_descuento = ?';
+        $params = array($this->id);
+
+        // Ejecutar la consulta (asumiendo que tienes un método executeRow() para ejecutar SQL)
+        if ($data = Database::getRow($sql, $params)) {
+            // Asignar el nombre a la propiedad de la clase
+            $this->nombre = $data['nombre_descuento'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra el descuento
+        }
+    }
+
     //Elimina un descuento específico por ID.
     public function deleteRow()
     {

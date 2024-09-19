@@ -75,21 +75,27 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar la categoría';
                 }
                 break;
-            case 'deleteRow':
-                if (
-                    !$categoria->setId($_POST['idCategoria']) or
-                    !$categoria->setFilename()
-                ) {
-                    $result['error'] = $categoria->getDataError();
-                } elseif ($categoria->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Categoría eliminada correctamente';
-                    // Se asigna el estado del archivo después de eliminar.
-                    $result['fileStatus'] = Validator::deleteFile($categoria::RUTA_IMAGEN, $categoria->getFilename());
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la categoría';
-                }
-                break;
+                case 'deleteRow':
+                    if (
+                        !$categoria->setId($_POST['idCategoria']) or
+                        !$categoria->setFilename()
+                    ) {
+                        $result['error'] = $categoria->getDataError();
+                    } else {
+                        // Obtener el nombre de la categoría antes de eliminarla
+                        $categoriaNombre = $categoria->getNombreCategoria();
+                
+                        if ($categoria->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre de la categoría eliminada en el mensaje
+                            $result['message'] = 'Categoría "' . $categoriaNombre . '" eliminada correctamente';
+                            // Eliminar el archivo asociado
+                            $result['fileStatus'] = Validator::deleteFile($categoria::RUTA_IMAGEN, $categoria->getFilename());
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar la categoría';
+                        }
+                    }
+                    break;
                 case 'readTopProductos':
                     if (!$categoria->setId($_POST['idCategoria'])) {
                         $result['error'] = $categoria->getDataError();
