@@ -164,13 +164,19 @@ class Validator
     */
     public static function validateAlphabetic($value)
     {
-        // Se verifica el contenido y la longitud de acuerdo con la base de datos.
-        if (preg_match('/^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/', $value)) {
-            return true;
+        // Sanitizamos el valor eliminando espacios adicionales y caracteres no deseados.
+        $value = trim($value);
+    
+        // Evitamos posibles caracteres HTML que podrían causar XSS.
+        $sanitizedValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    
+        // Se verifica que el valor contenga solo caracteres alfabéticos y espacios.
+        if (preg_match('/^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/', $sanitizedValue)) {
+            return $sanitizedValue;
         } else {
-            return false;
+            return false; // El valor no es válido.
         }
-    }
+    }    
 
     /*
     *   Método para validar un dato alfanumérico (letras, dígitos y espacios en blanco).

@@ -54,20 +54,26 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Talla inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$talla->setid($_POST['idTalla']) or
-                    !$talla->setNombre($_POST['nombreTalla']) 
-                ) {
-                    $result['error'] = $talla->getDataError();
-                } elseif ($talla->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Talla modificada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la talla';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos de la talla
+                    if (
+                        !$talla->setid($_POST['idTalla']) ||
+                        !$talla->setNombre($_POST['nombreTalla'])
+                    ) {
+                        $result['error'] = $talla->getDataError();
+                    } elseif ($talla->updateRow()) {
+                        // Obtener el nombre actualizado de la talla
+                        $nombreTalla = $_POST['nombreTalla']; // Nombre actualizado
+                
+                        $result['status'] = 1;
+                        $result['message'] = "Talla '$nombreTalla' modificada correctamente.";
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar la talla.';
+                    }
+                    break;
+                
                 case 'deleteRow':
                     if (!$talla->setId($_POST['idTalla'])) {
                         $result['error'] = $talla->getDataError();

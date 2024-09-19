@@ -57,20 +57,25 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Género inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$genero->setId($_POST['idGenero']) ||
-                    !$genero->setNombre($_POST['nombre_genero'])
-                ) {
-                    $result['error'] = $genero->getDataError();
-                } elseif ($genero->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Género modificado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el género';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos del género
+                    if (
+                        !$genero->setId($_POST['idGenero']) ||
+                        !$genero->setNombre($_POST['nombre_genero'])
+                    ) {
+                        $result['error'] = $genero->getDataError();
+                    } elseif ($genero->updateRow()) {
+                        // Obtener el nombre actualizado del género
+                        $nombreGenero = $_POST['nombre_genero']; // Nombre actualizado
+                
+                        $result['status'] = 1;
+                        $result['message'] = "Género '$nombreGenero' modificado correctamente";
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar el género';
+                    }
+                    break;                
 
             case 'deleteRow':
                 if (

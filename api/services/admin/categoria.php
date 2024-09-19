@@ -57,24 +57,30 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Categoría inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$categoria->setId($_POST['idCategoria']) or
-                    !$categoria->setFilename() or
-                    !$categoria->setNombre($_POST['nombreCategoria']) or
-                    !$categoria->setImagen($_FILES['nombreIMG'], $categoria->getFilename())
-                ) {
-                    $result['error'] = $categoria->getDataError();
-                } elseif ($categoria->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Categoría modificada correctamente';
-                    // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['nombreIMG'], $categoria::RUTA_IMAGEN, $categoria->getFilename());
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la categoría';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos de la categoría
+                    if (
+                        !$categoria->setId($_POST['idCategoria']) or
+                        !$categoria->setFilename() or
+                        !$categoria->setNombre($_POST['nombreCategoria']) or
+                        !$categoria->setImagen($_FILES['nombreIMG'], $categoria->getFilename())
+                    ) {
+                        $result['error'] = $categoria->getDataError();
+                    } elseif ($categoria->updateRow()) {
+                        // Obtener el nombre actualizado de la categoría
+                        $nombreCategoria = $_POST['nombreCategoria']; // Nombre actualizado
+                
+                        $result['status'] = 1;
+                        $result['message'] = "Categoría '$nombreCategoria' modificada correctamente";
+                
+                        // Se asigna el estado del archivo después de actualizar.
+                        $result['fileStatus'] = Validator::changeFile($_FILES['nombreIMG'], $categoria::RUTA_IMAGEN, $categoria->getFilename());
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar la categoría';
+                    }
+                    break;                
                 case 'deleteRow':
                     if (
                         !$categoria->setId($_POST['idCategoria']) or
