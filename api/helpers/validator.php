@@ -141,10 +141,19 @@ class Validator
     *   Retorno: booleano (true si el valor es correcto o false en caso contrario).
     */
     public static function validateString($value)
-{
-    // Permitir cualquier cadena de texto sin restricciones.
-    return true;
-}
+    {
+        // Sanitizar el valor para prevenir ataques XSS
+        $sanitizedValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    
+        // Validar que la cadena no contenga caracteres peligrosos.
+        // Puedes ajustar esta expresión regular según lo que sea considerado válido para tu campo de dirección.
+        if (preg_match('/^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s\.,-\/]+$/', $sanitizedValue)) {
+            return $sanitizedValue;
+        } else {
+            return false; // La cadena no es válida.
+        }
+    }
+    
 
     public static function validateColor($value)
 {
@@ -163,20 +172,20 @@ class Validator
     *   Retorno: booleano (true si el valor es correcto o false en caso contrario).
     */
     public static function validateAlphabetic($value)
-    {
-        // Sanitizamos el valor eliminando espacios adicionales y caracteres no deseados.
-        $value = trim($value);
+{
+    // Sanitizamos el valor eliminando espacios adicionales y caracteres no deseados.
+    $value = trim($value);
     
-        // Evitamos posibles caracteres HTML que podrían causar XSS.
-        $sanitizedValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    // Evitamos posibles caracteres HTML que podrían causar XSS.
+    $sanitizedValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
     
-        // Se verifica que el valor contenga solo caracteres alfabéticos y espacios.
-        if (preg_match('/^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/', $sanitizedValue)) {
-            return $sanitizedValue;
-        } else {
-            return false; // El valor no es válido.
-        }
-    }    
+    // Se verifica que el valor contenga solo caracteres alfabéticos y espacios.
+    if (preg_match('/^[a-zA-ZñÑáÁéÉíÍóÓúÚ\s]+$/', $sanitizedValue)) {
+        return $sanitizedValue;
+    } else {
+        return false; // El valor no es válido.
+    }
+}
 
     /*
     *   Método para validar un dato alfanumérico (letras, dígitos y espacios en blanco).
@@ -184,15 +193,20 @@ class Validator
     *   Retorno: booleano (true si el valor es correcto o false en caso contrario).
     */
     public static function validateAlphanumeric($value)
-    {
-        // Se verifica el contenido y la longitud de acuerdo con la base de datos.
-        if (preg_match('/^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s]+$/', $value)) {
-            return true;
-        } else {
-            return false;
-        }
+{
+    // Sanitizamos el valor eliminando espacios adicionales y caracteres no deseados.
+    $value = trim($value);
+    
+    // Evitamos posibles caracteres HTML que podrían causar XSS.
+    $sanitizedValue = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+    
+    // Se verifica que el valor contenga solo letras, dígitos y espacios.
+    if (preg_match('/^[a-zA-Z0-9ñÑáÁéÉíÍóÓúÚ\s]+$/', $sanitizedValue)) {
+        return $sanitizedValue;
+    } else {
+        return false; // El valor no es válido.
     }
-
+}
     /*
     *   Método para validar la longitud de una cadena de texto.
     *   Parámetros: $value (dato a validar), $min (longitud mínima) y $max (longitud máxima).
