@@ -53,20 +53,26 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Producto inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$color->setId($_POST['idColor'])or
-                    !$color->setNombre($_POST['nombreColor']) 
-                ) {
-                    $result['error'] = $color->getDataError();
-                } elseif ($color->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Color modificado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el color';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos del color
+                    if (
+                        !$color->setId($_POST['idColor']) or
+                        !$color->setNombre($_POST['nombreColor'])
+                    ) {
+                        $result['error'] = $color->getDataError();
+                    } elseif ($color->updateRow()) {
+                        // Obtener el nombre actualizado del color
+                        $nombreColor = $_POST['nombreColor']; // Nombre actualizado
+                
+                        $result['status'] = 1;
+                        $result['message'] = "Color '$nombreColor' modificado correctamente";
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar el color';
+                    }
+                    break;
+                
                 case 'deleteRow':
                     // Establecer el ID del color a eliminar
                     if (!$color->setId($_POST['idColor'])) {

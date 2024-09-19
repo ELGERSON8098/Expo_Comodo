@@ -52,18 +52,25 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Material inexistente.';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (!$material->setId($_POST['idMaterial']) || 
-                !$material->setNombre($_POST['nombreMaterial'])) {
-                    $result['error'] = $material->getDataError();
-                } elseif ($material->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Material modificado correctamente.';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el material.';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos del material
+                    if (
+                        !$material->setId($_POST['idMaterial']) ||
+                        !$material->setNombre($_POST['nombreMaterial'])
+                    ) {
+                        $result['error'] = $material->getDataError();
+                    } elseif ($material->updateRow()) {
+                        // Obtener el nombre actualizado del material
+                        $nombreMaterial = $_POST['nombreMaterial']; // Nombre actualizado
+                
+                        $result['status'] = 1;
+                        $result['message'] = "Material '$nombreMaterial' modificado correctamente.";
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar el material.';
+                    }
+                    break;                
                 case 'deleteRow':
                     if (!$material->setId($_POST['idMaterial'])) {
                         $result['error'] = $material->getDataError();

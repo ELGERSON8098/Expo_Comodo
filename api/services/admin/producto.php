@@ -114,37 +114,38 @@ if (isset($_GET['action'])) {
             case 'updateRow':
                 // Validar y obtener los datos del formulario
                 $_POST = Validator::validateForm($_POST);
-
+            
                 // Verificar si se pueden establecer todos los datos del producto para actualizar
                 if (
-                    !$producto->setId($_POST['idProducto']) or
-                    !$producto->setFilename() or
-                    !$producto->setNombre($_POST['nombreProducto']) or
-                    !$producto->setCodigo_Interno($_POST['codigoInterno']) or
-                    !$producto->setReferenciaProveedor($_POST['referenciaPro']) or
-                    !$producto->setPrecio($_POST['precioProducto']) or
-                    !$producto->setMarca($_POST['nombreMarca']) or
-                    !$producto->setGenero($_POST['nombre_genero']) or
-                    !$producto->setCategoria($_POST['nombreCategoria']) or
-                    !$producto->setMaterial($_POST['nombreMaterial']) or
-                    !$producto->setDescuento($_POST['nombreDescuento']) or
+                    !$producto->setId($_POST['idProducto']) ||
+                    !$producto->setFilename() ||
+                    !$producto->setNombre($_POST['nombreProducto']) ||
+                    !$producto->setCodigo_Interno($_POST['codigoInterno']) ||
+                    !$producto->setReferenciaProveedor($_POST['referenciaPro']) ||
+                    !$producto->setPrecio($_POST['precioProducto']) ||
+                    !$producto->setMarca($_POST['nombreMarca']) ||
+                    !$producto->setGenero($_POST['nombre_genero']) ||
+                    !$producto->setCategoria($_POST['nombreCategoria']) ||
+                    !$producto->setMaterial($_POST['nombreMaterial']) ||
+                    !$producto->setDescuento($_POST['nombreDescuento']) ||
                     !$producto->setImagen($_FILES['imagen'], $producto->getFilename())
                 ) {
                     // Si hay un error al establecer alguno de los datos, se asigna el mensaje de error
                     $result['error'] = $producto->getDataError();
-                }
-                // Intentar actualizar la fila en la base de datos
-                elseif ($producto->updateRow()) {
+                } elseif ($producto->updateRow()) {
+                    // Obtener el nombre actualizado del producto
+                    $nombreProducto = $_POST['nombreProducto']; // Nombre actualizado
+            
                     // Si la actualización es exitosa, se asigna el estado y el mensaje de éxito
                     $result['status'] = 1;
-                    $result['message'] = 'Producto modificado correctamente';
+                    $result['message'] = "Producto '$nombreProducto' modificado correctamente.";
                     // Cambiar el archivo de imagen si se ha actualizado
                     $result['fileStatus'] = Validator::changeFile($_FILES['imagen'], $producto::RUTA_IMAGEN, $producto->getFilename());
                 } else {
                     // Si hay un problema al modificar el producto, se asigna el mensaje de error
                     $result['error'] = 'Ocurrió un problema al modificar el producto';
                 }
-                break;
+                break;            
 
             // Caso para crear un nuevo detalle de producto
             case 'createDetail':
