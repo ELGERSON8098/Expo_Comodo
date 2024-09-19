@@ -30,7 +30,13 @@ if (isset($_GET['action'])) {
                     } else {
                         // Validar existencias antes de agregar el producto
                         if (!$pedido->validateStock($_POST['idProducto'], $_POST['cantidadProducto'])) {
-                            $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
+                            if($pedido->getCondicion() == 'existencias'){
+                                $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
+                            }elseif($pedido->getCondicion() == 'reservas'){
+                                $result['error'] = 'La suma de las reservas existentes con tu cantidad solicitada supera el numero de existencias.';
+                            }else{
+                                $result['error'] = 'Ocurrio un error con las existencias.';
+                            }
                         } elseif ($pedido->createDetail()) {
                             $result['status'] = 1;
                             $result['message'] = 'Producto agregado correctamente a la reserva ' . $_SESSION['idReserva'];

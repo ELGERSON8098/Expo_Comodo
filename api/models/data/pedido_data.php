@@ -109,4 +109,10 @@ class PedidoData extends PedidoHandler
             return false;
         }
     }
+    
+    // Método para obtener el error de los datos.
+    public function getCondicion()
+    {
+        return $this->condicion;
+    }
 }

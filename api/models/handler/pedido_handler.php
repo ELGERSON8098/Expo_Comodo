@@ -21,6 +21,7 @@ class PedidoHandler
     protected $idProducto = null;
     protected $idDetalleProducto = null;
     protected $idUsuario = null;
+    protected $condicion = null;
 
     /*
     *   ESTADOS DEL PEDIDO
@@ -70,40 +71,26 @@ class PedidoHandler
         }
     }
 
+
     public function createDetail()
     {
-        // Obtener la cantidad total en el carrito para este producto
-        $cantidadEnCarrito = $this->getCantidadEnCarrito($this->producto);
-    
         // Validar existencias
-        if (!$this->validateStock($this->producto, $this->cantidad + $cantidadEnCarrito)) {
+        if (!$this->validateStock($this->producto, $this->cantidad)) {
             return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
         }
-    
+
         // Si la validación es exitosa, proceder a insertar
         $sql = 'INSERT INTO tb_detalles_reservas (id_detalle_producto, precio_unitario, cantidad, id_reserva)
             VALUES (?, (SELECT precio FROM tb_productos INNER JOIN tb_detalles_productos USING(id_producto) WHERE id_detalle_producto = ?), ?, ?)';
-    
+
         $params = array($this->producto, $this->producto, $this->cantidad, $_SESSION['idReserva']);
-    
+
         // Ejecutar la inserción
         if (Database::executeRow($sql, $params)) {
             return json_encode(['status' => true, 'message' => 'Producto agregado al carrito con éxito.']);
         } else {
             return json_encode(['status' => false, 'message' => 'No se pudo agregar el producto al carrito.']);
         }
-    }
-    
-    // Función para obtener la cantidad actual en el carrito para un producto específico
-    private function getCantidadEnCarrito($productoId)
-    {
-        // Aquí deberías implementar la lógica para recuperar la cantidad de este producto en el carrito
-        // Por ejemplo, podrías hacer una consulta a la base de datos para contar cuántos hay en tb_detalles_reservas
-        $sql = 'SELECT SUM(cantidad) FROM tb_detalles_reservas WHERE id_detalle_producto = ? AND id_reserva = ?';
-        $params = array($productoId, $_SESSION['idReserva']);
-        
-        // Ejecutar la consulta y devolver el resultado
-        return Database::getRow($sql, $params)[0] ?? 0; // Devuelve 0 si no hay resultados
     }
 
     public function validateStock($idDetalleProducto, $cantidadSolicitada)
@@ -116,11 +103,22 @@ class PedidoHandler
         $params = array($idDetalleProducto);
         $result = Database::getRow($sql, $params);
 
-        // Verifica si se obtuvo un resultado y si la cantidad solicitada es válida
+        // Verifica si se las reservas totales no han pasado las existencias
         if ($result && $result['existencias'] >= $cantidadSolicitada) {
-            return true; // La compra es válida
+        $sql2 = 'SELECT SUM(cantidad) AS reservas 
+        FROM tb_detalles_reservas WHERE id_detalle_producto = ?';
+        $params2 = array($idDetalleProducto);
+        $result2 = Database::getRow($sql2, $params2);
+            $suma = $cantidadSolicitada + $result2['reservas'];
+            if($result && $result['existencias'] >= $suma){
+                return true; // La compra es válida
+            }else{
+                $this->condicion = 'reservas';
+                return false;
+            }
         } else {
-            return false; // La compra no es válida
+                $this->condicion = 'existencias';
+                return false;
         }
     }
 
@@ -288,7 +286,7 @@ WHERE
         $params = array($_SESSION['idUsuario']);
         return Database::getRows($sql, $params);
     }
-     // Método para leer un detalle de pedido específico.
+    // Método para leer un detalle de pedido específico.
     public function readOne()
     {
         $sql = 'SELECT
@@ -328,7 +326,7 @@ WHERE
 
         return $result ? $result['cantidad'] : 0; // Retorna la cantidad actual o 0 si no se encuentra
     }
-    
+
     // Método para actualizar la cantidad de un detalle de pedido.
     public function updateDetail()
     {
@@ -336,7 +334,8 @@ WHERE
         $sql = 'SELECT dp.existencias, dr.cantidad
             FROM tb_detalles_productos dp 
             INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto
-            WHERE dr.id_detalle_reserva = ? AND dr.id_reserva = ?';
+            WHERE dr.id_detalle_reserva = ? AND dr.id_reserva = ?'
+            ;
 
         $params = array($this->id_detalle, $_SESSION['idReserva']);
         $result = Database::getRow($sql, $params);
