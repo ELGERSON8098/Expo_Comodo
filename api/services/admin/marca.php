@@ -52,32 +52,41 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Marca inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$marca->setid($_POST['idMarca']) or
-                    !$marca->setNombre($_POST['nombreMarca'])
-                ) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($marca->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Marca modificado correctamente.';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la marca.';
-                }
-                break;
-            case 'deleteRow':
-                if (
-                    !$marca->setid($_POST['idMarca'])
-                ) {
-                    $result['error'] = $marca->getDataError();
-                } elseif ($marca->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Marca eliminada correctamente.';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la marca.';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos de la marca
+                    if (
+                        !$marca->setid($_POST['idMarca']) ||
+                        !$marca->setNombre($_POST['nombreMarca'])
+                    ) {
+                        $result['error'] = $marca->getDataError();
+                    } elseif ($marca->updateRow()) {
+                        // Obtener el nombre actualizado de la marca
+                        $nombreMarca = $_POST['nombreMarca']; // Nombre actualizado
+                
+                        $result['status'] = 1;
+                        $result['message'] = "Marca '$nombreMarca' modificada correctamente.";
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar la marca.';
+                    }
+                    break;                
+                case 'deleteRow':
+                    if (!$marca->setId($_POST['idMarca'])) {
+                        $result['error'] = $marca->getDataError();
+                    } else {
+                        // Obtener el nombre de la marca antes de eliminarla
+                        $marcaNombre = $marca->getNombreMarca();
+                
+                        if ($marca->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre de la marca eliminada en el mensaje
+                            $result['message'] = 'Marca "' . $marcaNombre . '" eliminada correctamente.';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar la marca.';
+                        }
+                    }
+                    break;
 
             case 'ventasPorMarcasFecha':
                 $_POST = Validator::validateForm($_POST);

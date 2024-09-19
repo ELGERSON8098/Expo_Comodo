@@ -57,39 +57,51 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Categoría inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$categoria->setId($_POST['idCategoria']) or
-                    !$categoria->setFilename() or
-                    !$categoria->setNombre($_POST['nombreCategoria']) or
-                    !$categoria->setImagen($_FILES['nombreIMG'], $categoria->getFilename())
-                ) {
-                    $result['error'] = $categoria->getDataError();
-                } elseif ($categoria->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Categoría modificada correctamente';
-                    // Se asigna el estado del archivo después de actualizar.
-                    $result['fileStatus'] = Validator::changeFile($_FILES['nombreIMG'], $categoria::RUTA_IMAGEN, $categoria->getFilename());
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar la categoría';
-                }
-                break;
-            case 'deleteRow':
-                if (
-                    !$categoria->setId($_POST['idCategoria']) or
-                    !$categoria->setFilename()
-                ) {
-                    $result['error'] = $categoria->getDataError();
-                } elseif ($categoria->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Categoría eliminada correctamente';
-                    // Se asigna el estado del archivo después de eliminar.
-                    $result['fileStatus'] = Validator::deleteFile($categoria::RUTA_IMAGEN, $categoria->getFilename());
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar la categoría';
-                }
-                break;
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos de la categoría
+                    if (
+                        !$categoria->setId($_POST['idCategoria']) or
+                        !$categoria->setFilename() or
+                        !$categoria->setNombre($_POST['nombreCategoria']) or
+                        !$categoria->setImagen($_FILES['nombreIMG'], $categoria->getFilename())
+                    ) {
+                        $result['error'] = $categoria->getDataError();
+                    } elseif ($categoria->updateRow()) {
+                        // Obtener el nombre actualizado de la categoría
+                        $nombreCategoria = $_POST['nombreCategoria']; // Nombre actualizado
+                
+                        $result['status'] = 1;
+                        $result['message'] = "Categoría '$nombreCategoria' modificada correctamente";
+                
+                        // Se asigna el estado del archivo después de actualizar.
+                        $result['fileStatus'] = Validator::changeFile($_FILES['nombreIMG'], $categoria::RUTA_IMAGEN, $categoria->getFilename());
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar la categoría';
+                    }
+                    break;                
+                case 'deleteRow':
+                    if (
+                        !$categoria->setId($_POST['idCategoria']) or
+                        !$categoria->setFilename()
+                    ) {
+                        $result['error'] = $categoria->getDataError();
+                    } else {
+                        // Obtener el nombre de la categoría antes de eliminarla
+                        $categoriaNombre = $categoria->getNombreCategoria();
+                
+                        if ($categoria->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre de la categoría eliminada en el mensaje
+                            $result['message'] = 'Categoría "' . $categoriaNombre . '" eliminada correctamente';
+                            // Eliminar el archivo asociado
+                            $result['fileStatus'] = Validator::deleteFile($categoria::RUTA_IMAGEN, $categoria->getFilename());
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar la categoría';
+                        }
+                    }
+                    break;
                 case 'readTopProductos':
                     if (!$categoria->setId($_POST['idCategoria'])) {
                         $result['error'] = $categoria->getDataError();

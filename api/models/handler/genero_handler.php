@@ -82,5 +82,18 @@ class GeneroHandler
         $params = array($this->id_genero);
         return Database::executeRow($sql, $params);
     }
+
+    public function getNombreGenero() {
+        $sql = 'SELECT nombre_genero FROM tb_generos_zapatos WHERE id_genero = ?';
+        $params = array($this->id_genero);
+
+        // Ejecutar la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            $this->nombre = $data['nombre_genero'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra el género
+        }
+    }
     
 }

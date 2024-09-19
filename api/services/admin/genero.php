@@ -59,31 +59,43 @@ if (isset($_GET['action'])) {
                 break;
                 case 'updateRow':
                     $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos del género
                     if (
                         !$genero->setId($_POST['idGenero']) ||
-                        !$genero->setNombre($_POST['nombre_genero'])) {
+                        !$genero->setNombre($_POST['nombre_genero'])
+                    ) {
                         $result['error'] = $genero->getDataError();
                     } elseif ($genero->updateRow()) {
+                        // Obtener el nombre actualizado del género
+                        $nombreGenero = $_POST['nombre_genero']; // Nombre actualizado
+                
                         $result['status'] = 1;
-                        $result['message'] = 'Género modificado correctamente';
+                        $result['message'] = "Género '$nombreGenero' modificado correctamente";
                     } else {
                         $result['error'] = 'Ocurrió un problema al modificar el género';
                     }
-                    break;
-                
+                    break;                
+
             case 'deleteRow':
                 if (
                     !$genero->setId($_POST['idGenero']) or
                     !$genero->setFilename()
                 ) {
                     $result['error'] = $genero->getDataError();
-                } elseif ($genero->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Género eliminado correctamente';
-                    // Se asigna el estado del archivo después de eliminar.
-                    $result['fileStatus'] = Validator::deleteFile($genero::RUTA_IMAGEN, $genero->getFilename());
                 } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el Género';
+                    // Obtener el nombre del género antes de eliminarlo
+                    $generoNombre = $genero->getNombreGenero();
+
+                    if ($genero->deleteRow()) {
+                        $result['status'] = 1;
+                        // Mostrar el nombre del género eliminado en el mensaje
+                        $result['message'] = 'Género "' . $generoNombre . '" eliminado correctamente';
+                        // Eliminar el archivo asociado
+                        $result['fileStatus'] = Validator::deleteFile($genero::RUTA_IMAGEN, $genero->getFilename());
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al eliminar el Género';
+                    }
                 }
                 break;
             default:

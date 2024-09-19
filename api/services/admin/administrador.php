@@ -135,54 +135,65 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Administrador inexistente';
                 }
                 break;
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$administrador->setId($_POST['idAdmin']) or
-                    !$administrador->setNombre($_POST['NAdmin']) or
-                    !$administrador->setAlia($_POST['NUsuario']) or
-                    !$administrador->setCorreos($_POST['CorreoAd']) or
-                    !$administrador->setNivel($_POST['NivAd'])
-                ) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->updateRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Trabajador modificado correctamente';
-                    // Enviar correo de confirmación de actualización
-                    $email = $_POST['CorreoAd'];
-                    $subject = "Actualización de cuenta de trabajador en Comodo$";
-                    $body = "
-                    <p>Actualización de cuenta en Comodo$</p>
-                    <p>¡Hola {$_POST['NAdmin']}!</p>
-                    <p>Queremos informarte que algunos datos de tu cuenta de trabajador en Comodo$ ha sido actualizada exitosamente.</p>
-                    <p>Detalles de tu cuenta actualizada:</p>
-                    <ul>
-                    <li>Nombre de usuario: {$_POST['NUsuario']}</li>
-                    <li>Correo electrónico: {$_POST['CorreoAd']}</li>
-                    </ul>
-                    <p>Saludos cordiales,<br>
-                    El equipo de Comodo$</p>
-                    ";
-                    $emailResult = sendEmail($email, $subject, $body);
-                    if ($emailResult !== true) {
-                        $result['message'] .= ' No se pudo enviar el correo de confirmación de actualización.';
+                case 'updateRow':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar y establecer los datos del administrador
+                    if (
+                        !$administrador->setId($_POST['idAdmin']) or
+                        !$administrador->setNombre($_POST['NAdmin']) or
+                        !$administrador->setAlia($_POST['NUsuario']) or
+                        !$administrador->setCorreos($_POST['CorreoAd']) or
+                        !$administrador->setNivel($_POST['NivAd'])
+                    ) {
+                        $result['error'] = $administrador->getDataError();
+                    } elseif ($administrador->updateRow()) {
+                        // Obtener el nombre actualizado del administrador
+                        $nombreAdministrador = $_POST['NAdmin']; // Nombre actualizado
+                
+                        $result['status'] = 1;
+                        $result['message'] = "Trabajador $nombreAdministrador modificado correctamente";
+                
+                        // Enviar correo de confirmación de actualización
+                        $email = $_POST['CorreoAd'];
+                        $subject = "Actualización de cuenta de trabajador en Comodo$";
+                        $body = "
+                        <p>Actualización de cuenta en Comodo$</p>
+                        <p>¡Hola $nombreAdministrador!</p>
+                        <p>Queremos informarte que algunos datos de tu cuenta de trabajador en Comodo$ han sido actualizados exitosamente.</p>
+                        <p>Detalles de tu cuenta actualizada:</p>
+                        <ul>
+                        <li>Nombre de usuario: {$_POST['NUsuario']}</li>
+                        <li>Correo electrónico: {$_POST['CorreoAd']}</li>
+                        </ul>
+                        <p>Saludos cordiales,<br>
+                        El equipo de Comodo$</p>
+                        ";
+                        $emailResult = sendEmail($email, $subject, $body);
+                        if ($emailResult !== true) {
+                            $result['message'] .= ' No se pudo enviar el correo de confirmación de actualización.';
+                        }
+                    } else {
+                        $result['error'] = 'Ocurrió un problema al modificar el trabajador';
                     }
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el trabajador';
-                }
-                break;
-            case 'deleteRow':
-                if (
-                    !$administrador->setid($_POST['idAdmin'])
-                ) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->deleteRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Administrador eliminado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el administrador';
-                }
-                break;
+                    break;                
+                case 'deleteRow':
+                    // Establecer el ID del administrador
+                    if (!$administrador->setId($_POST['idAdmin'])) {
+                        $result['error'] = $administrador->getDataError();
+                    } else {
+                        // Obtener el nombre del administrador antes de eliminarlo
+                        $adminNombre = $administrador->getNombreAdministrador();
+                
+                        if ($administrador->deleteRow()) {
+                            $result['status'] = 1;
+                            // Mostrar el nombre del administrador eliminado en el mensaje
+                            $result['message'] = 'Administrador "' . $adminNombre . '" eliminado correctamente';
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar el administrador';
+                        }
+                    }
+                    break;
             case 'getUser':
                 if (isset($_SESSION['aliasAdministrador'])) {
                     // Inicia la conexión a la base de datos.

@@ -12,9 +12,6 @@ class CategoriaHandler
     protected $id = null;
     protected $nombre = null;
 
-    protected $descripcion = null;
-
-
     protected $imagen = null;
 
     // Constante para establecer la ruta de las imágenes.
@@ -36,12 +33,22 @@ class CategoriaHandler
     }
     //Crea una nueva categoría en la base de datos.
     public function createRow()
-    {
+{
+    // Sanitizar los valores antes de realizar la inserción
+    $this->nombre = htmlspecialchars(trim($this->nombre), ENT_QUOTES, 'UTF-8');
+    $this->imagen = htmlspecialchars(trim($this->imagen), ENT_QUOTES, 'UTF-8');
+
+    // Sentencia SQL para insertar en la base de datos
     $sql = 'INSERT INTO tb_categorias(nombre_categoria, imagen)
             VALUES(?, ?)';
+
+    // Los parámetros sanitizados que se usarán en la sentencia
     $params = array($this->nombre, $this->imagen);
+
+    // Ejecutar la sentencia preparada con los parámetros
     return Database::executeRow($sql, $params);
-    }
+}
+
     //Lee todas las categorías de la base de datos.
     public function readAll()
     {
@@ -86,6 +93,19 @@ class CategoriaHandler
                 WHERE id_categoria = ?';
         $params = array($this->id);
         return Database::executeRow($sql, $params);
+    }
+
+    public function getNombreCategoria() {
+        $sql = 'SELECT nombre_categoria FROM tb_categorias WHERE id_categoria = ?';
+        $params = array($this->id);
+
+        // Ejecutar la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            $this->nombre = $data['nombre_categoria'];
+            return $this->nombre;
+        } else {
+            return null; // Si no se encuentra la categoría
+        }
     }
 
     // Lee todas las categorías que tienen productos asociados.
