@@ -1,6 +1,11 @@
 <?php
 // Se incluye la clase del modelo.
 require_once('../../models/data/reserva_data.php');
+
+require_once '../../helpers/security.php';
+// Configurar las cabeceras de seguridad.
+Security::setClickjackingProtection();
+Security::setAdditionalSecurityHeaders();
 //fillSelect(RESERVA_API, 'getEstados', 'estadoPedido', ROW.estado);
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {

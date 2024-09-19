@@ -1,7 +1,10 @@
 <?php
 // Se incluye la clase del modelo.
 require_once('../../models/data/usuariosC_data.php');
-
+require_once '../../helpers/security.php';
+// Configurar las cabeceras de seguridad.
+Security::setClickjackingProtection();
+Security::setAdditionalSecurityHeaders();
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
