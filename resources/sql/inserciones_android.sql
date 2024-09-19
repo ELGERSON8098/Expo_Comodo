@@ -45,7 +45,7 @@ VALUES
 INSERT INTO tb_productos (nombre_producto, codigo_interno, referencia_proveedor, precio, id_marca, id_genero, id_categoria, id_material, id_descuento, imagen)
 VALUES
 ('Zapato Deportivo Nike', 'NIKE-001', 'REF-001', 120.00, 1, 1, 1, 1, 1, 'nike001.jpg'),
-('Zapato Casual Adidas', 'ADIDAS-001', 'REF-002', 90.00, 2, 2, 2, 2, NULL, 'adidas001.jpg');
+('Zapato Casual Adidas', 'ADIDAS-001', 'REF-002', 90.00, 2, 2, 2, 2, 1, 'adidas001.jpg');
  
 INSERT INTO tb_detalles_productos (id_producto, id_talla, existencias, id_color, descripcion)
 VALUES
@@ -55,9 +55,11 @@ VALUES
 INSERT INTO tb_reservas (id_usuario, fecha_reserva, estado_reserva)
 VALUES
 (1, '2024-08-12 10:30:00', 'Pendiente'),
-(2, '2024-08-12 11:00:00', 'Aceptado');
+(1, '2024-08-12 11:00:00', 'Aceptado');
  
-INSERT INTO tb_detalles_reservas (id_reserva, id_producto, cantidad, precio_unitario, id_detalle_producto)
+INSERT INTO tb_detalles_reservas (id_reserva, cantidad, precio_unitario, id_detalle_producto)
 VALUES
-(1, 1, 2, 120.00, 1),
-(2, 2, 1, 90.00, 2);
+(1,  2, 120.00, 1),
+(2,  1, 90.00, 2);
+
+SELECT * FROM tb_productos
