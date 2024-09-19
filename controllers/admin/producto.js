@@ -244,10 +244,10 @@ SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
 
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción
     if (DATA.status) {
-        // Se cierra la caja de diálogo
-        SAVE_DETAIL_MODAL.hide();
+        fillDetailsTable(ID_PRODUCTO_DETALLE.value);
         // Se muestra un mensaje de éxito
         sweetAlert(1, DATA.message, true);
+        SAVE_DETAIL_MODAL.reset();
     } else {
         // Se muestra un mensaje de error
         sweetAlert(2, DATA.error, false);
@@ -357,19 +357,15 @@ const openUpdateDetail = async (idDetalleProducto) => {
 const openDeleteDetail = async (idDetalleProducto) => {
     const RESPONSE = await confirmAction('¿Desea eliminar el detalle del producto de forma permanente?');
     if (RESPONSE) {
-
-        // Mostrar el formulario de detalles para agregar nuevos
-        SAVE_DETAIL_FORM.reset();
-        SAVE_DETAIL_FORM.classList.remove('d-none');
-
-        // Obtener y mostrar los detalles existentes del producto
-        fillDetailsTable(idProducto);
         const formData = new FormData();
         formData.append('idProductoDetalle', idDetalleProducto);
         const data = await fetchData(PRODUCTO_API, 'deleteDetail', formData);
         if (data.status) {
-            await sweetAlert(1, data.message, true);
-            fillTable();
+            await sweetAlert(1, data.message, false);
+            // Obtenemos el id del producto del campo oculto
+            const idProducto = ID_PRODUCTO_DETALLE.value;
+            // Actualizamos la tabla de detalles
+            fillDetailsTable(idProducto);
         } else {
             sweetAlert(2, data.error, false);
         }
