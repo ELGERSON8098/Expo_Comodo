@@ -298,6 +298,21 @@ WHERE
         // Ejecutamos la consulta y retornamos el resultado.
         return Database::executeRow($sql, $params);
     }
+
+    public function getClaveActual() {
+        // Consulta SQL para obtener la contraseña actual encriptada basada en el correo del administrador
+        $sql = 'SELECT clave_administrador FROM tb_admins WHERE correo_administrador = ?';
+        $params = array($this->correo);  // El correo que ya habrás configurado con setCorreo()
+        
+        // Ejecuta la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            // Devuelve la contraseña encriptada si se encuentra en la base de datos
+            return $data['clave_administrador'];
+        } else {
+            // Devuelve false si no se encuentra el administrador o ocurre un error
+            return false;
+        }
+    }
     private function generar2FACode($id_administrador)
     {
         $codigo = sprintf("%06d", mt_rand(1, 999999));
