@@ -36,26 +36,23 @@
             <!-- Campo para el nombre -->
             <div class="col-sm-12 col-md-6 col-lg-4 offset-lg-2">
                 <label for="nombreAdministrador" class="form-label">Nombre</label>
-                <input id="nombreAdministrador" type="text" name="nombreAdministrador" class="form-control" autocomplete="off" required disabled>
+                <input id="nombreAdministrador" type="text" name="nombreAdministrador" class="form-control" autocomplete="off" required>
             </div>
             <!-- Campo para el alias de usuario -->
             <div class="col-sm-12 col-md-6 col-lg-4">
                 <label for="aliasAdministrador" class="form-label">Usuario</label>
-                <input id="aliasAdministrador" type="text" name="aliasAdministrador" class="form-control" autocomplete="off" required disabled>
+                <input id="aliasAdministrador" type="text" name="aliasAdministrador" class="form-control" autocomplete="off" required>
             </div>
             <!-- Campo para el correo -->
             <div class="col-sm-12 col-md-6 col-lg-4 offset-lg-2">
                 <label for="correoAdministrador" class="form-label">Correo</label>
-                <input id="correoAdministrador" type="email" name="correoAdministrador" class="form-control" autocomplete="off" required disabled>
+                <input id="correoAdministrador" type="email" name="correoAdministrador" class="form-control" autocomplete="off" required>
             </div>
-        
-            <!-- Botones Editar, Guardar y Cancelar -->
+            <!-- Botón para guardar los cambios -->
             <div class="text-center">
-                <button type="button" class="btn btn-secondary" id="editButton"><i class="bi bi-pencil"></i> Editar</button>
-                <button type="submit" class="btn btn-primary" id="saveButton" style="display:none;"><i class="bi bi-save"></i> Guardar</button>
-                <button type="button" class="btn btn-danger" id="cancelButton" style="display:none;"><i class="bi bi-x-circle"></i> Cancelar</button>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
             </div>
-        </form>        
+        </form>
         <!-- Enlace para abrir el formulario de cambio de contraseña -->
         <div class="text-center p-3">
             <button type="button" class="btn btn-secondary" onclick="openPassword()">
