@@ -253,21 +253,36 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }
                 break;
-            case 'changePassword':
-                $_POST = Validator::validateForm($_POST);
-                if (!$administrador->checkPassword($_POST['claveActual'])) {
-                    $result['error'] = 'Contraseña actual incorrecta';
-                } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
-                    $result['error'] = 'Confirmación de contraseña diferente';
-                } elseif (!$administrador->setClave($_POST['claveNueva'])) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->changePassword()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Contraseña cambiada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
-                }
-                break;
+                case 'changePassword':
+                    $_POST = Validator::validateForm($_POST);
+                    
+                    // Verificar que la contraseña actual sea correcta
+                    if (!$administrador->checkPassword($_POST['claveActual'])) {
+                        $result['error'] = 'Contraseña actual incorrecta';
+                    } 
+                    // Verificar que la nueva contraseña no sea igual a la actual
+                    elseif (hash('sha256', $_POST['claveActual']) == hash('sha256', $_POST['claveNueva'])) {
+                        $result['error'] = 'La nueva contraseña no puede ser igual a la contraseña actual';
+                    } 
+                    // Verificar que la confirmación de contraseña coincida
+                    elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
+                        $result['error'] = 'Confirmación de contraseña diferente';
+                    } 
+                    // Verificar que se haya podido establecer la nueva contraseña
+                    elseif (!$administrador->setClave($_POST['claveNueva'])) {
+                        $result['error'] = $administrador->getDataError();
+                    } 
+                    // Intentar cambiar la contraseña
+                    elseif ($administrador->changePassword()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Contraseña cambiada correctamente';
+                    } 
+                    // Error general
+                    else {
+                        $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                    }
+                    break;
+                
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
