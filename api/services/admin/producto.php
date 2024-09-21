@@ -202,19 +202,23 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al actualizar el detalle';
                 }
                 break;
-            case 'deleteRow': // Acción para eliminar una fila por ID.
-                // Verificar y establecer el ID del género a eliminar.
-                if (
-                    !$producto->setId($_POST['idProducto'])
-                ) {
-                    $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
-                } elseif ($producto->deleteRow()) { // Intentar eliminar la fila.
-                    $result['status'] = 1; // Indicar que la operación fue exitosa.
-                    $result['message'] = 'Producto eliminado correctamente'; // Mensaje de éxito.
-                } else {
-                    $result['error'] = 'Ocurrió un problema al eliminar el producto'; // Mensaje de error si ocurre un problema.
-                }
-                break;
+                case 'deleteRow': // Acción para eliminar una fila por ID.
+                    // Verificar y establecer el ID del producto a eliminar.
+                    if (!$producto->setId($_POST['idProducto'])) {
+                        $result['error'] = $producto->getDataError(); // Mensaje de error si el ID es inválido.
+                    } else {
+                        // Obtener el nombre del producto antes de eliminarlo
+                        $nombreProducto = $producto->getNombre(); // Asegúrate de que este método esté implementado
+                
+                        if ($producto->deleteRow()) { // Intentar eliminar la fila.
+                            $result['status'] = 1; // Indicar que la operación fue exitosa.
+                            $result['message'] = "Producto '$nombreProducto' eliminado correctamente."; // Mensaje de éxito.
+                        } else {
+                            $result['error'] = 'Ocurrió un problema al eliminar el producto'; // Mensaje de error si ocurre un problema.
+                        }
+                    }
+                    break;
+                
             case 'cantidadProductosCategoria':
                 if ($result['dataset'] = $producto->cantidadProductosCategoria()) {
                     $result['status'] = 1;

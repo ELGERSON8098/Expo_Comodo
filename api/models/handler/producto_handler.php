@@ -358,6 +358,19 @@ ORDER BY
         $paramsDeleteProducto = array($this->id_producto);
         return Database::executeRow($sqlDeleteProducto, $paramsDeleteProducto);
     }
+
+    public function getNombre() {
+        $sql = 'SELECT nombre_producto FROM tb_productos WHERE id_producto = ?';
+        $params = array($this->id_producto);
+
+        // Ejecutar la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            $this->nombre_producto = $data['nombre_producto'];
+            return $this->nombre_producto;
+        } else {
+            return null; // Si no se encuentra la marca
+        }
+    }
     /*
      * Método para eliminar un detalle de productos específico  por id.
      */
