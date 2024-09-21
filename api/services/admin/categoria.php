@@ -18,23 +18,33 @@ if (isset($_GET['action'])) {
         // Se compara la acción a realizar cuando un administrador ha iniciado sesión.
         switch ($_GET['action']) {
             case 'searchRows':
+                 // Validar el término de búsqueda
                 if (!Validator::validateSearch($_POST['search'])) {
+                    // Si la validación falla, se asigna el error correspondiente
                     $result['error'] = Validator::getSearchError();
+                    // Si la validación es exitosa, se ejecuta la búsqueda
                 } elseif ($result['dataset'] = $categoria->searchRows()) {
+                     // Si hay resultados, se asignan al dataset y se indica éxito
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' coincidencias';
                 } else {
+                     // Si no hay coincidencias
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
             case 'createRow':
+                 // Validar los datos enviados en el formulario
                 $_POST = Validator::validateForm($_POST);
+                // Verificar que el nombre de la categoría y la imagen hayan sido asignados correctamente
                 if (
                     !$categoria->setNombre($_POST['nombreCategoria']) or
                     !$categoria->setImagen($_FILES['nombreIMG'])
                 ) {
+                 // Si falla alguna validación, se asigna el error correspondiente
                     $result['error'] = $categoria->getDataError();
+                    // Si todo es válido, se intenta crear la categoría
                 } elseif ($categoria->createRow()) {
+                    // Si la creación es exitosa, se asigna el estado exitoso y el mensaje
                     $result['status'] = 1;
                     $result['message'] = 'Categoría creada correctamente';
                     // Se asigna el estado del archivo después de insertar.
@@ -44,16 +54,21 @@ if (isset($_GET['action'])) {
                 }
                 break;
             case 'readAll':
+                // Obtener todas las categorías
                 if ($result['dataset'] = $categoria->readAll()) {
+                    // Si hay categorías registradas, se asignan al dataset y se indica éxito
                     $result['status'] = 1;
                     $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
                 } else {
+                    // Si no hay categorías
                     $result['error'] = 'No existen categorías registradas';
                 }
                 break;
             case 'readOne':
+                // Verificar si se ha establecido correctamente el ID de la categoría
                 if (!$categoria->setId($_POST['idCategoria'])) {
                     $result['error'] = $categoria->getDataError();
+                    // Si el ID es válido, se intenta leer la información de la categoría
                 } elseif ($result['dataset'] = $categoria->readOne()) {
                     $result['status'] = 1;
                 } else {

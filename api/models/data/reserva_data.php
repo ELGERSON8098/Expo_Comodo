@@ -66,34 +66,44 @@ class reservaData extends ReservaHandler
             return false;
         }
     }
-
+    // Establece la fecha de inicio después de validar el formato de la fecha
     public function setFechaInicio($value)
     {
+        // Utiliza el validador para verificar si la fecha tiene un formato correcto
         if (Validator::validateDate($value)) {
+             // Si la fecha es válida, se asigna a la propiedad $fecha_inicio.
             $this->fecha_inicio = $value;
             return true;
         } else {
+             // Si la fecha es inválida, se asigna un mensaje de error.
             $this->data_error = 'El formato de la fecha de inicio es incorrecto.';
             return false;
         }
     }
-
+    // Establece la fecha de fin después de validar el formato de la fecha y su relación con la fecha de inicio.
     public function setFechaFin($value)
     {
+         // Utiliza el validador para verificar si la fecha tiene un formato correcto.
         if (Validator::validateDate($value)) {
+             // Verifica si la fecha de inicio ya fue asignada.
             if ($this->fecha_inicio !== null) {
+                 // Verifica si la fecha de fin es igual o posterior a la fecha de inicio.
                 if ($value >= $this->fecha_inicio) {
+                     // Si la fecha es válida, se asigna a la propiedad $fecha_fin.
                     $this->fecha_fin = $value;
                     return true;
                 } else {
+                    // Si la fecha de fin es anterior a la fecha de inicio, genera un error
                     $this->data_error = 'La fecha de fin no puede ser anterior a la fecha de inicio.';
                     return false;
                 }
             } else {
+                // Si la fecha de inicio no ha sido asignada, genera un error.
                 $this->data_error = 'La fecha de inicio debe ser asignada antes de validar la fecha de fin.';
                 return false;
             }
         } else {
+            // Si la fecha de fin es inválida, se asigna un mensaje de error.
             $this->data_error = 'El formato de la fecha de fin es incorrecto.';
             return false;
         }

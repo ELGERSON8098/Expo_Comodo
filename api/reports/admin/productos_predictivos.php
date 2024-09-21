@@ -36,30 +36,43 @@ printTableHeader2($pdf);
 
 if ($dataProductos = $productos->PrediccionCate()) {
     foreach ($dataProductos as $rowProductos) {
-        // Verifica si se necesita una nueva página
+         // Verifica si la posición actual en Y más 15 supera el límite permitido de la página (279.4 es la altura de la página en mm).
+        // 30 es el margen inferior, por lo que si la altura actual más 15 excede el espacio disponible, se añade una nueva página.
         if ($pdf->GetY() + 15 > 279.4 - 30) { // Ajusta el valor según el tamaño de la página
             $pdf->AddPage('p', 'letter'); // Agrega una nueva página si es necesario
-            // Reimprime el título y el encabezado de la tabla
+             // Establece la fuente del texto para el título de la nueva página.
             $pdf->SetFont('Arial', '', 15);
+             // Imprime el título centrado en la nueva página.
             $pdf->Cell(0, 20, $pdf->encodeString('Proyección de ventas mensuales'), 0, 1, 'C');
             $pdf->Ln(80); // Aumentar el salto de línea para separar el título de la tabla
             printTableHeader2($pdf);
         }
-
+        // Guarda la posición actual en Y y X para poder realizar ajustes a la altura de las celdas.
         $yStart = $pdf->GetY();
         $xStart = $pdf->GetX();
 
+        // Establece el color del texto a negro.
         $pdf->SetTextColor(0, 0, 0);
+
+        // Imprime el nombre de la categoría con formato de celda múltiple (MultiCell), lo que permite el texto de más de una línea.
         $pdf->MultiCell(40, 10, $pdf->encodeString($rowProductos['nombre_categoria']), 1, 'L');
+        // Calcula la altura de la celda basada en la cantidad de texto impreso.
         $multiCellHeightTitulo = $pdf->GetY() - $yStart;
 
         $pdf->SetXY($xStart + 40, $yStart);
-
+        // Imprime el total vendido en la columna siguiente, usando la misma altura calculada de la celda múltiple.
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['total_vendido'], 1, 0, 'C');
+
+        // Imprime el mes en la siguiente columna.
         $pdf->Cell(40, $multiCellHeightTitulo, $rowProductos['mes'], 1, 0, 'C');
+        
+        // Imprime el año en la siguiente columna.
         $pdf->Cell(20, $multiCellHeightTitulo, $rowProductos['anio'], 1, 0, 'C');
+
+        // Imprime el porcentaje de ventas redondeado a dos decimales en la última columna.
         $pdf->Cell(50, $multiCellHeightTitulo, round($rowProductos['porcentaje_ventas'], 2), 1, 1, 'C');
 
+        // Establece la posición en Y justo después de la última celda impresa.
         $pdf->SetY($yStart + $multiCellHeightTitulo);
     }
 } else {
