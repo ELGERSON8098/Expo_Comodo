@@ -2,7 +2,10 @@
 // Se incluye la clase del modelo.
 require_once('../../models/data/administrador_data.php');
 require_once('../../services/admin/mail_config.php');
-
+require_once '../../helpers/security.php';
+// Configurar las cabeceras de seguridad.
+Security::setClickjackingProtection();
+Security::setAdditionalSecurityHeaders();
 // Se comprueba si existe una acción a realizar, de lo contrario se finaliza el script con un mensaje de error.
 if (isset($_GET['action'])) {
     // Se crea una sesión o se reanuda la actual para poder utilizar variables de sesión en el script.
@@ -250,21 +253,36 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }
                 break;
-            case 'changePassword':
-                $_POST = Validator::validateForm($_POST);
-                if (!$administrador->checkPassword($_POST['claveActual'])) {
-                    $result['error'] = 'Contraseña actual incorrecta';
-                } elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
-                    $result['error'] = 'Confirmación de contraseña diferente';
-                } elseif (!$administrador->setClave($_POST['claveNueva'])) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($administrador->changePassword()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Contraseña cambiada correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
-                }
-                break;
+                case 'changePassword':
+                    $_POST = Validator::validateForm($_POST);
+                    
+                    // Verificar que la contraseña actual sea correcta
+                    if (!$administrador->checkPassword($_POST['claveActual'])) {
+                        $result['error'] = 'Contraseña actual incorrecta';
+                    } 
+                    // Verificar que la nueva contraseña no sea igual a la actual
+                    elseif (hash('sha256', $_POST['claveActual']) == hash('sha256', $_POST['claveNueva'])) {
+                        $result['error'] = 'La nueva contraseña no puede ser igual a la contraseña actual';
+                    } 
+                    // Verificar que la confirmación de contraseña coincida
+                    elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
+                        $result['error'] = 'Confirmación de contraseña diferente';
+                    } 
+                    // Verificar que se haya podido establecer la nueva contraseña
+                    elseif (!$administrador->setClave($_POST['claveNueva'])) {
+                        $result['error'] = $administrador->getDataError();
+                    } 
+                    // Intentar cambiar la contraseña
+                    elseif ($administrador->changePassword()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Contraseña cambiada correctamente';
+                    } 
+                    // Error general
+                    else {
+                        $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                    }
+                    break;
+                
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
@@ -413,23 +431,49 @@ if (isset($_GET['action'])) {
                 break;
 
 
-            case 'resetPassword':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$administrador->setCorreo($_POST['correo']) or
-                    !$administrador->setResetCodeForVerification($_POST['codigo']) or
-                    !$administrador->setClave($_POST['nuevaClave'])
-                ) {
-                    $result['error'] = $administrador->getDataError();
-                } elseif ($_POST['nuevaClave'] != $_POST['confirmarClave']) {
-                    $result['error'] = 'Las contraseñas no coinciden';
-                } elseif ($administrador->resetPassword()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Contraseña restablecida correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al restablecer la contraseña';
-                }
-                break;
+                case 'resetPassword':
+                    $_POST = Validator::validateForm($_POST);
+                
+                    // Verificar que el correo y el código de verificación sean correctos
+                    if (
+                        !$administrador->setCorreo($_POST['correo']) ||  // Configurar el correo
+                        !$administrador->setResetCodeForVerification($_POST['codigo'])  // Verificar el código de restablecimiento
+                    ) {
+                        $result['error'] = $administrador->getDataError();
+                    } 
+                    // Obtener la contraseña actual del usuario
+                    else {
+                        // Obtener la contraseña encriptada actual y almacenarla en una variable
+                        $claveActualEncriptada = $administrador->getClaveActual();
+                        
+                        // Verificar si la nueva contraseña es igual a la actual
+                        if (!$claveActualEncriptada) {
+                            $result['error'] = 'No se pudo obtener la contraseña actual';
+                        } 
+                        // Comparar la nueva contraseña en texto plano con la encriptada
+                        elseif (password_verify($_POST['nuevaClave'], $claveActualEncriptada)) {
+                            $result['error'] = 'La nueva contraseña no puede ser igual a la contraseña actual';
+                        } 
+                        // Verificar que la nueva contraseña coincida con su confirmación
+                        elseif ($_POST['nuevaClave'] != $_POST['confirmarClave']) {
+                            $result['error'] = 'Las contraseñas no coinciden';
+                        } 
+                        // Intentar configurar la nueva contraseña
+                        elseif (!$administrador->setClave($_POST['nuevaClave'])) {
+                            $result['error'] = $administrador->getDataError();
+                        } 
+                        // Intentar restablecer la contraseña
+                        elseif ($administrador->resetPassword()) {
+                            $result['status'] = 1;
+                            $result['message'] = 'Contraseña restablecida correctamente';
+                        } 
+                        // Error general
+                        else {
+                            $result['error'] = 'Ocurrió un problema al restablecer la contraseña';
+                        }
+                    }
+                    break;
+                
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }

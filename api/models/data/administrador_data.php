@@ -151,7 +151,11 @@ class AdministradorData extends AdministradorHandler
 
     public function setClave($value)
     {
-        if (Validator::validatePassword($value)) {
+        // Array con los datos que no se deben incluir en la contraseña
+        $user_data = [$this->nombre, $this->alias, $this->correo];
+
+        // Pasa los datos del usuario a la función de validación
+        if (Validator::validatePassword($value, $user_data)) {
             $this->clave = password_hash($value, PASSWORD_DEFAULT);
             return true;
         } else {
@@ -159,6 +163,7 @@ class AdministradorData extends AdministradorHandler
             return false;
         }
     }
+
 
     // Método para obtener el error de los datos.
     public function getDataError()

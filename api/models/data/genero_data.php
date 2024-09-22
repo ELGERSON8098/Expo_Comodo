@@ -34,17 +34,23 @@ class GeneroData extends GeneroHandler
     // Método para validar y asignar el nombre del género.
     public function setNombre($value, $min = 2, $max = 50)
     {
-
-        // Verificar si la talla ya existe en la base de datos
-        $checkSql = 'SELECT COUNT(*) as count FROM tb_generos_zapatos WHERE nombre_genero = ?';
-        $checkParams = array($value);
+        // Verificar si el género ya existe en la base de datos, excluyendo el registro actual
+        if ($this->id_genero) {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_generos_zapatos WHERE nombre_genero = ? AND id_genero != ?';
+            $checkParams = array($value, $this->id_genero);
+        } else {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_generos_zapatos WHERE nombre_genero = ?';
+            $checkParams = array($value);
+        }
+    
         $checkResult = Database::getRow($checkSql, $checkParams);
     
         if ($checkResult['count'] > 0) {
-            $this->data_error = 'El género  ya existe';
+            $this->data_error = 'El género ya existe';
             return false;
         }
-        // Se valida que el nombre contenga solo caracteres alfabéticos.
+    
+        // Se valida que el nombre contenga solo caracteres alfabéticos
         if (!Validator::validateAlphabetic($value)) {
             $this->data_error = 'El nombre debe ser un valor alfabético';
             return false;
@@ -56,6 +62,7 @@ class GeneroData extends GeneroHandler
             return false;
         }
     }
+    
 
     // Método para validar y asignar la imagen del género.
     public function setImagen($file, $filename = null)

@@ -3,6 +3,7 @@ require_once('../../helpers/database.php');
 
 class AdministradorHandler
 {
+    // Propiedades protegidas que representan datos del administrador.
     protected $id = null;
     protected $nombre = null;
     protected $apellido = null;
@@ -31,11 +32,11 @@ class AdministradorHandler
         if ($data['bloqueo_hasta'] && new DateTime() < new DateTime($data['bloqueo_hasta'])) {
             return 'bloqueado'; // Usuario está bloqueado
         }
-
+             // Si la contraseña ha expirado (más de 90 días).
         if($data['DIAS'] > 90){
             return  $this->condicion = 'clave';
         }
-
+        // Verifica si la contraseña ingresada es correcta.
         if (password_verify($password, $data['clave_administrador'])) {
             // Inicio de sesión exitoso
             $this->resetIntentos($data['id_administrador']);
@@ -48,7 +49,7 @@ class AdministradorHandler
             return false;
         }
     }
-
+        // Verifica si el usuario tiene habilitado el 2FA.
     public function isTwoFactorEnabled($idAdministrador)
     {
         $sql = 'SELECT two_factor_enabled FROM tb_admins WHERE id_administrador = ?';
@@ -58,6 +59,7 @@ class AdministradorHandler
         return $result && $result['two_factor_enabled'] == 1;
     }
 
+    // Obtiene datos de bloqueo del usuario por su alias.
     public function getBlockDataByAlias($alias)
     {
         $sql = 'SELECT id_administrador, intentos_fallidos, bloqueo_hasta
@@ -67,11 +69,12 @@ class AdministradorHandler
         return Database::getRow($sql, $params);
     }
 
+    // Incrementa los intentos fallidos de inicio de sesión.
     private function incrementarIntentos($id_administrador, $intentos_fallidos)
     {
         $intentos_fallidos++;
         $bloqueo_hasta = null;
-
+          // Si los intentos fallidos son 3 o más, bloquea la cuenta por 24 horas.
         if ($intentos_fallidos >= 3) {
             $bloqueo_hasta = (new DateTime())->add(new DateInterval('PT24H'))->format('Y-m-d H:i:s');
         }
@@ -82,7 +85,7 @@ class AdministradorHandler
         $params = array($intentos_fallidos, $bloqueo_hasta, $id_administrador);
         Database::executeRow($sql, $params);
     }
-
+     // Actualiza los intentos fallidos y el tiempo de bloqueo en la base de datos.
     private function resetIntentos($id_administrador)
     {
         $sql = 'UPDATE tb_admins
@@ -91,7 +94,7 @@ class AdministradorHandler
         $params = array($id_administrador);
         Database::executeRow($sql, $params);
     }
-
+    // Verifica si la contraseña proporcionada es correcta.
     public function checkPassword($password)
     {
         $sql = 'SELECT clave_administrador
@@ -101,7 +104,7 @@ class AdministradorHandler
         $data = Database::getRow($sql, $params);
         return password_verify($password, $data['clave_administrador']);
     }
-
+    // Cambia la contraseña del administrador.
     public function changePassword()
     {
         $sql = 'UPDATE tb_admins
@@ -110,7 +113,7 @@ class AdministradorHandler
         $params = array($this->clave, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
-
+    // Lee el perfil del administrador actual.
     public function readProfile()
     {
         $sql = 'SELECT id_administrador, nombre_administrador, correo_administrador, usuario_administrador
@@ -119,7 +122,7 @@ class AdministradorHandler
         $params = array($_SESSION['idAdministrador']);
         return Database::getRow($sql, $params);
     }
-
+    // Edita el perfil del administrador.
     public function editProfile()
     {
         $sql = 'UPDATE tb_admins
@@ -128,7 +131,7 @@ class AdministradorHandler
         $params = array($this->nombre, $this->correo, $this->alias, $_SESSION['idAdministrador']);
         return Database::executeRow($sql, $params);
     }
-
+    // Busca administradores por nombre.
     public function searchRows()
     {
         $value = '%' . Validator::getSearchValue() . '%';
@@ -139,8 +142,9 @@ class AdministradorHandler
             ORDER BY a.nombre_administrador';
         $params = array($value);
         return Database::getRows($sql, $params);
-    }
+    }   
 
+    // Crea un nuevo administrador.
     public function createRow()
     {
         $sql = 'INSERT INTO tb_admins(nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
@@ -149,12 +153,13 @@ class AdministradorHandler
         return Database::executeRow($sql, $params);
     }
 
+    // Verifica si existe algún usuario en la tabla de administradores.
     public function checkIfAnyUserExists()
     {
         $sql = 'SELECT COUNT(*) FROM tb_admins';
         return Database::getRow($sql); // Retorna el número de administradores registrados
     }
-
+    // Verifica si ya existe un administrador.
     public function adminExists()
     {
         $sql = 'SELECT COUNT(*) FROM tb_admins WHERE id_nivel_usuario = 1';
@@ -162,6 +167,7 @@ class AdministradorHandler
         $result = Database::getRow($sql, $params); // Ejecuta la consulta
         return $result[0] > 0; // Retorna true si hay al menos un administrador
     }
+    // Crea un trabajador en la base de datos
     public function createTrabajadores()
     {
         $sql = 'INSERT INTO tb_admins(nombre_administrador, correo_administrador, usuario_administrador, clave_administrador, id_nivel_usuario)
@@ -169,7 +175,7 @@ class AdministradorHandler
         $params = array($this->nombre, $this->correo, $this->alias, $this->clave, $this->id_nivel_usuario);
         return Database::executeRow($sql, $params);
     }
-
+    
     public function readAllS()
     {
         $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
@@ -219,6 +225,7 @@ WHERE
         return Database::getRow($sql, $params);
     }
 
+    // Actualiza un administrador existente.
     public function updateRow()
     {
         $sql = 'UPDATE tb_admins
@@ -228,6 +235,7 @@ WHERE
         return Database::executeRow($sql, $params);
     }
 
+      // Elimina un administrador de la base de datos.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_admins
@@ -235,6 +243,7 @@ WHERE
         $params = array($this->id);
         return Database::executeRow($sql, $params);
     }
+
 
     public function getNombreAdministrador() {
         $sql = 'SELECT nombre_administrador FROM tb_admins WHERE id_administrador = ?';
@@ -298,32 +307,53 @@ WHERE
         // Ejecutamos la consulta y retornamos el resultado.
         return Database::executeRow($sql, $params);
     }
+
+    public function getClaveActual() {
+        // Consulta SQL para obtener la contraseña actual encriptada basada en el correo del administrador
+        $sql = 'SELECT clave_administrador FROM tb_admins WHERE correo_administrador = ?';
+        $params = array($this->correo);  // El correo que ya habrás configurado con setCorreo()
+        
+        // Ejecuta la consulta
+        if ($data = Database::getRow($sql, $params)) {
+            // Devuelve la contraseña encriptada si se encuentra en la base de datos
+            return $data['clave_administrador'];
+        } else {
+            // Devuelve false si no se encuentra el administrador o ocurre un error
+            return false;
+        }
+    }
+
+    // Genera un código de 2FA y lo guarda en la base de datos.
     private function generar2FACode($id_administrador)
     {
+         // Genera un código aleatorio de 6 dígitos.
         $codigo = sprintf("%06d", mt_rand(1, 999999));
-
+        // Actualiza la tabla de administradores con el código de 2FA y su tiempo de expiración (5 minutos).
         $sql = "UPDATE tb_admins SET codigo_2fa = ?, expiracion_2fa = DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id_administrador = ?";
         $params = array($codigo, $id_administrador);
         Database::executeRow($sql, $params);
 
         return $codigo;
     }
-
+    // Verifica si el código de 2FA proporcionado es correcto.
     public function verify2FACode($id_administrador, $codigo)
     {
+        // Consulta el código de 2FA y su tiempo de expiración de la base de datos.
         $sql = 'SELECT codigo_2fa, expiracion_2fa FROM tb_admins WHERE id_administrador = ?';
         $params = array($id_administrador);
         $data = Database::getRow($sql, $params);
 
+        
+    // Verifica si el código es correcto y no ha expirado.
         if ($data && $data['codigo_2fa'] == $codigo && new DateTime() < new DateTime($data['expiracion_2fa'])) {
             $sql = 'UPDATE tb_admins SET codigo_2fa = NULL, expiracion_2fa = NULL WHERE id_administrador = ?';
             Database::executeRow($sql, array($id_administrador));
             return true;
         }
-        return false;
+        return false;// El código es incorrecto o ha expirado.
     }
 
-
+    // Obtiene el correo electrónico del administrador por su ID.
     public function getEmailById($id_administrador)
     {
         $sql = 'SELECT correo_administrador FROM tb_admins WHERE id_administrador = ?';
@@ -332,6 +362,7 @@ WHERE
         return $data ? $data['correo_administrador'] : null;
     }
 
+    // Obtiene el alias (nombre de usuario) del administrador por su ID.
     public function getAliasById($id_administrador)
     {
         $sql = 'SELECT usuario_administrador FROM tb_admins WHERE id_administrador = ?';

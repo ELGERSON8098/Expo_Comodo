@@ -29,19 +29,25 @@ class CategoriaData extends CategoriaHandler
     }
     public function setNombre($value, $min = 2, $max = 50)
     {
-
-        // Verificar si la talla ya existe en la base de datos
-        $checkSql = 'SELECT COUNT(*) as count FROM tb_categorias WHERE nombre_categoria = ?';
-        $checkParams = array($value);
+        // Verificar si la categoría ya existe en la base de datos, excluyendo el registro actual
+        if ($this->id) {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_categorias WHERE nombre_categoria = ? AND id_categoria != ?';
+            $checkParams = array($value, $this->id);
+        } else {
+            $checkSql = 'SELECT COUNT(*) as count FROM tb_categorias WHERE nombre_categoria = ?';
+            $checkParams = array($value);
+        }
+    
         $checkResult = Database::getRow($checkSql, $checkParams);
     
         if ($checkResult['count'] > 0) {
-            $this->data_error = 'La categoria ya existe';
+            $this->data_error = 'La categoría ya existe';
             return false;
         }
+    
         // Valida si el nombre es alfabético
         if (!Validator::validateAlphabetic($value)) {
-            $this->data_error = 'El nombre debe ser un valor alfabético';
+            $this->data_error = 'El nombre de la categoría debe ser un valor alfabético';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
             $this->nombre = $value;
@@ -51,6 +57,7 @@ class CategoriaData extends CategoriaHandler
             return false;
         }
     }
+    
     // Método para asignar la imagen de la categoría.
     public function setImagen($file, $filename = null)
     {

@@ -224,7 +224,7 @@ class ClienteHandler
     }
 
 
-
+    // Actualiza la última actividad del usuario en la base de datos.
     public function updateLastActivity()
     {
         if (isset($_SESSION['idUsuario'])) {
@@ -242,12 +242,15 @@ class ClienteHandler
 
     public function checkSessionExpiration($timeout = 2)
     {
+        // Verifica si el idUsuario está definido en la sesión.a
         if (isset($_SESSION['idUsuario'])) {
+             // Consulta SQL para actualizar el campo 'ultima_actividad' a la hora actual.
             $sql = 'SELECT TIMESTAMPDIFF(MINUTE, ultima_actividad, NOW()) as inactive_time
             FROM tb_usuarios
             WHERE id_usuario = ?';
             $params = array($_SESSION['idUsuario']);
             try {
+                // Ejecuta la consulta y obtiene el tiempo de inactividad.
                 $result = Database::getRow($sql, $params);
                 if ($result && $result['inactive_time'] > $timeout) {
                     return true; // La sesión ha expirado
