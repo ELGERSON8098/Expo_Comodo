@@ -88,19 +88,17 @@ if (isset($_GET['action'])) {
                     ) {
                         $result['error'] = $pedido->getDataError();
                     } else {
-                        // Obtener existencias y cantidad actual del producto
-                        $existencias = $pedido->getExistencias($_POST['idDetalle']); // Método que obtendrá las existencias del producto
-                        $cantidadActual = $pedido->getCantidadActual($_POST['idDetalle']); // Método que obtendrá la cantidad actual del producto
                         
-                        // Calcular la nueva cantidad
-                        $nuevaCantidad = $_POST['cantidadProducto'];
-                        
-                        // Validar si la nueva cantidad excede las existencias disponibles
-                        if ($nuevaCantidad > $existencias) {
-                            $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
-                        } elseif ($nuevaCantidad === $existencias) {
-                            $result['error'] = 'La cantidad solicitada ya está en el límite de existencias.';
-                        } elseif ($pedido->updateDetail()) {
+                        // Validar existencias antes de agregar el producto
+                        if (!$pedido->validateStock2($_POST['idDetalle'], $_POST['cantidadProducto'])) {
+                            if($pedido->getCondicion() == 'existencias'){
+                                $result['error'] = 'La cantidad solicitada excede las existencias disponibles.';
+                            }elseif($pedido->getCondicion() == 'reservas'){
+                                $result['error'] = 'La suma de las reservas existentes con tu cantidad solicitada supera el numero de existencias.';
+                            }else{
+                                $result['error'] = 'Ocurrio un error con las existencias.';
+                            }
+                        }  elseif ($pedido->updateDetail2()) {
                             $result['status'] = 1;
                             $result['message'] = 'Cantidad modificada correctamente';
                         } else {

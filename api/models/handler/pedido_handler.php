@@ -105,22 +105,25 @@ class PedidoHandler
 
         // Verifica si se las reservas totales no han pasado las existencias
         if ($result && $result['existencias'] >= $cantidadSolicitada) {
-        $sql2 = 'SELECT SUM(cantidad) AS reservas 
-        FROM tb_detalles_reservas WHERE id_detalle_producto = ?';
-        $params2 = array($idDetalleProducto);
-        $result2 = Database::getRow($sql2, $params2);
+            $sql2 = 'SELECT COALESCE(SUM(cantidad),0) AS reservas 
+        FROM tb_detalles_reservas
+        JOIN tb_reservas ON tb_reservas.id_reserva = tb_detalles_reservas.id_reserva	  
+        WHERE id_detalle_producto = ? AND tb_reservas.estado_reserva = "Pendiente";';
+            $params2 = array($idDetalleProducto);
+            $result2 = Database::getRow($sql2, $params2);
             $suma = $cantidadSolicitada + $result2['reservas'];
-            if($result && $result['existencias'] >= $suma){
+            if ($result && $result['existencias'] >= $suma) {
                 return true; // La compra es válida
-            }else{
+            } else {
                 $this->condicion = 'reservas';
                 return false;
             }
         } else {
-                $this->condicion = 'existencias';
-                return false;
+            $this->condicion = 'existencias';
+            return false;
         }
     }
+
 
 
     // Método para obtener los productos que se encuentran en el carrito de compras.
@@ -327,15 +330,77 @@ WHERE
         return $result ? $result['cantidad'] : 0; // Retorna la cantidad actual o 0 si no se encuentra
     }
 
-    // Método para actualizar la cantidad de un detalle de pedido.
-    public function updateDetail()
+
+    public function updateDetail2()
+    {
+        // Validar existencias
+        if (!$this->validateStock2($this->id_detalle, $this->cantidad)) {
+            return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
+        }
+        // Si la validación es exitosa, proceder a actualizar
+        $sql = 'UPDATE tb_detalles_reservas
+        SET cantidad = ?
+        WHERE id_detalle_reserva = ? AND id_reserva = ?';
+
+        $params = array($this->cantidad, $this->id_detalle, $_SESSION['idReserva']);
+
+        if (Database::executeRow($sql, $params)) {
+            return json_encode(['status' => true, 'message' => 'Cantidad actualizada con éxito.']);
+        } else {
+            return json_encode(['status' => false, 'message' => 'Error: No se pudo actualizar la cantidad.']);
+        }
+    }
+
+    public function validateStock2($idDetalle, $cantidadSolicitada)
     {
         // Primero, obtenemos las existencias actuales del producto
         $sql = 'SELECT dp.existencias, dr.cantidad
-            FROM tb_detalles_productos dp 
-            INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto
-            WHERE dr.id_detalle_reserva = ? AND dr.id_reserva = ?'
-            ;
+             FROM tb_detalles_productos dp 
+             INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto
+             WHERE dr.id_detalle_reserva = ? AND dr.id_reserva = ?';
+
+        $params = array($idDetalle, $_SESSION['idReserva']);
+        $result = Database::getRow($sql, $params);
+
+        // Verifica si se las reservas totales no han pasado las existencias
+        if ($result && $result['existencias'] >= $cantidadSolicitada) {
+            $sql2 = 'SELECT COALESCE(SUM(cantidad),0) AS reservas 
+        FROM tb_detalles_reservas
+        JOIN tb_reservas ON tb_reservas.id_reserva = tb_detalles_reservas.id_reserva	  
+        WHERE id_detalle_producto = 
+        (SELECT id_detalle_producto FROM tb_detalles_reservas WHERE id_detalle_reserva = ?) AND tb_reservas.estado_reserva = "Pendiente";';
+            $params2 = array($idDetalle);
+            $result2 = Database::getRow($sql2, $params2);
+
+            $cantidadActual = $result['cantidad'];
+
+            $suma = $cantidadSolicitada + $result2['reservas'] - $cantidadActual;
+            if ($result && $result['existencias'] >= $suma) {
+                return true; // La compra es válida
+            } else {
+                $this->condicion = 'reservas';
+                return false;
+            }
+        } else {
+            $this->condicion = 'existencias';
+            return false;
+        }
+    }
+
+
+    // Método para actualizar la cantidad de un detalle de pedido.
+    // Método para actualizar la cantidad de un detalle de pedido.
+    public function updateDetail()
+    {
+        // Validar existencias
+        if (!$this->validateStock($this->producto, $this->cantidad)) {
+            return json_encode(['status' => false, 'message' => 'La cantidad solicitada excede las existencias disponibles.']);
+        }
+        // Primero, obtenemos las existencias actuales del producto
+        $sql = 'SELECT dp.existencias, dr.cantidad
+             FROM tb_detalles_productos dp 
+             INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto
+             WHERE dr.id_detalle_reserva = ? AND dr.id_reserva = ?';
 
         $params = array($this->id_detalle, $_SESSION['idReserva']);
         $result = Database::getRow($sql, $params);
@@ -355,8 +420,8 @@ WHERE
 
             // Si la validación es exitosa, proceder a actualizar
             $sql = 'UPDATE tb_detalles_reservas
-                SET cantidad = ?
-                WHERE id_detalle_reserva = ? AND id_reserva = ?';
+                 SET cantidad = ?
+                 WHERE id_detalle_reserva = ? AND id_reserva = ?';
 
             $params = array($nuevaCantidad, $this->id_detalle, $_SESSION['idReserva']);
 
