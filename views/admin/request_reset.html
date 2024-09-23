@@ -3,13 +3,15 @@
 
 <head>
     <meta charset="UTF-8"> <!-- Define la codificación de caracteres del documento -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajusta el diseño a diferentes tamaños de pantalla -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Ajusta el diseño a diferentes tamaños de pantalla -->
     <title>Solicitar Código de Recuperación</title> <!-- Título de la página -->
 
     <!-- Carga los archivos CSS necesarios para los estilos y el diseño -->
     <link rel="stylesheet" href="../../resources/css/bootstrap.min.css"> <!-- Estilos de Bootstrap -->
     <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css"> <!-- Iconos de Bootstrap -->
-    <link type="text/css" rel="stylesheet" href="../../resources/css/recuperacion.css"> <!-- Estilos personalizados para la página de recuperación -->
+    <link type="text/css" rel="stylesheet" href="../../resources/css/recuperacion.css">
+    <!-- Estilos personalizados para la página de recuperación -->
 </head>
 
 <body>
@@ -18,22 +20,29 @@
             <h2>Solicitar código de recuperación</h2> <!-- Título de la página -->
             <form id="resetRequestForm"> <!-- Formulario para solicitar el código de recuperación -->
                 <div class="mb-3">
-                    <label for="resetEmail" class="form-label">Correo electrónico</label> <!-- Etiqueta para el campo de correo -->
-                    <input id="resetEmail" type="email" name="correo" class="form-control" required> <!-- Campo de entrada para el correo electrónico, es obligatorio -->
+                    <label for="resetEmail" class="form-label">Correo electrónico</label>
+                    <!-- Etiqueta para el campo de correo -->
+                    <input id="resetEmail" type="email" name="correo" class="form-control" required>
+                    <!-- Campo de entrada para el correo electrónico, es obligatorio -->
                 </div>
-                <button type="submit" class="btn btn-primary">Solicitar código de verificación</button> <!-- Botón para enviar el formulario -->
+                <button type="submit" class="btn btn-primary">Solicitar código de verificación</button>
+                <!-- Botón para enviar el formulario -->
             </form>
         </div>
         <!-- Imagen decorativa relacionada con la recuperación de la cuenta -->
-        <img src="../../resources/img/recuperación.png" alt="Recovery Code" class="recovery-image"> <!-- Imagen decorativa de recuperación -->
+        <img src="../../resources/img/recuperación.png" alt="Recovery Code" class="recovery-image">
+        <!-- Imagen decorativa de recuperación -->
     </div>
 
     <!-- Carga los archivos JavaScript necesarios para la funcionalidad de la página -->
-    <script src="../../resources/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS para funcionalidades interactivas -->
-    <script src="../../resources/js/sweetalert.min.js"></script> <!-- Librería SweetAlert para mostrar alertas personalizadas -->
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS para funcionalidades interactivas -->
+    <script src="../../resources/js/sweetalert.min.js"></script>
+    <!-- Librería SweetAlert para mostrar alertas personalizadas -->
     <script src="../../controllers/utils/components.js"></script> <!-- Componente auxiliar para utilidades -->
     <script src="../../controllers/utils/admin.js"></script> <!-- Funcionalidades administrativas -->
-    <script src="../../controllers/admin/request_reset.js"></script> <!-- Archivo JavaScript que controla el envío del formulario de recuperación -->
+    <script src="../../controllers/admin/request_reset.js"></script>
+    <!-- Archivo JavaScript que controla el envío del formulario de recuperación -->
 </body>
 
 </html>
