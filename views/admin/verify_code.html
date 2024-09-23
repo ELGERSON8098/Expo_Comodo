@@ -1,43 +1,47 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verificar Código</title>
-    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
-    <link type="text/css" rel="stylesheet" href="../../resources/css/recuperacion.css">
+    <meta charset="UTF-8"> <!-- Define la codificación de caracteres del documento -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajusta el diseño a diferentes tamaños de pantalla -->
+    <title>Verificar Código</title> <!-- Título de la página -->
+
+    <!-- Carga los archivos CSS necesarios para los estilos y el diseño -->
+    <link rel="stylesheet" href="../../resources/css/bootstrap.min.css"> <!-- Estilos de Bootstrap -->
+    <link rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css"> <!-- Iconos de Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="../../resources/css/recuperacion.css"> <!-- Estilos personalizados para la página de verificación -->
 </head>
 <body>
-    <div class="verify-container">
-        <div class="verify-form">
-            <h2>Verificar código</h2>
-            <form id="verifyCodeForm">
-                <div class="mb-3" style="display: none;">
-                    <label for="correo" class="form-label">Correo electrónico</label>
-                    <input id="correo" type="email" name="correo" class="form-control">
+    <div class="verify-container"> <!-- Contenedor principal para la sección de verificación del código -->
+        <div class="verify-form"> <!-- Contenedor del formulario para verificar el código -->
+            <h2>Verificar código</h2> <!-- Título de la sección -->
+            <form id="verifyCodeForm"> <!-- Formulario para ingresar el código de verificación -->
+                <div class="mb-3" style="display: none;"> <!-- Campo oculto para el correo electrónico -->
+                    <label for="correo" class="form-label">Correo electrónico</label> <!-- Etiqueta para el campo de correo electrónico -->
+                    <input id="correo" type="email" name="correo" class="form-control"> <!-- Campo de entrada para el correo electrónico, oculto por estilo -->
                 </div>
-                <div class="mb-3">
-                    <label for="codigo" class="form-label">Código de verificación</label>
-                    <div class="code-input-container">
-                        <input type="text" class="code-input" maxlength="1" autofocus>
-                        <input type="text" class="code-input" maxlength="1">
-                        <input type="text" class="code-input" maxlength="1">
-                        <input type="text" class="code-input" maxlength="1">
-                        <input type="text" class="code-input" maxlength="1">
-                        <input type="text" class="code-input" maxlength="1">
+                <div class="mb-3"> <!-- Contenedor para el código de verificación -->
+                    <label for="codigo" class="form-label">Código de verificación</label> <!-- Etiqueta para el campo del código -->
+                    <div class="code-input-container"> <!-- Contenedor para los campos de entrada del código -->
+                        <!-- Seis campos de entrada para el código de verificación, cada uno con un máximo de un carácter -->
+                        <input type="text" class="code-input" maxlength="1" autofocus> <!-- Campo de entrada para el primer carácter, se enfoca automáticamente -->
+                        <input type="text" class="code-input" maxlength="1"> <!-- Campo de entrada para el segundo carácter -->
+                        <input type="text" class="code-input" maxlength="1"> <!-- Campo de entrada para el tercer carácter -->
+                        <input type="text" class="code-input" maxlength="1"> <!-- Campo de entrada para el cuarto carácter -->
+                        <input type="text" class="code-input" maxlength="1"> <!-- Campo de entrada para el quinto carácter -->
+                        <input type="text" class="code-input" maxlength="1"> <!-- Campo de entrada para el sexto carácter -->
                     </div>
-                    <input id="codigo" type="hidden" name="codigo" required>
+                    <input id="codigo" type="hidden" name="codigo" required> <!-- Campo oculto para almacenar el código de verificación completo -->
                 </div>
-                <button type="submit" class="btn btn-primary">Verificar código</button>
+                <button type="submit" class="btn btn-primary">Verificar código</button> <!-- Botón para enviar el formulario y verificar el código -->
             </form>
         </div>
-        <img src="../../resources/img/recuperación.png" alt="Verification Code" class="verification-image">
+        <img src="../../resources/img/recuperación.png" alt="Verification Code" class="verification-image"> <!-- Imagen decorativa relacionada con la verificación del código -->
     </div>
-    <script src="../../resources/js/bootstrap.bundle.min.js"></script>
-    <script src="../../resources/js/sweetalert.min.js"></script>
-    <script src="../../controllers/utils/components.js"></script>
-    <script src="../../controllers/utils/admin.js"></script>
-    <script src="../../controllers/admin/verify_code.js"></script>
+    <!-- Carga los archivos JavaScript necesarios para la funcionalidad de la página -->
+    <script src="../../resources/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS para funcionalidades interactivas -->
+    <script src="../../resources/js/sweetalert.min.js"></script> <!-- Librería SweetAlert para mostrar alertas personalizadas -->
+    <script src="../../controllers/utils/components.js"></script> <!-- Componente auxiliar para utilidades -->
+    <script src="../../controllers/utils/admin.js"></script> <!-- Funcionalidades administrativas -->
+    <script src="../../controllers/admin/verify_code.js"></script> <!-- Archivo JavaScript que controla la verificación del código -->
 </body>
 </html>
