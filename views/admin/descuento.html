@@ -63,8 +63,8 @@
                 </button>
             </div>
         </div>
-          <!-- Botón para abrir el modal de selección de marcas -->
-          <div class="row mb-3">
+        <!-- Botón para abrir el modal de selección de marcas -->
+        <div class="row mb-3">
             <div class="col text-end">
                 <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#descuentoModal">
                     <i class="bi bi-bar-chart-fill"></i> Grafica de descuentos
@@ -116,13 +116,14 @@
                             <!-- Descripción del descuento -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="nombreDesc" class="form-label">Descripción</label>
-                                <input id="nombreDesc" type="text" name="nombreDesc" class="form-control" required autocomplete="off">
+                                <input id="nombreDesc" type="text" name="nombreDesc" class="form-control" required
+                                    autocomplete="off">
                             </div>
                             <!-- Valor del descuento -->
                             <div class="col-sm-12 col-md-6">
                                 <label for="ValorM" class="form-label">Valor</label>
-                                <input id="ValorM" type="number" name="ValorM" class="form-control" step="0.01"
-                                    required autocomplete="off">
+                                <input id="ValorM" type="number" name="ValorM" class="form-control" step="0.01" required
+                                    autocomplete="off">
                             </div>
                         </div>
                         <!-- Botón de guardar dentro del modal -->
@@ -148,11 +149,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="precioMin">Precio Mínimo</label>
-                                    <input type="number" class="form-control" id="precioMin" name="precioMin" required autocomplete="off">
+                                    <input type="number" class="form-control" id="precioMin" name="precioMin" required
+                                        autocomplete="off">
                                 </div>
                                 <div class="col-md-6">
                                     <label for="precioMax">Precio Máximo</label>
-                                    <input type="number" class="form-control" id="precioMax" name="precioMax" required autocomplete="off">
+                                    <input type="number" class="form-control" id="precioMax" name="precioMax" required
+                                        autocomplete="off">
                                 </div>
                             </div>
                             <br>
@@ -179,7 +182,7 @@
     <script src="../../controllers/utils/components.js"></script>
     <!-- Controlador específico para los descuentos -->
     <script src="../../controllers/admin/descuento.js"></script>
-    
+
     <script type="text/javascript" src="../../controllers/admin/inactividad.js"></script>
 
 </body>
