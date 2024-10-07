@@ -111,6 +111,17 @@ if (isset($_GET['action'])) {
                     }
                 }
                 break;
+            case 'checkSession':
+                if (isset($_SESSION['id_administrador'])) {
+                    $result['status'] = 1;
+                    $result['session'] = true;
+                    $result['message'] = 'Sesión activa';
+                } else {
+                    $result['status'] = 1;
+                    $result['session'] = false;
+                    $result['message'] = 'No hay sesión activa';
+                }
+                break;
 
 
             case 'readAll':
@@ -138,29 +149,29 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Administrador inexistente';
                 }
                 break;
-                case 'updateRow':
-                    $_POST = Validator::validateForm($_POST);
-                
-                    // Verificar y establecer los datos del administrador
-                    if (
-                        !$administrador->setId($_POST['idAdmin']) or
-                        !$administrador->setNombre($_POST['NAdmin']) or
-                        !$administrador->setAlia($_POST['NUsuario']) or
-                        !$administrador->setCorreos($_POST['CorreoAd']) or
-                        !$administrador->setNivel($_POST['NivAd'])
-                    ) {
-                        $result['error'] = $administrador->getDataError();
-                    } elseif ($administrador->updateRow()) {
-                        // Obtener el nombre actualizado del administrador
-                        $nombreAdministrador = $_POST['NAdmin']; // Nombre actualizado
-                
-                        $result['status'] = 1;
-                        $result['message'] = "Trabajador $nombreAdministrador modificado correctamente";
-                
-                        // Enviar correo de confirmación de actualización
-                        $email = $_POST['CorreoAd'];
-                        $subject = "Actualización de cuenta de trabajador en Comodo$";
-                        $body = "
+            case 'updateRow':
+                $_POST = Validator::validateForm($_POST);
+
+                // Verificar y establecer los datos del administrador
+                if (
+                    !$administrador->setId($_POST['idAdmin']) or
+                    !$administrador->setNombre($_POST['NAdmin']) or
+                    !$administrador->setAlia($_POST['NUsuario']) or
+                    !$administrador->setCorreos($_POST['CorreoAd']) or
+                    !$administrador->setNivel($_POST['NivAd'])
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                } elseif ($administrador->updateRow()) {
+                    // Obtener el nombre actualizado del administrador
+                    $nombreAdministrador = $_POST['NAdmin']; // Nombre actualizado
+
+                    $result['status'] = 1;
+                    $result['message'] = "Trabajador $nombreAdministrador modificado correctamente";
+
+                    // Enviar correo de confirmación de actualización
+                    $email = $_POST['CorreoAd'];
+                    $subject = "Actualización de cuenta de trabajador en Comodo$";
+                    $body = "
                         <p>Actualización de cuenta en Comodo$</p>
                         <p>¡Hola $nombreAdministrador!</p>
                         <p>Queremos informarte que algunos datos de tu cuenta de trabajador en Comodo$ han sido actualizados exitosamente.</p>
@@ -172,31 +183,31 @@ if (isset($_GET['action'])) {
                         <p>Saludos cordiales,<br>
                         El equipo de Comodo$</p>
                         ";
-                        $emailResult = sendEmail($email, $subject, $body);
-                        if ($emailResult !== true) {
-                            $result['message'] .= ' No se pudo enviar el correo de confirmación de actualización.';
-                        }
-                    } else {
-                        $result['error'] = 'Ocurrió un problema al modificar el trabajador';
+                    $emailResult = sendEmail($email, $subject, $body);
+                    if ($emailResult !== true) {
+                        $result['message'] .= ' No se pudo enviar el correo de confirmación de actualización.';
                     }
-                    break;                
-                case 'deleteRow':
-                    // Establecer el ID del administrador
-                    if (!$administrador->setId($_POST['idAdmin'])) {
-                        $result['error'] = $administrador->getDataError();
+                } else {
+                    $result['error'] = 'Ocurrió un problema al modificar el trabajador';
+                }
+                break;
+            case 'deleteRow':
+                // Establecer el ID del administrador
+                if (!$administrador->setId($_POST['idAdmin'])) {
+                    $result['error'] = $administrador->getDataError();
+                } else {
+                    // Obtener el nombre del administrador antes de eliminarlo
+                    $adminNombre = $administrador->getNombreAdministrador();
+
+                    if ($administrador->deleteRow()) {
+                        $result['status'] = 1;
+                        // Mostrar el nombre del administrador eliminado en el mensaje
+                        $result['message'] = 'Administrador "' . $adminNombre . '" eliminado correctamente';
                     } else {
-                        // Obtener el nombre del administrador antes de eliminarlo
-                        $adminNombre = $administrador->getNombreAdministrador();
-                
-                        if ($administrador->deleteRow()) {
-                            $result['status'] = 1;
-                            // Mostrar el nombre del administrador eliminado en el mensaje
-                            $result['message'] = 'Administrador "' . $adminNombre . '" eliminado correctamente';
-                        } else {
-                            $result['error'] = 'Ocurrió un problema al eliminar el administrador';
-                        }
+                        $result['error'] = 'Ocurrió un problema al eliminar el administrador';
                     }
-                    break;
+                }
+                break;
             case 'getUser':
                 if (isset($_SESSION['aliasAdministrador'])) {
                     // Inicia la conexión a la base de datos.
@@ -253,36 +264,36 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al modificar el perfil';
                 }
                 break;
-                case 'changePassword':
-                    $_POST = Validator::validateForm($_POST);
-                    
-                    // Verificar que la contraseña actual sea correcta
-                    if (!$administrador->checkPassword($_POST['claveActual'])) {
-                        $result['error'] = 'Contraseña actual incorrecta';
-                    } 
-                    // Verificar que la nueva contraseña no sea igual a la actual
-                    elseif (hash('sha256', $_POST['claveActual']) == hash('sha256', $_POST['claveNueva'])) {
-                        $result['error'] = 'La nueva contraseña no puede ser igual a la contraseña actual';
-                    } 
-                    // Verificar que la confirmación de contraseña coincida
-                    elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
-                        $result['error'] = 'Confirmación de contraseña diferente';
-                    } 
-                    // Verificar que se haya podido establecer la nueva contraseña
-                    elseif (!$administrador->setClave($_POST['claveNueva'])) {
-                        $result['error'] = $administrador->getDataError();
-                    } 
-                    // Intentar cambiar la contraseña
-                    elseif ($administrador->changePassword()) {
-                        $result['status'] = 1;
-                        $result['message'] = 'Contraseña cambiada correctamente';
-                    } 
-                    // Error general
-                    else {
-                        $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
-                    }
-                    break;
-                
+            case 'changePassword':
+                $_POST = Validator::validateForm($_POST);
+
+                // Verificar que la contraseña actual sea correcta
+                if (!$administrador->checkPassword($_POST['claveActual'])) {
+                    $result['error'] = 'Contraseña actual incorrecta';
+                }
+                // Verificar que la nueva contraseña no sea igual a la actual
+                elseif (hash('sha256', $_POST['claveActual']) == hash('sha256', $_POST['claveNueva'])) {
+                    $result['error'] = 'La nueva contraseña no puede ser igual a la contraseña actual';
+                }
+                // Verificar que la confirmación de contraseña coincida
+                elseif ($_POST['claveNueva'] != $_POST['confirmarClave']) {
+                    $result['error'] = 'Confirmación de contraseña diferente';
+                }
+                // Verificar que se haya podido establecer la nueva contraseña
+                elseif (!$administrador->setClave($_POST['claveNueva'])) {
+                    $result['error'] = $administrador->getDataError();
+                }
+                // Intentar cambiar la contraseña
+                elseif ($administrador->changePassword()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Contraseña cambiada correctamente';
+                }
+                // Error general
+                else {
+                    $result['error'] = 'Ocurrió un problema al cambiar la contraseña';
+                }
+                break;
+
             default:
                 $result['error'] = 'Acción no disponible dentro de la sesión';
         }
@@ -327,7 +338,7 @@ if (isset($_GET['action'])) {
 
                 $loginResult = $administrador->checkUser($alias, $clave);
 
-                if($administrador->getCondicion() == "clave"){
+                if ($administrador->getCondicion() == "clave") {
                     $result['error'] = 'Ya pasaron 90 dias de la ultima vez que cambiaste tu clave';
                 } else if ($loginResult === false) {
                     // Usuario o contraseña incorrectos
@@ -431,49 +442,49 @@ if (isset($_GET['action'])) {
                 break;
 
 
-                case 'resetPassword':
-                    $_POST = Validator::validateForm($_POST);
-                
-                    // Verificar que el correo y el código de verificación sean correctos
-                    if (
-                        !$administrador->setCorreo($_POST['correo']) ||  // Configurar el correo
-                        !$administrador->setResetCodeForVerification($_POST['codigo'])  // Verificar el código de restablecimiento
-                    ) {
-                        $result['error'] = $administrador->getDataError();
-                    } 
-                    // Obtener la contraseña actual del usuario
-                    else {
-                        // Obtener la contraseña encriptada actual y almacenarla en una variable
-                        $claveActualEncriptada = $administrador->getClaveActual();
-                        
-                        // Verificar si la nueva contraseña es igual a la actual
-                        if (!$claveActualEncriptada) {
-                            $result['error'] = 'No se pudo obtener la contraseña actual';
-                        } 
-                        // Comparar la nueva contraseña en texto plano con la encriptada
-                        elseif (password_verify($_POST['nuevaClave'], $claveActualEncriptada)) {
-                            $result['error'] = 'La nueva contraseña no puede ser igual a la contraseña actual';
-                        } 
-                        // Verificar que la nueva contraseña coincida con su confirmación
-                        elseif ($_POST['nuevaClave'] != $_POST['confirmarClave']) {
-                            $result['error'] = 'Las contraseñas no coinciden';
-                        } 
-                        // Intentar configurar la nueva contraseña
-                        elseif (!$administrador->setClave($_POST['nuevaClave'])) {
-                            $result['error'] = $administrador->getDataError();
-                        } 
-                        // Intentar restablecer la contraseña
-                        elseif ($administrador->resetPassword()) {
-                            $result['status'] = 1;
-                            $result['message'] = 'Contraseña restablecida correctamente';
-                        } 
-                        // Error general
-                        else {
-                            $result['error'] = 'Ocurrió un problema al restablecer la contraseña';
-                        }
+            case 'resetPassword':
+                $_POST = Validator::validateForm($_POST);
+
+                // Verificar que el correo y el código de verificación sean correctos
+                if (
+                    !$administrador->setCorreo($_POST['correo']) ||  // Configurar el correo
+                    !$administrador->setResetCodeForVerification($_POST['codigo'])  // Verificar el código de restablecimiento
+                ) {
+                    $result['error'] = $administrador->getDataError();
+                }
+                // Obtener la contraseña actual del usuario
+                else {
+                    // Obtener la contraseña encriptada actual y almacenarla en una variable
+                    $claveActualEncriptada = $administrador->getClaveActual();
+
+                    // Verificar si la nueva contraseña es igual a la actual
+                    if (!$claveActualEncriptada) {
+                        $result['error'] = 'No se pudo obtener la contraseña actual';
                     }
-                    break;
-                
+                    // Comparar la nueva contraseña en texto plano con la encriptada
+                    elseif (password_verify($_POST['nuevaClave'], $claveActualEncriptada)) {
+                        $result['error'] = 'La nueva contraseña no puede ser igual a la contraseña actual';
+                    }
+                    // Verificar que la nueva contraseña coincida con su confirmación
+                    elseif ($_POST['nuevaClave'] != $_POST['confirmarClave']) {
+                        $result['error'] = 'Las contraseñas no coinciden';
+                    }
+                    // Intentar configurar la nueva contraseña
+                    elseif (!$administrador->setClave($_POST['nuevaClave'])) {
+                        $result['error'] = $administrador->getDataError();
+                    }
+                    // Intentar restablecer la contraseña
+                    elseif ($administrador->resetPassword()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Contraseña restablecida correctamente';
+                    }
+                    // Error general
+                    else {
+                        $result['error'] = 'Ocurrió un problema al restablecer la contraseña';
+                    }
+                }
+                break;
+
             default:
                 $result['error'] = 'Acción no disponible fuera de la sesión';
         }
@@ -483,7 +494,7 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }

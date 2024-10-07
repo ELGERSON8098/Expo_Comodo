@@ -1,9 +1,41 @@
 // Constante para completar la ruta de la API.
 const PRODUCTO_API = 'services/admin/producto.php';
 const RESERVA_API = 'services/admin/reserva.php';
+const USER_API = 'services/admin/administrador.php';
+
+window.addEventListener('popstate', function(event) {
+    handleBackButton();
+});
+
+async function handleBackButton() {
+    try {
+        const response = await fetchData(USER_API, 'logOut');
+        if (response.status) {
+            // Redirigir al index y recargar la página
+            window.location.replace('index.html');
+        }
+    } catch (error) {
+        console.error('Error al cerrar sesión:', error);
+    }
+}
 
 // Método del evento para cuando el documento ha cargado.
 document.addEventListener('DOMContentLoaded', () => {
+
+     // Deshabilitar el caché de la página
+     window.onpageshow = function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+    
+    // Verificar si hay una sesión activa
+    const DATA = fetchData(USER_API, 'checkSession');
+    if (!DATA.session) {
+        // Si no hay sesión activa, redirigir al index
+        window.location.replace('index.html');
+    }
+
     // Constante para obtener el número de horas.
     const HOUR = new Date().getHours();
     // Se define una variable para guardar un saludo.

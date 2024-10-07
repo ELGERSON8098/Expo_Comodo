@@ -7,6 +7,14 @@ const LOGIN_FORM = document.getElementById('loginForm');
 document.addEventListener('DOMContentLoaded', async () => {
     // Llamada a la función para mostrar el encabezado y pie del documento.
     loadTemplate();
+
+    // Deshabilitar el caché de la página
+    window.onpageshow = function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    };
+
     // Petición para consultar los usuarios registrados.
     const DATA = await fetchData(USER_API, 'readUsers');
     // Se comprueba si existe una sesión, de lo contrario se sigue con el flujo normal.
@@ -52,7 +60,7 @@ LOGIN_FORM.addEventListener('submit', async (event) => {
     const FORM = new FormData(LOGIN_FORM);
     const omit2FA = document.getElementById('omit2FA').checked;
     FORM.append('omit2FA', omit2FA ? '1' : '0');
-    
+
     const DATA = await fetchData(USER_API, 'logIn', FORM);
     if (DATA.status) {
         if (!DATA.twoFactorRequired) {
@@ -66,9 +74,9 @@ LOGIN_FORM.addEventListener('submit', async (event) => {
             currentAdminId = DATA.id_administrador;
         }
     } else {
-        if(DATA.error == "Ya pasaron 90 dias de la ultima vez que cambiaste tu clave"){
+        if (DATA.error == "Ya pasaron 90 dias de la ultima vez que cambiaste tu clave") {
             sweetAlert(2, DATA.error, false, 'request_reset.html');
-        }else{
+        } else {
             sweetAlert(2, DATA.error, false);
         }
     }
