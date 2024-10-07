@@ -472,8 +472,16 @@ footer a:hover {
 @media screen and (max-width: 768px) {
     .sidebar {
         width: 100%;
-        height: auto;
-        position: static;
+        height: auto; /* Cambiado a auto */
+        position: fixed;
+        top: 0; /* Asegúrate de que esté en la parte superior */
+        left: -100%; /* Oculto por defecto */
+        z-index: 1000; /* Asegúrate de que esté por encima */
+        transition: left 0.3s ease; /* Transición suave */
+    }
+
+    .sidebar.active {
+        left: 0; /* Muestra el sidebar al activarse */
     }
 }
 
