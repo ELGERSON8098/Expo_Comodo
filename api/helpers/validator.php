@@ -77,7 +77,7 @@ class Validator
      *   Parámetros: $file (archivo de un formulario) y $dimension (medida mínima para la imagen).
      *   Retorno: booleano (true si el archivo es correcto o false en caso contrario).
      */
-    public static function validateImageFile($file, $dimension)
+    /* public static function validateImageFile($file, $dimension) METODO DE PAPÁ CARRANZA
     {
         if (is_uploaded_file($file['tmp_name'])) {
             // Se obtienen los datos de la imagen.
@@ -103,6 +103,35 @@ class Validator
                 return false;
             }
         } else {
+            return false;
+        }
+    }*/
+    //Metódo para que me acepte cualquier tamaño de imagen
+    public static function validateImageFile($file)
+    {
+        if (is_uploaded_file($file['tmp_name'])) {
+            // Se comprueba si el archivo tiene un tamaño mayor a 2MB.
+            if ($file['size'] > 2097152) {
+                self::$file_error = 'El tamaño de la imagen debe ser menor a 2MB';
+                return false;
+            }
+
+            // Se obtienen los datos de la imagen.
+            $image = getimagesize($file['tmp_name']);
+
+            // Verificar el tipo de imagen
+            if ($image['mime'] == 'image/jpeg' || $image['mime'] == 'image/png') {
+                // Se obtiene la extensión del archivo (.jpg o .png) y se convierte a minúsculas.
+                $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+                // Se establece un nombre único para el archivo.
+                self::$filename = uniqid() . '.' . $extension;
+                return true;
+            } else {
+                self::$file_error = 'El tipo de imagen debe ser jpg o png';
+                return false;
+            }
+        } else {
+            self::$file_error = 'No se ha subido ningún archivo';
             return false;
         }
     }
