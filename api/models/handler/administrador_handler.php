@@ -1,5 +1,7 @@
 <?php
 require_once('../../helpers/database.php');
+require_once('../../libraries/PHPGangsta/GoogleAuthenticator.php');
+
 
 class AdministradorHandler
 {
@@ -14,51 +16,84 @@ class AdministradorHandler
     protected $id_nivel_usuario = 1;
     protected $condicion = null;
 
-    public function checkUser($username, $password)
+
+    public function checkUser($username, $password, $omit2FA = false)
     {
-        // Primero, obtenemos los detalles del usuario.
         $sql = 'SELECT id_administrador, usuario_administrador, clave_administrador, 
-                intentos_fallidos, bloqueo_hasta, DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS
-                FROM tb_admins
-                WHERE usuario_administrador = ?';
+            intentos_fallidos, bloqueo_hasta, DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS,
+            totp_secret
+            FROM tb_admins
+            WHERE usuario_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
 
         if (!$data) {
-            return false; // Usuario no encontrado
+            return false;
         }
 
-        // Verificamos si el usuario está bloqueado
         if ($data['bloqueo_hasta'] && new DateTime() < new DateTime($data['bloqueo_hasta'])) {
-            return 'bloqueado'; // Usuario está bloqueado
+            return 'bloqueado';
         }
-             // Si la contraseña ha expirado (más de 90 días).
-        if($data['DIAS'] > 90){
-            return  $this->condicion = 'clave';
+
+        if ($data['DIAS'] > 90) {
+            return $this->condicion = 'clave';
         }
-        // Verifica si la contraseña ingresada es correcta.
+
         if (password_verify($password, $data['clave_administrador'])) {
-            // Inicio de sesión exitoso
             $this->resetIntentos($data['id_administrador']);
-            // Generar y almacenar código 2FA
-            $codigo2FA = $this->generar2FACode($data['id_administrador']);
-            return ['status' => true, 'id_administrador' => $data['id_administrador'], 'codigo2FA' => $codigo2FA];
+
+            if ($omit2FA) {
+                return [
+                    'status' => true,
+                    'id_administrador' => $data['id_administrador'],
+                    'omit_2fa' => true
+                ];
+            }
+
+            // Si el usuario no tiene una clave secreta TOTP, generar una
+            if (empty($data['totp_secret'])) {
+                $ga = new PHPGangsta_GoogleAuthenticator();
+                $secret = $ga->createSecret();
+                $this->saveTOTPSecret($data['id_administrador'], $secret);
+                return [
+                    'status' => true,
+                    'id_administrador' => $data['id_administrador'],
+                    'need_setup_2fa' => true,
+                    'totp_secret' => $secret
+                ];
+            }
+
+            return [
+                'status' => true,
+                'id_administrador' => $data['id_administrador'],
+                'need_2fa' => true
+            ];
         } else {
-            // Contraseña incorrecta
             $this->incrementarIntentos($data['id_administrador'], $data['intentos_fallidos']);
             return false;
         }
     }
-        // Verifica si el usuario tiene habilitado el 2FA.
-    public function isTwoFactorEnabled($idAdministrador)
-    {
-        $sql = 'SELECT two_factor_enabled FROM tb_admins WHERE id_administrador = ?';
-        $params = array($idAdministrador);
-        $result = Database::getRow($sql, $params);
 
-        return $result && $result['two_factor_enabled'] == 1;
+    private function saveTOTPSecret($id_administrador, $secret)
+    {
+        $sql = "UPDATE tb_admins SET totp_secret = ? WHERE id_administrador = ?";
+        $params = array($secret, $id_administrador);
+        return Database::executeRow($sql, $params);
     }
 
+    public function verifyTOTP($id_administrador, $code)
+    {
+        $sql = 'SELECT totp_secret FROM tb_admins WHERE id_administrador = ?';
+        $params = array($id_administrador);
+        $data = Database::getRow($sql, $params);
+
+        if (!$data || empty($data['totp_secret'])) {
+            return false;
+        }
+
+        $ga = new PHPGangsta_GoogleAuthenticator();
+        return $ga->verifyCode($data['totp_secret'], $code, 2);
+    }
     // Obtiene datos de bloqueo del usuario por su alias.
     public function getBlockDataByAlias($alias)
     {
@@ -74,7 +109,7 @@ class AdministradorHandler
     {
         $intentos_fallidos++;
         $bloqueo_hasta = null;
-          // Si los intentos fallidos son 3 o más, bloquea la cuenta por 24 horas.
+        // Si los intentos fallidos son 3 o más, bloquea la cuenta por 24 horas.
         if ($intentos_fallidos >= 3) {
             $bloqueo_hasta = (new DateTime())->add(new DateInterval('PT24H'))->format('Y-m-d H:i:s');
         }
@@ -85,7 +120,7 @@ class AdministradorHandler
         $params = array($intentos_fallidos, $bloqueo_hasta, $id_administrador);
         Database::executeRow($sql, $params);
     }
-     // Actualiza los intentos fallidos y el tiempo de bloqueo en la base de datos.
+    // Actualiza los intentos fallidos y el tiempo de bloqueo en la base de datos.
     private function resetIntentos($id_administrador)
     {
         $sql = 'UPDATE tb_admins
@@ -142,7 +177,7 @@ class AdministradorHandler
             ORDER BY a.nombre_administrador';
         $params = array($value);
         return Database::getRows($sql, $params);
-    }   
+    }
 
     // Crea un nuevo administrador.
     public function createRow()
@@ -175,7 +210,7 @@ class AdministradorHandler
         $params = array($this->nombre, $this->correo, $this->alias, $this->clave, $this->id_nivel_usuario);
         return Database::executeRow($sql, $params);
     }
-    
+
     public function readAllS()
     {
         $sql = 'SELECT a.id_administrador, a.nombre_administrador, a.correo_administrador, a.usuario_administrador, n.nombre_nivel
@@ -235,7 +270,7 @@ WHERE
         return Database::executeRow($sql, $params);
     }
 
-      // Elimina un administrador de la base de datos.
+    // Elimina un administrador de la base de datos.
     public function deleteRow()
     {
         $sql = 'DELETE FROM tb_admins
@@ -245,7 +280,8 @@ WHERE
     }
 
 
-    public function getNombreAdministrador() {
+    public function getNombreAdministrador()
+    {
         $sql = 'SELECT nombre_administrador FROM tb_admins WHERE id_administrador = ?';
         $params = array($this->id);
 
@@ -308,11 +344,12 @@ WHERE
         return Database::executeRow($sql, $params);
     }
 
-    public function getClaveActual() {
+    public function getClaveActual()
+    {
         // Consulta SQL para obtener la contraseña actual encriptada basada en el correo del administrador
         $sql = 'SELECT clave_administrador FROM tb_admins WHERE correo_administrador = ?';
         $params = array($this->correo);  // El correo que ya habrás configurado con setCorreo()
-        
+
         // Ejecuta la consulta
         if ($data = Database::getRow($sql, $params)) {
             // Devuelve la contraseña encriptada si se encuentra en la base de datos
@@ -326,7 +363,7 @@ WHERE
     // Genera un código de 2FA y lo guarda en la base de datos.
     private function generar2FACode($id_administrador)
     {
-         // Genera un código aleatorio de 6 dígitos.
+        // Genera un código aleatorio de 6 dígitos.
         $codigo = sprintf("%06d", mt_rand(1, 999999));
         // Actualiza la tabla de administradores con el código de 2FA y su tiempo de expiración (5 minutos).
         $sql = "UPDATE tb_admins SET codigo_2fa = ?, expiracion_2fa = DATE_ADD(NOW(), INTERVAL 5 MINUTE) WHERE id_administrador = ?";
@@ -343,8 +380,8 @@ WHERE
         $params = array($id_administrador);
         $data = Database::getRow($sql, $params);
 
-        
-    // Verifica si el código es correcto y no ha expirado.
+
+        // Verifica si el código es correcto y no ha expirado.
         if ($data && $data['codigo_2fa'] == $codigo && new DateTime() < new DateTime($data['expiracion_2fa'])) {
             $sql = 'UPDATE tb_admins SET codigo_2fa = NULL, expiracion_2fa = NULL WHERE id_administrador = ?';
             Database::executeRow($sql, array($id_administrador));

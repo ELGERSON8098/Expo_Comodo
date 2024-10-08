@@ -53,40 +53,49 @@ SIGNUP_FORM.addEventListener('submit', async (event) => {
 });
 
 const TWO_FACTOR_FORM = document.getElementById('twoFactorForm');
+const SETUP_2FA_DIV = document.getElementById('setup2FA');
+const SETUP_2FA_FORM = document.getElementById('verify2FASetup');
 let currentAdminId = null;
 // Método del evento para cuando se envía el formulario de inicio de sesión
 LOGIN_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
     const FORM = new FormData(LOGIN_FORM);
     const omit2FA = document.getElementById('omit2FA').checked;
-    FORM.append('omit2FA', omit2FA ? '1' : '0');
+    FORM.append('omit2FA', omit2FA);
 
     const DATA = await fetchData(USER_API, 'logIn', FORM);
     if (DATA.status) {
-        if (!DATA.twoFactorRequired) {
-            // Si no se requiere 2FA (se ha omitido), redirigir al dashboard
-            sweetAlert(1, DATA.message, true, 'dashboard.html');
-        } else {
-            // Mostrar el formulario de verificación 2FA
-            sweetAlert(1, DATA.message, false);
+        if (DATA.omit_2fa) {
+            // Iniciar sesión directamente sin 2FA
+            sweetAlert(1, 'Inicio de sesión exitoso', true, 'dashboard.html');
+        } else if (DATA.need_setup_2fa) {
+            // Mostrar QR y secreto para configuración inicial
+            LOGIN_FORM.classList.add('d-none');
+            SETUP_2FA_DIV.classList.remove('d-none');
+
+            // Generar y mostrar código QR
+            const qrUrl = `https://chart.googleapis.com/chart?chs=300x300&chld=M|0&cht=qr&chl=otpauth://totp/Comodos:${DATA.usuario}?secret=${DATA.totp_secret}&issuer=Comodos`;
+            document.getElementById('qrCode').src = qrUrl;
+            document.getElementById('manualSecret').textContent = DATA.totp_secret;
+
+            currentAdminId = DATA.id_administrador;
+        } else if (DATA.need_2fa) {
+            // Mostrar formulario para ingresar código TOTP
             LOGIN_FORM.classList.add('d-none');
             TWO_FACTOR_FORM.classList.remove('d-none');
             currentAdminId = DATA.id_administrador;
         }
     } else {
-        if (DATA.error == "Ya pasaron 90 dias de la ultima vez que cambiaste tu clave") {
-            sweetAlert(2, DATA.error, false, 'request_reset.html');
-        } else {
-            sweetAlert(2, DATA.error, false);
-        }
+        sweetAlert(2, DATA.error, false);
     }
 });
-// Nuevo método para manejar la verificación del código 2FA
+
 TWO_FACTOR_FORM.addEventListener('submit', async (event) => {
     event.preventDefault();
     const FORM = new FormData(TWO_FACTOR_FORM);
     FORM.append('id_administrador', currentAdminId);
-    const DATA = await fetchData(USER_API, 'verify2FA', FORM);
+
+    const DATA = await fetchData(USER_API, 'verifyTOTP', FORM);
     if (DATA.status) {
         sweetAlert(1, DATA.message, true, 'dashboard.html');
     } else {
@@ -94,3 +103,15 @@ TWO_FACTOR_FORM.addEventListener('submit', async (event) => {
     }
 });
 
+SETUP_2FA_FORM.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const FORM = new FormData(SETUP_2FA_FORM);
+    FORM.append('id_administrador', currentAdminId);
+
+    const DATA = await fetchData(USER_API, 'setupTOTP', FORM);
+    if (DATA.status) {
+        sweetAlert(1, DATA.message, true, 'dashboard.html');
+    } else {
+        sweetAlert(2, DATA.error, false);
+    }
+});

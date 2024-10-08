@@ -33,9 +33,9 @@
                         <input id="clave" type="password" name="clave" class="form-control" required autocomplete="off">
                     </div>
                     <!-- Checkbox para omitir 2FA -->
-                    <div class="mb-3">
-                        <input id="omit2FA" type="checkbox" name="omit2FA">
-                        <label for="omit2FA">Omitir verificación 2FA</label>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="omit2FA" name="omit2FA">
+                        <label class="form-check-label" for="omit2FA">Omitir verificación 2FA</label>
                     </div>
                     <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                     <br><br>
@@ -45,15 +45,35 @@
                     </div>
                 </form>
 
-                <!-- Nuevo formulario para 2FA -->
+                <!-- Formulario de verificación TOTP -->
                 <form class="d-none" id="twoFactorForm" autocomplete="off">
                     <div class="mb-3">
-                        <label for="codigo2FA" class="form-label">Código de verificación</label>
-                        <input id="codigo2FA" type="text" name="codigo2FA" class="form-control" required
+                        <label for="totpCode" class="form-label">Código de autenticación</label>
+                        <input id="totpCode" type="text" name="totpCode" class="form-control" required
                             autocomplete="off">
                     </div>
                     <button type="submit" class="btn btn-primary">Verificar</button>
                 </form>
+
+                <!-- Div para configuración inicial de TOTP -->
+                <div class="d-none" id="setup2FA">
+                    <h4>Configurar autenticación de dos factores</h4>
+                    <p>Escanee el código QR con su aplicación de autenticación (como Google Authenticator):</p>
+                    <img id="qrCode" src="" alt="Código QR" style="width: 300px; height: 300px;">
+                    <p>O ingrese este código manualmente en su aplicación:</p>
+                    <code id="manualSecret"></code>
+                    <form id="verify2FASetup">
+                        <div class="mb-3">
+                            <label for="setupTotpCode" class="form-label">Ingrese el código mostrado en su
+                                aplicación</label>
+                            <input id="setupTotpCode" type="text" name="totpCode" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Verificar y activar</button>
+                    </form>
+                </div>
+
+
+              
 
                 <!-- Formulario de registro (inicialmente oculto) -->
                 <form class="d-none" id="signupForm" autocomplete="off">
@@ -98,7 +118,7 @@
         </div>
 
     </main>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="../../resources/js/contraseña.js"></script>
