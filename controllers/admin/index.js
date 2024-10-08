@@ -64,10 +64,11 @@ LOGIN_FORM.addEventListener('submit', async (event) => {
     FORM.append('omit2FA', omit2FA);
  
     const DATA = await fetchData(USER_API, 'logIn', FORM);
+    console.log(DATA); // Agrega esta línea
     if (DATA.status) {
         if (DATA.omit_2fa) {
-            // Iniciar sesión directamente sin 2FA
-            sweetAlert(1, 'Inicio de sesión exitoso', true, 'dashboard.html');
+            console.log('Iniciando sesión sin 2FA'); // Agrega esta línea
+            sweetAlert(1, DATA.message, true, 'dashboard.html');
         } else if (DATA.need_setup_2fa) {
             // Mostrar QR y secreto para configuración inicial
             LOGIN_FORM.classList.add('d-none');

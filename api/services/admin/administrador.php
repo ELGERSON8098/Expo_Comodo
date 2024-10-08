@@ -330,41 +330,64 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Ocurrió un problema al registrar el administrador';
                 }
                 break;
+
             case 'logIn':
-                $_POST = Validator::validateForm($_POST);
-                $alias = $_POST['alias'];
-                $clave = $_POST['clave'];
-                $omit2FA = isset($_POST['omit2FA']) && $_POST['omit2FA'] === 'true';
+                try {
+                    // Validación y sanitización de datos
+                    $_POST = Validator::validateForm($_POST);
+                    $alias = $_POST['alias'];
+                    $clave = $_POST['clave'];
+                    $omit2FA = isset($_POST['omit2FA']) && $_POST['omit2FA'] === 'true';
 
-                $loginResult = $administrador->checkUser($alias, $clave, $omit2FA);
+                    $loginResult = $administrador->checkUser($alias, $clave, $omit2FA);
 
-                if (is_array($loginResult) && $loginResult['status']) {
-                    if (isset($loginResult['omit_2fa']) && $loginResult['omit_2fa']) {
-                        $_SESSION['idAdministrador'] = $loginResult['id_administrador'];
-                        $_SESSION['aliasAdministrador'] = $alias;
+                    // Inicializar el array de respuesta
+                    $result = ['status' => 0];
+
+                    // Procesar el resultado del login
+                    if (is_array($loginResult) && $loginResult['status']) {
                         $result['status'] = 1;
-                        $result['message'] = 'Inicio de sesión exitoso';
-                    } elseif (isset($loginResult['need_setup_2fa'])) {
-                        $result['status'] = 1;
-                        $result['need_setup_2fa'] = true;
-                        $result['totp_secret'] = $loginResult['totp_secret'];
-                        $result['id_administrador'] = $loginResult['id_administrador'];
-                        $result['usuario'] = $alias;
-                        $result['message'] = 'Por favor, configure la autenticación de dos factores';
+
+                        if ($omit2FA && isset($loginResult['omit_2fa']) && $loginResult['omit_2fa']) {
+                            // Login exitoso sin 2FA
+                            $_SESSION['idAdministrador'] = $loginResult['id_administrador'];
+                            $_SESSION['aliasAdministrador'] = $alias;
+                            $result['omit_2fa'] = true;
+                            $result['message'] = 'Inicio de sesión exitoso';
+                        } elseif (isset($loginResult['need_setup_2fa'])) {
+                            // Necesita configurar 2FA
+                            $result['need_setup_2fa'] = true;
+                            $result['totp_secret'] = $loginResult['totp_secret'];
+                            $result['id_administrador'] = $loginResult['id_administrador'];
+                            $result['usuario'] = $alias;
+                            $result['message'] = 'Por favor, configure la autenticación de dos factores';
+                        } else {
+                            // Requiere verificación 2FA
+                            $result['need_2fa'] = true;
+                            $result['id_administrador'] = $loginResult['id_administrador'];
+                            $result['message'] = 'Ingrese el código de autenticación';
+                        }
                     } else {
-                        $result['status'] = 1;
-                        $result['need_2fa'] = true;
-                        $result['id_administrador'] = $loginResult['id_administrador'];
-                        $result['message'] = 'Ingrese el código de autenticación';
+                        // Manejar diferentes tipos de error
+                        switch ($loginResult) {
+                            case 'bloqueado':
+                                $result['error'] = 'Cuenta bloqueada temporalmente debido a múltiples intentos fallidos.';
+                                break;
+                            case 'clave':
+                                $result['error'] = 'Ya pasaron 90 días de la última vez que cambiaste tu clave';
+                                break;
+                            default:
+                                $result['error'] = 'Credenciales incorrectas';
+                        }
                     }
-                } elseif ($loginResult === 'bloqueado') {
-                    $result['error'] = 'Cuenta bloqueada temporalmente debido a múltiples intentos fallidos.';
-                } elseif ($loginResult === 'clave') {
-                    $result['error'] = 'Ya pasaron 90 dias de la ultima vez que cambiaste tu clave';
-                } else {
-                    $result['error'] = 'Credenciales incorrectas';
+                } catch (Exception $e) {
+                    $result = [
+                        'status' => 0,
+                        'error' => 'Error en el proceso de inicio de sesión'
+                    ];
                 }
                 break;
+
             case 'verifyTOTP':
                 $_POST = Validator::validateForm($_POST);
                 $id_administrador = $_POST['id_administrador'];
@@ -509,7 +532,7 @@ if (isset($_GET['action'])) {
     // Se indica el tipo de contenido a mostrar y su respectivo conjunto de caracteres.
     header('Content-type: application/json; charset=utf-8');
     // Se imprime el resultado en formato JSON y se retorna al controlador.
-    print (json_encode($result));
+    print(json_encode($result));
 } else {
-    print (json_encode('Recurso no disponible'));
+    print(json_encode('Recurso no disponible'));
 }
