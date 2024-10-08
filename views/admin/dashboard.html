@@ -135,8 +135,44 @@
     <script type="text/javascript" src="../../controllers/utils/admin.js"></script>
     <script type="text/javascript" src="../../controllers/admin/dashboard.js"></script>
     <script type="text/javascript" src="../../controllers/admin/inactividad.js"></script>
+    <script>
+        // Asegúrate de que USER_API esté definido antes de usarlo
+        const USER_API = 'services/admin/administrador.php';
 
+        window.addEventListener('popstate', function(event) {
+            handleBackButton();
+        });
 
+        async function handleBackButton() {
+            try {
+                const response = await fetchData(USER_API, 'logOut');
+                if (response.status) {
+                    // Redirigir al index y recargar la página
+                    window.location.replace('index.html');
+                }
+            } catch (error) {
+                console.error('Error al cerrar sesión:', error);
+            }
+        }
+
+        // Método del evento para cuando el documento ha cargado.
+        document.addEventListener('DOMContentLoaded', () => {
+            // Deshabilitar el caché de la página
+            window.onpageshow = function(event) {
+                if (event.persisted) {
+                    window.location.reload();
+                }
+            };
+            
+            // Verificar si hay una sesión activa
+            fetchData(USER_API, 'checkSession').then(DATA => {
+                if (!DATA.session) {
+                    // Si no hay sesión activa, redirigir al index
+                    window.location.replace('index.html');
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>
