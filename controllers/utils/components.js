@@ -149,6 +149,7 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
     xAxis.forEach(() => {
         colors.push('#' + (Math.random().toString(16)).substring(2, 8));
     });
+
     // Se crea una instancia para generar el gráfico con los datos recibidos.
     new Chart(document.getElementById(canvas), {
         type: 'bar',
@@ -157,20 +158,41 @@ const barGraph = (canvas, xAxis, yAxis, legend, title) => {
             datasets: [{
                 label: legend,
                 data: yAxis,
-                backgroundColor: colors
+                backgroundColor: colors,
+                borderColor: '#333', // Color del borde
+                borderWidth: 1 // Ancho del borde
             }]
         },
         options: {
+            responsive: true, // Hacer que el gráfico sea responsivo
+            maintainAspectRatio: false, // Mantener la relación de aspecto
             plugins: {
                 title: {
                     display: true,
                     text: title,
                     font: {
-                        weight: 'bold' // Establece el texto del título en negrita.
+                        weight: 'bold',
+                        size: 18 // Tamaño del texto del título
                     }
                 },
                 legend: {
-                    display: true
+                    display: true,
+                    position: 'top' // Posición de la leyenda
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Muestra el valor exacto
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true // Comenzar desde cero en el eje X
+                },
+                y: {
+                    beginAtZero: true // Comenzar desde cero en el eje Y
                 }
             }
         }
@@ -232,7 +254,6 @@ const pieGraph = (canvas, legends, values, title) => {
     });
 }
 
-// Gráfico de Líneas
 const lineGraph = (canvas, xAxis, yAxis, legend, title) => {
     new Chart(document.getElementById(canvas), {
         type: 'line',
@@ -242,18 +263,20 @@ const lineGraph = (canvas, xAxis, yAxis, legend, title) => {
                 label: legend,
                 data: yAxis,
                 fill: false,
-                borderColor: '#007bff',
-                tension: 0.2,
+                borderColor: '#007bff', // Color de la línea
+                tension: 0.3, // Suavizado de la línea
                 borderWidth: 2,
                 pointRadius: 6,
                 pointBackgroundColor: '#007bff',
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: '#007bff'
+                pointHoverBorderColor: '#007bff',
+                pointHoverRadius: 8 // Aumentar el tamaño del punto al pasar el cursor
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false, // Permitir que el gráfico cambie de forma
             scales: {
                 x: {
                     grid: {
@@ -291,6 +314,13 @@ const lineGraph = (canvas, xAxis, yAxis, legend, title) => {
                     font: {
                         size: 18,
                         weight: 'bold'
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Muestra el valor exacto
+                        }
                     }
                 }
             },
@@ -489,9 +519,9 @@ const barGraph1 = (canvas, xAxis, yAxis, legend, title) => {
 }
 
 const barGraph2 = (canvas, xAxis, yAxis, legend, title) => {
-    let colors = [];
-    xAxis.forEach(() => {
-        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
+    // Generar colores en formato RGBA
+    let colors = xAxis.map(() => {
+        return `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.7)`;
     });
 
     new Chart(document.getElementById(canvas), {
@@ -504,13 +534,14 @@ const barGraph2 = (canvas, xAxis, yAxis, legend, title) => {
                 backgroundColor: colors,
                 borderColor: '#ddd',
                 borderWidth: 1,
-                barThickness: 24,
+                barThickness: 'flex', // Permite que las barras se ajusten automáticamente
                 maxBarThickness: 40,
                 minBarLength: 2
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false, // Permitir que el gráfico cambie de forma
             plugins: {
                 title: {
                     display: true,
@@ -524,14 +555,21 @@ const barGraph2 = (canvas, xAxis, yAxis, legend, title) => {
                         weight: 'bold'
                     }
                 },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Muestra el valor exacto
+                        }
+                    }
+                },
                 legend: {
-                    display: false
+                    display: false // Desactivar leyenda si no es necesaria
                 }
             },
             scales: {
                 x: {
                     grid: {
-                        display: false
+                        display: false // Ocultar líneas de la cuadrícula en el eje X
                     },
                     ticks: {
                         color: '#666',
@@ -560,7 +598,6 @@ const barGraph2 = (canvas, xAxis, yAxis, legend, title) => {
         }
     });
 }
-
 const barGraph3 = (canvas, xAxis, yAxis, legend, title) => {
     let colors = [];
     xAxis.forEach(() => {
@@ -707,9 +744,8 @@ const barGraph4 = (canvas, xAxis, yAxis, legend, title) => {
     });
 }
 const barGraph5 = (canvas, xAxis, yAxis, legend, title) => {
-    let colors = [];
-    xAxis.forEach(() => {
-        colors.push('rgba(' + [Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), Math.floor(Math.random() * 255), 0.7].join(',') + ')');
+    let colors = xAxis.map(() => {
+        return `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.7)`;
     });
 
     new Chart(document.getElementById(canvas), {
@@ -722,53 +758,39 @@ const barGraph5 = (canvas, xAxis, yAxis, legend, title) => {
                 backgroundColor: colors,
                 borderColor: '#ddd',
                 borderWidth: 1,
-                barThickness: 24,
+                barThickness: 'flex', // Adjusts automatically based on available space
                 maxBarThickness: 40,
                 minBarLength: 2
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false, // Allow flexible height
             plugins: {
                 title: {
                     display: true,
                     text: title,
-                    padding: {
-                        bottom: 20
-                    },
+                    padding: { bottom: 20 },
                     color: '#333',
-                    font: {
-                        size: 18,
-                        weight: 'bold'
+                    font: { size: 18, weight: 'bold' }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(tooltipItem) {
+                            return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`; // Show value on hover
+                        }
                     }
                 },
-                legend: {
-                    display: false
-                }
+                legend: { display: false }
             },
             scales: {
                 x: {
-                    grid: {
-                        display: false
-                    },
-                    ticks: {
-                        color: '#666',
-                        font: {
-                            size: 14
-                        }
-                    }
+                    grid: { display: false },
+                    ticks: { color: '#666', font: { size: 14 } }
                 },
                 y: {
-                    grid: {
-                        color: 'rgba(0, 0, 0, 0.1)',
-                        borderDash: [5, 5]
-                    },
-                    ticks: {
-                        color: '#666',
-                        font: {
-                            size: 14
-                        }
-                    }
+                    grid: { color: 'rgba(0, 0, 0, 0.1)', borderDash: [5, 5] },
+                    ticks: { color: '#666', font: { size: 14 } }
                 }
             },
             animation: {
