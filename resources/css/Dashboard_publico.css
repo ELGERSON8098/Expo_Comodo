@@ -352,30 +352,46 @@ footer a:hover {
 .logout a i {
     margin-right: 10px;
 }
-
+/* CSS para manejar los dropdowns */
 .dropdown-menu {
     display: none;
-    padding-left: 20px;
-    margin-top: 5px;
-    background-color: #5a52d5;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: #5a52d5; /* Color de fondo del menú desplegable */
     border-radius: 5px;
-    z-index: 1001;
 }
 
 .dropdown.active .dropdown-menu {
     display: block;
+    position: relative; /* Desplegado dentro del flujo del documento */
+    margin-top: 10px;
+    padding-left: 15px; /* Alinear las opciones debajo de la principal */
 }
 
-.dropdown-menu li {
-    padding: 5px 0;
-}
-
-.dropdown-menu a {
-    color: white;
+.dropdown-toggle {
+    cursor: pointer;
+    display: inline-block;
+    padding: 10px;
     text-decoration: none;
-    display: block;
-    padding: 5px 10px;
+    color: white; /* Color del texto del botón */
 }
+
+.dropdown-menu li a {
+    display: block;
+    padding: 10px;
+    background-color: #5a52d5; /* Mantener el mismo color de fondo */
+    color: white; /* Color del texto de los enlaces */
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.dropdown-menu li a:hover {
+    background-color: #ddd; /* Color de fondo al hacer hover */
+    color: #5a52d5; /* Cambiar el color del texto al hacer hover */
+}
+
 
 /* Media Queries */
 @media screen and (max-width: 1024px) {
