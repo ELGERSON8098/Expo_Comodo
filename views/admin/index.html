@@ -13,6 +13,7 @@
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/bootstrap-icons.min.css">
     <link type="text/css" rel="stylesheet" href="../../resources/css/login.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 
 <body>
@@ -59,7 +60,7 @@
                 <div class="d-none" id="setup2FA">
                     <h4>Configurar autenticación de dos factores</h4>
                     <p>Escanee el código QR con su aplicación de autenticación (como Google Authenticator):</p>
-                    <img id="qrCode" src="" alt="Código QR" style="width: 300px; height: 300px;">
+                    <div id="qrCode"></div>
                     <p>O ingrese este código manualmente en su aplicación:</p>
                     <code id="manualSecret"></code>
                     <form id="verify2FASetup">
@@ -118,7 +119,6 @@
         </div>
 
     </main>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script type="text/javascript" src="../../resources/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="../../resources/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="../../resources/js/contraseña.js"></script>

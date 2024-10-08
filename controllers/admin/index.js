@@ -62,7 +62,7 @@ LOGIN_FORM.addEventListener('submit', async (event) => {
     const FORM = new FormData(LOGIN_FORM);
     const omit2FA = document.getElementById('omit2FA').checked;
     FORM.append('omit2FA', omit2FA);
-
+ 
     const DATA = await fetchData(USER_API, 'logIn', FORM);
     if (DATA.status) {
         if (DATA.omit_2fa) {
@@ -72,12 +72,17 @@ LOGIN_FORM.addEventListener('submit', async (event) => {
             // Mostrar QR y secreto para configuración inicial
             LOGIN_FORM.classList.add('d-none');
             SETUP_2FA_DIV.classList.remove('d-none');
-
-            // Generar y mostrar código QR
-            const qrUrl = `https://chart.googleapis.com/chart?chs=300x300&chld=M|0&cht=qr&chl=otpauth://totp/Comodos:${DATA.usuario}?secret=${DATA.totp_secret}&issuer=Comodos`;
-            document.getElementById('qrCode').src = qrUrl;
+ 
+            // Generar y mostrar código QR usando qrcode.js
+            const qrContent = `otpauth://totp/Comodos:${DATA.usuario}?secret=${DATA.totp_secret}&issuer=Comodos`;
+            const qrCodeElement = document.getElementById('qrCode');
+            new QRCode(qrCodeElement, {
+                text: qrContent,
+                width: 300,
+                height: 300
+            });
             document.getElementById('manualSecret').textContent = DATA.totp_secret;
-
+ 
             currentAdminId = DATA.id_administrador;
         } else if (DATA.need_2fa) {
             // Mostrar formulario para ingresar código TOTP
