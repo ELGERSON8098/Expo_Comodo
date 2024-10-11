@@ -455,6 +455,10 @@ ORDER BY
     p.precio, 
     p.imagen,
     dp.id_detalle_producto,
+    t.nombre_talla AS talla,
+    c.color AS color,
+    dp.existencias,
+    dp.descripcion,
     d.nombre_descuento, 
     d.valor 
 FROM 
@@ -463,8 +467,12 @@ JOIN
     tb_descuentos d ON p.id_descuento = d.id_descuento
 JOIN 
     tb_detalles_productos dp ON p.id_producto = dp.id_producto
+JOIN 
+    tb_tallas t ON dp.id_talla = t.id_talla
+JOIN 
+    tb_colores c ON dp.id_color = c.id_color
 WHERE 
-    p.id_descuento IS NOT NULL';
+    p.id_descuento IS NOT NULL;';
         return Database::getRows($sql);
     }
 
