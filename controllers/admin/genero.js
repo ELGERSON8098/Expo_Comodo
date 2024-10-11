@@ -89,7 +89,7 @@ const fillTable = async (form = null) => {
             card.className = 'col-md-4 col-lg-4';
             card.innerHTML = `
                 <div class="card h-100">
-                    <img src="${SERVER_URL}images/generos/${genero.imagen_genero}" class="card-img-top" alt="${genero.nombre_genero}" height="200">
+                    <img src="${SERVER_URL}images/categorias/${genero.imagen_genero}" class="card-img-top" alt="${genero.nombre_genero}" height="200">
                     <div class="card-body">
                         <h5 class="card-title">${genero.nombre_genero}</h5>
                     </div>
