@@ -185,7 +185,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$producto->setIdDetalle($_POST['idDetalle']) or
                     !$producto->setTalla($_POST['nombreTalla']) or
-                    !$producto->setExistencias($_POST['existencias']) or
+                    !$producto->setExistencias($_POST['existenciasAct']) or
                     !$producto->setColor($_POST['nombreColor']) or
                     !$producto->setDescripcion($_POST['descripcion'])
                 ) {

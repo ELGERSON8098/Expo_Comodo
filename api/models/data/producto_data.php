@@ -220,7 +220,7 @@ class ProductoData extends ProductoHandler
     // Método para validar y asignar la cantidad de existencias del producto.
     public function setExistencias($value)
     {
-        if (Validator::validateNaturalNumber($value)) {
+        if (Validator::validateNaturalNumber2($value)) {
             $this->existencias = $value;
             return true;
         } else {

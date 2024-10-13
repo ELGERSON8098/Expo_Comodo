@@ -24,6 +24,7 @@ const SAVE_FORM = document.getElementById('saveForm'), // Formulario de guardar
     ID_PRODUCTO_DETALLE = document.getElementById('idProductoDetalle'), // Campo de ID de detalle de producto
     ID_DETALLE = document.getElementById('idDetalle'), // Campo de ID de detalle
     EXISTENCIAS = document.getElementById('existencias'), // Campo de existencias
+    EXISTENCIAS_ACTUALIZAR = document.getElementById('existenciasAct'), // Campo para actualizar existencias
     DESCRIPCION = document.getElementById('descripcion'), // Campo de descripción
     NOMBRE_PRODUCTO = document.getElementById('nombreProducto'), // Campo de nombre de producto
     CODIGO_INTERNO = document.getElementById('codigoInterno'), // Campo de código interno
@@ -268,6 +269,8 @@ const openCreateDetail = async (idProducto) => {
     SAVE_DETAIL_MODAL.show(); // Muestra el modal
 
     // Llenar los selects necesarios
+    EXISTENCIAS_ACTUALIZAR.disabled = true;
+    EXISTENCIAS.disabled = false;
     fillSelect(TALLA_API, 'readAll', 'nombreTalla'); // Llenar el select de tallas
     fillSelect(COLOR_API, 'readAll', 'nombreColor'); // Llenar el select de colores
 
@@ -344,7 +347,8 @@ const openUpdateDetail = async (idDetalleProducto) => {
         // Llena los selects de talla y color con los datos obtenidos y selecciona el valor correspondiente
         fillSelect(TALLA_API, 'readAll', 'nombreTalla', parseInt(ROW.id_talla));
         fillSelect(COLOR_API, 'readAll', 'nombreColor', parseInt(ROW.id_color));
-
+        EXISTENCIAS_ACTUALIZAR.disabled = false;
+        EXISTENCIAS.disabled = true;
         // Muestra el modal de guardar detalle
         SAVE_DETAIL_MODAL.show();
     } else {

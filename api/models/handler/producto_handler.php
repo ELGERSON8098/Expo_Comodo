@@ -408,7 +408,7 @@ ORDER BY
             SET
                 dp.id_talla = ?,
                 dp.id_color = ?,
-                dp.existencias = ?, 
+                dp.existencias = dp.existencias + ?, 
                 dp.descripcion = ?
             WHERE 
                 dp.id_detalle_producto = ?';
