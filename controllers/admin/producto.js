@@ -230,30 +230,42 @@ const DETAILS_TABLE_BODY = document.getElementById('detailsTableBody'),
 
 // Método del evento para cuando se envía el formulario de guardar detalles
 SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario
+    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
 
-    // Se verifica la acción a realizar (actualizar o crear un detalle)
+    // Se verifica la acción a realizar (actualizar o crear un detalle).
     const action = SAVE_DETAIL_FORM.idDetalle.value ? 'updateDetail' : 'createDetail';
 
-
-    // Constante tipo objeto con los datos del formulario
+    // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_DETAIL_FORM);
 
-    // Petición para guardar los datos del formulario
+    // Petición para guardar los datos del formulario.
     const DATA = await fetchData(PRODUCTO_API, action, FORM);
 
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        fillDetailsTable(ID_PRODUCTO_DETALLE.value);
-        // Se muestra un mensaje de éxito
+        fillDetailsTable(ID_PRODUCTO_DETALLE.value); // Actualizar la tabla con los detalles.
+        
+        // Se muestra un mensaje de éxito.
         sweetAlert(1, DATA.message, true);
-        SAVE_DETAIL_MODAL.reset();
+        
+        // Restablecer el formulario a su estado inicial, excepto el campo de descripción
+        // Guardar el valor de descripción antes de limpiar
+        const descripcionValue = DESCRIPCION.value;
+
+        // Limpiar el campo 'existenciasAct' pero no 'descripcion'
+        EXISTENCIAS_ACTUALIZAR.value = ''; // Limpia el campo de existencias para actualizar.
+        
+        // Vuelve a establecer el valor de descripción
+        DESCRIPCION.value = descripcionValue;
+
     } else {
-        // Se muestra un mensaje de error
+        // Se muestra un mensaje de error.
         sweetAlert(2, DATA.error, false);
     }
 });
+
+
 
 /*
 *   Función asíncrona para llenar la tabla con los detalles disponibles.
