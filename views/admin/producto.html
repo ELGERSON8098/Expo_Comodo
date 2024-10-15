@@ -195,8 +195,15 @@
                                 <input type="number" id="existencias" name="existencias" class="form-control">
                             </div>
                             <div class="mb-3">
-                                <label for="existenciasAct" class="form-label">Sumar existencias</label>
-                                <input type="number" id="existenciasAct" name="existenciasAct" class="form-control">
+                                <label for="operacionExistencias" class="form-label">Operación</label>
+                                <select id="operacionExistencias" name="operacionExistencias" class="form-select" required>
+                                    <option value="suma">Sumar existencias</option>
+                                    <option value="resta">Restar existencias</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="existenciasAct" class="form-label">Cantidad a sumar/restar</label>
+                                <input type="number" id="existenciasAct" name="existenciasAct" class="form-control" min="0" required>
                             </div>
                             <div class="mb-3">
                                 <label for="nombreColor" class="form-label">Color</label>
