@@ -31,21 +31,11 @@ VALUES
 
 SELECT*FROM tb_admins;
 
-INSERT INTO tb_generos_zapatos (id_genero, nombre_genero, imagen_genero)
+INSERT INTO tb_generos_zapatos (nombre_genero, imagen_genero)
 VALUES 
-(1, 'Zapatillas deportivas', 'zapatillas.png'),
-(2, 'Botas de invierno', 'botas_invierno.png'),
-(3, 'Zapatos casuales', 'zapatos_casuales.png'),
-(4, 'Sandalias de verano', 'sandalias_verano.png'),
-(5, 'Botines de moda', 'botines_moda.png'),
-(6, 'Zapatos formales', 'zapatos_formales.png'),
-(7, 'Zapatillas para correr', 'zapatilla_correr.png'),
-(8, 'Chanclas de playa', 'chanclas_playa.png'),
-(9, 'Mocasines elegantes', 'mocasin_elegante.png'),
-(10, 'Botas de lluvia', 'botas_lluvia.png');
-
+('Femenino', 'femenino.png'),
+('Masculino', 'masculino.png');
 SELECT*FROM tb_generos_zapatos;
-
 
 INSERT INTO tb_categorias (id_categoria, nombre_categoria, imagen)
 VALUES 
@@ -137,16 +127,14 @@ INSERT INTO tb_productos (id_producto, nombre_producto, codigo_interno, referenc
 VALUES 
 (1, 'Zapatillas Running Nike Air Max', 'NIKE001', 'NIKE123', 129.99, 1, 1, 1, 'running.png', 1, 1),
 (2, 'Botas de Invierno Timberland', 'TIMBER001', 'TIMBER123', 189.99, 3, 2, 4, 'botas.png', 2, 3),
-(3, 'Zapatos Casuales Converse Chuck Taylor', 'CONVERSE001', 'CONVERSE123', 59.99, 4, 3, 6, 'casuales.png', 3, 5),
-(4, 'Sandalias de Verano Birkenstock', 'BIRKEN001', 'BIRKEN123', 79.99, 5, 4, 9, 'botines.png', 4, 7),
-(5, 'Botines de Moda Dr. Martens', 'MARTENS001', 'MARTENS123', 169.99, 6, 5, 10, 'moda.png', 5, 9),
-(6, 'Zapatos Formales Clarks', 'CLARKS001', 'CLARKS123', 99.99, 7, 6, 7, 'formales.png', 6, 1),
-(7, 'Zapatillas para Correr Adidas Ultraboost', 'ADIDAS001', 'ADIDAS123', 119.99, 2, 7, 1, 'zapatillas.png', 7, 2),
-(8, 'Chanclas de Playa Havaianas', 'HAVAIANAS001', 'HAVAIANAS123', 39.99, 10, 8, 8, 'chanclas.png', 4, 4),
-(9, 'Mocasines Elegantes Gucci', 'GUCCI001', 'GUCCI123', 149.99, 8, 9, 7, 'mocasines.png', 8, 6),
-(10, 'Botas de Lluvia Hunter', 'HUNTER001', 'HUNTER123', 199.99, 9, 10, 5, 'botasdelluvia.png', 2, 8);
-
-
+(3, 'Zapatos Casuales Converse Chuck Taylor', 'CONVERSE001', 'CONVERSE123', 59.99, 4, 1, 6, 'casuales.png', 3, 5),
+(4, 'Sandalias de Verano Birkenstock', 'BIRKEN001', 'BIRKEN123', 79.99, 5, 2, 9, 'botines.png', 4, 7),
+(5, 'Botines de Moda Dr. Martens', 'MARTENS001', 'MARTENS123', 169.99, 6, 1, 10, 'moda.png', 5, 9),
+(6, 'Zapatos Formales Clarks', 'CLARKS001', 'CLARKS123', 99.99, 7, 2, 7, 'formales.png', 6, 1),
+(7, 'Zapatillas para Correr Adidas Ultraboost', 'ADIDAS001', 'ADIDAS123', 119.99, 2, 1, 1, 'zapatillas.png', 7, 2),
+(8, 'Chanclas de Playa Havaianas', 'HAVAIANAS001', 'HAVAIANAS123', 39.99, 10, 2, 8, 'chanclas.png', 4, 4),
+(9, 'Mocasines Elegantes Gucci', 'GUCCI001', 'GUCCI123', 149.99, 8, 1, 7, 'mocasines.png', 8, 6),
+(10, 'Botas de Lluvia Hunter', 'HUNTER001', 'HUNTER123', 199.99, 9, 2, 5, 'botasdelluvia.png', 2, 8);
 SELECT*FROM tb_productos;
 
 -- Insertar registros en tb_detalles_productos
@@ -252,4 +240,3 @@ VALUES
 (35, 25, 2, 79.99, 4),
 (36, 26, 1, 59.99, 5),
 (37, 27, 1, 99.99, 6);
-
