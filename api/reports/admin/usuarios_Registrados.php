@@ -15,6 +15,7 @@ $pdf->Ln(10); // Primer salto de línea
 $dataUsuario = $usuario->usuariosRegistrados();
 
 if ($dataUsuario) {
+    $pdf->SetTextColor(255, 255, 255);
     $pdf->SetFillColor(38, 15, 189);
     $pdf->SetFont('Times', 'B', 11);
     $pdf->Cell(50, 10, 'Nombre usuario', 1, 0, 'C', 1);
