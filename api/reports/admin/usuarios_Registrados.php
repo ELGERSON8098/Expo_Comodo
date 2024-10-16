@@ -39,6 +39,7 @@ if ($dataUsuario) {
     // Imprimir usuarios activos
     if (!empty($usuariosActivos)) {
         $pdf->SetFont('Times', 'B', 11);
+        $pdf->SetFillColor(164, 197, 233 );
         $pdf->Cell(190, 10, 'Estado: Activos', 1, 1, 'C', 1);
         foreach ($usuariosActivos as $rowUser) {
             $yStart = $pdf->GetY();
