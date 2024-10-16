@@ -80,9 +80,9 @@ class CategoriaHandler
     public function updateRow()
     {
         $sql = 'UPDATE tb_categorias
-                SET imagen = ?, nombre_categoria = ?
+                SET nombre_categoria = ?, imagen = ?
                 WHERE id_categoria = ?';
-        $params = array($this->imagen, $this->nombre, $this->id);
+        $params = array( $this->nombre, $this->imagen, $this->id);
         return Database::executeRow($sql, $params);
     }
 

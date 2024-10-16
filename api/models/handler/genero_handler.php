@@ -69,9 +69,9 @@ class GeneroHandler
     public function updateRow()
     {
         $sql = 'UPDATE tb_generos_zapatos
-            SET imagen_genero = ?, nombre_genero = ?
-            WHERE id_genero = ?';
-        $params = array($this->imagen ,$this->nombre, $this->id_genero);
+                SET nombre_genero = ?, imagen_genero = ?
+                WHERE id_genero = ?';
+        $params = array($this->nombre, $this->imagen, $this->id_genero);
         return Database::executeRow($sql, $params);
     }
     // Elimina un género específico por ID.

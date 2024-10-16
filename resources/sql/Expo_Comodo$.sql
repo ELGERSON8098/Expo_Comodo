@@ -49,7 +49,6 @@ CREATE TABLE tb_generos_zapatos (
   PRIMARY KEY (id_genero)
 );
 
-
 CREATE TABLE tb_categorias (
   id_categoria INT UNSIGNED AUTO_INCREMENT NOT NULL,
   nombre_categoria VARCHAR(100) NOT NULL,
@@ -85,7 +84,6 @@ CREATE TABLE tb_descuentos (
   CONSTRAINT ck_valor CHECK (valor >= 0)
 );
 
-
 CREATE TABLE tb_materiales (
   id_material INT UNSIGNED AUTO_INCREMENT NOT NULL,
   nombre VARCHAR(20) NOT NULL,
@@ -105,17 +103,16 @@ CREATE TABLE tb_productos (
   id_descuento INT UNSIGNED NOT NULL,
   imagen VARCHAR(20) NOT NULL,
   PRIMARY KEY (id_producto),
-  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material),
-  CONSTRAINT fk_marcas FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca),
-  CONSTRAINT fk_generos FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero),
-  CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento),
-  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria),
+  CONSTRAINT fk_material FOREIGN KEY (id_material) REFERENCES tb_materiales(id_material) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_marcas FOREIGN KEY (id_marca) REFERENCES tb_marcas(id_marca) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_generos FOREIGN KEY (id_genero) REFERENCES tb_generos_zapatos(id_genero) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_descuento FOREIGN KEY (id_descuento) REFERENCES tb_descuentos(id_descuento) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_categorias FOREIGN KEY (id_categoria) REFERENCES tb_categorias(id_categoria) ON UPDATE CASCADE ON DELETE CASCADE,
   CONSTRAINT ck_precio CHECK (precio >= 0),
   CONSTRAINT uc_nombre_producto UNIQUE (nombre_producto),
   CONSTRAINT uc_codigo_interno UNIQUE (codigo_interno),
   CONSTRAINT uc_referencia_proveedor UNIQUE (referencia_proveedor)
 );
-
 
 CREATE TABLE tb_detalles_productos (
   id_detalle_producto INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -125,32 +122,20 @@ CREATE TABLE tb_detalles_productos (
   id_color INT UNSIGNED NOT NULL,
   descripcion VARCHAR(200) NOT NULL,
   PRIMARY KEY (id_detalle_producto),
-  CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES tb_productos(id_producto),
-  CONSTRAINT fk_talla FOREIGN KEY (id_talla) REFERENCES tb_tallas(id_talla),
-  CONSTRAINT fk_color FOREIGN KEY (id_color) REFERENCES tb_colores(id_color),
-  CONSTRAINT ck_existencias  CHECK (existencias >= 0)
+  CONSTRAINT fk_producto FOREIGN KEY (id_producto) REFERENCES tb_productos(id_producto) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_talla FOREIGN KEY (id_talla) REFERENCES tb_tallas(id_talla) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_color FOREIGN KEY (id_color) REFERENCES tb_colores(id_color) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT ck_existencias CHECK (existencias >= 0)
 );
 
-//esta localmente
-CREATE TABLE tb_reservas (
-  id_reserva INT UNSIGNED AUTO_INCREMENT NOT NULL,
-  id_usuario INT UNSIGNED NOT NULL,
-  fecha_reserva DATETIME DEFAULT CURRENT_DATE() NOT NULL, 
-  estado_reserva ENUM ('Aceptado', 'Pendiente', 'Cancelado') NOT NULL,
-  PRIMARY KEY (id_reserva),
-  CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id_usuario)
-);
-
-*/ssh esta
 CREATE TABLE tb_reservas (
   id_reserva INT UNSIGNED AUTO_INCREMENT NOT NULL,
   id_usuario INT UNSIGNED NOT NULL,
   fecha_reserva DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, 
   estado_reserva ENUM ('Aceptado', 'Pendiente', 'Cancelado') NOT NULL,
   PRIMARY KEY (id_reserva),
-  CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id_usuario)
+  CONSTRAINT fk_reserva_usuario FOREIGN KEY (id_usuario) REFERENCES tb_usuarios (id_usuario) ON UPDATE CASCADE ON DELETE CASCADE
 );
-
 
 CREATE TABLE tb_detalles_reservas (
   id_detalle_reserva INT UNSIGNED AUTO_INCREMENT NOT NULL,
@@ -159,9 +144,9 @@ CREATE TABLE tb_detalles_reservas (
   precio_unitario DECIMAL(10,2) NOT NULL,
   id_detalle_producto INT UNSIGNED NOT NULL,
   PRIMARY KEY (id_detalle_reserva),
-  CONSTRAINT fk_reserva FOREIGN KEY (id_reserva) REFERENCES tb_reservas(id_reserva),
-  CONSTRAINT fk_detalle_producto FOREIGN KEY (id_detalle_producto) REFERENCES tb_detalles_productos(id_detalle_producto),
-  CONSTRAINT ck_cantidad  CHECK (cantidad >= 0),
+  CONSTRAINT fk_reserva FOREIGN KEY (id_reserva) REFERENCES tb_reservas(id_reserva) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT fk_detalle_producto FOREIGN KEY (id_detalle_producto) REFERENCES tb_detalles_productos(id_detalle_producto) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT ck_cantidad CHECK (cantidad >= 0),
   CONSTRAINT ck_precio_unitario CHECK (precio_unitario >= 0)
 );
 
