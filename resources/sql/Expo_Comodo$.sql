@@ -176,6 +176,9 @@ ALTER TABLE tb_admins
 ADD COLUMN codigo_2fa VARCHAR(6), 
 ADD COLUMN expiracion_2fa DATETIME;
 
+ALTER TABLE tb_admins
+ADD COLUMN two_factor_enabled TINYINT(1) DEFAULT 0;
+
 
 INSERT INTO tb_niveles_usuarios (id_nivel_usuario, nombre_nivel)
 VALUES 
