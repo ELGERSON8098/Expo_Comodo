@@ -132,7 +132,11 @@ class ProductoData extends ProductoHandler
     // Método para validar y asignar la imagen del producto.
     public function setImagen($file, $filename = null)
     {
-        if (Validator::validateImageFile($file, 1000)) {
+        if ($file['size'] == 0 && $filename) {
+            // Si no se subió un archivo nuevo y se proporcionó un nombre de archivo, mantener la imagen existente
+            $this->imagen_producto = $filename;
+            return true;
+        } elseif (Validator::validateImageFile($file)) {
             $this->imagen_producto = Validator::getFilename();
             return true;
         } elseif (Validator::getFileError()) {

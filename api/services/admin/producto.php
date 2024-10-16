@@ -115,40 +115,42 @@ if (isset($_GET['action'])) {
                 break;
             // Caso para actualizar una fila existente
             case 'updateRow':
-                // Validar y obtener los datos del formulario
-                $_POST = Validator::validateForm($_POST);
-            
-                // Verificar si se pueden establecer todos los datos del producto para actualizar
-                if (
-                    !$producto->setId($_POST['idProducto']) ||
-                    !$producto->setFilename() ||
-                    !$producto->setNombre($_POST['nombreProducto']) ||
-                    !$producto->setCodigo_Interno($_POST['codigoInterno']) ||
-                    !$producto->setReferenciaProveedor($_POST['referenciaPro']) ||
-                    !$producto->setPrecio($_POST['precioProducto']) ||
-                    !$producto->setMarca($_POST['nombreMarca']) ||
-                    !$producto->setGenero($_POST['nombre_genero']) ||
-                    !$producto->setCategoria($_POST['nombreCategoria']) ||
-                    !$producto->setMaterial($_POST['nombreMaterial']) ||
-                    !$producto->setDescuento($_POST['nombreDescuento']) ||
-                    !$producto->setImagen($_FILES['imagen'], $producto->getFilename())
-                ) {
-                    // Si hay un error al establecer alguno de los datos, se asigna el mensaje de error
-                    $result['error'] = $producto->getDataError();
-                } elseif ($producto->updateRow()) {
-                    // Obtener el nombre actualizado del producto
-                    $nombreProducto = $_POST['nombreProducto']; // Nombre actualizado
-            
-                    // Si la actualización es exitosa, se asigna el estado y el mensaje de éxito
-                    $result['status'] = 1;
-                    $result['message'] = "Producto '$nombreProducto' modificado correctamente.";
-                    // Cambiar el archivo de imagen si se ha actualizado
+            // Validar y obtener los datos del formulario
+            $_POST = Validator::validateForm($_POST);
+        
+            // Verificar si se pueden establecer todos los datos del producto para actualizar
+            if (
+                !$producto->setId($_POST['idProducto']) ||
+                !$producto->setFilename() ||
+                !$producto->setNombre($_POST['nombreProducto']) ||
+                !$producto->setCodigo_Interno($_POST['codigoInterno']) ||
+                !$producto->setReferenciaProveedor($_POST['referenciaPro']) ||
+                !$producto->setPrecio($_POST['precioProducto']) ||
+                !$producto->setMarca($_POST['nombreMarca']) ||
+                !$producto->setGenero($_POST['nombre_genero']) ||
+                !$producto->setCategoria($_POST['nombreCategoria']) ||
+                !$producto->setMaterial($_POST['nombreMaterial']) ||
+                !$producto->setDescuento($_POST['nombreDescuento']) ||
+                !$producto->setImagen($_FILES['imagen'], $_POST['imagenActual']) // Usa la imagen actual si no se proporciona una nueva
+            ) {
+                // Si hay un error al establecer alguno de los datos, se asigna el mensaje de error
+                $result['error'] = $producto->getDataError();
+            } elseif ($producto->updateRow()) {
+                // Obtener el nombre actualizado del producto
+                $nombreProducto = $_POST['nombreProducto']; // Nombre actualizado
+        
+                // Si la actualización es exitosa, se asigna el estado y el mensaje de éxito
+                $result['status'] = 1;
+                $result['message'] = "Producto '$nombreProducto' modificado correctamente.";
+                // Cambiar el archivo de imagen solo si se ha subido una nueva
+                if ($_FILES['imagen']['size'] > 0) {
                     $result['fileStatus'] = Validator::changeFile($_FILES['imagen'], $producto::RUTA_IMAGEN, $producto->getFilename());
-                } else {
-                    // Si hay un problema al modificar el producto, se asigna el mensaje de error
-                    $result['error'] = 'Ocurrió un problema al modificar el producto';
                 }
-                break;            
+            } else {
+                // Si hay un problema al modificar el producto, se asigna el mensaje de error
+                $result['error'] = 'Ocurrió un problema al modificar el producto';
+            }
+            break;        
 
             // Caso para crear un nuevo detalle de producto
             case 'createDetail':

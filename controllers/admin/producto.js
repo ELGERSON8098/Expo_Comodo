@@ -179,6 +179,7 @@ const openUpdate = async (id) => {
         NOMBRE_PRODUCTO.value = ROW.nombre_producto;
         CODIGO_INTERNO.value = ROW.codigo_interno;
         REFERENCIA_PRO.value = ROW.referencia_proveedor;
+        document.getElementById('imagenActual').value = ROW.imagen;
         PRECIO.value = ROW.precio;
         fillSelect(CATEGORIA_API, 'readAll', 'nombreCategoria', parseInt(ROW.id_categoria));
         fillSelect(DESCUENTO_API, 'readAll', 'nombreDescuento', parseInt(ROW.id_descuento));
