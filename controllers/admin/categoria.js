@@ -159,6 +159,7 @@ const openUpdate = async (id) => {
         const ROW = DATA.dataset;
         ID_CATEGORIA.value = ROW.id_categoria;
         NOMBRE_CATEGORIA.value = ROW.nombre_categoria;
+        document.getElementById('imagenActual').value = ROW.imagen;
     } else {
         sweetAlert(2, DATA.error, false);
     }

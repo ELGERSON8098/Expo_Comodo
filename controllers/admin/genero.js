@@ -147,6 +147,7 @@ const openUpdate = async (id) => {
         const ROW = DATA.dataset;
         ID_GENERO.value = ROW.id_genero;
         NOMBRE_GENERO.value = ROW.nombre_genero;
+        document.getElementById('imagenActual').value = ROW.imagen_genero;
     } else {
         sweetAlert(2, DATA.error, false);
         console.log(error);

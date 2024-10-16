@@ -67,11 +67,13 @@ class GeneroData extends GeneroHandler
     // Método para validar y asignar la imagen del género.
     public function setImagen($file, $filename = null)
     {
-        if (Validator::validateImageFile($file, 1000)) {
-             // Se asigna el nombre del archivo generado por el validador.
+        if ($file['size'] == 0 && $filename) {
+            // Si no se subió un archivo nuevo y se proporcionó un nombre de archivo, mantener la imagen existente
+            $this->imagen = $filename;
+            return true;
+        } elseif (Validator::validateImageFile($file)) {
             $this->imagen = Validator::getFilename();
             return true;
-            // Se guarda un mensaje de error si la validación del archivo falla.
         } elseif (Validator::getFileError()) {
             $this->data_error = Validator::getFileError();
             return false;
