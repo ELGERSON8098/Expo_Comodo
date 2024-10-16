@@ -131,6 +131,7 @@ CREATE TABLE tb_detalles_productos (
   CONSTRAINT ck_existencias  CHECK (existencias >= 0)
 );
 
+//esta localmente
 CREATE TABLE tb_reservas (
   id_reserva INT UNSIGNED AUTO_INCREMENT NOT NULL,
   id_usuario INT UNSIGNED NOT NULL,

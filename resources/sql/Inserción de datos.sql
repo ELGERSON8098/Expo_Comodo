@@ -18,8 +18,8 @@ SELECT*FROM tb_usuarios;
 
 INSERT INTO tb_admins (nombre_administrador, usuario_administrador, correo_administrador, clave_administrador, id_nivel_usuario)
 VALUES 
-('Pep Guardiola', 'guardiola', 'pep@gmail.com', 'guardiola123', 1),
-('Kevin De Bruyne', 'debruyne17', 'kevin@gmail.com', 'debruyne456', 2),
+('Pep Guardiola', 'guardiola', 'pep@gmail.com', 'guardiola123', 2),
+('Kevin De Bruyne', 'debruyne17', 'kevin@gmail.com', 'debruyne456', 3),
 ('Raheem Sterling', 'sterling7', 'raheem@gmail.com', 'sterling789', 2),
 ('Ruben Dias', 'dias3', 'ruben@gmail.com', 'dias123', 2),
 ('Ederson', 'ederson1', 'ederson@gmail.com', 'ederson456', 2),
