@@ -24,16 +24,21 @@ ADD CONSTRAINT ck_descuento
     ON UPDATE CASCADE;
 
 
-    DELIMITER //
+DELIMITER //
 
 CREATE TRIGGER actualizar_existencias
 AFTER UPDATE ON tb_reservas
 FOR EACH ROW
 BEGIN
-    IF NEW.estado_reserva = 'Aceptado' THEN
+    IF NEW.estado_reserva = 'Aceptado' OR NEW.estado_reserva = 'Pendiente' THEN
         UPDATE tb_detalles_productos dp
         INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto
         SET dp.existencias = dp.existencias - dr.cantidad
+        WHERE dr.id_reserva = NEW.id_reserva;
+    ELSEIF NEW.estado_reserva = 'Cancelado' THEN
+        UPDATE tb_detalles_productos dp
+        INNER JOIN tb_detalles_reservas dr ON dp.id_detalle_producto = dr.id_detalle_producto
+        SET dp.existencias = dp.existencias + dr.cantidad
         WHERE dr.id_reserva = NEW.id_reserva;
     END IF;
 END //
