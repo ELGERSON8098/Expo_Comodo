@@ -2,7 +2,6 @@
 require_once('../../helpers/report.php');
 require_once('../../models/data/marca_data.php');
 
-
 $pdf = new Report;
 
 // Definir el margen adicional para las páginas posteriores
@@ -11,25 +10,35 @@ $tableTopY = 40; // Posición inicial de la tabla en la primera página
 $leftMargin = 7; // Ajusta este valor para mover la tabla a la izquierda
 
 // Obtiene los datos de ventas predictivas
-$marcaData = new marcaData;
+$marcaData = new marcaData();
 $ventasPredictivas = $marcaData->ReportePredictivo(); // Método que ejecuta la consulta SQL para la primera tabla
+
+// Verifica si se obtuvieron datos de ventas predictivas
+if ($ventasPredictivas === false) {
+    die('Error al obtener los datos de ventas predictivas');
+}
 
 // Obtiene los datos de ventas actuales
 $ventasActuales = $marcaData->ReportePredictivo(); // Método diferente para la segunda tabla
 
-$pdf->startReport('');
+// Verifica si se obtuvieron datos de ventas actuales
+if ($ventasActuales === false) {
+    die('Error al obtener los datos de ventas actuales');
+}
+
+// Inicia el reporte
+$pdf->startReport('Reporte de Productos por Marca');
 $pdf->SetTextColor(0, 0, 0);
 $pdf->SetFont('Arial', 'B', 15);
 $pdf->SetY(54); // Ajusta el valor según sea necesario para subir el título
 $pdf->Cell(0, 10, $pdf->encodeString('Reporte predictivo de productos más vendidos por marca'), 0, 1, 'C'); // Imprime el título en la posición ajustada
-
 $pdf->Ln(10); // Primer salto de línea
 
 // Función para imprimir el encabezado de la tabla
 function printTableHeader($pdf, $leftMargin, $columnHeaders)
 {
     $pdf->SetTextColor(255, 255, 255);
-    $pdf->SetFillColor(38, 15, 189); 
+    $pdf->SetFillColor(38, 15, 189);
     $pdf->SetFont('Times', 'B', 11);
 
     $pdf->SetX($leftMargin);
@@ -119,13 +128,10 @@ function printTableOne($pdf, $data, $leftMargin, $tableTopY)
     }
 }
 
-// Función para imprimir la tabla de ventas actuales (con el mismo diseño que la primera)
+// Función para imprimir la tabla de ventas actuales
 function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
 {
-    // Ajuste del margen izquierdo para mover la tabla hacia la izquierda
-    $leftMargin = 5; // Ajusta este valor según cuánto deseas mover la tabla a la izquierda
-
-    // Define los encabezados de la tabla con anchos fijos
+    // Define los encabezados de la tabla
     $columnHeaders = [
         ['name' => 'Producto', 'width' => 65],
         ['name' => 'Porcentaje mes actual', 'width' => 38],
@@ -162,7 +168,7 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
             $pdf->SetTextColor(0, 0, 0); // Texto negro
             $pdf->SetFont('Times', '', 10);
             $pdf->SetX($leftMargin); // Ajusta la posición X para el mensaje de "no hay datos"
-            $pdf->Cell(array_sum(array_column($columnHeaders, 'width')), 10, 'La marca ' . $marca . ' no contiene ninguna reserva actualmente', 1, 1, 'C');
+            $pdf->Cell(190, 10, 'La marca ' . $marca . ' no contiene ninguna reserva actualmente', 1, 1, 'C');
         } else {
             $foundData = true; // Hay datos para al menos una marca
             // Marca como fila
@@ -170,7 +176,7 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
             $pdf->SetTextColor(0, 0, 0); // Color del texto
             $pdf->SetFont('Times', 'B', 12);
             $pdf->SetX($leftMargin); // Ajusta la posición X para la fila de la marca
-            $pdf->Cell(array_sum(array_column($columnHeaders, 'width')), 10, 'Nombre de la marca: ' . $marca, 1, 1, 'C', 1);
+            $pdf->Cell(200, 10, 'Nombre de la marca: ' . $marca, 1, 1, 'C', 1);
 
             // Restablece el color de fondo y el color del texto para las filas siguientes
             $pdf->SetFillColor(255, 255, 255); // Fondo blanco para las filas de productos
@@ -185,12 +191,10 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
                 }
 
                 $pdf->SetX($leftMargin); // Ajusta la posición X para las filas de productos
-                
-                // Imprimir las celdas con ancho fijo
-                $pdf->Cell($columnHeaders[0]['width'], 10, $pdf->encodeString($producto['NombreProducto']), 1);
-                $pdf->Cell($columnHeaders[1]['width'], 10, number_format($producto['PorcentajeVentasMarca'], 2) . '%', 1, 0, 'R');
-                $pdf->Cell($columnHeaders[2]['width'], 10, '$' . number_format($producto['PrediccionVentasSiguienteMes'], 2), 1, 0, 'R');
-                $pdf->Cell($columnHeaders[3]['width'], 10, $pdf->encodeString($producto['PorcentajeYMensaje']), 1, 1);
+                $pdf->Cell(65, 10, $pdf->encodeString($producto['NombreProducto']), 1);
+                $pdf->Cell(38, 10, number_format($producto['PorcentajeMesActual'], 2) . '%', 1, 0, 'C');
+                $pdf->Cell(42, 10, '$' . number_format($producto['PrediccionGanancias'], 2), 1, 0, 'R');
+                $pdf->Cell(60, 10, $pdf->encodeString($producto['Conclusion']), 1, 1, 'C');
             }
         }
     }
@@ -204,8 +208,6 @@ function printTableTwo($pdf, $data, $leftMargin, $tableTopY)
     }
 }
 
-
-
 // Imprime la primera tabla
 printTableOne($pdf, $ventasPredictivas, $leftMargin, $tableTopY);
 
@@ -216,4 +218,11 @@ $pdf->SetY($tableTopY);
 // Imprime la segunda tabla
 printTableTwo($pdf, $ventasActuales, $leftMargin, $tableTopY);
 
-$pdf->Output('I', 'reporte.pdf');
+// Salida del PDF
+$pdf->Output('I', 'reporte.pdf'); // Muestra el PDF en el navegador
+
+// Verifica si hubo errores en la generación
+if (ob_get_length()) {
+    ob_end_clean(); // Limpiar el buffer de salida
+}
+?>
