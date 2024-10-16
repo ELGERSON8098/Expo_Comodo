@@ -228,39 +228,30 @@ const DETAILS_TABLE_BODY = document.getElementById('detailsTableBody'),
     SAVE_DETAIL_MODAL = new bootstrap.Modal('#saveDetailModal'),
     MODAL_DETAIL_TITLE = document.getElementById('modalDetailTitle');
 
-// Método del evento para cuando se envía el formulario de guardar detalles
+// Método del evento para cuando se envía el formulario de guardar detalles// Método del evento para cuando se envía el formulario de guardar detalles
 SAVE_DETAIL_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
 
-    // Se verifica la acción a realizar (actualizar o crear un detalle).
     const action = SAVE_DETAIL_FORM.idDetalle.value ? 'updateDetail' : 'createDetail';
-
-    // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SAVE_DETAIL_FORM);
 
-    // Petición para guardar los datos del formulario.
+    // Obtener el valor de la operación (suma o resta)
+    const operacion = document.getElementById('operacionExistencias').value;
+    const existenciasValue = parseInt(FORM.get('existenciasAct'));
+
+    // Ajustar el valor de existencias según la operación
+    FORM.set('existenciasAct', operacion === 'resta' ? -existenciasValue : existenciasValue);
+
     const DATA = await fetchData(PRODUCTO_API, action, FORM);
 
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        fillDetailsTable(ID_PRODUCTO_DETALLE.value); // Actualizar la tabla con los detalles.
-        
-        // Se muestra un mensaje de éxito.
+        fillDetailsTable(ID_PRODUCTO_DETALLE.value);
         sweetAlert(1, DATA.message, true);
         
-        // Restablecer el formulario a su estado inicial, excepto el campo de descripción
-        // Guardar el valor de descripción antes de limpiar
         const descripcionValue = DESCRIPCION.value;
-
-        // Limpiar el campo 'existenciasAct' pero no 'descripcion'
-        EXISTENCIAS_ACTUALIZAR.value = ''; // Limpia el campo de existencias para actualizar.
-        
-        // Vuelve a establecer el valor de descripción
+        EXISTENCIAS_ACTUALIZAR.value = '';
         DESCRIPCION.value = descripcionValue;
-
     } else {
-        // Se muestra un mensaje de error.
         sweetAlert(2, DATA.error, false);
     }
 });
@@ -290,23 +281,14 @@ const openCreateDetail = async (idProducto) => {
     fillDetailsTable(idProducto); // Llenar la tabla con los detalles del producto
 }
 
-// Función asíncrona para llenar la tabla con los detalles disponibles.
 const fillDetailsTable = async (idProducto) => {
-    // Se inicializa el contenido de la tabla.
     DETAILS_TABLE_BODY.innerHTML = '';
-
-    // Se crea un FormData y se añade el id del producto.
     const FORM = new FormData();
     FORM.append('idProducto', idProducto);
-
-    // Petición para obtener los registros disponibles.
     const DATA = await fetchData(PRODUCTO_API, 'readDetails', FORM);
 
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
-        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
-            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
             DETAILS_TABLE_BODY.innerHTML += `
                 <tr>
                     <td>${row.nombre_talla}</td>
@@ -324,8 +306,15 @@ const fillDetailsTable = async (idProducto) => {
                 </tr>
             `;
         });
+
+        // Actualizar el campo de existencias actuales si estamos en modo de actualización
+        if (ID_DETALLE.value) {
+            const currentDetail = DATA.dataset.find(row => row.id_detalle_producto == ID_DETALLE.value);
+            if (currentDetail) {
+                EXISTENCIAS.value = currentDetail.existencias;
+            }
+        }
     } else {
-        // Muestra una alerta en caso de error.
         sweetAlert(4, DATA.error, true);
     }
 };

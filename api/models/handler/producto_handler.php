@@ -359,7 +359,8 @@ ORDER BY
         return Database::executeRow($sqlDeleteProducto, $paramsDeleteProducto);
     }
 
-    public function getNombre() {
+    public function getNombre()
+    {
         $sql = 'SELECT nombre_producto FROM tb_productos WHERE id_producto = ?';
         $params = array($this->id_producto);
 
@@ -405,14 +406,13 @@ ORDER BY
     public function updateDetail()
     {
         $sql = 'UPDATE tb_detalles_productos dp
-            SET
-                dp.id_talla = ?,
-                dp.id_color = ?,
-                dp.existencias = dp.existencias + ?, 
-                dp.descripcion = ?
-            WHERE 
-                dp.id_detalle_producto = ?';
-
+        SET
+            dp.id_talla = ?,
+            dp.id_color = ?,
+            dp.existencias = dp.existencias + ?,
+            dp.descripcion = ?
+        WHERE
+            dp.id_detalle_producto = ?';
         $params = array(
             $this->id_talla,
             $this->id_color,
@@ -420,7 +420,6 @@ ORDER BY
             $this->descripcion,
             $this->id_detalle_producto
         );
-
         return Database::executeRow($sql, $params);
     }
 
