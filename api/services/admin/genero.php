@@ -67,7 +67,7 @@ if (isset($_GET['action'])) {
                 if (
                     !$genero->setId($_POST['idGenero']) ||
                     !$genero->setNombre($_POST['nombre_genero']) ||
-                    !$genero->setImagen($_FILES['nombreIMG'], $_POST['imagenActual']) // Usa la imagen actual si no se proporciona una nueva
+                    !$genero->setImagen($_FILES['imagen_genero'], $_POST['imagenActual']) // Usa la imagen actual si no se proporciona una nueva
                 ) {
                     $result['error'] = $genero->getDataError();
                 } elseif ($genero->updateRow()) {
@@ -78,8 +78,8 @@ if (isset($_GET['action'])) {
                     $result['message'] = "Género '$nombreGenero' modificado correctamente";
 
                     // Cambiar el archivo de imagen solo si se ha subido una nueva
-                    if ($_FILES['nombreIMG']['size'] > 0) {
-                        $result['fileStatus'] = Validator::changeFile($_FILES['nombreIMG'], $genero::RUTA_IMAGEN, $genero->getFilename());
+                    if ($_FILES['imagen_genero']['size'] > 0) {
+                        $result['fileStatus'] = Validator::changeFile($_FILES['imagen_genero'], $genero::RUTA_IMAGEN, $genero->getFilename());
                     }
                 } else {
                     $result['error'] = 'Ocurrió un problema al modificar el género';
