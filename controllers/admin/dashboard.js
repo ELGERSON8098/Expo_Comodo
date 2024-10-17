@@ -196,7 +196,7 @@ const graficaVentasPrediccion = async () => {
         let todosLosMeses = [];
 
         const ordenMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
- 
+
         DATA.dataset.sort((a, b) => ordenMeses.indexOf(a.mes) - ordenMeses.indexOf(b.mes));
         
         DATA.dataset.forEach(row => {
@@ -204,30 +204,24 @@ const graficaVentasPrediccion = async () => {
             ventasReales.push(parseFloat(row.ventas_totales));
         });
 
-        // Convertir los datos de ventas a un tensor
-        const xs = tf.tensor1d(ventasReales.map((_, i) => i));
-        const ys = tf.tensor1d(ventasReales);
- 
-        const model = tf.sequential();
-        model.add(tf.layers.dense({units: 1, inputShape: [1]}));
-        model.compile({loss: 'meanSquaredError', optimizer: 'sgd'});
- 
-        await model.fit(xs, ys, {epochs: 500});
- 
-        // Preparar datos para el gráfico
+        // Calcular la diferencia promedio entre meses para proyectar
+        let diferencias = ventasReales.slice(1).map((v, i) => v - ventasReales[i]);
+        let promedioDiferencia = diferencias.reduce((acc, v) => acc + v, 0) / diferencias.length;
+
+        // Copiar meses y ventas reales
         todosLosMeses = [...meses];
         ventasProyectadas = [...ventasReales];
-        
+
         // Realizar predicciones para los próximos 3 meses
-        for (let i = ventasReales.length; i < ventasReales.length + 3; i++) {
-            const prediccion = model.predict(tf.tensor2d([i], [1, 1]));
-            ventasProyectadas.push(prediccion.dataSync()[0]);
+        for (let i = 0; i < 3; i++) {
+            const ultimaVenta = ventasProyectadas[ventasProyectadas.length - 1];
+            ventasProyectadas.push(ultimaVenta + promedioDiferencia);
             
             const ultimoMesIndex = ordenMeses.indexOf(todosLosMeses[todosLosMeses.length - 1]);
             const nuevoMesIndex = (ultimoMesIndex + 1) % 12;
             todosLosMeses.push(ordenMeses[nuevoMesIndex]);
         }
- 
+
         // Crear la gráfica usando chart.js
         const ctx = document.getElementById('chartVentas').getContext('2d');
         new Chart(ctx, {
@@ -281,6 +275,7 @@ const graficaVentasPrediccion = async () => {
         console.log(DATA.error);
     }
 }
+
 
 // Grafico automatico
 const graficoBarrasCategoriasVentas = async () => {
