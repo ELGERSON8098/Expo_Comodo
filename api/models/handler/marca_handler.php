@@ -152,7 +152,7 @@ SELECT
                     CONCAT(
                         "Aumento estimado de ", 
                         LEAST(
-                            (vp.PrediccionVentasSiguienteMes - vp.TotalVentasMarca) / vp.TotalVentasMarca * 100, 
+                            FORMAT((vp.PrediccionVentasSiguienteMes - vp.TotalVentasMarca) / vp.TotalVentasMarca * 100, 2), 
                             100
                         ), 
                         "%"
@@ -160,9 +160,12 @@ SELECT
                 ELSE
                     CONCAT(
                         "Reducción estimada de ", 
-                        LEAST(
-                            (vp.TotalVentasMarca - vp.PrediccionVentasSiguienteMes) / vp.TotalVentasMarca * 100, 
-                            100
+                        FORMAT(
+                            LEAST(
+                                (vp.TotalVentasMarca - vp.PrediccionVentasSiguienteMes) / vp.TotalVentasMarca * 100, 
+                                100
+                            ), 
+                            2
                         ), 
                         "%"
                     )
@@ -171,8 +174,7 @@ SELECT
 FROM 
     VentasPronosticadas vp
 ORDER BY 
-    vp.MesActual ASC, vp.NombreMarca ASC, vp.NombreProducto ASC;
-';
+    vp.MesActual ASC, vp.NombreMarca ASC, vp.NombreProducto ASC;';
         
         // Execute the query
         return Database::getRows($sql);
