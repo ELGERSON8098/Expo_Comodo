@@ -62,22 +62,20 @@ class marcaHandler
             dr.cantidad * dr.precio_unitario * 
             (1 - IFNULL(d.valor, 0) / 100)
         ) AS TotalVentasMarca,
-        FORMAT(
-            (SUM(
-                dr.cantidad * dr.precio_unitario * 
-                (1 - IFNULL(d.valor, 0) / 100)
-            ) * 100) / (
-                SELECT SUM(
-                    dr2.cantidad * dr2.precio_unitario * 
-                    (1 - IFNULL(d2.valor, 0) / 100)
-                )
-                FROM tb_detalles_reservas dr2
-                INNER JOIN tb_reservas r2 ON dr2.id_reserva = r2.id_reserva
-                LEFT JOIN tb_productos p2 ON dr2.id_detalle_producto = p2.id_producto
-                LEFT JOIN tb_descuentos d2 ON p2.id_descuento = d2.id_descuento
-                WHERE r2.estado_reserva = "Aceptado"
-                AND DATE_FORMAT(r2.fecha_reserva, "%Y-%m") = DATE_FORMAT(r.fecha_reserva, "%Y-%m")
-            ), 2
+        (SUM(
+            dr.cantidad * dr.precio_unitario * 
+            (1 - IFNULL(d.valor, 0) / 100)
+        ) * 100) / (
+            SELECT SUM(
+                dr2.cantidad * dr2.precio_unitario * 
+                (1 - IFNULL(d2.valor, 0) / 100)
+            )
+            FROM tb_detalles_reservas dr2
+            INNER JOIN tb_reservas r2 ON dr2.id_reserva = r2.id_reserva
+            LEFT JOIN tb_productos p2 ON dr2.id_detalle_producto = p2.id_producto
+            LEFT JOIN tb_descuentos d2 ON p2.id_descuento = d2.id_descuento
+            WHERE r2.estado_reserva = "Aceptado"
+            AND DATE_FORMAT(r2.fecha_reserva, "%Y-%m") = DATE_FORMAT(r.fecha_reserva, "%Y-%m")
         ) AS PorcentajeVentasMarca
     FROM 
         tb_marcas m
@@ -149,7 +147,7 @@ SELECT
     vp.CantidadReservada,
     vp.TotalVentasMarca,
     vp.PorcentajeVentasMarca,
-    FORMAT(vp.PrediccionVentasSiguienteMes, 2) AS PrediccionVentasSiguienteMes,
+    vp.PrediccionVentasSiguienteMes,
     CASE 
         WHEN vp.TotalVentasMarca = 0 THEN NULL
         ELSE
@@ -157,22 +155,18 @@ SELECT
                 WHEN vp.PrediccionVentasSiguienteMes > vp.TotalVentasMarca THEN
                     CONCAT(
                         "Aumento estimado de ", 
-                        FORMAT(
-                            LEAST(
-                                (vp.PrediccionVentasSiguienteMes - vp.TotalVentasMarca) / vp.TotalVentasMarca * 100, 
-                                100
-                            ), 2
+                        LEAST(
+                            (vp.PrediccionVentasSiguienteMes - vp.TotalVentasMarca) / vp.TotalVentasMarca * 100, 
+                            100
                         ), 
                         "%"
                     )
                 ELSE
                     CONCAT(
                         "Reducción estimada de ", 
-                        FORMAT(
-                            LEAST(
-                                (vp.TotalVentasMarca - vp.PrediccionVentasSiguienteMes) / vp.TotalVentasMarca * 100, 
-                                100
-                            ), 2
+                        LEAST(
+                            (vp.TotalVentasMarca - vp.PrediccionVentasSiguienteMes) / vp.TotalVentasMarca * 100, 
+                            100
                         ), 
                         "%"
                     )
