@@ -47,6 +47,17 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Reserva inexistente';
                 }
                 break;
+            case 'readFiltered':
+                $_POST = Validator::validateForm($_POST);
+                if (!$reserva->setEstado($_POST['estado'])) {
+                    $result['error'] = $reserva->getDataError();
+                } elseif ($result['dataset'] = $reserva->readFiltered($_POST['estado'])) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Existen ' . count($result['dataset']) . ' registros';
+                } else {
+                    $result['error'] = 'No existen reservas con ese estado';
+                }
+                break;
 
             case 'readOneDetailForForm':
                 // Validar y obtener los datos del formulario

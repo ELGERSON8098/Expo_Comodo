@@ -146,6 +146,54 @@ const openUpdate = async (id) => {
 
 }
 
+// Agregar event listeners a los botones
+document.getElementById('btnAllReservas').addEventListener('click', () => fillTable());
+document.getElementById('btnAceptadas').addEventListener('click', () => fillTableFiltered('Aceptado'));
+document.getElementById('btnPendientes').addEventListener('click', () => fillTableFiltered('Pendiente'));
+document.getElementById('btnCanceladas').addEventListener('click', () => fillTableFiltered('Cancelado'));
+
+// Función para llenar la tabla con reservas filtradas
+const fillTableFiltered = async (estado) => {
+    // Se inicializa el contenido de la tabla.
+    ROWS_FOUND.innerText = '';
+    TABLE_BODY.innerHTML = '';
+    
+    // Crear un objeto FormData para enviar el estado
+    const FORM = new FormData();
+    FORM.append('estado', estado);
+    
+    // Petición para obtener los registros filtrados.
+    const DATA = await fetchData(RESERVA_API, 'readFiltered', FORM);
+    
+    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
+    if (DATA.status) {
+        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
+        DATA.dataset.forEach(row => {
+            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
+            TABLE_BODY.innerHTML += `
+                <tr>
+                    <td>${row.usuario}</td>
+                    <td>${row.fecha_reserva}</td>
+                    <td>${row.estado_reserva}</td>
+                    <td> </td>
+                    <td> </td>
+                    <td>
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_reserva})">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                         <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_reserva})">
+                         <i class="bi bi-eye-fill"></i>
+                         </button>
+                    </td>
+                </tr>
+            `;
+        });
+        // Se muestra un mensaje de acuerdo con el resultado.
+        ROWS_FOUND.innerText = DATA.message;
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+}
 
 // Constantes para establecer el contenido de la tabla de detalles y elementos del DOM
 const DETAILS_TABLE_BODY = document.getElementById('detailsTableBody'),

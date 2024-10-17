@@ -55,6 +55,25 @@ class ReservaHandler
         return Database::getRows($sql);
     }
 
+    public function readFiltered($estado)
+    {
+        $sql = 'SELECT
+                r.id_reserva,
+                r.id_usuario,
+                u.usuario,
+                r.fecha_reserva,
+                r.estado_reserva
+            FROM
+                tb_reservas r
+            INNER JOIN
+                tb_usuarios u ON r.id_usuario = u.id_usuario
+            WHERE
+                r.estado_reserva = ?
+            ORDER BY u.usuario ASC';
+        $params = array($estado);
+        return Database::getRows($sql, $params);
+    }
+
     /*
      * Método para leer una reserva específica.
      */
@@ -364,8 +383,8 @@ WHERE
     r.estado_reserva = "Aceptado"
 ORDER BY
     r.fecha_reserva DESC;  -- Ordenar por fecha de reserva;';
-    
+
         return Database::getRows($sql);
     }
-    
+
 }
