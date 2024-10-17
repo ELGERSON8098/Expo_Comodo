@@ -577,11 +577,11 @@ WHERE
               AND r.fecha_reserva >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
               AND r.fecha_reserva <= CURDATE()
             GROUP BY mes, mes_numero  
-            ORDER BY mes_numero ASC;';  
+            ORDER BY mes_numero ASC;';
         return Database::getRows($sql);
     }
-    
-    
+
+
     /*
      *   Métodos para generar reportes .
      */
@@ -674,48 +674,50 @@ ORDER BY
     JOIN 
         tb_categorias c ON p.id_categoria = c.id_categoria
     GROUP BY 
-        año, mes, c.nombre_categoria
-),
+        c.id_categoria, c.nombre_categoria, YEAR(r.fecha_reserva), MONTH(r.fecha_reserva)
+), 
 
 PromedioMensual AS (
     SELECT 
-        id_categoria,
-        nombre_categoria,
-        AVG(total_vendido) AS promedio_mensual
+        vm.id_categoria,
+        vm.nombre_categoria,
+        AVG(vm.total_vendido) AS promedio_mensual
     FROM 
-        VentasMensuales
+        VentasMensuales vm
     GROUP BY 
-        id_categoria, nombre_categoria
+        vm.id_categoria, vm.nombre_categoria
+),
+
+MesProyectado AS (
+    SELECT
+        0 AS n, "Enero" AS mes_proyectado
+    UNION ALL SELECT 1, "Febrero"
+    UNION ALL SELECT 2, "Marzo"
+    UNION ALL SELECT 3, "Abril"
+    UNION ALL SELECT 4, "Mayo"
+    UNION ALL SELECT 5, "Junio"
+    UNION ALL SELECT 6, "Julio"
+    UNION ALL SELECT 7, "Agosto"
+    UNION ALL SELECT 8, "Septiembre"
+    UNION ALL SELECT 9, "Octubre"
+    UNION ALL SELECT 10, "Noviembre"
+    UNION ALL SELECT 11, "Diciembre"
 )
 
 SELECT 
     pm.id_categoria,
     pm.nombre_categoria,
     pm.promedio_mensual,
-    CASE
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "January" THEN "Enero"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "February" THEN "Febrero"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "March" THEN "Marzo"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "April" THEN "Abril"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "May" THEN "Mayo"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "June" THEN "Junio"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "July" THEN "Julio"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "August" THEN "Agosto"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "September" THEN "Septiembre"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "October" THEN "Octubre"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "November" THEN "Noviembre"
-        WHEN MONTHNAME(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) = "December" THEN "Diciembre"
-    END AS mes_proyectado,
-    YEAR(DATE_ADD(CURRENT_DATE(), INTERVAL n MONTH)) AS año_proyectado,
+    mp.mes_proyectado,
+    YEAR(DATE_ADD(CURRENT_DATE(), INTERVAL mp.n MONTH)) AS año_proyectado,
     (pm.promedio_mensual / NULLIF((SELECT SUM(promedio_mensual) FROM PromedioMensual), 0) * 100) AS ventas_proyectadas
 FROM 
     PromedioMensual pm
 JOIN 
-    (SELECT 0 AS n UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 
-     UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9 
-     UNION ALL SELECT 10 UNION ALL SELECT 11) AS months ON n < 12
+    MesProyectado mp ON mp.n < 12
 ORDER BY 
-    año_proyectado, n;';
+    año_proyectado, mp.n;
+';
 
 
         return Database::getRows($sql);
@@ -758,43 +760,41 @@ ORDER BY
     }
     public function PrediccionCate()
     {
-        $sql = 'SELECT 
-    c.nombre_categoria,
-    SUM(dr.cantidad) AS total_vendido,
-    CASE
-        WHEN MONTH(r.fecha_reserva) = 1 THEN "Enero"
-        WHEN MONTH(r.fecha_reserva) = 2 THEN "Febrero"
-        WHEN MONTH(r.fecha_reserva) = 3 THEN "Marzo"
-        WHEN MONTH(r.fecha_reserva) = 4 THEN "Abril"
-        WHEN MONTH(r.fecha_reserva) = 5 THEN "Mayo"
-        WHEN MONTH(r.fecha_reserva) = 6 THEN "Junio"
-        WHEN MONTH(r.fecha_reserva) = 7 THEN "Julio"
-        WHEN MONTH(r.fecha_reserva) = 8 THEN "Agosto"
-        WHEN MONTH(r.fecha_reserva) = 9 THEN "Septiembre"
-        WHEN MONTH(r.fecha_reserva) = 10 THEN "Octubre"
-        WHEN MONTH(r.fecha_reserva) = 11 THEN "Noviembre"
-        WHEN MONTH(r.fecha_reserva) = 12 THEN "Diciembre"
-        END AS mes,
-    YEAR(r.fecha_reserva) AS anio,
-    (SUM(dr.cantidad) / NULLIF((SELECT SUM(dr2.cantidad) 
-                                  FROM tb_reservas r2
-                                  JOIN tb_detalles_reservas dr2 ON r2.id_reserva = dr2.id_reserva
-                                  WHERE MONTH(r2.fecha_reserva) = MONTH(r.fecha_reserva) 
-                                  AND YEAR(r2.fecha_reserva) = YEAR(r.fecha_reserva)), 0) * 100) AS porcentaje_ventas
-FROM 
-    tb_reservas r
-JOIN 
-    tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
-JOIN 
-    tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
-JOIN 
-    tb_productos p ON dp.id_producto = p.id_producto
-JOIN 
-    tb_categorias c ON p.id_categoria = c.id_categoria
-GROUP BY 
-    anio, mes, c.nombre_categoria
-ORDER BY 
-    anio DESC, MONTH(r.fecha_reserva) DESC, total_vendido DESC;';
+        $sql = 'WITH sales_data AS (
+    SELECT 
+        c.id_categoria,
+        c.nombre_categoria,
+        YEAR(r.fecha_reserva) AS anio,
+        MONTH(r.fecha_reserva) AS mes_num,
+        SUM(dr.cantidad) AS total_vendido
+    FROM tb_reservas r
+    JOIN tb_detalles_reservas dr ON r.id_reserva = dr.id_reserva
+    JOIN tb_detalles_productos dp ON dr.id_detalle_producto = dp.id_detalle_producto
+    JOIN tb_productos p ON dp.id_producto = p.id_producto
+    JOIN tb_categorias c ON p.id_categoria = c.id_categoria
+    GROUP BY c.id_categoria, c.nombre_categoria, YEAR(r.fecha_reserva), MONTH(r.fecha_reserva)
+)
+SELECT 
+    sd.nombre_categoria,
+    sd.total_vendido,
+    CASE 
+        WHEN sd.mes_num = 1 THEN "Enero"
+        WHEN sd.mes_num = 2 THEN "Febrero"
+        WHEN sd.mes_num = 3 THEN "Marzo"
+        WHEN sd.mes_num = 4 THEN "Abril"
+        WHEN sd.mes_num = 5 THEN "Mayo"
+        WHEN sd.mes_num = 6 THEN "Junio"
+        WHEN sd.mes_num = 7 THEN "Julio"
+        WHEN sd.mes_num = 8 THEN "Agosto"
+        WHEN sd.mes_num = 9 THEN "Septiembre"
+        WHEN sd.mes_num = 10 THEN "Octubre"
+        WHEN sd.mes_num = 11 THEN "Noviembre"
+        WHEN sd.mes_num = 12 THEN "Diciembre"
+    END AS mes,
+    sd.anio,
+    (sd.total_vendido / NULLIF((SELECT SUM(total_vendido) FROM sales_data sd2 WHERE sd2.mes_num = sd.mes_num AND sd2.anio = sd.anio), 0) * 100) AS porcentaje_ventas
+FROM sales_data sd
+ORDER BY sd.anio DESC, sd.mes_num DESC, sd.total_vendido DESC;';
 
         return Database::getRows($sql);
     }
