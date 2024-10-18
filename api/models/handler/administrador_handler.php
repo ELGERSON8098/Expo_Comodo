@@ -16,14 +16,13 @@ class AdministradorHandler
     protected $id_nivel_usuario = 1;
     protected $condicion = null;
 
-
     public function checkUser($username, $password, $omit2FA = false)
     {
         $sql = 'SELECT id_administrador, usuario_administrador, clave_administrador, 
-            intentos_fallidos, bloqueo_hasta, DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS,
-            totp_secret
-            FROM tb_admins
-            WHERE usuario_administrador = ?';
+        intentos_fallidos, bloqueo_hasta, DATEDIFF(CURRENT_DATE, fecha_clave) as DIAS,
+        totp_secret, id_nivel_usuario
+        FROM tb_admins
+        WHERE usuario_administrador = ?';
         $params = array($username);
         $data = Database::getRow($sql, $params);
 
@@ -46,7 +45,8 @@ class AdministradorHandler
                 return [
                     'status' => true,
                     'id_administrador' => $data['id_administrador'],
-                    'omit_2fa' => true
+                    'omit_2fa' => true,
+                    'user_level' => $data['id_nivel_usuario']
                 ];
             }
 
@@ -59,14 +59,16 @@ class AdministradorHandler
                     'status' => true,
                     'id_administrador' => $data['id_administrador'],
                     'need_setup_2fa' => true,
-                    'totp_secret' => $secret
+                    'totp_secret' => $secret,
+                    'user_level' => $data['id_nivel_usuario']
                 ];
             }
 
             return [
                 'status' => true,
                 'id_administrador' => $data['id_administrador'],
-                'need_2fa' => true
+                'need_2fa' => true,
+                'user_level' => $data['id_nivel_usuario']
             ];
         } else {
             $this->incrementarIntentos($data['id_administrador'], $data['intentos_fallidos']);

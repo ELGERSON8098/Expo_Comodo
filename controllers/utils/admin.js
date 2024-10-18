@@ -1,4 +1,3 @@
-
 // Constante para completar la ruta de la API.
 const USER_API = 'services/admin/administrador.php';
 // Constante para establecer el elemento del contenido principal.
@@ -134,6 +133,9 @@ const loadTemplate = async () => {
                 });
             }
 
+            // Verificar el acceso a la página actual
+            checkPageAccess(DATA.user_level);
+
         } else {
             sweetAlert(3, DATA.error, false, 'index.html');
         }
@@ -145,6 +147,21 @@ const loadTemplate = async () => {
         } else {
             location.href = 'index.html';
         }
+    }
+}
+
+// Función para verificar el acceso a la página actual
+function checkPageAccess(userLevel) {
+    const currentPage = location.pathname.split('/').pop();
+    const accessMap = {
+        1: ['dashboard.html', 'producto.html', 'categoria.html', 'genero.html', 'colores.html', 'marcas.html', 'tallas.html', 'material.html', 'descuento.html', 'usuariosc.html', 'reserva.html', 'administrador.html'],
+        2: ['dashboard.html', 'producto.html', 'categoria.html', 'genero.html', 'colores.html', 'marcas.html', 'tallas.html', 'descuento.html'],
+        3: ['dashboard.html', 'usuariosc.html', 'reserva.html']
+    };
+
+    if (!accessMap[userLevel].includes(currentPage)) {
+        // Redirigir a la página de acceso denegado o al dashboard
+        location.href = '../admin/dashboard.html';
     }
 }
 
