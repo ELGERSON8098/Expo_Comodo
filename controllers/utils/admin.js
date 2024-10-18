@@ -154,9 +154,9 @@ const loadTemplate = async () => {
 function checkPageAccess(userLevel) {
     const currentPage = location.pathname.split('/').pop();
     const accessMap = {
-        1: ['dashboard.html', 'producto.html', 'categoria.html', 'genero.html', 'colores.html', 'marcas.html', 'tallas.html', 'material.html', 'descuento.html', 'usuariosc.html', 'reserva.html', 'administrador.html'],
-        2: ['dashboard.html', 'producto.html', 'categoria.html', 'genero.html', 'colores.html', 'marcas.html', 'tallas.html', 'descuento.html'],
-        3: ['dashboard.html', 'usuariosc.html', 'reserva.html']
+        1: ['dashboard.html', 'producto.html', 'categoria.html', 'genero.html', 'colores.html', 'marcas.html', 'tallas.html', 'material.html', 'descuento.html', 'usuariosc.html', 'reserva.html', 'administrador.html', 'perfil.html'],
+        2: ['dashboard.html', 'producto.html', 'categoria.html', 'genero.html', 'colores.html', 'marcas.html', 'tallas.html', 'descuento.html', 'perfil.html'],
+        3: ['dashboard.html', 'usuariosc.html', 'reserva.html', 'perfil.html']
     };
 
     if (!accessMap[userLevel].includes(currentPage)) {

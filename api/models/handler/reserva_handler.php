@@ -42,16 +42,17 @@ class ReservaHandler
     public function readAll()
     {
         $sql = 'SELECT
-                    r.id_reserva,
-                    r.id_usuario,
-                    u.usuario,
-                    r.fecha_reserva,
-                    r.estado_reserva
-                FROM
-                    tb_reservas r
-                INNER JOIN
-                    tb_usuarios u ON r.id_usuario = u.id_usuario
-                    ORDER BY u.usuario ASC';
+    r.id_reserva,
+    r.id_usuario,
+    u.usuario,
+    r.fecha_reserva,
+    r.estado_reserva
+        FROM
+    tb_reservas r
+    INNER JOIN
+    tb_usuarios u ON r.id_usuario = u.id_usuario
+    ORDER BY
+    r.fecha_reserva DESC;';
         return Database::getRows($sql);
     }
 
