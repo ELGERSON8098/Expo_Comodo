@@ -71,14 +71,16 @@
         <br><br>
         <div class="row mb-3">
             <div class="col">
-                <button id="btnAllReservas" class="btn btn-primary me-2">Todas las Reservas</button>
+                <button id="btnAllReservas" class="btn btn-primary me-2">Todas</button>
                 <button id="btnAceptadas" class="btn btn-success me-2">Aceptadas</button>
                 <button id="btnPendientes" class="btn btn-warning me-2">Pendientes</button>
                 <button id="btnCanceladas" class="btn btn-danger">Canceladas</button>
+                <!-- Nuevo botón para la vista agrupada -->
+                <button id="btnVistaAgrupada" class="btn btn-info">Usuarios</button>
             </div>
         </div>
         <!-- Tabla para mostrar los registros de productos -->
-        <table class="table table-hover">
+        <table class="table table-hover" id="table-products">
             <!-- Encabezado de la tabla -->
             <thead>
                 <tr>
@@ -98,6 +100,23 @@
             <!-- Cuerpo de la tabla -->
             <tbody id="tableBody"></tbody>
         </table>
+        <!-- Contenedor de la tabla que está oculto inicialmente -->
+        <div id="table-container" class="d-none">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Total de reservas</th>
+                        <th>Primera fecha</th>
+                        <th>Estado de la primera reserva</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body-">
+                    <!-- Aquí se insertarán las filas dinámicamente -->
+                </tbody>
+            </table>
+        </div>
 
 
         <!-- Modal para guardar un nuevo producto -->
@@ -277,6 +296,33 @@
                             </div>
                         </div>
                         <canvas id="chartVentas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Añade este modal al final de tu archivo HTML, justo antes de cerrar el tag </body> -->
+        <div class="modal fade" id="clientReservasModal" tabindex="-1" aria-labelledby="clientReservasModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="clientReservasModalLabel">Reservas del Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ID Reserva</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clientReservasTableBody">
+                                <!-- Las reservas del cliente se insertarán aquí dinámicamente -->
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

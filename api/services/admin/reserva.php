@@ -143,6 +143,24 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Reserva inexistente';
                 }
                 break;
+            case 'readGroupedByClient':
+                if ($result['dataset'] = $reserva->readGroupedByClient()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Reservas agrupadas obtenidas correctamente';
+                } else {
+                    $result['error'] = 'No se pudieron obtener las reservas agrupadas';
+                }
+                break;
+            case 'readClientReservas':
+                if (!$reserva->setIdUsuario($_POST['idUsuario'])) {
+                    $result['error'] = 'Usuario no válido';
+                } elseif ($result['dataset'] = $reserva->readClientReservas($_POST['idUsuario'])) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Reservas del cliente obtenidas correctamente';
+                } else {
+                    $result['error'] = 'No se encontraron reservas para este cliente';
+                }
+                break;
             // Caso para actualizar una fila existente
             case 'updateRow':
                 // Validar y obtener los datos del formulario

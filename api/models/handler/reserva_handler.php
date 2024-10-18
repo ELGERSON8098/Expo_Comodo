@@ -55,6 +55,28 @@ class ReservaHandler
     r.fecha_reserva DESC;';
         return Database::getRows($sql);
     }
+    public function readGroupedByClient()
+    {
+        $sql = 'SELECT u.id_usuario, u.usuario, 
+                   COUNT(r.id_reserva) as total_reservas, 
+                   GROUP_CONCAT(r.fecha_reserva ORDER BY r.fecha_reserva DESC) as fechas_reservas,
+                   GROUP_CONCAT(r.estado_reserva ORDER BY r.fecha_reserva DESC) as estados_reservas
+            FROM tb_usuarios u
+            LEFT JOIN tb_reservas r ON u.id_usuario = r.id_usuario
+            GROUP BY u.id_usuario, u.usuario
+            ORDER BY total_reservas DESC';
+        return Database::getRows($sql);
+    }
+
+    public function readClientReservas($idUsuario)
+    {
+        $sql = 'SELECT id_reserva, fecha_reserva, estado_reserva
+            FROM tb_reservas
+            WHERE id_usuario = ?
+            ORDER BY fecha_reserva DESC';
+        $params = array($idUsuario);
+        return Database::getRows($sql, $params);
+    }
 
     public function readFiltered($estado)
     {
@@ -70,7 +92,7 @@ class ReservaHandler
                 tb_usuarios u ON r.id_usuario = u.id_usuario
             WHERE
                 r.estado_reserva = ?
-            ORDER BY u.usuario ASC';
+            ORDER BY r.fecha_reserva DESC;';
         $params = array($estado);
         return Database::getRows($sql, $params);
     }

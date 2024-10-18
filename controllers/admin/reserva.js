@@ -69,6 +69,7 @@ SAVE_FORM.addEventListener('submit', async (event) => {
 *   Retorno: ninguno.
 */
 const fillTable = async (form = null) => {
+    resetView();
     // Se inicializa el contenido de la tabla.
     ROWS_FOUND.innerText = '';
     TABLE_BODY.innerHTML = '';
@@ -79,6 +80,8 @@ const fillTable = async (form = null) => {
     const DATA = await fetchData(RESERVA_API, action, form);
     // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
     if (DATA.status) {
+        renderTable(DATA.dataset, false);
+        TABLE_CONTAINER.classList.add('d-none'); // Asegurarse de ocultar el contenedor de la tabla agrupada
         // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
         DATA.dataset.forEach(row => {
             // Se crean y concatenan las filas de la tabla con los datos de cada registro.
@@ -140,59 +143,11 @@ const openUpdate = async (id) => {
         const ROW = DATA.dataset;
         ID_RESERVA.value = ROW.id_reserva;
         fillSelect(RESERVA_API, 'getEstados', 'estadoPedido', ROW.estado_reserva);
+        CLIENT_RESERVAS_MODAL.hide();
     } else {
         sweetAlert(2, DATA.error, false);
     }
 
-}
-
-// Agregar event listeners a los botones
-document.getElementById('btnAllReservas').addEventListener('click', () => fillTable());
-document.getElementById('btnAceptadas').addEventListener('click', () => fillTableFiltered('Aceptado'));
-document.getElementById('btnPendientes').addEventListener('click', () => fillTableFiltered('Pendiente'));
-document.getElementById('btnCanceladas').addEventListener('click', () => fillTableFiltered('Cancelado'));
-
-// Función para llenar la tabla con reservas filtradas
-const fillTableFiltered = async (estado) => {
-    // Se inicializa el contenido de la tabla.
-    ROWS_FOUND.innerText = '';
-    TABLE_BODY.innerHTML = '';
-    
-    // Crear un objeto FormData para enviar el estado
-    const FORM = new FormData();
-    FORM.append('estado', estado);
-    
-    // Petición para obtener los registros filtrados.
-    const DATA = await fetchData(RESERVA_API, 'readFiltered', FORM);
-    
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se recorre el conjunto de registros (dataset) fila por fila a través del objeto row.
-        DATA.dataset.forEach(row => {
-            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-            TABLE_BODY.innerHTML += `
-                <tr>
-                    <td>${row.usuario}</td>
-                    <td>${row.fecha_reserva}</td>
-                    <td>${row.estado_reserva}</td>
-                    <td> </td>
-                    <td> </td>
-                    <td>
-                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_reserva})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                         <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_reserva})">
-                         <i class="bi bi-eye-fill"></i>
-                         </button>
-                    </td>
-                </tr>
-            `;
-        });
-        // Se muestra un mensaje de acuerdo con el resultado.
-        ROWS_FOUND.innerText = DATA.message;
-    } else {
-        sweetAlert(4, DATA.error, true);
-    }
 }
 
 // Constantes para establecer el contenido de la tabla de detalles y elementos del DOM
@@ -234,6 +189,7 @@ const openCreateDetail = async (idProducto) => {
     SAVE_DETAIL_FORM.classList.remove('d-none'); // Muestra el formulario si estaba oculto // Cambia el título del modal
     ID_RESERVA_DETALLE.value = idProducto; // Asigna el id del producto al campo correspondiente
     SAVE_DETAIL_MODAL.show(); // Muestra el modal
+    CLIENT_RESERVAS_MODAL.hide();
 
     // Obtener y mostrar los detalles existentes del producto
     fillDetailsTable(idProducto); // Llenar la tabla con los detalles del producto
@@ -479,4 +435,144 @@ const openReport = (id) => {
     PATH.searchParams.append('idReserva', id);
     // Se abre el reporte en una nueva pestaña.
     window.open(PATH.href);
+}
+
+const TABLE_CONTAINER = document.getElementById('table-container');
+const TABLE_BODY_ = document.getElementById('table-body-');
+const TABLE_PRODUCTS = document.getElementById('table-products');
+const CLIENT_RESERVAS_MODAL = new bootstrap.Modal('#clientReservasModal');
+
+// Función para agregar event listeners usando delegación de eventos
+document.addEventListener('click', async (event) => {
+    const target = event.target;
+
+    if (target.id === 'btnAllReservas') {
+        await fillTable();
+    } else if (target.id === 'btnAceptadas') {
+        await fillTableFiltered('Aceptado');
+    } else if (target.id === 'btnPendientes') {
+        await fillTableFiltered('Pendiente');
+    } else if (target.id === 'btnCanceladas') {
+        await fillTableFiltered('Cancelado');
+    } else if (target.id === 'btnVistaAgrupada') {
+        await fillTableGrouped();
+    }
+});
+
+// Función para llenar la tabla con reservas filtradas
+const fillTableFiltered = async (estado) => {
+    resetView(); // Restablecer vista antes de llenar la tabla
+    
+    const FORM = new FormData();
+    FORM.append('estado', estado);
+    
+    const DATA = await fetchData(RESERVA_API, 'readFiltered', FORM);
+    
+    if (DATA.status) {
+        renderTable(DATA.dataset, false); // Llenar la tabla normal
+        ROWS_FOUND.innerText = DATA.message; // Mostrar mensaje de registros encontrados
+        TABLE_PRODUCTS.classList.remove('d-none'); // Mostrar encabezado solo si es necesario
+        TABLE_CONTAINER.classList.add('d-none'); // Asegurarse de ocultar el contenedor de la tabla agrupada
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+}
+// Función para llenar la tabla agrupada
+const fillTableGrouped = async () => {
+    resetView(); // Restablecer vista antes de llenar la tabla
+    
+    const DATA = await fetchData(RESERVA_API, 'readGroupedByClient');
+    
+    if (DATA.status) {
+        renderTable(DATA.dataset, true); // Llenar la tabla agrupada
+        TABLE_CONTAINER.classList.remove('d-none'); // Mostrar solo el contenedor de la tabla agrupada
+        TABLE_PRODUCTS.classList.add('d-none'); // Asegurarse de ocultar el encabezado de la tabla principal
+        ROWS_FOUND.innerText = DATA.message; // Mostrar mensaje de registros encontrados
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+}
+
+// Función para renderizar la tabla
+const renderTable = (dataset, isGrouped) => {
+    const tableBody = isGrouped ? TABLE_BODY_ : TABLE_BODY;
+    tableBody.innerHTML = '';
+    
+    dataset.forEach(row => {
+        tableBody.innerHTML += isGrouped ? 
+            `
+            <tr>
+                <td>${row.usuario}</td>
+                <td>${row.total_reservas}</td>
+                <td>${row.fechas_reservas.split(',')[0]}</td>
+                <td>${row.estados_reservas.split(',')[0]}</td>
+                <td>
+                    <button type="button" class="btn btn-info" onclick="showClientReservas(${row.id_usuario})">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                </td>
+            </tr>
+            ` :
+            `
+            <tr>
+                <td>${row.usuario}</td>
+                <td>${row.fecha_reserva}</td>
+                <td>${row.estado_reserva}</td>
+                <td> </td>
+                <td> </td>
+                <td>
+                    <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_reserva})">
+                        <i class="bi bi-pencil-fill"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_reserva})">
+                        <i class="bi bi-eye-fill"></i>
+                    </button>
+                </td>
+            </tr>
+            `;
+    });
+}
+
+// Función para mostrar las reservas de un cliente
+const showClientReservas = async (idUsuario) => {
+    const FORM = new FormData();
+    FORM.append('idUsuario', idUsuario);
+    
+    const DATA = await fetchData(RESERVA_API, 'readClientReservas', FORM);
+    
+    if (DATA.status) {
+        const tableBody = document.getElementById('clientReservasTableBody');
+        tableBody.innerHTML = '';
+        
+        DATA.dataset.forEach(row => {
+            tableBody.innerHTML += `
+                <tr>
+                    <td>${row.id_reserva}</td>
+                    <td>${row.fecha_reserva}</td>
+                    <td>${row.estado_reserva}</td>
+                    <td>
+                        <button type="button" class="btn btn-info" onclick="openUpdate(${row.id_reserva})">
+                            <i class="bi bi-pencil-fill"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger" onclick="openCreateDetail(${row.id_reserva})">
+                            <i class="bi bi-eye-fill"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+        
+        CLIENT_RESERVAS_MODAL.show();
+    } else {
+        sweetAlert(4, DATA.error, true);
+    }
+}
+
+// Función para restablecer la vista
+const resetView = () => {
+    ROWS_FOUND.innerText = '';
+    TABLE_BODY.innerHTML = ''; // Limpiar la tabla de reservas
+    TABLE_BODY_.innerHTML = ''; // Limpiar la tabla agrupada
+    TABLE_CONTAINER.classList.add('d-none'); // Ocultar el contenedor de la tabla agrupada
+    TABLE_PRODUCTS.classList.remove('d-none'); // Asegurarse de mostrar el encabezado de la tabla principal
 }
