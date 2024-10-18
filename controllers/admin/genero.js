@@ -86,9 +86,8 @@ const fillTable = async (form = null) => {
         DATA.dataset.forEach(genero => {
             // Se crea la tarjeta para cada registro
             const card = document.createElement('div');
-            card.className = 'col-md-4 col-lg-4';
+            card.className = 'card';
             card.innerHTML = `
-                <div class="card h-100">
                     <img src="${SERVER_URL}images/categorias/${genero.imagen_genero}" class="card-img-top" alt="${genero.nombre_genero}" height="200">
                     <div class="card-body">
                         <h5 class="card-title">${genero.nombre_genero}</h5>
@@ -104,7 +103,6 @@ const fillTable = async (form = null) => {
                             <i class="bi bi-file-earmark-pdf-fill"></i> Reporte
                         </button>
                     </div>
-                </div>
             `;
             row.appendChild(card);
         });
