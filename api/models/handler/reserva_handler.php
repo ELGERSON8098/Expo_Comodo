@@ -57,14 +57,24 @@ class ReservaHandler
     }
     public function readGroupedByClient()
     {
-        $sql = 'SELECT u.id_usuario, u.usuario, 
-                   COUNT(r.id_reserva) as total_reservas, 
-                   GROUP_CONCAT(r.fecha_reserva ORDER BY r.fecha_reserva DESC) as fechas_reservas,
-                   GROUP_CONCAT(r.estado_reserva ORDER BY r.fecha_reserva DESC) as estados_reservas
-            FROM tb_usuarios u
-            LEFT JOIN tb_reservas r ON u.id_usuario = r.id_usuario
-            GROUP BY u.id_usuario, u.usuario
-            ORDER BY total_reservas DESC';
+        $sql = 'SELECT 
+    u.id_usuario, 
+    u.usuario, 
+    COUNT(r.id_reserva) AS total_reservas,
+    MAX(r.fecha_reserva) AS ultima_fecha_reserva,
+    (SELECT r2.estado_reserva 
+     FROM tb_reservas r2 
+     WHERE r2.id_usuario = u.id_usuario 
+     AND r2.fecha_reserva = MAX(r.fecha_reserva)
+     LIMIT 1) AS ultimo_estado_reserva
+FROM 
+    tb_usuarios u
+LEFT JOIN 
+    tb_reservas r ON u.id_usuario = r.id_usuario
+GROUP BY 
+    u.id_usuario, u.usuario
+ORDER BY 
+    total_reservas DESC;';
         return Database::getRows($sql);
     }
 

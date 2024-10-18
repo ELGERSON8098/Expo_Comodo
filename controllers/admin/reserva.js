@@ -504,8 +504,8 @@ const renderTable = (dataset, isGrouped) => {
             <tr>
                 <td>${row.usuario}</td>
                 <td>${row.total_reservas}</td>
-                <td>${row.fechas_reservas.split(',')[0]}</td>
-                <td>${row.estados_reservas.split(',')[0]}</td>
+                <td>${row.ultima_fecha_reserva}</td>
+                <td>${row.ultimo_estado_reserva}</td>
                 <td>
                     <button type="button" class="btn btn-info" onclick="showClientReservas(${row.id_usuario})">
                         <i class="bi bi-eye-fill"></i>
