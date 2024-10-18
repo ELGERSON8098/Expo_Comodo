@@ -116,7 +116,7 @@
 /* Pantallas medianas (tabletas) */
 @media (min-width: 577px) and (max-width: 768px) {
     .card {
-        width: 100%; /* Tarjetas ocupan todo el ancho */
+        width: 100px; /* Tarjetas ocupan todo el ancho */
     }
 }
 
